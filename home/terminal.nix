@@ -11,6 +11,7 @@
       fzf
       gh
       gitui
+      k9s
       ripgrep
       zellij
       zoxide

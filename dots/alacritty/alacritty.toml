@@ -1,2 +1,4 @@
-[font]
-normal = { family = "JetBrains", style = "Mono" }
+[window]
+dynamic_padding = true
+padding = { x = 10, y = 10 }
+opacity = 0.75

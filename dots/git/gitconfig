@@ -1,0 +1,13 @@
+[user]
+  email = ryanbrink@pm.me
+  name = Ryan Brink
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/run/current-system/sw/bin/op-ssh-sign"
+
+[commit]
+  gpgsign = true

@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "And God said, 'Let there be light,' and there was light.";
 
   inputs = {
     nixpkgs = {
