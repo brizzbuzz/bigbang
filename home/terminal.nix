@@ -15,6 +15,7 @@
       glow
       k9s
       ripgrep
+      tree
       zellij
       zoxide
     ];

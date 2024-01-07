@@ -18,11 +18,18 @@
 
     # Hyprland
     file.".config/hypr/start.sh".source = ../dots/hypr/start.sh;
+    file.".config/hypr/macchiato-theme.conf".source = ../dots/hypr/macchiato-theme.conf;
 
     # Nushell
     file.".config/nushell/config.nu".source = ../dots/nushell/config.nu;
     file.".config/nushell/env.nu".source = ../dots/nushell/env.nu;
     file.".config/nushell/zoxide.nu".source = ../dots/nushell/zoxide.nu;
+
+    # Nvim
+    file.".config/nvim/init.lua".source = ../dots/nvim/init.lua;
+    file.".config/nvim/lua/custom/plugins/init.lua".source = ../dots/nvim/lua/custom/plugins/init.lua;
+    file.".config/nvim/lua/kickstart/plugins/autoformat.lua".source = ../dots/nvim/lua/kickstart/plugins/autoformat.lua;
+    file.".config/nvim/lua/kickstart/plugins/debug.lua".source = ../dots/nvim/lua/kickstart/plugins/debug.lua;
 
     # Qutebrowser
     file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
