@@ -4,7 +4,9 @@
   imports = [
     ../home/apps.nix
     ../home/browsers.nix
+    ../home/dev.nix
     ../home/dots.nix
+    ../home/gaming.nix
     ../home/keyboard.nix
     ../home/terminal.nix
     ../home/wayland.nix

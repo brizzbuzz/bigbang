@@ -8,9 +8,11 @@
       bat
       bottom
       du-dust
+      fastfetch
       fzf
       gh
       gitui
+      glow
       k9s
       ripgrep
       zellij
