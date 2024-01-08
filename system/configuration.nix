@@ -3,10 +3,12 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-{
+let 
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+in {
   imports =
     [ # Include the results of the hardware scan.
+      # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
       ./hardware-configuration.nix
     ];
 
@@ -84,9 +86,9 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # Enable the KDE Plasma Desktop Environment.
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -146,8 +148,10 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
+    firefox
     neovim
     nushell
+    unstable.spacedrive
   ];
 
   # Set Env Variables
