@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home = {
     # Alacritty
     file.".config/alacritty/alacritty.toml".source = ../dots/alacritty/alacritty.toml;

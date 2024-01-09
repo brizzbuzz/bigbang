@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home = {
     packages = with pkgs; [
       alacritty
@@ -8,6 +10,7 @@
       bat
       bottom
       du-dust
+      dua
       fastfetch
       fzf
       gh

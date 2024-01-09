@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     libnotify
     mako
@@ -13,6 +15,6 @@
     enable = true;
     enableNvidiaPatches = true;
     xwayland.enable = true;
-    extraConfig = ( builtins.readFile ../dots/hypr/hyprland.conf);
+    extraConfig = (builtins.readFile ../dots/hypr/hyprland.conf);
   };
 }

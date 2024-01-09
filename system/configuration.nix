@@ -1,16 +1,18 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-let 
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+{
+  config,
+  pkgs,
+  ...
+}: let
+  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -25,7 +27,7 @@ in {
 
   # Fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
   # Bluetooth
@@ -36,7 +38,7 @@ in {
   hardware.keyboard.zsa.enable = true;
 
   # Load Nvidia Driver
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -55,7 +57,7 @@ in {
   };
 
   # Networking
-  networking.hostName = "gigame"; 
+  networking.hostName = "gigame";
   #networking.wireless.enable = true;
 
   # Configure network proxy if necessary
@@ -123,10 +125,10 @@ in {
   users.users.ryan = {
     isNormalUser = true;
     description = "Supreme Ruler";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.nushell;
   };
-  
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -135,7 +137,7 @@ in {
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = [ "ryan" ];
+    polkitPolicyOwners = ["ryan"];
   };
 
   # Tailscale
@@ -208,5 +210,4 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
