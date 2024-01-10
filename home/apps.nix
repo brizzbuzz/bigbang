@@ -7,6 +7,7 @@
     _1password
     _1password-gui
     discord
+    ledger-live-desktop
     spotify
   ];
 }

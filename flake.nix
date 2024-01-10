@@ -30,7 +30,7 @@
       gigame = lib.nixosSystem {
         inherit system;
         modules = [
-          ./system/configuration.nix
+          ./system/gigame/configuration.nix
         ];
       };
     };
