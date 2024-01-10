@@ -9,6 +9,7 @@
       atuin
       bat
       bottom
+      difftastic
       du-dust
       dua
       fastfetch
@@ -17,6 +18,7 @@
       gitui
       glow
       k9s
+      lazygit
       ripgrep
       tree
       zellij
