@@ -20,6 +20,7 @@
       k9s
       lazygit
       ripgrep
+      starship
       tree
       zellij
       zoxide

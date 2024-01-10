@@ -25,6 +25,7 @@
     # Nushell
     file.".config/nushell/config.nu".source = ../dots/nushell/config.nu;
     file.".config/nushell/env.nu".source = ../dots/nushell/env.nu;
+    file.".config/nushell/starship.nu".source = ../dots/nushell/starship.nu;
     file.".config/nushell/zoxide.nu".source = ../dots/nushell/zoxide.nu;
 
     # Nvim
@@ -38,6 +39,9 @@
 
     # SSH
     file.".ssh/config".source = ../dots/ssh/config;
+
+    # Starship
+    file.".config/starship.toml".source = ../dots/starship/starship.toml;
 
     # Wofi
     file.".config/wofi/style.css".source = ../dots/wofi/style.css;

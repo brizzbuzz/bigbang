@@ -758,5 +758,8 @@ $env.config = {
     ]
 }
 
+# Starship
+source ~/.config/nushell/starship.nu
+
 # Zoxide
 source ~/.config/nushell/zoxide.nu
