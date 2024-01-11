@@ -17,7 +17,7 @@
     home-manager,
     ...
   }: let
-    system = "x86_64-linux";
+    system = "x86_64-linux"; # TODO: How to switch this if necessary?
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
@@ -27,6 +27,12 @@
     # TODO: Better place?
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations = {
+      cloudy = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./system/cloudy/configuration.nix
+        ];
+      };
       gigame = lib.nixosSystem {
         inherit system;
         modules = [
@@ -35,6 +41,10 @@
       };
     };
     homeConfigurations = {
+      cloudy = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [./profile/cloudy.nix];
+      };
       ryan = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [./profile/ryan.nix];

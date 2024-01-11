@@ -4,21 +4,14 @@
   ...
 }: {
   imports = [
-    ../home/apps.nix
-    ../home/browsers.nix
     ../home/dev.nix
     ../home/dots.nix
-    ../home/gaming.nix
-    ../home/keyboard.nix
     ../home/terminal.nix
-    ../home/wayland.nix
   ];
 
-  desktopEnabled = true;
-
   home = {
-    username = "ryan";
-    homeDirectory = "/home/ryan";
+    username = "cloudy";
+    homeDirectory = "/home/cloudy";
     stateVersion = "23.11";
   };
 

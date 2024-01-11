@@ -17,7 +17,9 @@
       gh
       gitui
       glow
+      helmfile
       kubectl
+      kubernetes-helm
       k9s
       lazygit
       ripgrep
