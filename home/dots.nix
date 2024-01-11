@@ -51,7 +51,7 @@
       file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
 
       # SSH
-      file.".ssh/config".source = ../dots/ssh/config;
+      file.".ssh/config".source = if config.desktopEnabled then ../dots/ssh/config-desktop else ../dots/ssh/config-shell;
 
       # Starship
       file.".config/starship.toml".source = ../dots/starship/starship.toml;
