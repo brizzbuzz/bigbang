@@ -4,7 +4,6 @@
   lib,
   ...
 }: {
-
   options = {
     desktopEnabled = lib.mkOption {
       default = false;
@@ -26,7 +25,10 @@
       file.".config/bat/themes/Catppucin-macchiato.tmTheme".source = ../dots/bat/themes/Catppuccin-macchiato.tmTheme;
 
       # Git
-      file.".gitconfig".source = if config.desktopEnabled then ../dots/git/gitconfig-desktop else ../dots/git/gitconfig-shell;
+      file.".gitconfig".source =
+        if config.desktopEnabled
+        then ../dots/git/gitconfig-desktop
+        else ../dots/git/gitconfig-shell;
 
       # GitUI
       file.".config/gitui/key_bindings.ron".source = ../dots/gitui/key_bindings.ron;
@@ -51,7 +53,10 @@
       file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
 
       # SSH
-      file.".ssh/config".source = if config.desktopEnabled then ../dots/ssh/config-desktop else ../dots/ssh/config-shell;
+      file.".ssh/config".source =
+        if config.desktopEnabled
+        then ../dots/ssh/config-desktop
+        else ../dots/ssh/config-shell;
 
       # Starship
       file.".config/starship.toml".source = ../dots/starship/starship.toml;
