@@ -1,4 +1,4 @@
 # Big Bang
 
-Welcome to the Brink Programmatic Universe
+Welcome to the Brink Programmatic Universe.
 
