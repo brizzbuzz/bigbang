@@ -17,11 +17,13 @@
       gh
       gitui
       glow
+      kubectl
       k9s
       lazygit
       ripgrep
       starship
       tree
+      xh
       zellij
       zoxide
     ];

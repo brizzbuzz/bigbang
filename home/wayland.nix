@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     libnotify
     mako
+    swaylock-effects
     swww
     waybar
     wofi
