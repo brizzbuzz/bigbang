@@ -2,7 +2,9 @@
   config,
   pkgs,
   ...
-}: {
+}: 
+
+{
   home = {
     packages = with pkgs; [
       alacritty # Terminal Emulator
@@ -24,6 +26,7 @@
       ripgrep # Text search
       sd # Sexy sed
       starship # Prompt configuration
+      unzip # Extraction utility
       xh # CLI Http Client
       xplr # TUI File Explorer
       zellij # Terminal Multiplexer

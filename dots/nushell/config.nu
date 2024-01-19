@@ -757,6 +757,8 @@ $env.config = {
         }
     ]
 }
+# Mise
+source ~/.config/nushell/mise.nu
 
 # Starship
 source ~/.config/nushell/starship.nu

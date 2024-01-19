@@ -147,6 +147,9 @@ in {
     firefox
     neovim
     nushell
+
+    # Unstable (move to home once stable)
+    unstable.mise
     unstable.spacedrive
   ];
 
