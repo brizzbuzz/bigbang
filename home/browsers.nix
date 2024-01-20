@@ -4,7 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    floorp
     qutebrowser
-    firefox
   ];
 }

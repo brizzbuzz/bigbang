@@ -18,28 +18,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
 require('lazy').setup({
-  -- Git related plugins
-  'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
-
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      -- TODO: Make this enabled inside bigbang dir, in generic fashion not dependent on $HOME
-      {'folke/neodev.nvim', opts = {} },
-    },
-  },
 
   {
     -- Autocompletion
@@ -134,16 +114,6 @@ require('lazy').setup({
       end,
     },
   },
-
-  { 
-    -- TODO: Consider rose pine (moon) instead
-    "catppuccin/nvim", 
-    name = "catppuccin", 
-    priority = 1000 ,
-    config = function()
-      vim.cmd.colorscheme 'catppuccin-macchiato'
-    end,
-  },
   
   {
     -- Rustacean Vim
@@ -174,13 +144,20 @@ require('lazy').setup({
   },
 
   {
+    "rcarriga/nvim-notify",
+    opts = {
+      background_color = "#000000",
+    },
+  },
+
+  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'catppuccin-macchiato',
+        theme = 'rose-pine',
         component_separators = '|',
         section_separators = '',
       },
@@ -241,16 +218,20 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
--- Background opacity
+-- Color Scheme (must be loaded from config.plugins.themes
+vim.cmd.colorscheme 'rose-pine'
+
+-- Background opacity (must load after setting theme)
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
 
 -- Set highlight on search
 vim.o.hlsearch = false

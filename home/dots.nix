@@ -18,7 +18,7 @@
     home = {
       # Alacritty
       file.".config/alacritty/alacritty.toml".source = ../dots/alacritty/alacritty.toml;
-      file.".config/alacritty/alacritty.yml".source = ../dots/alacritty/alacritty.yml;
+      file.".config/alacritty/rose-pine-moon.toml".source = ../dots/alacritty/rose-pine-moon.toml;
 
       # Bat
       file.".config/bat/config".source = ../dots/bat/config;
@@ -35,7 +35,7 @@
 
       # Hyprland
       file.".config/hypr/start.sh".source = ../dots/hypr/start.sh;
-      file.".config/hypr/macchiato-theme.conf".source = ../dots/hypr/macchiato-theme.conf;
+      file.".config/hypr/rose-pine-moon.conf".source = ../dots/hypr/rose-pine-moon.conf;
 
       # Nushell
       file.".config/nushell/config.nu".source = ../dots/nushell/config.nu;
@@ -47,8 +47,9 @@
       # Nvim
       file.".config/nvim/init.lua".source = ../dots/nvim/init.lua;
       file.".config/nvim/lua/custom/plugins/init.lua".source = ../dots/nvim/lua/custom/plugins/init.lua;
-      file.".config/nvim/lua/kickstart/plugins/autoformat.lua".source = ../dots/nvim/lua/kickstart/plugins/autoformat.lua;
-      file.".config/nvim/lua/kickstart/plugins/debug.lua".source = ../dots/nvim/lua/kickstart/plugins/debug.lua;
+      file.".config/nvim/lua/custom/plugins/git.lua".source = ../dots/nvim/lua/custom/plugins/git.lua;
+      file.".config/nvim/lua/custom/plugins/lsp.lua".source = ../dots/nvim/lua/custom/plugins/lsp.lua;
+      file.".config/nvim/lua/custom/plugins/themes.lua".source = ../dots/nvim/lua/custom/plugins/themes.lua;
 
       # Qutebrowser
       file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
@@ -72,6 +73,7 @@
 
       # Zellij
       file.".config/zellij/config.kdl".source = ../dots/zellij/config.kdl;
+      file.".config/zellij/themes/rose-pine-moon.kdl".source = ../dots/zellij/rose-pine-moon.kdl;
     };
   };
 }

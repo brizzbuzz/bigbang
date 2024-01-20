@@ -1,3 +1,5 @@
+import = ["~/.config/alacritty/rose-pine-moon.toml"]
+
 [window]
 dynamic_padding = true
 padding = { x = 10, y = 10 }

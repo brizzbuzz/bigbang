@@ -2,12 +2,12 @@
   config,
   pkgs,
   ...
-}: 
-
-{
+}: let
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+in {
   home = {
     packages = with pkgs; [
-      alacritty # Terminal Emulator
+      unstable.alacritty # Terminal Emulator TODO: Return to stable once 0.13 lands
       atuin # Magical Shell History
       bat # Sexy cat
       bottom # TUI System Monitoring

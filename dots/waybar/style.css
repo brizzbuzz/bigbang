@@ -1,3 +1,5 @@
+@import "./rose-pine-moon.css";
+
 * {
     border: none;
     border-radius: 0px;
@@ -8,7 +10,7 @@
 
 window#waybar {
     background-color: transparent;
-    color: #ffffff;
+    color: @surface;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -19,38 +21,37 @@ window#waybar.hidden {
 
 
 #workspaces button {
-    background: #1f1f1f;
-    color: #ffffff;
+    background: @base;
+    color: @subtle;
     border-radius: 20px;
-
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
-    background: lightblue;
+    background: @iris;
     color: black;
-    border-bottom: 3px solid #ffffff;
+    border-bottom: 3px solid @love;
 
 }
 
 #workspaces button.focused {
-    background: #1f1f1f;
+    background: @gold;
 }
 
 #workspaces button.focused:hover {
-    background: lightblue;
+    background: @base;
     color: black;
-    border-bottom: 3px solid #ffffff;
+    border-bottom: 3px solid @love;
 
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+    background-color: @rose;
 }
 
 #mode {
-    background-color: #64727D;
-    border-bottom: 3px solid #ffffff;
+    background-color: @foam;
+    border-bottom: 3px solid @love;
 }
 
 #clock,
