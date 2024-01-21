@@ -4,7 +4,9 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -62,6 +64,9 @@
     neovim
     nushell
     wget
+
+    # Unstable
+    unstable.mise
   ];
 
   # Set Env Variables
