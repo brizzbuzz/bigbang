@@ -73,7 +73,7 @@ in  {
       # SSH
       file.".ssh/config".source =
         if config.desktopEnabled
-        then ../dots/ssh/config-desktop
+        then (if config.os == "macos" then ../dots/ssh/config-desktop-macos else ../dots/ssh/config-desktop-nixos)
         else ../dots/ssh/config-shell;
 
       # Starship
