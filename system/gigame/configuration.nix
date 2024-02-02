@@ -118,14 +118,26 @@ in {
     #media-session.enable = true;
   };
 
+  # Docker
+  virtualisation.docker.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+
+  # Set up additional user groups
+  #users.groups = {
+  #  docker = {};
+  #};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ryan = {
     isNormalUser = true;
     description = "Supreme Ruler";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.nushell;
   };
 
