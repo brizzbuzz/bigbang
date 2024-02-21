@@ -2,11 +2,9 @@
   description = "And God said, 'Let there be light,' and there was light.";
 
   inputs = {
-    nixpkgs = {
-      url = github:nixos/nixpkgs/nixos-23.11;
-    };
+    nixpkgs.url = github:nixos/nixpkgs;
     home-manager = {
-      url = github:nix-community/home-manager/release-23.11;
+      url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -37,17 +35,20 @@
         inherit system;
         modules = [
           ./system/gigame/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ryan = import ./profile/ryan.nix;
+          }
         ];
       };
     };
     homeConfigurations = {
+      # TODO: Convert to module approach like above
       cloudy = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [./profile/cloudy.nix];
-      };
-      ryan = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [./profile/ryan.nix];
       };
     };
   };

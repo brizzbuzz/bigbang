@@ -23,7 +23,7 @@
   format = ssh
 
 [gpg "ssh"]
-  program = "/home/ryan/.nix-profile/bin/op-ssh-sign"
+  program = "/etc/profiles/per-user/ryan/bin/op-ssh-sign"
 
 [commit]
   gpgsign = true

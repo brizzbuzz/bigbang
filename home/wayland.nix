@@ -14,7 +14,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
+    #enableNvidiaPatches = true;
     xwayland.enable = true;
     extraConfig = builtins.readFile ../dots/hypr/hyprland.conf;
   };
