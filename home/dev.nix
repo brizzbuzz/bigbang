@@ -17,6 +17,7 @@
     pkg-config # Lets packages talk to each other
     rust-analyzer # LSP for Rust
     rustc # Rust Compiler
+    tailwindcss # Tailwind CSS Standalone CLI
     zig # Zig stdlib
   ];
 }

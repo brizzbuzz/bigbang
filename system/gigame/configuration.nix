@@ -101,6 +101,9 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable Polkit
+  security.polkit.enable = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -160,6 +163,8 @@ in {
     neovim
     nushell
 
+    gparted
+
     # Unstable (move to home once stable)
     unstable.mise
     unstable.spacedrive
@@ -199,6 +204,23 @@ in {
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+  };
+
+  # Polkit Authentication Agent
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+    };
   };
 
   # List services that you want to enable:

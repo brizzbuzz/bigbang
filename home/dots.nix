@@ -38,6 +38,7 @@
       file.".config/hypr/rose-pine-moon.conf".source = ../dots/hypr/rose-pine-moon.conf;
 
       # Nushell
+      file.".config/nushell/aliases.nu".source = ../dots/nushell/aliases.nu;
       file.".config/nushell/config.nu".source = ../dots/nushell/config.nu;
       file.".config/nushell/env.nu".source = ../dots/nushell/env.nu;
       file.".config/nushell/mise.nu".source = ../dots/nushell/mise.nu;

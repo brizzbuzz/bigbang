@@ -23,6 +23,8 @@ in {
       kubectl # Official kubernetes CLI
       k9s # Kubernetes cluster TUI
       lazygit # Another TUI for git
+      mods # AI on the CL
+      nnn # Terminal File Browser
       ripgrep # Text search
       sd # Sexy sed
       starship # Prompt configuration

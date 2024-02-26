@@ -757,6 +757,10 @@ $env.config = {
         }
     ]
 }
+
+# Aliases
+source ~/.config/nushell/aliases.nu
+
 # Mise
 source ~/.config/nushell/mise.nu
 
