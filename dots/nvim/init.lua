@@ -114,14 +114,7 @@ require('lazy').setup({
       end,
     },
   },
-  
-  {
-    -- Rustacean Vim
-    'mrcjkb/rustaceanvim',
-    version = '^3',
-    ft = { 'rust' },
-  },
-
+   
   {
     -- Debug Adapter Protocol
     "mfussenegger/nvim-dap",
