@@ -3,7 +3,13 @@
 
   inputs = {
     # NixOS Stuff 
-    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
+    nixpkgs.url = github:nixos/nixpkgs/release-23.11;
+
+    # Home Manager
+    home-manager = {
+      url = github:nix-community/home-manager/release-23.11;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # MacOS Stuff
     # TODO: Cleaner way to declare this? Don't like bloating this file
@@ -22,13 +28,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-
-    # Home Manager
-    home-manager = {
-      url = github:nix-community/home-manager;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
   };
 
   outputs = {
