@@ -26,6 +26,7 @@
       "1password" # 1Password GUI complains if not present directly inside Applications folder
       "jetbrains-toolbox" # Jetbrains toolbox is only supported by NixOS for linux targets
       "pocket-casts" # Doesn't seem to be availble in Nix packages... I want to write my own anyway
+      "ledger-live" # Is available in Nix packages, but not for darwin distros
     ];
   };
 

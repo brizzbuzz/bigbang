@@ -61,13 +61,8 @@ in  {
       file.".config/nushell/zoxide.nu".source = ../dots/nushell/zoxide.nu;
 
       # Nvim
-      file.".config/nvim/init.lua".source = ../dots/nvim/init.lua;
-      file.".config/nvim/lua/custom/plugins/init.lua".source = ../dots/nvim/lua/custom/plugins/init.lua;
-      file.".config/nvim/lua/custom/plugins/git.lua".source = ../dots/nvim/lua/custom/plugins/git.lua;
-      file.".config/nvim/lua/custom/plugins/lsp.lua".source = ../dots/nvim/lua/custom/plugins/lsp.lua;
-      file.".config/nvim/lua/custom/plugins/oil.lua".source = ../dots/nvim/lua/custom/plugins/oil.lua;
-      file.".config/nvim/lua/custom/plugins/themes.lua".source = ../dots/nvim/lua/custom/plugins/themes.lua;
-      file.".config/nvim/lua/custom/plugins/dashboard.lua".source = ../dots/nvim/lua/custom/plugins/dashboard.lua;
+      file.".config/nvim".source = ../dots/nvim;
+      file.".config/nvim".recursive = true;
 
       # Qutebrowser
       file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
