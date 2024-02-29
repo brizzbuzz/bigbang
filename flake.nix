@@ -3,7 +3,7 @@
 
   inputs = {
     # NixOS Stuff 
-    nixpkgs.url = github:nixos/nixpkgs;
+    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
 
     # MacOS Stuff
     # TODO: Cleaner way to declare this? Don't like bloating this file

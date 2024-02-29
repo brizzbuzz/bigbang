@@ -47,6 +47,12 @@
     config.allowUnfree = true;
   };
 
+  # Fonts
+  fonts = {
+    fontDir.enable = true;
+    fonts = [ pkgs.nerdfonts ];
+  };
+
   programs.zsh.enable = true;
 }
 

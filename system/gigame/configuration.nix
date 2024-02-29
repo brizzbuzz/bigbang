@@ -172,7 +172,7 @@ in {
 
   # Set Env Variables
   environment.variables = {
-    EDITOR = "neovim";
+    EDITOR = "nvim";
   };
 
   # Session variables

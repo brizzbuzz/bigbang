@@ -20,7 +20,6 @@
       packages = with pkgs; [
         # TODO: Delegate to modules
         _1password
-        alacritty
         bottom
         gitui
         helix

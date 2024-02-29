@@ -7,7 +7,7 @@
 in {
   home = {
     packages = with pkgs; [
-      unstable.alacritty # Terminal Emulator TODO: Return to stable once 0.13 lands
+      alacritty # Terminal Emulator
       atuin # Magical Shell History
       bat # Sexy cat
       bottom # TUI System Monitoring
