@@ -27,6 +27,7 @@
         mas
         mise
         ripgrep
+        slack
         zellij
       ];
     };

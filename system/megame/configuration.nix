@@ -24,6 +24,7 @@
     onActivation.upgrade = true;
     casks = [
       "1password" # 1Password GUI complains if not present directly inside Applications folder
+      "jetbrains-toolbox" # Jetbrains toolbox is only supported by NixOS for linux targets
     ];
   };
 
