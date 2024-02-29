@@ -3,8 +3,23 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  nu_config_base = 
+    if config.os == "macos"
+    then "/Users/ryan/Library/Application\ Support/nushell"
+    else ".config/nushell";
+  nu_config_path = "${nu_config_base}/config.nu";
+  nu_env_path = "${nu_config_base}/env.nu";
+in  {
+  # TODO: Move this to a common options file
   options = {
+    os = lib.mkOption {
+      default = "nixos";
+      type = lib.types.str;
+      description = ''
+        Operating system for current configuration
+      '';
+    };
     desktopEnabled = lib.mkOption {
       default = false;
       type = lib.types.bool;
@@ -27,8 +42,8 @@
       # Git
       file.".gitconfig".source =
         if config.desktopEnabled
-        then ../dots/git/gitconfig-desktop
-        else ../dots/git/gitconfig-shell;
+          then (if config.os == "macos" then ../dots/git/gitconfig-desktop-macos else ../dots/git/gitconfig-desktop-nixos)
+          else ../dots/git/gitconfig-shell;
 
       # GitUI
       file.".config/gitui/key_bindings.ron".source = ../dots/gitui/key_bindings.ron;
@@ -38,20 +53,16 @@
       file.".config/hypr/rose-pine-moon.conf".source = ../dots/hypr/rose-pine-moon.conf;
 
       # Nushell
+      file.${nu_config_path}.source = ../dots/nushell/config.nu;
+      file.${nu_env_path}.source = ../dots/nushell/env.nu;
       file.".config/nushell/aliases.nu".source = ../dots/nushell/aliases.nu;
-      file.".config/nushell/config.nu".source = ../dots/nushell/config.nu;
-      file.".config/nushell/env.nu".source = ../dots/nushell/env.nu;
       file.".config/nushell/mise.nu".source = ../dots/nushell/mise.nu;
       file.".config/nushell/starship.nu".source = ../dots/nushell/starship.nu;
       file.".config/nushell/zoxide.nu".source = ../dots/nushell/zoxide.nu;
 
       # Nvim
-      file.".config/nvim/init.lua".source = ../dots/nvim/init.lua;
-      file.".config/nvim/lua/custom/plugins/init.lua".source = ../dots/nvim/lua/custom/plugins/init.lua;
-      file.".config/nvim/lua/custom/plugins/git.lua".source = ../dots/nvim/lua/custom/plugins/git.lua;
-      file.".config/nvim/lua/custom/plugins/lsp.lua".source = ../dots/nvim/lua/custom/plugins/lsp.lua;
-      file.".config/nvim/lua/custom/plugins/themes.lua".source = ../dots/nvim/lua/custom/plugins/themes.lua;
-      file.".config/nvim/lua/custom/plugins/dashboard.lua".source = ../dots/nvim/lua/custom/plugins/dashboard.lua;
+      file.".config/nvim".source = ../dots/nvim;
+      file.".config/nvim".recursive = true;
 
       # Qutebrowser
       file.".config/qutebrowser/config.py".source = ../dots/qutebrowser/config.py;
@@ -59,7 +70,7 @@
       # SSH
       file.".ssh/config".source =
         if config.desktopEnabled
-        then ../dots/ssh/config-desktop
+        then (if config.os == "macos" then ../dots/ssh/config-desktop-macos else ../dots/ssh/config-desktop-nixos)
         else ../dots/ssh/config-shell;
 
       # Starship

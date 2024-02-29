@@ -71,7 +71,7 @@ in {
 
   # Set Env Variables
   environment.variables = {
-    EDITOR = "neovim";
+    EDITOR = "nvim";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
