@@ -6,7 +6,7 @@
 }: {
   imports = [
     #../home/apps.nix
-    #../home/dev.nix
+    ../home/dev.nix
     ../home/dots.nix
     ../home/terminal.nix
   ];

@@ -3,7 +3,18 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
+  # TODO: Make this dry
+  home.packages = with pkgs; if config.os == "macos" then [
+    cargo # Rust package manager
+    graphviz-nox # GraphViz / Dot
+    helmfile # Declarative helm release management
+    jdk21 # Java 21 JDK
+    kubernetes-helm # Kubernetes "package manager"
+    lua # Lua
+    rust-analyzer # LSP for Rust
+    rustc # Rust Compiler
+    zig # Zig stdlib
+  ] else [
     cargo # Rust package manager
     docker # Whale go brr
     gcc9 # C compiler

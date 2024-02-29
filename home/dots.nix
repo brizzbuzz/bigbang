@@ -11,6 +11,7 @@
   nu_config_path = "${nu_config_base}/config.nu";
   nu_env_path = "${nu_config_base}/env.nu";
 in  {
+  # TODO: Move this to a common options file
   options = {
     os = lib.mkOption {
       default = "nixos";
@@ -64,6 +65,7 @@ in  {
       file.".config/nvim/lua/custom/plugins/init.lua".source = ../dots/nvim/lua/custom/plugins/init.lua;
       file.".config/nvim/lua/custom/plugins/git.lua".source = ../dots/nvim/lua/custom/plugins/git.lua;
       file.".config/nvim/lua/custom/plugins/lsp.lua".source = ../dots/nvim/lua/custom/plugins/lsp.lua;
+      file.".config/nvim/lua/custom/plugins/oil.lua".source = ../dots/nvim/lua/custom/plugins/oil.lua;
       file.".config/nvim/lua/custom/plugins/themes.lua".source = ../dots/nvim/lua/custom/plugins/themes.lua;
       file.".config/nvim/lua/custom/plugins/dashboard.lua".source = ../dots/nvim/lua/custom/plugins/dashboard.lua;
 
