@@ -16,18 +16,12 @@
     desktopEnabled = true;
 
     home = {
-      stateVersion = "24.05";
+      stateVersion = "23.11";
       packages = with pkgs; [
         # TODO: Delegate to modules
         _1password
-        bottom
-        gitui
-        helix
         mas
-        mise
-        ripgrep
         slack
-        zellij
       ];
     };
   };

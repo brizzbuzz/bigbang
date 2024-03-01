@@ -166,7 +166,6 @@ in {
     gparted
 
     # Unstable (move to home once stable)
-    unstable.mise
     unstable.spacedrive
   ];
 

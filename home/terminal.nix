@@ -7,7 +7,7 @@
 in {
   home = {
     packages = with pkgs; [
-      alacritty # Terminal Emulator
+      unstable.alacritty # Terminal Emulator
       atuin # Magical Shell History
       bat # Sexy cat
       bottom # TUI System Monitoring
@@ -24,6 +24,7 @@ in {
       k9s # Kubernetes cluster TUI
       lazygit # Another TUI for git
       mods # AI on the CL
+      unstable.mise # Tool version manager
       nnn # Terminal File Browser
       ripgrep # Text search
       sd # Sexy sed
@@ -32,7 +33,7 @@ in {
       xh # CLI Http Client
       xplr # TUI File Explorer
       zellij # Terminal Multiplexer
-      zoxide # Directory Portal
+      unstable.zoxide # Directory Portal
     ];
   };
 }
