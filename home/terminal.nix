@@ -29,6 +29,7 @@ in {
       ripgrep # Text search
       sd # Sexy sed
       starship # Prompt configuration
+      tokei # Code line counter
       unzip # Extraction utility
       xh # CLI Http Client
       xplr # TUI File Explorer
