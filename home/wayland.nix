@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    hyprpaper # TODO: Would like to replace SWWW but this wasn't working for me :(
     libnotify
     mako
     swaylock-effects

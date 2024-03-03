@@ -50,6 +50,7 @@ in  {
 
       # Hyprland
       file.".config/hypr/start.sh".source = ../dots/hypr/start.sh;
+      file.".config/hypr/hyprpaper.conf".source = ../dots/hypr/hyprpaper.conf;
       file.".config/hypr/rose-pine-moon.conf".source = ../dots/hypr/rose-pine-moon.conf;
 
       # Nushell
