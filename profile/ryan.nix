@@ -10,6 +10,7 @@
     ../home/dots.nix
     ../home/gaming.nix
     ../home/keyboard.nix
+    ../home/neovim.nix
     ../home/terminal.nix
     ../home/wayland.nix
   ];
