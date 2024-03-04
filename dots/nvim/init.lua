@@ -473,9 +473,13 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
+				html = {},
+				htmx = {},
 				-- pyright = {},
+				lua_ls = {},
 				nil_ls = {},
 				rust_analyzer = {},
+				tailwindcss = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
@@ -483,9 +487,6 @@ require("lazy").setup({
 				--
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
-				--
-
-				lua_ls = {},
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -735,7 +736,7 @@ require("lazy").setup({
 	--
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
 	--    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-	-- { import = 'custom.plugins' },
+	{ import = "custom.plugins" },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
