@@ -58,8 +58,6 @@
     };
     lib = nixpkgs.lib;
   in {
-    # TODO: Better place?
-    #formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations = {
       cloudy = lib.nixosSystem {
         inherit system;
@@ -88,7 +86,11 @@
         system = "aarch64-darwin";
         modules = [
           ./system/megame/configuration.nix
-          # TODO: Figure out how to move this to a separate file
+          {
+            # NOTE: `${system}` doesn't work here and I'm really not clear why
+            environment.systemPackages = [alejandra.defaultPackage."aarch64-darwin"];
+          }
+          # TODO: Figure out how to move these to a separate file
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
