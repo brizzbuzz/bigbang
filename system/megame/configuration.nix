@@ -34,7 +34,7 @@
   # Necessary for using flakes on this system
   nix.settings.experimental-features = "nix-command flakes";
 
-  # Enable nix daemon 
+  # Enable nix daemon
   services.nix-daemon.enable = true;
   #services.nix-daemon.package = pkgs.nixFlakes;
 
@@ -52,9 +52,8 @@
   # Fonts
   fonts = {
     fontDir.enable = true;
-    fonts = [ pkgs.nerdfonts ];
+    fonts = [pkgs.nerdfonts];
   };
 
   programs.zsh.enable = true;
 }
-

@@ -4,13 +4,13 @@
   lib,
   ...
 }: let
-  nu_config_base = 
+  nu_config_base =
     if config.os == "macos"
     then "/Users/ryan/Library/Application\ Support/nushell"
     else ".config/nushell";
   nu_config_path = "${nu_config_base}/config.nu";
   nu_env_path = "${nu_config_base}/env.nu";
-in  {
+in {
   # TODO: Move this to a common options file
   options = {
     os = lib.mkOption {
@@ -42,8 +42,13 @@ in  {
       # Git
       file.".gitconfig".source =
         if config.desktopEnabled
-          then (if config.os == "macos" then ../dots/git/gitconfig-desktop-macos else ../dots/git/gitconfig-desktop-nixos)
-          else ../dots/git/gitconfig-shell;
+        then
+          (
+            if config.os == "macos"
+            then ../dots/git/gitconfig-desktop-macos
+            else ../dots/git/gitconfig-desktop-nixos
+          )
+        else ../dots/git/gitconfig-shell;
 
       # GitUI
       file.".config/gitui/key_bindings.ron".source = ../dots/gitui/key_bindings.ron;
@@ -71,7 +76,12 @@ in  {
       # SSH
       file.".ssh/config".source =
         if config.desktopEnabled
-        then (if config.os == "macos" then ../dots/ssh/config-desktop-macos else ../dots/ssh/config-desktop-nixos)
+        then
+          (
+            if config.os == "macos"
+            then ../dots/ssh/config-desktop-macos
+            else ../dots/ssh/config-desktop-nixos
+          )
         else ../dots/ssh/config-shell;
 
       # Starship
