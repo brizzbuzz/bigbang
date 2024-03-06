@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
@@ -54,9 +53,11 @@ in {
       file.".config/gitui/key_bindings.ron".source = ../dots/gitui/key_bindings.ron;
 
       # Hyprland
-      file.".config/hypr/start.sh".source = ../dots/hypr/start.sh;
-      file.".config/hypr/hyprpaper.conf".source = ../dots/hypr/hyprpaper.conf;
-      file.".config/hypr/rose-pine-moon.conf".source = ../dots/hypr/rose-pine-moon.conf;
+      file.".config/hypr".source = ../dots/hypr;
+      file.".config/hypr".recursive = true;
+
+      # Mako
+      file.".config/mako/config".source = ../dots/mako/config;
 
       # Nushell
       file.${nu_config_path}.source = ../dots/nushell/config.nu;

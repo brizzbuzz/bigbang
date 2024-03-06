@@ -4,6 +4,7 @@
   inputs = {
     # NixOS Stuff
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home Manager
     home-manager = {
@@ -41,6 +42,7 @@
     alejandra,
     # NixOS
     nixpkgs,
+    nixpkgs-unstable,
     # MacOS
     darwin,
     homebrew,
@@ -56,6 +58,10 @@
       inherit system;
       config.allowUnfree = true;
     };
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
@@ -63,6 +69,16 @@
         inherit system;
         modules = [
           ./system/cloudy/configuration.nix
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
+          }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ryan = import ./cloudy/ryan.nix;
+          }
+
         ];
       };
       gigame = lib.nixosSystem {
@@ -77,8 +93,16 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan.nix;
+            home-manager.extraSpecialArgs = {
+              inherit pkgs;
+              inherit pkgs-unstable;
+            };
           }
         ];
+        specialArgs = {
+          inherit pkgs;
+          inherit pkgs-unstable;
+        };
       };
     };
     darwinConfigurations = {
@@ -116,14 +140,6 @@
             };
           }
         ];
-      };
-    };
-    # TODO: Would be nice to move these to nixConfiguration to streamline build process, like darwin setup
-    homeConfigurations = {
-      # TODO: Convert to module approach like above
-      cloudy = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [./profile/cloudy.nix];
       };
     };
   };

@@ -1,5 +1,7 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
+{pkgs, pkgs-unstable, ...}: {
+  home.packages = (with pkgs; [
     wally-cli
-  ];
+  ]) ++ (with pkgs-unstable; [
+    keymapp
+  ]);
 }

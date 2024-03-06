@@ -1,13 +1,10 @@
 {
-  config,
   pkgs,
+  pkgs-unstable,
   ...
-}: let
-  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
-in {
+}: {
   home = {
-    packages = with pkgs; [
-      unstable.alacritty # Terminal Emulator
+    packages = (with pkgs; [
       atuin # Magical Shell History
       bat # Sexy cat
       bottom # TUI System Monitoring
@@ -24,7 +21,6 @@ in {
       k9s # Kubernetes cluster TUI
       lazygit # Another TUI for git
       mods # AI on the CL
-      unstable.mise # Tool version manager
       nnn # Terminal File Browser
       ripgrep # Text search
       sd # Sexy sed
@@ -34,7 +30,10 @@ in {
       xh # CLI Http Client
       xplr # TUI File Explorer
       zellij # Terminal Multiplexer
-      unstable.zoxide # Directory Portal
-    ];
+    ]) ++ (with pkgs-unstable; [
+      alacritty # Terminal Emulator
+      mise # Tool version manager
+      zoxide # Directory Portal
+    ]);
   };
 }

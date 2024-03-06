@@ -1,17 +1,18 @@
 {
-  config,
   pkgs,
+  pkgs-unstable,
   ...
 }: {
-  home.packages = with pkgs; [
-    hyprpaper # TODO: Would like to replace SWWW but this wasn't working for me :(
+  home.packages = (with pkgs; [
     libnotify
     mako
-    swaylock-effects
-    swww
     waybar
     wofi
-  ];
+  ]) ++ (with pkgs-unstable; [
+    hyprlock
+    hyprpaper
+    hyprpicker
+  ]);
 
   wayland.windowManager.hyprland = {
     enable = true;

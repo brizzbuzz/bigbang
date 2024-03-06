@@ -1,13 +1,12 @@
-{pkgs, ...}: let
-  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
-in {
-  home.packages = with pkgs; [
-    unstable.htmx-lsp
+{pkgs, pkgs-unstable, ...}: {
+  home.packages = (with pkgs; [
     kotlin-language-server
     lua-language-server
     nil
     rust-analyzer
     stylua
     tailwindcss-language-server
-  ];
+  ]) ++ (with pkgs-unstable; [
+    htmx-lsp
+  ]);
 }
