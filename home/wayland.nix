@@ -3,16 +3,18 @@
   pkgs-unstable,
   ...
 }: {
-  home.packages = (with pkgs; [
-    libnotify
-    mako
-    waybar
-    wofi
-  ]) ++ (with pkgs-unstable; [
-    hyprlock
-    hyprpaper
-    hyprpicker
-  ]);
+  home.packages =
+    (with pkgs; [
+      libnotify
+      mako
+      waybar
+      wofi
+    ])
+    ++ (with pkgs-unstable; [
+      hyprlock
+      hyprpaper
+      hyprpicker
+    ]);
 
   wayland.windowManager.hyprland = {
     enable = true;

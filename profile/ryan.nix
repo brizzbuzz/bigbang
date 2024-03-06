@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   imports = [
     ../home/apps.nix
     ../home/browsers.nix

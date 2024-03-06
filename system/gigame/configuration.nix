@@ -156,15 +156,17 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [
-    git
-    gparted
-    firefox
-    neovim
-    nushell
-  ]) ++ (with pkgs-unstable; [
-    spacedrive
-  ]);
+  environment.systemPackages =
+    (with pkgs; [
+      git
+      gparted
+      firefox
+      neovim
+      nushell
+    ])
+    ++ (with pkgs-unstable; [
+      spacedrive
+    ]);
 
   # Set Env Variables
   environment.variables = {

@@ -78,7 +78,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./cloudy/ryan.nix;
           }
-
         ];
       };
       gigame = lib.nixosSystem {
