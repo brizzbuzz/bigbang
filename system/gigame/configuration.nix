@@ -4,10 +4,9 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   ...
-}: let
-  unstable = import <nixos-unstable> {config = {allowUnfree = true;};};
-in {
+}: {
   imports = [
     # Include the results of the hardware scan.
     # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
@@ -157,17 +156,17 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    git
-    firefox
-    neovim
-    nushell
-
-    gparted
-
-    # Unstable (move to home once stable)
-    unstable.spacedrive
-  ];
+  environment.systemPackages =
+    (with pkgs; [
+      git
+      gparted
+      firefox
+      neovim
+      nushell
+    ])
+    ++ (with pkgs-unstable; [
+      spacedrive
+    ]);
 
   # Set Env Variables
   environment.variables = {
@@ -193,7 +192,7 @@ in {
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 14d";
+      options = "--delete-older-than 7d";
     };
   };
 
