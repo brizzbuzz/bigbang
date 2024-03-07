@@ -8,6 +8,7 @@
     #../home/apps.nix
     ../home/dev.nix
     ../home/dots.nix
+    ../home/neovim.nix
     ../home/terminal.nix
   ];
 
