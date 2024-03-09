@@ -97,8 +97,8 @@ in {
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;
 
       # Zellij
-      file.".config/zellij/config.kdl".source = ../dots/zellij/config.kdl;
-      file.".config/zellij/themes/rose-pine-moon.kdl".source = ../dots/zellij/rose-pine-moon.kdl;
+      file.".config/zellij".source = ../dots/zellij;
+      file.".config/zellij".recursive = true;
     };
   };
 }

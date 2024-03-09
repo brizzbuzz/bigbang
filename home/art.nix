@@ -3,6 +3,8 @@
   ...
 }: {
   home.packages = with pkgs; [
-    steam
+    blender
+    gimp
+    inkscape
   ];
 }

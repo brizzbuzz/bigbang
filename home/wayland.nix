@@ -9,6 +9,7 @@
       mako
       waybar
       wofi
+      xwayland
     ])
     ++ (with pkgs-unstable; [
       hyprlock

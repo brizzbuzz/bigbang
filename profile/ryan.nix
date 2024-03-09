@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ../home/apps.nix
+    ../home/art.nix
     ../home/browsers.nix
     ../home/dev.nix
     ../home/dots.nix
