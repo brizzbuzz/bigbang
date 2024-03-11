@@ -443,6 +443,7 @@ require("lazy").setup({
 
 			-- TODO:Kinda hate how this feels... learn Lua and abstract
 			local lspconfig = require("lspconfig")
+			lspconfig.gleam.setup({})
 			lspconfig.html.setup({})
 			lspconfig.htmx.setup({})
 			lspconfig.lua_ls.setup({})
@@ -575,7 +576,7 @@ require("lazy").setup({
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
 			-- Load the colorscheme here
-			vim.cmd.colorscheme("tokyonight-night")
+			vim.cmd.colorscheme("rose-pine-moon")
 
 			-- You can configure highlights by doing something like
 			vim.cmd.hi("Comment gui=none")
@@ -639,6 +640,7 @@ require("lazy").setup({
 					"bash",
 					"c",
 					"dockerfile",
+					"gleam",
 					"hcl",
 					"html",
 					"kdl",
