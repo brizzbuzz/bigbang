@@ -89,9 +89,8 @@ in {
       file.".config/starship.toml".source = ../dots/starship/starship.toml;
 
       # Waybar
-      file.".config/waybar/config".source = ../dots/waybar/config.json;
-      file.".config/waybar/hotswap.sh".source = ../dots/waybar/hotswap.sh; # TODO: Nuify
-      file.".config/waybar/style.css".source = ../dots/waybar/style.css;
+      file.".config/waybar".source = ../dots/waybar;
+      file.".config/waybar".recursive = true;
 
       # Wofi
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;

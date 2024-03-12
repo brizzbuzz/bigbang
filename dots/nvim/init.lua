@@ -643,6 +643,7 @@ require("lazy").setup({
 					"gleam",
 					"hcl",
 					"html",
+					"json",
 					"kdl",
 					"lua",
 					"markdown",

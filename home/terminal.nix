@@ -35,6 +35,7 @@
       ++ (with pkgs-unstable; [
         alacritty # Terminal Emulator
         mise # Tool version manager
+        wallust # Color theme utility
         zoxide # Directory Portal
       ]);
   };
