@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   pkgs-unstable,
   ...
@@ -12,7 +13,12 @@
       stylua
       tailwindcss-language-server
     ])
-    ++ (with pkgs-unstable; [
-      htmx-lsp
-    ]);
+    ++ (
+      if config.os == "nixos"
+      then
+        (with pkgs-unstable; [
+          htmx-lsp # Can't currently compile on Mac due to C compiler issues :(
+        ])
+      else []
+    );
 }
