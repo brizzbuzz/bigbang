@@ -448,7 +448,15 @@ require("lazy").setup({
 			lspconfig.html.setup({})
 			lspconfig.htmx.setup({})
 			lspconfig.jsonls.setup({})
-			lspconfig.lua_ls.setup({})
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
 			lspconfig.nil_ls.setup({})
 			lspconfig.rust_analyzer.setup({})
 			lspconfig.tailwindcss.setup({})
@@ -568,21 +576,24 @@ require("lazy").setup({
 		end,
 	},
 
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-		"folke/tokyonight.nvim",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			-- Load the colorscheme here
-			vim.cmd.colorscheme("rose-pine-moon")
+	{
+		"github/copilot.vim",
+	},
 
-			-- You can configure highlights by doing something like
-			vim.cmd.hi("Comment gui=none")
+	{
+		"jackMort/ChatGPT.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("chatgpt").setup({
+				api_key_cmd = "op read op://private/OpenAI/api_key --no-newline",
+			})
 		end,
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"folke/trouble.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
 	},
 
 	-- Highlight todo, notes, etc in comments
