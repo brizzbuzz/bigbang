@@ -8,6 +8,7 @@
     (with pkgs;
       [
         cargo # Rust package manager
+        erlang # Erlang VM
         gnupg # GPG
         graphviz-nox # GraphViz / Dot
         helmfile # Declarative helm release management
@@ -15,6 +16,7 @@
         kubernetes-helm # Kubernetes "package manager"
         lua # Lua
         nodejs # NodeJS Runtime
+        rebar3 # Erlang build tool
         rust-analyzer # LSP for Rust
         rustc # Rust Compiler
         tailwindcss # Tailwind CSS Standalone CLI
