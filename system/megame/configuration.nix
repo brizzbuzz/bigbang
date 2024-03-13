@@ -29,6 +29,7 @@
       "pocket-casts" # Doesn't seem to be availble in Nix packages... I want to write my own anyway
       "protonvpn" # Doesn't seem like the GUI is available for darwin
       "ledger-live" # Is available in Nix packages, but not for darwin distros
+      "transmission" # Torrent Client
     ];
   };
 
