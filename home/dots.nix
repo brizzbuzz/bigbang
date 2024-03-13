@@ -89,8 +89,14 @@ in {
       file.".config/starship.toml".source = ../dots/starship/starship.toml;
 
       # Waybar
-      file.".config/waybar".source = ../dots/waybar;
-      file.".config/waybar".recursive = true;
+      file.".config/waybar/config".source = ../dots/waybar/config.json;
+      file.".config/waybar/modules.json".source = ../dots/waybar/modules.json;
+      file.".config/waybar/hotswap.sh".source = ../dots/waybar/hotswap.sh;
+      file.".config/waybar/style.css".source = ../dots/waybar/style.css;
+      # file.".config/waybar/rose-pine-moon.css".source = ../dots/waybar/rose-pine-moon.css;
+
+      # WLogout
+      file.".config/wlogout/config".source = ../dots/wlogout/config.json;
 
       # Wofi
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;

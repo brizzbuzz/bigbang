@@ -12,6 +12,7 @@
       rust-analyzer
       stylua
       tailwindcss-language-server
+      vscode-langservers-extracted
     ])
     ++ (
       if config.os == "nixos"

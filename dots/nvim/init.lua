@@ -443,9 +443,11 @@ require("lazy").setup({
 
 			-- TODO:Kinda hate how this feels... learn Lua and abstract
 			local lspconfig = require("lspconfig")
+			lspconfig.cssls.setup({})
 			lspconfig.gleam.setup({})
 			lspconfig.html.setup({})
 			lspconfig.htmx.setup({})
+			lspconfig.jsonls.setup({})
 			lspconfig.lua_ls.setup({})
 			lspconfig.nil_ls.setup({})
 			lspconfig.rust_analyzer.setup({})

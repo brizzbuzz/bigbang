@@ -8,6 +8,7 @@
       libnotify
       mako
       waybar
+      wlogout
       wofi
       xwayland
     ])
