@@ -3,12 +3,20 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
-    _1password
-    _1password-gui
-    discord
-    ledger-live-desktop
-    spotify
-    transmission_4
-  ];
+  home.packages =
+    (with pkgs; [
+      _1password
+      ledger-live-desktop
+      transmission_4
+    ])
+    ++ (
+      if config.os == "macos"
+      then []
+      else
+        with pkgs; [
+          _1password-gui
+          discord
+          spotify
+        ]
+    );
 }
