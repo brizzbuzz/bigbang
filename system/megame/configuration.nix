@@ -1,14 +1,9 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Set packages available globally across system
   environment.systemPackages = with pkgs; [
     git
     neovim
     nushell
-    raycast
   ];
 
   users.users.ryan = {
@@ -29,6 +24,7 @@
       "pocket-casts" # Doesn't seem to be availble in Nix packages... I want to write my own anyway
       "protonvpn" # Doesn't seem like the GUI is available for darwin
       "ledger-live" # Is available in Nix packages, but not for darwin distros
+      "spotify" # Having weird issues with installing this through Nix
       "transmission" # Torrent Client
     ];
   };
@@ -38,7 +34,9 @@
 
   # Enable nix daemon
   services.nix-daemon.enable = true;
-  #services.nix-daemon.package = pkgs.nixFlakes;
+
+  # Tailscale
+  services.tailscale.enable = true;
 
   system = {
     stateVersion = 4;

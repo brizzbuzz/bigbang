@@ -1,14 +1,10 @@
-{
-  config,
-  pkgs,
-  home-manager,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     #../home/apps.nix
     ../home/dev.nix
     ../home/dots.nix
     ../home/neovim.nix
+    ../home/networking.nix
     ../home/terminal.nix
   ];
 
