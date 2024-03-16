@@ -460,6 +460,7 @@ require("lazy").setup({
 			lspconfig.nil_ls.setup({})
 			lspconfig.rust_analyzer.setup({})
 			lspconfig.tailwindcss.setup({})
+			lspconfig.yamlls.setup({})
 		end,
 	},
 
@@ -664,6 +665,7 @@ require("lazy").setup({
 					"rust",
 					"vim",
 					"vimdoc",
+					"yaml",
 				},
 				-- Autoinstall languages that are not installed
 				auto_install = true,

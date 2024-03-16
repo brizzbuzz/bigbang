@@ -6,6 +6,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Flake Utils
+    flake-utils.url = "github:numtide/flake-utils";
+
     # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
@@ -38,11 +41,14 @@
   };
 
   outputs = {
+  self,
     # Formatter
     alejandra,
     # NixOS
     nixpkgs,
     nixpkgs-unstable,
+    # Flake Utils
+    flake-utils,
     # MacOS
     darwin,
     homebrew,
@@ -53,9 +59,8 @@
     home-manager,
     ...
   }: let
-    system = "x86_64-linux"; # TODO: How to switch this if necessary?
     pkgs = import nixpkgs {
-      inherit system;
+      system = "x86_64-linux";
       config.allowUnfree = true;
     };
     pkgs-darwin = import nixpkgs {
@@ -63,7 +68,7 @@
       config.allowUnfree = true;
     };
     pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
+      system = "x86_64-linux";
       config.allowUnfree = true;
     };
     pkgs-unstable-darwin = import nixpkgs-unstable {
@@ -73,13 +78,26 @@
 
     lib = nixpkgs.lib;
   in {
+    devShell = flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = nixpkgs.legacyPackages.${system}; in
+      {
+        packages = rec {
+          hello = pkgs.hello;
+          default = hello;
+        };
+        apps = rec {
+          hello = flake-utils.lib.mkApp { drv = self.packages.${system}.hello; };
+          default = hello;
+        };
+      }
+    );
     nixosConfigurations = {
       cloudy = lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         modules = [
           ./system/cloudy/configuration.nix
           {
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
+            environment.systemPackages = [alejandra.defaultPackage."x86_64-linux"];
           }
           home-manager.nixosModules.home-manager
           {
@@ -90,11 +108,11 @@
         ];
       };
       gigame = lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         modules = [
           ./system/gigame/configuration.nix
           {
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
+            environment.systemPackages = [alejandra.defaultPackage."x86_64-linux"];
           }
           home-manager.nixosModules.home-manager
           {
