@@ -10,11 +10,14 @@
       kotlin-language-server
       lua-language-server
       nil
+      nodePackages_latest.jsonlint
+      pylyzer
+      pyright
       rust-analyzer
       rustfmt
       stylua
       tailwindcss-language-server
-      vscode-langservers-extracted
+      vale
     ])
     ++ (
       if config.os == "nixos"

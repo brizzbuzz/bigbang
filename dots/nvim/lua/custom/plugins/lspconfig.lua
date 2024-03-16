@@ -108,7 +108,6 @@ return {
 
 			-- TODO:Kinda hate how this feels... learn Lua and abstract
 			local lspconfig = require("lspconfig")
-			lspconfig.cssls.setup({})
 			lspconfig.gleam.setup({})
 			lspconfig.html.setup({})
 			lspconfig.htmx.setup({})
@@ -123,6 +122,16 @@ return {
 				},
 			})
 			lspconfig.nil_ls.setup({})
+			lspconfig.pyright.setup({
+				python = {
+					analysis = {
+						autoSearchPaths = true,
+						diagnosticMode = "openFilesOnly",
+						useLibraryCodeForTypes = true,
+					},
+				},
+			})
+			-- lspconfig.pylyzer.setup({}) Note: not production ready :(
 			lspconfig.rust_analyzer.setup({})
 			lspconfig.tailwindcss.setup({})
 		end,

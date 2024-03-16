@@ -120,8 +120,8 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan-mbp.nix;
             home-manager.extraSpecialArgs = {
-            inherit pkgs;
-            inherit pkgs-unstable;
+              inherit pkgs;
+              inherit pkgs-unstable;
             };
           }
           homebrew.darwinModules.nix-homebrew

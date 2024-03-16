@@ -1,0 +1,16 @@
+{
+	"layer": "top",
+	"position": "top",
+	"margin-bottom": 0,
+	"margin-left": 0,
+	"margin-right": 0,
+	"spacing": 0,
+	"include": [
+		"~/.config/waybar/modules.json"
+	],
+	"modules-left": [],
+	"modules-center": [
+		"hyprland/workspaces"
+	],
+	"modules-right": []
+}

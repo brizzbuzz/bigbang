@@ -87,6 +87,10 @@ in {
       # WLogout
       file.".config/wlogout/config".source = ../dots/wlogout/config.json;
 
+      # Waybar
+      file.".config/waybar".source = ../dots/waybar;
+      file.".config/waybar".recursive = true;
+
       # Wofi
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;
 
