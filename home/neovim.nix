@@ -6,10 +6,12 @@
 }: {
   home.packages =
     (with pkgs; [
+      clippy
       kotlin-language-server
       lua-language-server
       nil
       rust-analyzer
+      rustfmt
       stylua
       tailwindcss-language-server
       vscode-langservers-extracted
