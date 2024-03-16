@@ -7,7 +7,6 @@
     (with pkgs; [
       libnotify
       mako
-      waybar
       wlogout
       wofi
       xwayland
