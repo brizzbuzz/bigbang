@@ -53,25 +53,16 @@
     home-manager,
     ...
   }: let
-    system = "x86_64-linux"; # TODO: How to switch this if necessary?
+    system = builtins.currentSystem;
+    lib = nixpkgs.lib;
     pkgs = import nixpkgs {
       inherit system;
-      config.allowUnfree = true;
-    };
-    pkgs-darwin = import nixpkgs {
-      system = "aarch64-darwin";
       config.allowUnfree = true;
     };
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
-    pkgs-unstable-darwin = import nixpkgs-unstable {
-      system = "aarch64-darwin";
-      config.allowUnfree = true;
-    };
-
-    lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
       cloudy = lib.nixosSystem {
@@ -129,8 +120,8 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan-mbp.nix;
             home-manager.extraSpecialArgs = {
-              pkgs = pkgs-darwin;
-              pkgs-unstable = pkgs-unstable-darwin;
+            inherit pkgs;
+            inherit pkgs-unstable;
             };
           }
           homebrew.darwinModules.nix-homebrew

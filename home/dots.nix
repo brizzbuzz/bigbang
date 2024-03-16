@@ -3,12 +3,10 @@
   lib,
   ...
 }: let
-  nu_config_base =
+  nu_config =
     if config.os == "macos"
     then "/Users/ryan/Library/Application\ Support/nushell"
     else ".config/nushell";
-  nu_config_path = "${nu_config_base}/config.nu";
-  nu_env_path = "${nu_config_base}/env.nu";
 in {
   # TODO: Move this to a common options file
   options = {
@@ -60,12 +58,10 @@ in {
       file.".config/mako/config".source = ../dots/mako/config;
 
       # Nushell
-      file.${nu_config_path}.source = ../dots/nushell/config.nu;
-      file.${nu_env_path}.source = ../dots/nushell/env.nu;
-      file.".config/nushell/aliases.nu".source = ../dots/nushell/aliases.nu;
-      file.".config/nushell/mise.nu".source = ../dots/nushell/mise.nu;
-      file.".config/nushell/starship.nu".source = ../dots/nushell/starship.nu;
-      file.".config/nushell/zoxide.nu".source = ../dots/nushell/zoxide.nu;
+      file.${nu_config} = {
+        source = ../dots/nushell;
+        recursive = true;
+      };
 
       # Nvim
       file.".config/nvim".source = ../dots/nvim;
@@ -87,13 +83,6 @@ in {
 
       # Starship
       file.".config/starship.toml".source = ../dots/starship/starship.toml;
-
-      # Waybar
-      file.".config/waybar/config".source = ../dots/waybar/config.json;
-      file.".config/waybar/modules.json".source = ../dots/waybar/modules.json;
-      file.".config/waybar/hotswap.sh".source = ../dots/waybar/hotswap.sh;
-      file.".config/waybar/style.css".source = ../dots/waybar/style.css;
-      # file.".config/waybar/rose-pine-moon.css".source = ../dots/waybar/rose-pine-moon.css;
 
       # WLogout
       file.".config/wlogout/config".source = ../dots/wlogout/config.json;

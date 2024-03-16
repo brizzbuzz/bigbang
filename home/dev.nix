@@ -8,6 +8,7 @@
     (with pkgs;
       [
         cargo # Rust package manager
+        direnv # Do cool stuff in X directory
         erlang # Erlang VM
         gnupg # GPG
         graphviz-nox # GraphViz / Dot
