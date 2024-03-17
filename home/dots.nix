@@ -3,10 +3,8 @@
   lib,
   ...
 }: let
-  nu_config =
-    if config.os == "macos"
-    then "/Users/ryan/Library/Application\ Support/nushell"
-    else ".config/nushell";
+  nu_config_file_path = if config.os == "macos" then "/Users/ryan/Library/Application\ Support/nushell/config.nu" else ".config/nushell/config.nu";
+  nu_env_file_path = if config.os == "macos" then "/Users/ryan/Library/Application\ Support/nushell/env.nu" else ".config/nushell/env.nu";
 in {
   # TODO: Move this to a common options file
   options = {
@@ -58,10 +56,12 @@ in {
       file.".config/mako/config".source = ../dots/mako/config;
 
       # Nushell
-      file.${nu_config} = {
+      file.".config/nushell" = {
         source = ../dots/nushell;
         recursive = true;
       };
+      file."${nu_config_file_path}".source = ../dots/nushell/config.nu;
+      file."${nu_env_file_path}".source = ../dots/nushell/env.nu;
 
       # Nvim
       file.".config/nvim".source = ../dots/nvim;
