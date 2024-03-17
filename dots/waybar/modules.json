@@ -8,5 +8,12 @@
 		"persistent-workspaces": {
 			"*": 5
 		}
-	}
+	},
+  "hyprland/window": {
+    "rewrite": {
+      "(.*) - Brave": "🌎",
+      "Zellij (.*)": "🧑‍💻"
+    },
+    "separate-outputs": true
+  }
 }

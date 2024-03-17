@@ -108,10 +108,11 @@ return {
 
 			-- TODO:Kinda hate how this feels... learn Lua and abstract
 			local lspconfig = require("lspconfig")
+			-- lspconfig.cssls.setup({})
 			lspconfig.gleam.setup({})
 			lspconfig.html.setup({})
 			lspconfig.htmx.setup({})
-			lspconfig.jsonls.setup({})
+			-- lspconfig.jsonls.setup({})
 			lspconfig.lua_ls.setup({
 				settings = {
 					Lua = {

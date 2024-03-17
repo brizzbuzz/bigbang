@@ -8,7 +8,8 @@
 	"include": [
 		"~/.config/waybar/modules.json"
 	],
-	"modules-left": [],
+	"modules-left": [
+	],
 	"modules-center": [
 		"hyprland/workspaces"
 	],

@@ -90,6 +90,7 @@ in {
       # Waybar
       file.".config/waybar".source = ../dots/waybar;
       file.".config/waybar".recursive = true;
+      file.".config/waybar/config".source = ../dots/waybar/config.json;
 
       # Wofi
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;
