@@ -18,6 +18,7 @@
       stylua
       tailwindcss-language-server
       vale
+      vscode-langservers-extracted
     ])
     ++ (
       if config.os == "nixos"

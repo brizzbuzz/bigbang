@@ -41,6 +41,7 @@
     ++ (
       with pkgs-unstable; [
         gleam # Statically typed lang for Erlang VM
+        jetbrains.idea-ultimate # Jetbrains IDE
       ]
     );
 }

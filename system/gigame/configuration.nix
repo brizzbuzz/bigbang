@@ -158,9 +158,9 @@
   # $ nix search wget
   environment.systemPackages =
     (with pkgs; [
+      font-awesome
       git
       gparted
-      firefox
       neovim
       nushell
     ])

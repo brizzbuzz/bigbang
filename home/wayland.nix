@@ -8,6 +8,7 @@
       libnotify
       mako
       waybar
+      wl-clipboard
       wlogout
       wofi
       xwayland
