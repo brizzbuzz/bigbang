@@ -5,6 +5,7 @@
     # NixOS Stuff
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-latest.url = "github:nixos/nixpkgs/master";
 
     # Home Manager
     home-manager = {
@@ -43,6 +44,7 @@
     # NixOS
     nixpkgs,
     nixpkgs-unstable,
+    nixpkgs-latest,
     # MacOS
     darwin,
     homebrew,
@@ -60,6 +62,10 @@
       config.allowUnfree = true;
     };
     pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    pkgs-latest = import nixpkgs-latest {
       inherit system;
       config.allowUnfree = true;
     };
@@ -93,14 +99,12 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan.nix;
             home-manager.extraSpecialArgs = {
-              inherit pkgs;
-              inherit pkgs-unstable;
+              inherit pkgs pkgs-unstable pkgs-latest;
             };
           }
         ];
         specialArgs = {
-          inherit pkgs;
-          inherit pkgs-unstable;
+          inherit pkgs pkgs-unstable pkgs-latest;
         };
       };
     };
@@ -120,8 +124,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan-mbp.nix;
             home-manager.extraSpecialArgs = {
-              inherit pkgs;
-              inherit pkgs-unstable;
+              inherit pkgs pkgs-unstable pkgs-latest;
             };
           }
           homebrew.darwinModules.nix-homebrew
