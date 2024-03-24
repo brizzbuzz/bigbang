@@ -121,7 +121,7 @@ return {
 					},
 				},
 			})
-			lspconfig.nil_ls.setup({})
+			lspconfig.nixd.setup({})
 			lspconfig.pyright.setup({
 				python = {
 					analysis = {

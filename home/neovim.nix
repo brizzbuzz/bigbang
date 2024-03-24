@@ -10,7 +10,7 @@
       kotlin-language-server
       lldb_9
       lua-language-server
-      nil
+      nixd
       nodePackages_latest.jsonlint
       pylyzer
       pyright
