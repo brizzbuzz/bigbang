@@ -35,5 +35,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Delegate all plugin configuration to the ./lua/custom/plugins directory
 require("lazy").setup({
+	{ "folke/neodev.nvim", opts = {} }, -- Needs to be set up prior to LSP initialization
 	{ import = "custom.plugins" },
 })

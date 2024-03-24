@@ -1,6 +1,3 @@
 return {
-  -- Do Git Things 
-  'tpope/vim-fugitive',
-  -- Do GitHub Things
-  'tpope/vim-rhubarb',
+	-- TODO: find a git plugin that you actually like
 }

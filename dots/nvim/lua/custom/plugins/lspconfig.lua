@@ -131,8 +131,10 @@ return {
 					},
 				},
 			})
-			-- lspconfig.pylyzer.setup({}) Note: not production ready :(
-			lspconfig.rust_analyzer.setup({})
+			-- NOTE: Not production ready :(
+			-- lspconfig.pylyzer.setup({})
+			-- NOTE: Handled by rustacean.nvim now
+			-- lspconfig.rust_analyzer.setup({})
 			lspconfig.tailwindcss.setup({})
 		end,
 	},

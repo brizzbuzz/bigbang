@@ -17,6 +17,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Kernel customizations
+  boot.kernel.sysctl = {
+    "kernel.perf_event_paranoid" = 1;
+  };
+
   # OpenGL
   hardware.opengl = {
     enable = true;
@@ -221,16 +226,8 @@
     };
   };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Important for not messing up time on Windows
+  time.hardwareClockInLocalTime = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

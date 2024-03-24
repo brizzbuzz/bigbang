@@ -5,6 +5,8 @@ return {
 	dependencies = {
 		-- Creates a beautiful debugger UI
 		"rcarriga/nvim-dap-ui",
+		-- Async IO lib for Neovim (required by dap-ui)
+		"nvim-neotest/nvim-nio",
 		-- Add your debuggers
 		"leoluz/nvim-dap-go",
 	},

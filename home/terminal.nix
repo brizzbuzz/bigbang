@@ -21,6 +21,7 @@
         kubectl # Official kubernetes CLI
         k9s # Kubernetes cluster TUI
         lazygit # Another TUI for git
+        lf # File Manager
         mods # AI on the CL
         nnn # Terminal File Browser
         ripgrep # Text search
