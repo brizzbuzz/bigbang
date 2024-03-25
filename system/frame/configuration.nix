@@ -1,15 +1,13 @@
-# Edit this configuration file to define what should be installed on
+# Edet this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
   pkgs,
-  pkgs-unstable,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
-    # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
     ./hardware-configuration.nix
   ];
 
@@ -17,52 +15,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Kernel customizations
-  boot.kernel.sysctl = {
-    "kernel.perf_event_paranoid" = 1;
-  };
-
-  # OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    # driSupport32bit = true; # todo: what is this
-  };
-
-  # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
-  ];
-
-  # Bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Keyboard
-  hardware.keyboard.zsa.enable = true;
-
-  # Load Nvidia Driver
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
-
-  programs.hyprland = {
-    enable = true;
-    xwayland = {
-      enable = true;
-    };
-  };
-
-  # Networking
-  networking.hostName = "gigame";
-  #networking.wireless.enable = true;
+  networking.hostName = "frame"; # Define your hostname.
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -89,6 +43,11 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
+  ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -97,16 +56,13 @@
   services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
+  services.xserver = {
     layout = "us";
-    variant = "";
+    xkbVariant = "";
   };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable Polkit
-  security.polkit.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -125,16 +81,8 @@
     #media-session.enable = true;
   };
 
-  # Docker
-  virtualisation.docker.enable = true;
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # Set up additional user groups
-  #users.groups = {
-  #  docker = {};
-  #};
 
   users.users.ryan = {
     isNormalUser = true;
@@ -147,40 +95,22 @@
     shell = pkgs.nushell;
   };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  # Tailscale
-  services.tailscale.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [
-      font-awesome
-      git
-      gparted
-      neovim
-      nushell
-    ])
-    ++ (with pkgs-unstable; [
-      spacedrive
-    ]);
+  environment.systemPackages = with pkgs; [
+    font-awesome
+    git
+    gparted
+    neovim
+    nushell
+  ];
 
   # Set Env Variables
   environment.variables = {
     EDITOR = "nvim";
-  };
-
-  # Session variables
-  environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NIXOS_OZONE_WL = "1";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -191,7 +121,6 @@
   #   enableSSHSupport = true;
   # };
 
-  # Garbage Collection
   nix = {
     gc = {
       automatic = true;
@@ -200,7 +129,6 @@
     };
   };
 
-  # Flake Support
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -208,25 +136,16 @@
     '';
   };
 
-  # Polkit Authentication Agent
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-  };
+  # List services that you want to enable:
 
-  # Important for not messing up time on Windows
-  time.hardwareClockInLocalTime = true;
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

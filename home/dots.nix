@@ -3,8 +3,14 @@
   lib,
   ...
 }: let
-  nu_config_file_path = if config.os == "macos" then "/Users/ryan/Library/Application\ Support/nushell/config.nu" else ".config/nushell/config.nu";
-  nu_env_file_path = if config.os == "macos" then "/Users/ryan/Library/Application\ Support/nushell/env.nu" else ".config/nushell/env.nu";
+  nu_config_file_path =
+    if config.os == "macos"
+    then "/Users/ryan/Library/Application\ Support/nushell/config.nu"
+    else ".config/nushell/config.nu";
+  nu_env_file_path =
+    if config.os == "macos"
+    then "/Users/ryan/Library/Application\ Support/nushell/env.nu"
+    else ".config/nushell/env.nu";
 in {
   # TODO: Move this to a common options file
   options = {

@@ -107,6 +107,24 @@
           inherit pkgs pkgs-unstable pkgs-latest;
         };
       };
+      frame = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./system/frame/configuration.nix
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
+          }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ryan = import ./profile/ryan.nix;
+            home-manager.extraSpecialArgs = {
+              inherit pkgs pkgs-unstable pkgs-latest;
+            };
+          }
+        ];
+      };
     };
     darwinConfigurations = {
       megame = darwin.lib.darwinSystem {
