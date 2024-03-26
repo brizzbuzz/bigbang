@@ -25,6 +25,7 @@
         nnn # Terminal File Browser
         ripgrep # Text search
         sd # Sexy sed
+        spotify-tui # TUI for Spotify (Required to control spotifyd)
         starship # Prompt configuration
         tokei # Code line counter
         unzip # Extraction utility

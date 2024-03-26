@@ -27,6 +27,9 @@
   # Enable Docker
   virtualisation.docker.enable = true;
 
+  # Finger Print Reader
+  services.fprintd.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
