@@ -39,4 +39,12 @@
         zoxide # Directory Portal
       ]);
   };
+
+  programs = {
+    direnv = {
+      enable = true;
+      enableNushellIntegration = true;
+      nix-direnv.enable = true;
+    };
+  };
 }
