@@ -29,7 +29,6 @@
         starship # Prompt configuration
         tokei # Code line counter
         unzip # Extraction utility
-        xh # CLI Http Client
         xplr # TUI File Explorer
         zellij # Terminal Multiplexer
       ])

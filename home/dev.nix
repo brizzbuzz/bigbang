@@ -9,6 +9,7 @@
       direnv # Do cool stuff in X directory
       docker # Whale go brr
       gnupg # GPG
+      gcc9 # C Compiler
       lua # Lua
       nodejs # NodeJS Runtime
       rebar3 # Erlang build tool

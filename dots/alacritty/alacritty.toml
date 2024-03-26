@@ -7,3 +7,4 @@ opacity = 0.75
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+size = 12

@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
   pkgs,
@@ -8,57 +5,20 @@
   ...
 }: {
   imports = [
-    # Include the results of the hardware scan.
-    # TODO: Need to figure out a way to make this dynamic so that I can store multiple hardware configs
     ./hardware-configuration.nix
+    ../common/boot.nix
+    ../common/environment.nix
+    ../common/flake-support.nix
+    ../common/fonts.nix
+    ../common/garbage-collection.nix
+    ../common/hardware.nix
+    ../common/hyprland.nix
+    ../common/locale.nix
+    ../common/networking.nix
+    ../common/nvidia.nix
+    ../common/users.nix
+    ../common/xserver.nix
   ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Kernel customizations
-  boot.kernel.sysctl = {
-    "kernel.perf_event_paranoid" = 1;
-  };
-
-  # OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    # driSupport32bit = true; # todo: what is this
-  };
-
-  # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
-  ];
-
-  # Bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Keyboard
-  hardware.keyboard.zsa.enable = true;
-
-  # Load Nvidia Driver
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
-
-  programs.hyprland = {
-    enable = true;
-    xwayland = {
-      enable = true;
-    };
-  };
 
   # Networking
   networking.hostName = "gigame";
@@ -70,37 +30,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "America/New_York";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -128,86 +57,6 @@
   # Docker
   virtualisation.docker.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Set up additional user groups
-  #users.groups = {
-  #  docker = {};
-  #};
-
-  users.users.ryan = {
-    isNormalUser = true;
-    description = "Supreme Ruler";
-    extraGroups = [
-      "docker"
-      "networkmanager"
-      "wheel"
-    ];
-    shell = pkgs.nushell;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  # Tailscale
-  services.tailscale.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [
-      font-awesome
-      git
-      gparted
-      neovim
-      nushell
-    ])
-    ++ (with pkgs-unstable; [
-      spacedrive
-    ]);
-
-  # Set Env Variables
-  environment.variables = {
-    EDITOR = "nvim";
-  };
-
-  # Session variables
-  environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NIXOS_OZONE_WL = "1";
-  };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # Garbage Collection
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
-
-  # Flake Support
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
-
   # Polkit Authentication Agent
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
@@ -225,14 +74,5 @@
     };
   };
 
-  # Important for not messing up time on Windows
-  time.hardwareClockInLocalTime = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.11";
 }
