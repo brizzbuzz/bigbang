@@ -9,7 +9,6 @@
         atuin # Magical Shell History
         bat # Sexy cat
         bottom # TUI System Monitoring
-        difftastic # Sytnax aware diff tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
         fastfetch # Neofetch but faster

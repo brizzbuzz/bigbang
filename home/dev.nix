@@ -1,7 +1,6 @@
 {
   pkgs,
   pkgs-unstable,
-  pkgs-latest,
   ...
 }: {
   home.packages =
@@ -19,10 +18,10 @@
     ])
     ++ (
       with pkgs-unstable; [
+        devenv # Developer environments built on top of Flakes
         gleam # Statically typed lang for Erlang VM
         jetbrains.idea-ultimate # Jetbrains IDE
         jetbrains.rust-rover
       ]
-    )
-    ++ (with pkgs-latest; [devenv]);
+    );
 }

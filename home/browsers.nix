@@ -7,5 +7,6 @@
     brave
     polypane
     qutebrowser
+    vivaldi
   ];
 }

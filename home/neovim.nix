@@ -24,12 +24,7 @@
       vscode-extensions.ms-vscode.cpptools
       vscode-extensions.vadimcn.vscode-lldb
     ])
-    ++ (
-      if config.os == "nixos"
-      then
-        (with pkgs-unstable; [
-          htmx-lsp # Can't currently compile on Mac due to C compiler issues :(
-        ])
-      else []
-    );
+    ++ (with pkgs-unstable; [
+      htmx-lsp
+    ]);
 }

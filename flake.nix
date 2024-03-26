@@ -5,6 +5,7 @@
     # NixOS Stuff
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # NOTE: Seriously only use this if you absolutely need to, will almost definitely build things from source
     nixpkgs-latest.url = "github:nixos/nixpkgs/master";
 
     # Home Manager
@@ -18,24 +19,6 @@
       url = "github:kamadorueda/alejandra/3.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # MacOS Stuff
-    # TODO: Cleaner way to declare this? Don't like bloating this file
-    darwin.url = "github:LnL7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
-    homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
   };
 
   outputs = {
@@ -45,12 +28,6 @@
     nixpkgs,
     nixpkgs-unstable,
     nixpkgs-latest,
-    # MacOS
-    darwin,
-    homebrew,
-    homebrew-core,
-    homebrew-cask,
-    homebrew-bundle,
     # Home Manager
     home-manager,
     ...
@@ -71,10 +48,10 @@
     };
   in {
     nixosConfigurations = {
-      cloudy = lib.nixosSystem {
+      frame = lib.nixosSystem {
         inherit system;
         modules = [
-          ./system/cloudy/configuration.nix
+          ./system/frame/configuration.nix
           {
             environment.systemPackages = [alejandra.defaultPackage.${system}];
           }
@@ -82,9 +59,15 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.ryan = import ./cloudy/ryan.nix;
+            home-manager.users.ryan = import ./profile/ryan.nix;
+            home-manager.extraSpecialArgs = {
+              inherit pkgs pkgs-unstable pkgs-latest;
+            };
           }
         ];
+        specialArgs = {
+          inherit pkgs pkgs-unstable pkgs-latest;
+        };
       };
       gigame = lib.nixosSystem {
         inherit system;
@@ -106,64 +89,6 @@
         specialArgs = {
           inherit pkgs pkgs-unstable pkgs-latest;
         };
-      };
-      frame = lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./system/frame/configuration.nix
-          {
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
-          }
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ryan = import ./profile/ryan.nix;
-            home-manager.extraSpecialArgs = {
-              inherit pkgs pkgs-unstable pkgs-latest;
-            };
-          }
-        ];
-      };
-    };
-    darwinConfigurations = {
-      megame = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          ./system/megame/configuration.nix
-          {
-            # NOTE: `${system}` doesn't work here and I'm really not clear why
-            environment.systemPackages = [alejandra.defaultPackage."aarch64-darwin"];
-          }
-          # TODO: Figure out how to move these to a separate file
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ryan = import ./profile/ryan-mbp.nix;
-            home-manager.extraSpecialArgs = {
-              inherit pkgs pkgs-unstable pkgs-latest;
-            };
-          }
-          homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = false;
-              user = "ryan";
-
-              # Declarative tap management
-              taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
-                "homebrew/homebrew-bundle" = homebrew-bundle;
-              };
-
-              # Disable imperative tap management
-              mutableTaps = false;
-            };
-          }
-        ];
       };
     };
   };
