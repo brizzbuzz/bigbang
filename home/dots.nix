@@ -100,6 +100,9 @@ in {
       # Wofi
       file.".config/wofi/style.css".source = ../dots/wofi/style.css;
 
+      # XModMap
+      file.".config/xmodmap/xmodmap".source = ../dots/xmodmap/xmodmap;
+
       # Zellij
       file.".config/zellij".source = ../dots/zellij;
       file.".config/zellij".recursive = true;
