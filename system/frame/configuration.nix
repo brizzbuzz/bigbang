@@ -13,7 +13,7 @@
     ../common/fonts.nix
     ../common/garbage-collection.nix
     ../common/hardware.nix
-    ../common/hyprland.nix
+    # ../common/hyprland.nix
     ../common/locale.nix
     ../common/networking.nix
     ../common/users.nix

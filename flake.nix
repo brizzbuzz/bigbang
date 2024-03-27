@@ -8,13 +8,16 @@
     # NOTE: Seriously only use this if you absolutely need to, will almost definitely build things from source
     nixpkgs-latest.url = "github:nixos/nixpkgs/master";
 
-    # Home Manager
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Formatter
+    hyprland-nix = {
+      url = "github:hyprland-community/hyprland-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     alejandra = {
       url = "github:kamadorueda/alejandra/3.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,14 +25,12 @@
   };
 
   outputs = {
-    # Formatter
     alejandra,
-    # NixOS
     nixpkgs,
     nixpkgs-unstable,
     nixpkgs-latest,
-    # Home Manager
     home-manager,
+    hyprland-nix,
     ...
   }: let
     system = builtins.currentSystem;
@@ -61,7 +62,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan.nix;
             home-manager.extraSpecialArgs = {
-              inherit pkgs pkgs-unstable pkgs-latest;
+              inherit pkgs pkgs-unstable pkgs-latest hyprland-nix;
             };
           }
         ];
