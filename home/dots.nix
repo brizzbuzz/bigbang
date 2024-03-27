@@ -35,8 +35,8 @@
       file.".config/gitui/key_bindings.ron".source = ../dots/gitui/key_bindings.ron;
 
       # Hyprland
-      file.".config/hypr".source = ../dots/hypr;
-      file.".config/hypr".recursive = true;
+      # file.".config/hypr".source = ../dots/hypr;
+      # file.".config/hypr".recursive = true;
 
       # Mako
       file.".config/mako/config".source = ../dots/mako/config;

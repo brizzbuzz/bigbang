@@ -7,6 +7,7 @@
     ../home/dots.nix
     ../home/gaming.nix
     ../home/git.nix
+    # ../home/hypr.nix
     ../home/keyboard.nix
     ../home/neovim.nix
     ../home/terminal.nix
