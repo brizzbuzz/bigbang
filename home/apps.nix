@@ -8,6 +8,7 @@
     ledger-live-desktop
     spotify
     transmission_4
+    zoom-us
   ];
 
   services.spotifyd = {
