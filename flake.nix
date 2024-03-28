@@ -78,7 +78,7 @@
           }
         ];
         specialArgs = {
-          inherit pkgs pkgs-unstable pkgs-latest;
+          inherit inputs;
         };
       };
     };
