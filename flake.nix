@@ -5,8 +5,7 @@
     # NixOS Stuff
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # NOTE: Seriously only use this if you absolutely need to, will almost definitely build things from source
-    nixpkgs-latest.url = "github:nixos/nixpkgs/master";
+    nixpkgs-latest.url = "github:nixos/nixpkgs/master"; # NOTE: Use sparingly
 
     # Home Manager
     home-manager = {
