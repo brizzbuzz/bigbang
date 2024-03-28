@@ -9,4 +9,5 @@
     ];
     shell = pkgs.nushell;
   };
+  nix.settings.trusted-users = ["ryan"];
 }
