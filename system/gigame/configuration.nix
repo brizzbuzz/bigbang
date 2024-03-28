@@ -18,6 +18,7 @@
     ../common/networking.nix
     ../common/nvidia.nix
     ../common/users.nix
+    ../common/xdg.nix
     ../common/xserver.nix
   ];
 

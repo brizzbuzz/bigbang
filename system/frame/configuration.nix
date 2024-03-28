@@ -1,7 +1,6 @@
 {
   config,
-  pkgs,
-  pkgs-unstable,
+  inputs,
   ...
 }: {
   imports = [
@@ -17,6 +16,7 @@
     ../common/locale.nix
     ../common/networking.nix
     ../common/users.nix
+    ../common/xdg.nix
     ../common/xserver.nix
   ];
 

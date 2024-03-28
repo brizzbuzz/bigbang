@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -11,6 +15,7 @@
       NIXOS_OZONE_WL = "1";
     };
     systemPackages = with pkgs; [
+      inputs.alejandra.defaultPackage.${system}
       font-awesome
       git
       gparted
