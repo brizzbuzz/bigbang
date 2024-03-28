@@ -11,6 +11,7 @@
 
     aliases = {
       co = "checkout";
+      cs = "commit --allow-empty-message -m ''";
       dft = "difftool";
       dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f";
       pl = "pull";
@@ -29,6 +30,9 @@
       };
       "difftool \"difftastic\"" = {
         cmd = "difft \"$LOCAL\" \"$REMOTE\"";
+      };
+      init = {
+        defaultBranch = "main";
       };
       gpg = {
         format = "ssh";

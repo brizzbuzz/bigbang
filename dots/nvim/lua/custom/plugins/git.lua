@@ -1,3 +1,3 @@
 return {
-	-- TODO: find a git plugin that you actually like
+  -- TODO: find a git plugin that you actually like
 }
