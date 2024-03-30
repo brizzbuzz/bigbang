@@ -13,7 +13,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-latest.url = "github:nixos/nixpkgs/master"; # NOTE: Use sparingly
 
     flake-utils.url = "github:numtide/flake-utils";
 
@@ -31,7 +30,6 @@
   outputs = {
     nixpkgs,
     nixpkgs-unstable,
-    nixpkgs-latest,
     home-manager,
     ...
   } @ inputs: let
@@ -42,10 +40,6 @@
       config.allowUnfree = true;
     };
     pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    pkgs-latest = import nixpkgs-latest {
       inherit system;
       config.allowUnfree = true;
     };
@@ -75,7 +69,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan.nix;
             home-manager.extraSpecialArgs = {
-              inherit pkgs pkgs-unstable pkgs-latest;
+              inherit pkgs pkgs-unstable;
             };
           }
         ];
@@ -93,7 +87,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.ryan = import ./profile/ryan.nix;
             home-manager.extraSpecialArgs = {
-              inherit inputs pkgs pkgs-unstable pkgs-latest;
+              inherit inputs pkgs pkgs-unstable;
             };
           }
         ];

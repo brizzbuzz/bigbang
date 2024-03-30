@@ -8,6 +8,7 @@
       (with pkgs; [
         atuin # Magical Shell History
         bat # Sexy cat
+        colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
         du-dust # TUI folder size tool
         dua # TUI disk space tool
