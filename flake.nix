@@ -53,6 +53,14 @@
           overlays = [];
         };
       };
+      frame = {
+        # TODO: Move to ./hosts
+        imports = [./system/frame/configuration.nix];
+        deployment = {
+          allowLocalDeployment = true;
+          targetUser = "ryan";
+        };
+      };
       gigame = {
         # TODO: Move to ./hosts
         imports = [./system/gigame/configuration.nix];
@@ -65,17 +73,6 @@
         imports = [./hosts/cloudy/configuration.nix];
         deployment = {
           targetUser = "god";
-        };
-      };
-    };
-    nixosConfigurations = {
-      frame = lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./system/frame/configuration.nix
-        ];
-        specialArgs = {
-          inherit inputs pkgs pkgs-unstable;
         };
       };
     };
