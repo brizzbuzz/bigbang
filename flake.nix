@@ -57,6 +57,7 @@
         # TODO: Move to ./hosts
         imports = [./system/gigame/configuration.nix];
         deployment = {
+          allowLocalDeployment = true;
           targetUser = "ryan";
         };
       };
