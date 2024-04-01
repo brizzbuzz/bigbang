@@ -1,9 +1,12 @@
 {
   config,
   inputs,
+  pkgs,
+  pkgs-unstable,
   ...
 }: {
   imports = [
+    inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
     ../common/1password.nix
     ../common/boot.nix
@@ -19,6 +22,14 @@
     ../common/xdg.nix
     ../common/xserver.nix
   ];
+
+  # TODO: Move to common
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.ryan = import ../../profile/ryan.nix;
+  home-manager.extraSpecialArgs = {
+    inherit pkgs pkgs-unstable;
+  };
 
   # Enable networking
   networking.hostName = "frame";

@@ -33,7 +33,7 @@
     home-manager,
     ...
   } @ inputs: let
-    system = builtins.currentSystem;
+    system = "x86_64-linux";
     lib = nixpkgs.lib;
     pkgs = import nixpkgs {
       inherit system;
@@ -46,16 +46,25 @@
   in {
     colmena = {
       meta = {
+        specialArgs = {inherit inputs pkgs pkgs-unstable;};
+        # TODO: Do I need this here when specialArgs provides pkgs?
         nixpkgs = import nixpkgs {
-          system = "x86_64-linux";
+          inherit system;
           overlays = [];
         };
       };
+      gigame = {
+        # TODO: Move to ./hosts
+        imports = [./system/gigame/configuration.nix];
+        deployment = {
+          targetUser = "ryan";
+        };
+      };
       cloudy = {
+        imports = [./hosts/cloudy/configuration.nix];
         deployment = {
           targetUser = "god";
         };
-        imports = [./hosts/cloudy/configuration.nix];
       };
     };
     nixosConfigurations = {
@@ -63,36 +72,9 @@
         inherit system;
         modules = [
           ./system/frame/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ryan = import ./profile/ryan.nix;
-            home-manager.extraSpecialArgs = {
-              inherit pkgs pkgs-unstable;
-            };
-          }
         ];
         specialArgs = {
-          inherit inputs;
-        };
-      };
-      gigame = lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./system/gigame/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ryan = import ./profile/ryan.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs pkgs pkgs-unstable;
-            };
-          }
-        ];
-        specialArgs = {
-          inherit inputs;
+          inherit inputs pkgs pkgs-unstable;
         };
       };
     };
