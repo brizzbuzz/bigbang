@@ -13,8 +13,6 @@
     ../home/wayland.nix
   ];
 
-  desktopEnabled = true;
-
   home = {
     username = "ryan";
     homeDirectory = "/home/ryan";
