@@ -54,6 +54,9 @@
     # XModMap
     file.".config/xmodmap/xmodmap".source = ../dots/xmodmap/xmodmap;
 
+    # Yubico
+    file.".config/Yubico/u2f_keys".source = ../dots/yubico/u2f_keys;
+
     # Zellij
     file.".config/zellij".source = ../dots/zellij;
     file.".config/zellij".recursive = true;
