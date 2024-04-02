@@ -47,23 +47,22 @@
     colmena = {
       meta = {
         specialArgs = {inherit inputs pkgs pkgs-unstable;};
-        # TODO: Do I need this here when specialArgs provides pkgs?
+        # NOTE: Not sure why but you also need to specify nixpkgs here
+        # TODO: Figure out why
         nixpkgs = import nixpkgs {
           inherit system;
           overlays = [];
         };
       };
       frame = {
-        # TODO: Move to ./hosts
-        imports = [./system/frame/configuration.nix];
+        imports = [./hosts/frame/configuration.nix];
         deployment = {
           allowLocalDeployment = true;
           targetUser = "ryan";
         };
       };
       gigame = {
-        # TODO: Move to ./hosts
-        imports = [./system/gigame/configuration.nix];
+        imports = [./hosts/gigame/configuration.nix];
         deployment = {
           allowLocalDeployment = true;
           targetUser = "ryan";
