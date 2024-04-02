@@ -3,24 +3,26 @@
   inputs,
   pkgs,
   pkgs-unstable,
+  nixos-modules,
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
-    ../common/1password.nix
-    ../common/boot.nix
-    ../common/environment.nix
-    ../common/flake-support.nix
-    ../common/fonts.nix
-    ../common/garbage-collection.nix
-    ../common/hardware.nix
-    ../common/hyprland.nix
-    ../common/locale.nix
-    ../common/networking.nix
-    ../common/users.nix
-    ../common/xdg.nix
-    ../common/xserver.nix
+    inputs.home-manager.nixosModules.home-manager
+    # TODO: Can I simply import all of the modules somehow?
+    nixos-modules._1password
+    nixos-modules.boot
+    nixos-modules.environment
+    nixos-modules.flake-support
+    nixos-modules.fonts
+    nixos-modules.garbage-collection
+    nixos-modules.hardware
+    nixos-modules.hyprland
+    nixos-modules.locale
+    nixos-modules.networking
+    nixos-modules.users
+    nixos-modules.xdg
+    nixos-modules.xserver
   ];
 
   # TODO: Move to common

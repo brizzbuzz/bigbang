@@ -43,10 +43,18 @@
       inherit system;
       config.allowUnfree = true;
     };
+    nixos-modules = import ./modules/nixos;
   in {
     colmena = {
       meta = {
-        specialArgs = {inherit inputs pkgs pkgs-unstable;};
+        specialArgs = {
+          inherit
+            inputs
+            pkgs
+            pkgs-unstable
+            nixos-modules
+            ;
+        };
         # NOTE: Not sure why but you also need to specify nixpkgs here
         # TODO: Figure out why
         nixpkgs = import nixpkgs {
