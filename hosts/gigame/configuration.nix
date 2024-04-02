@@ -21,6 +21,7 @@
     nixos-modules.locale
     nixos-modules.networking
     nixos-modules.nvidia
+    nixos-modules.polkit
     nixos-modules.users
     nixos-modules.security
     nixos-modules.xdg
@@ -41,9 +42,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable Polkit
-  security.polkit.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;

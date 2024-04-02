@@ -15,6 +15,7 @@
   locale = import ./locale.nix;
   networking = import ./networking.nix;
   nvidia = import ./nvidia.nix;
+  polkit = import ./polkit.nix;
   security = import ./security.nix;
   users = import ./users.nix;
   xdg = import ./xdg.nix;
