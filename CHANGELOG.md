@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.1.0] - 2024-04-03
 
 ### 🚀 Features
 
@@ -43,6 +43,7 @@ All notable changes to this project will be documented in this file.
 - Move common modules to dedicated folder with defaults
 - Enable yubikey password management
 - Polkit is working on hyprland!!!!
+- Integrate dev shell via devenv, and introduce changelog via git-cliff :)
 
 ### 🐛 Bug Fixes
 
