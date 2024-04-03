@@ -1,5 +1,6 @@
 {...}: {
   boot = {
+    kernelParams = ["psmouse.synaptics_intertouch=0"];
     kernel.sysctl = {
       "kernel.perf_event_paranoid" = 1;
     };
