@@ -4,17 +4,23 @@
   nixConfig = {
     extra-substituters = [
       "https://colmena.cachix.org"
+      "https://devenv.cachix.org"
     ];
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default";
 
-    flake-utils.url = "github:numtide/flake-utils";
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
@@ -28,12 +34,15 @@
   };
 
   outputs = {
+    devenv,
+    home-manager,
     nixpkgs,
     nixpkgs-unstable,
-    home-manager,
+    systems,
     ...
   } @ inputs: let
     system = "x86_64-linux";
+    forEachSystem = nixpkgs.lib.genAttrs (import systems);
     lib = nixpkgs.lib;
     pkgs = import nixpkgs {
       inherit system;
@@ -83,5 +92,25 @@
         };
       };
     };
+
+    devShells = forEachSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in {
+      default = devenv.lib.mkShell {
+        inherit inputs pkgs;
+        modules = [
+          {
+            packages = with pkgs-unstable; [git-cliff];
+          }
+        ];
+      };
+    });
   };
 }
