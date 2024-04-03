@@ -10,9 +10,11 @@ return {
       },
       formatters_by_ft = {
         lua = { "stylua" },
+        go = { "gofumpt", "goimports" },
         nix = { "alejandra" },
         python = { "ruff_format" },
         rust = { "rustfmt" },
+        templ = { "templ" },
       },
     },
   },

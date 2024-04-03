@@ -105,6 +105,17 @@ return {
       -- TODO:Kinda hate how this feels... learn Lua and abstract
       local lspconfig = require("lspconfig")
       lspconfig.gleam.setup({})
+      lspconfig.gopls.setup({
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        },
+      })
       lspconfig.html.setup({})
       lspconfig.htmx.setup({
         capabilities = capabilities,
