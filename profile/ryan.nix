@@ -9,6 +9,7 @@
     ../home/git.nix
     ../home/keyboard.nix
     ../home/neovim.nix
+    ../home/rclone.nix
     ../home/terminal.nix
     ../home/wayland.nix
   ];

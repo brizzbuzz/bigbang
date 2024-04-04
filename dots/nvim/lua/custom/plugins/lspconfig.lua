@@ -132,6 +132,7 @@ return {
         },
       })
       lspconfig.nixd.setup({})
+      -- lspconfig.nushell.setup({})
       lspconfig.pyright.setup({
         python = {
           analysis = {

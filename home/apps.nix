@@ -1,15 +1,19 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   ...
 }: {
-  home.packages = with pkgs; [
-    discord
-    ledger-live-desktop
-    spotify
-    transmission_4
-    zoom-us
-  ];
+  home.packages =
+    (with pkgs; [
+      discord
+      flameshot
+      ledger-live-desktop
+      spotify
+      transmission_4
+      zoom-us
+    ])
+    ++ (with pkgs-unstable; [protonmail-desktop]);
 
   services.spotifyd = {
     enable = true;
