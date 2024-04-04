@@ -6,7 +6,6 @@
   home = {
     packages =
       (with pkgs; [
-        atuin # Magical Shell History
         bat # Sexy cat
         colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
@@ -35,6 +34,7 @@
       ])
       ++ (with pkgs-unstable; [
         alacritty # Terminal Emulator
+        atuin # Magical Shell History
         mise # Tool version manager
         wallust # Color theme utility
         zoxide # Directory Portal
