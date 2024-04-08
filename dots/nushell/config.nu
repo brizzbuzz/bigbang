@@ -761,9 +761,6 @@ $env.config = {
 # Aliases
 source ~/.config/nushell/aliases.nu
 
-# Atuin
-source ~/.config/nushell/atuin.nu
-
 # Direnv
 $env.config.hooks.env_change.PWD = (
     $env.config.hooks.env_change.PWD | append (source ~/.config/nushell/direnv.nu)
@@ -777,3 +774,6 @@ source ~/.config/nushell/starship.nu
 
 # Zoxide
 source ~/.config/nushell/zoxide.nu
+
+# Atuin TODO: Breaks if not last definition
+source ~/.config/nushell/atuin.nu
