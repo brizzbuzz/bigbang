@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2024-04-08
+
+### 🚀 Features
+
+- Pueue (#28)
+
+### 🐛 Bug Fixes
+
+- Ignore direnv folder
+- Ignore devenv folder
+- Enable support for magic trackpad
+- Actually set up atuin
+- Atuin history populated
+- Move gopls to unstable
+
+### ⚙️ Miscellaneous Tasks
+
+- Misc updates
+
 ## [0.1.0] - 2024-04-03
 
 ### 🚀 Features
@@ -98,6 +117,7 @@ All notable changes to this project will be documented in this file.
 - Migrate remaining files to host folder
 - Remove old config options
 - Misc golang neovim stuff
+- Tag for 0.1.0 release
 
 ### Ack
 
