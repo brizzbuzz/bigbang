@@ -7,7 +7,6 @@
   home.packages =
     (with pkgs; [
       clippy
-      gopls
       kotlin-language-server
       lldb_9
       lua-language-server
@@ -27,5 +26,6 @@
     ])
     ++ (with pkgs-unstable; [
       htmx-lsp
+      gopls
     ]);
 }
