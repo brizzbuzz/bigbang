@@ -24,6 +24,9 @@
         gparted
         neovim
       ])
-      ++ (with pkgs-unstable; [nushell]);
+      ++ (with pkgs-unstable; [
+        nushell
+        pueue
+      ]);
   };
 }

@@ -20,6 +20,7 @@
     nixos-modules.hyprland
     nixos-modules.locale
     nixos-modules.networking
+    nixos-modules.pueue
     nixos-modules.users
     nixos-modules.xdg
     nixos-modules.xserver

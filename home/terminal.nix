@@ -27,6 +27,7 @@
         sd # Sexy sed
         spotify-tui # TUI for Spotify (Required to control spotifyd)
         starship # Prompt configuration
+        sysz # Systemctl TUI
         tokei # Code line counter
         unzip # Extraction utility
         xplr # TUI File Explorer
