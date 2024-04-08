@@ -761,6 +761,9 @@ $env.config = {
 # Aliases
 source ~/.config/nushell/aliases.nu
 
+# Atuin
+source ~/.config/nushell/atuin.nu
+
 # Direnv
 $env.config.hooks.env_change.PWD = (
     $env.config.hooks.env_change.PWD | append (source ~/.config/nushell/direnv.nu)

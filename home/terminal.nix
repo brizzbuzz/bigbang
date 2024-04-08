@@ -6,7 +6,6 @@
   home = {
     packages =
       (with pkgs; [
-        atuin # Magical Shell History
         bat # Sexy cat
         colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
@@ -28,6 +27,7 @@
         sd # Sexy sed
         spotify-tui # TUI for Spotify (Required to control spotifyd)
         starship # Prompt configuration
+        sysz # Systemctl TUI
         tokei # Code line counter
         unzip # Extraction utility
         xplr # TUI File Explorer
@@ -35,6 +35,7 @@
       ])
       ++ (with pkgs-unstable; [
         alacritty # Terminal Emulator
+        atuin # Magical Shell History
         mise # Tool version manager
         wallust # Color theme utility
         zoxide # Directory Portal

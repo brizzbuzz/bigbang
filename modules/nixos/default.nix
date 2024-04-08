@@ -16,6 +16,7 @@
   networking = import ./networking.nix;
   nvidia = import ./nvidia.nix;
   polkit = import ./polkit.nix;
+  pueue = import ./pueue.nix;
   security = import ./security.nix;
   users = import ./users.nix;
   xdg = import ./xdg.nix;
