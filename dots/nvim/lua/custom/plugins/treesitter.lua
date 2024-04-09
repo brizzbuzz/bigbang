@@ -18,6 +18,7 @@ return {
           "hcl",
           "html",
           "json",
+          "just",
           "kdl",
           "lua",
           "markdown",
