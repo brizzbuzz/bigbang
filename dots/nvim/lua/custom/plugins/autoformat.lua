@@ -14,6 +14,7 @@ return {
         nix = { "alejandra" },
         python = { "ruff_format" },
         rust = { "rustfmt" },
+        sql = { "pg_format" },
         templ = { "templ" },
       },
     },

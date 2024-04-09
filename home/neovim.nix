@@ -12,6 +12,7 @@
       lua-language-server
       nixd
       nodePackages_latest.jsonlint
+      pgformatter
       pylyzer
       pyright
       rust-analyzer
@@ -27,5 +28,6 @@
     ++ (with pkgs-unstable; [
       htmx-lsp
       gopls
+      postgres-lsp
     ]);
 }

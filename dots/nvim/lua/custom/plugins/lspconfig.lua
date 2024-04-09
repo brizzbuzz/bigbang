@@ -132,7 +132,11 @@ return {
         },
       })
       lspconfig.nixd.setup({})
-      -- lspconfig.nushell.setup({})
+      lspconfig.nushell.setup({})
+      lspconfig.postgres_lsp.setup({
+        root_dir = lspconfig.util.root_pattern(".git"),
+        filetypes = { "sql" },
+      })
       lspconfig.pyright.setup({
         python = {
           analysis = {
