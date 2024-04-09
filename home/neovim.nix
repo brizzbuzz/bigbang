@@ -8,6 +8,7 @@
     (with pkgs; [
       clippy
       kotlin-language-server
+      libclang
       lldb_9
       lua-language-server
       nixd

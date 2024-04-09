@@ -3,6 +3,8 @@
     kernelParams = ["psmouse.synaptics_intertouch=0"];
     kernel.sysctl = {
       "kernel.perf_event_paranoid" = 1;
+      "fs.inotify.max_user_watches" = 65536;
+      "fs.inotify.max_user_instances" = 1024;
     };
 
     loader.systemd-boot.enable = true;
