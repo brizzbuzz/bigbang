@@ -12,6 +12,7 @@
     aliases = {
       co = "checkout";
       cs = "commit --allow-empty-message -m ''";
+      cm = "commit -m";
       dft = "difftool";
       dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f";
       pl = "pull";
