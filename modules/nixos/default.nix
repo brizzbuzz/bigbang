@@ -4,8 +4,11 @@
   ...
 }: {
   imports = [
+    ./audio.nix
     ./boot.nix
+    ./docker.nix
     ./environment.nix
+    ./fingerprint-reader.nix
     ./flake-support.nix
     ./fonts.nix
     ./garbage-collection.nix
@@ -17,6 +20,7 @@
     ./nvidia.nix
     ./password-manager.nix
     ./polkit.nix
+    ./printer.nix
     ./pueue.nix
     ./security.nix
     ./tailscale.nix
