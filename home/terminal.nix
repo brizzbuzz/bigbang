@@ -25,6 +25,7 @@
         nnn # Terminal File Browser
         ripgrep # Text search
         sd # Sexy sed
+        slurp # Screenshot utility
         spotify-tui # TUI for Spotify (Required to control spotifyd)
         starship # Prompt configuration
         sysz # Systemctl TUI
@@ -38,6 +39,9 @@
         atuin # Magical Shell History
         mise # Tool version manager
         wallust # Color theme utility
+        wf-recorder # Wayland screen recorder
+        # NOTE: Can't get this one to work
+        # wl-screenrec # Another wayland screen recorder
         zoxide # Directory Portal
       ]);
   };

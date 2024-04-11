@@ -6,14 +6,16 @@
 }: {
   home.packages =
     (with pkgs; [
-      discord
-      flameshot
-      ledger-live-desktop
-      spotify
-      transmission_4
-      zoom-us
+      discord # Chat
+      mpv # Media player
+      spotify # Music
+      transmission_4 # Torrent client
+      zoom-us # Video conferencing
     ])
-    ++ (with pkgs-unstable; [protonmail-desktop]);
+    ++ (with pkgs-unstable; [
+      ledger-live-desktop # Ledger Desktop App
+      protonmail-desktop # ProtonMail Desktop App
+    ]);
 
   services.spotifyd = {
     enable = true;

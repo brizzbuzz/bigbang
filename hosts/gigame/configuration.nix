@@ -9,8 +9,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
-    # TODO: Can I simply import all of the modules somehow?
-    nixos-modules._1password
     nixos-modules.boot
     nixos-modules.environment
     nixos-modules.flake-support
@@ -21,6 +19,7 @@
     nixos-modules.locale
     nixos-modules.networking
     nixos-modules.nvidia
+    nixos-modules.password-manager
     nixos-modules.polkit
     nixos-modules.users
     nixos-modules.security

@@ -10,7 +10,6 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     # TODO: Can I simply import all of the modules somehow?
-    nixos-modules._1password
     nixos-modules.boot
     nixos-modules.environment
     nixos-modules.flake-support
@@ -20,6 +19,7 @@
     nixos-modules.hyprland
     nixos-modules.locale
     nixos-modules.networking
+    nixos-modules.password-manager
     nixos-modules.pueue
     nixos-modules.users
     nixos-modules.xdg
