@@ -7,7 +7,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos/confused.nix
+    ../../modules/nixos
     inputs.home-manager.nixosModules.home-manager
   ];
 
