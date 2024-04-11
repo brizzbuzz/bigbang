@@ -1,5 +1,10 @@
-{pkgs-unstable, ...}: {
-  systemd = {
+{
+  config,
+  lib,
+  pkgs-unstable,
+  ...
+}: {
+  systemd = lib.mkIf config.host.desktop.enable {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = ["graphical-session.target"];

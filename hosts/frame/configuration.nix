@@ -3,28 +3,18 @@
   inputs,
   pkgs,
   pkgs-unstable,
-  nixos-modules,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/nixos/confused.nix
     inputs.home-manager.nixosModules.home-manager
-    # TODO: Can I simply import all of the modules somehow?
-    nixos-modules.boot
-    nixos-modules.environment
-    nixos-modules.flake-support
-    nixos-modules.fonts
-    nixos-modules.garbage-collection
-    nixos-modules.hardware
-    nixos-modules.hyprland
-    nixos-modules.locale
-    nixos-modules.networking
-    nixos-modules.password-manager
-    nixos-modules.pueue
-    nixos-modules.users
-    nixos-modules.xdg
-    nixos-modules.xserver
   ];
+
+  host = {
+    name = "frame";
+    admin.name = "ryan";
+  };
 
   # TODO: Move to common
   home-manager.useGlobalPkgs = true;
@@ -33,10 +23,6 @@
   home-manager.extraSpecialArgs = {
     inherit pkgs pkgs-unstable;
   };
-
-  # Enable networking
-  networking.hostName = "frame";
-  networking.networkmanager.enable = true;
 
   # Enable Docker
   virtualisation.docker.enable = true;

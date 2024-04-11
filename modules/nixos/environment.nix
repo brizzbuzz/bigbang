@@ -4,7 +4,6 @@
   pkgs-unstable,
   ...
 }: {
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   environment = {
@@ -21,7 +20,6 @@
         inputs.alejandra.defaultPackage.${system}
         font-awesome
         git
-        gparted
         neovim
       ])
       ++ (with pkgs-unstable; [

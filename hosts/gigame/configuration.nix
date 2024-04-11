@@ -3,29 +3,16 @@
   inputs,
   pkgs,
   pkgs-unstable,
-  nixos-modules,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos/confused.nix
+    ../../modules/nixos
     inputs.home-manager.nixosModules.home-manager
-    nixos-modules.boot
-    nixos-modules.environment
-    nixos-modules.flake-support
-    nixos-modules.fonts
-    nixos-modules.garbage-collection
-    nixos-modules.hardware
-    nixos-modules.hyprland
-    nixos-modules.locale
-    nixos-modules.networking
-    nixos-modules.nvidia
-    nixos-modules.polkit
-    nixos-modules.users
-    nixos-modules.security
-    nixos-modules.xdg
-    nixos-modules.xserver
   ];
+
+  host.name = "gigame";
+  host.gpu.nvidia.enable = true;
 
   # TODO: Move to common
   home-manager.useGlobalPkgs = true;
@@ -34,10 +21,6 @@
   home-manager.extraSpecialArgs = {
     inherit pkgs pkgs-unstable;
   };
-
-  # Enable networking
-  networking.hostName = "gigame";
-  networking.networkmanager.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

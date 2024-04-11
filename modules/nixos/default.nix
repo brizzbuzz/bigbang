@@ -1,18 +1,51 @@
 {
-  boot = import ./boot.nix;
-  environment = import ./environment.nix;
-  flake-support = import ./flake-support.nix;
-  fonts = import ./fonts.nix;
-  garbage-collection = import ./garbage-collection.nix;
-  hardware = import ./hardware.nix;
-  hyprland = import ./hyprland.nix;
-  locale = import ./locale.nix;
-  networking = import ./networking.nix;
-  nvidia = import ./nvidia.nix;
-  polkit = import ./polkit.nix;
-  pueue = import ./pueue.nix;
-  security = import ./security.nix;
-  users = import ./users.nix;
-  xdg = import ./xdg.nix;
-  xserver = import ./xserver.nix;
+  config,
+  lib,
+  ...
+}: {
+  imports = [
+    ./boot.nix
+    ./environment.nix
+    ./flake-support.nix
+    ./fonts.nix
+    ./garbage-collection.nix
+    ./hardware.nix
+    ./host-info.nix
+    ./hyprland.nix
+    ./locale.nix
+    ./networking.nix
+    ./nvidia.nix
+    ./password-manager.nix
+    ./polkit.nix
+    ./pueue.nix
+    ./security.nix
+    ./tailscale.nix
+    ./users.nix
+    ./xdg.nix
+    ./xserver.nix
+  ];
+
+  host = {
+    admin.name = lib.mkDefault "ryan";
+
+    desktop = {
+      enable = lib.mkDefault true;
+    };
+
+    gpu.nvidia = {
+      enable = lib.mkDefault false;
+    };
+
+    remote = {
+      enable = lib.mkDefault false;
+    };
+  };
+
+  password-manager = {
+    enable = lib.mkDefault true;
+    gui = {
+      enable = lib.mkDefault config.host.desktop.enable;
+      polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
+    };
+  };
 }

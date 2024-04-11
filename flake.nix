@@ -52,7 +52,6 @@
       inherit system;
       config.allowUnfree = true;
     };
-    nixos-modules = import ./modules/nixos;
   in {
     colmena = {
       meta = {
@@ -61,7 +60,6 @@
             inputs
             pkgs
             pkgs-unstable
-            nixos-modules
             ;
         };
         # NOTE: Not sure why but you also need to specify nixpkgs here

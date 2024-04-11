@@ -1,5 +1,9 @@
-{pkgs, ...}: {
-  users.users.ryan = {
+{
+  pkgs,
+  config,
+  ...
+}: {
+  users.users.${config.host.admin.name} = {
     isNormalUser = true;
     description = "Supreme Ruler";
     extraGroups = [
@@ -9,5 +13,5 @@
     ];
     shell = pkgs.nushell;
   };
-  nix.settings.trusted-users = ["ryan"];
+  nix.settings.trusted-users = [config.host.admin.name];
 }
