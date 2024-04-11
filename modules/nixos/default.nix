@@ -9,7 +9,6 @@
   locale = import ./locale.nix;
   networking = import ./networking.nix;
   nvidia = import ./nvidia.nix;
-  password-manager = import ./password-manager.nix;
   polkit = import ./polkit.nix;
   pueue = import ./pueue.nix;
   security = import ./security.nix;

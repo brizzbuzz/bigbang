@@ -8,6 +8,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/nixos/confused.nix
     inputs.home-manager.nixosModules.home-manager
     nixos-modules.boot
     nixos-modules.environment
@@ -19,7 +20,6 @@
     nixos-modules.locale
     nixos-modules.networking
     nixos-modules.nvidia
-    nixos-modules.password-manager
     nixos-modules.polkit
     nixos-modules.users
     nixos-modules.security
