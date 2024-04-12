@@ -28,4 +28,21 @@
       };
     };
   };
+  config = {
+    host = {
+      admin.name = lib.mkDefault "ryan";
+
+      desktop = {
+        enable = lib.mkDefault true;
+      };
+
+      gpu.nvidia = {
+        enable = lib.mkDefault false;
+      };
+
+      remote = {
+        enable = lib.mkDefault false;
+      };
+    };
+  };
 }

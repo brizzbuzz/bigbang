@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ../common
     ./audio.nix
     ./boot.nix
     ./docker.nix
@@ -13,7 +14,6 @@
     ./fonts.nix
     ./garbage-collection.nix
     ./hardware.nix
-    ./host-info.nix
     ./hyprland.nix
     ./locale.nix
     ./networking.nix
@@ -28,22 +28,6 @@
     ./xdg.nix
     ./xserver.nix
   ];
-
-  host = {
-    admin.name = lib.mkDefault "ryan";
-
-    desktop = {
-      enable = lib.mkDefault true;
-    };
-
-    gpu.nvidia = {
-      enable = lib.mkDefault false;
-    };
-
-    remote = {
-      enable = lib.mkDefault false;
-    };
-  };
 
   password-manager = {
     enable = lib.mkDefault true;
