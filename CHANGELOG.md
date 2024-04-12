@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2024-04-12
+
+### 🚀 Features
+
+- Postgres lsp and autoformat
+- Add just support for neovim
+- Move cloudy config primarily to modules
+- Make 1password setup configurable
+- Make 1password setup configurable
+- Huge refactor to nixos modules to improve configurability
+- Refactor home manager into module directory
+
+### 🐛 Bug Fixes
+
+- Raise inotify limits
+- Atuin now properly binding to ctrl-r
+- Use default.nix to import files
+- Abstract more config into nixos modules
+
+### ⚙️ Miscellaneous Tasks
+
+- Misc touch ups
+
 ## [0.2.0] - 2024-04-08
 
 ### 🚀 Features
@@ -20,6 +43,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Misc updates
+- Changelog update prior to 0.2.0
 
 ## [0.1.0] - 2024-04-03
 
