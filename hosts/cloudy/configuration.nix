@@ -17,8 +17,5 @@
   host.desktop.enable = false;
   host.remote.enable = true;
 
-  # TODO: Should I disable this on all hosts?
-  systemd.services.NetworkManager-wait-online.enable = false;
-
   system.stateVersion = "23.11";
 }

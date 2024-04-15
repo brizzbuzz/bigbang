@@ -13,6 +13,7 @@
 
   host.name = "gigame";
   host.gpu.nvidia.enable = true;
+  host.remote.enable = true;
 
   system.stateVersion = "23.11";
 }
