@@ -86,7 +86,7 @@
       cloudy = {
         imports = [./hosts/cloudy/configuration.nix];
         deployment = {
-          targetUser = "god";
+          targetUser = "ryan";
         };
       };
     };

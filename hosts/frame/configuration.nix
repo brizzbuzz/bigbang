@@ -14,7 +14,6 @@
 
   host = {
     name = "frame";
-    admin.name = "ryan";
   };
 
   system.stateVersion = "23.11";

@@ -11,9 +11,11 @@
     ../../modules/home-manager
   ];
 
-  host.name = "gigame";
-  host.gpu.nvidia.enable = true;
-  host.remote.enable = true;
+  host = {
+    name = "gigame";
+    gpu.nvidia.enable = true;
+    remote.enable = true;
+  };
 
   system.stateVersion = "23.11";
 }
