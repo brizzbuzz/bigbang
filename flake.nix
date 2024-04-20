@@ -105,7 +105,13 @@
         inherit inputs pkgs;
         modules = [
           {
-            packages = with pkgs-unstable; [git-cliff];
+            packages = with pkgs-unstable; [
+              git-cliff # Changelog generator
+              lua-language-server # Lua Language Server
+              nil # Nix Language Server
+              stylua # Lua formatter
+              tokei # Code statistics
+            ];
           }
         ];
       };

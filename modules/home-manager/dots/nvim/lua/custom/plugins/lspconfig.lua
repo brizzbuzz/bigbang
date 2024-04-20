@@ -131,9 +131,10 @@ return {
           },
         },
       })
-      lspconfig.nixd.setup({
-        cmd = { "nixd-next" },
-      })
+      lspconfig.nil_ls.setup({})
+      -- lspconfig.nixd.setup({
+      --   cmd = { "nixd-next" },
+      -- })
       lspconfig.nushell.setup({})
       lspconfig.postgres_lsp.setup({
         root_dir = lspconfig.util.root_pattern(".git"),
