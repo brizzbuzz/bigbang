@@ -43,7 +43,6 @@
   } @ inputs: let
     system = "x86_64-linux";
     forEachSystem = nixpkgs.lib.genAttrs (import systems);
-    lib = nixpkgs.lib;
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
@@ -52,6 +51,7 @@
       inherit system;
       config.allowUnfree = true;
     };
+    hello = pkgs.callPackage ./modules/derivations/hello.nix {};
   in {
     colmena = {
       meta = {
@@ -60,6 +60,7 @@
             inputs
             pkgs
             pkgs-unstable
+            hello
             ;
         };
         # NOTE: Not sure why but you also need to specify nixpkgs here

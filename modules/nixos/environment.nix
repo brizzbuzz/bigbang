@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-unstable,
+  hello,
   ...
 }: {
   nixpkgs.config.allowUnfree = true;
@@ -21,6 +22,7 @@
         font-awesome
         git
         neovim
+        hello
       ])
       ++ (with pkgs-unstable; [
         nushell
