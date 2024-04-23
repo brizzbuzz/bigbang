@@ -1,4 +1,5 @@
 {pkgs-unstable, ...}: {
+  # TODO: Either should install pueue here or verify that it's installed
   systemd.user.services.pueued = {
     description = "Pueue daemon";
     wantedBy = ["default.target"];

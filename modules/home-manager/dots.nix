@@ -42,7 +42,8 @@
     file.".config/starship.toml".source = ./dots/starship/starship.toml;
 
     # WLogout
-    file.".config/wlogout/config".source = ./dots/wlogout/config.json;
+    file.".config/wlogout".source = ./dots/wlogout;
+    file.".config/wlogout".recursive = true;
 
     # Waybar
     file.".config/waybar".source = ./dots/waybar;

@@ -11,6 +11,7 @@
         bottom # TUI System Monitoring
         du-dust # TUI folder size tool
         dua # TUI disk space tool
+        espanso # Text Expander
         fastfetch # Neofetch but faster
         fd # Sexy find
         fzf # Fuzzy search tool
