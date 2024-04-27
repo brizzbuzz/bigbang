@@ -1,10 +1,11 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   options = with lib; {
     host = {
+      keeb = mkOption {
+        type = types.str;
+        default = "moonlander";
+        description = "The keyboard layout";
+      };
       name = mkOption {
         type = types.str;
         default = "nixos";

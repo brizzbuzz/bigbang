@@ -1,10 +1,4 @@
-{
-  config,
-  inputs,
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/common

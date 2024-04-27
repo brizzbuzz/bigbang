@@ -1,9 +1,12 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   ...
-}: {
+}:
+lib.mkIf config.host.desktop.enable
+{
   home.packages =
     (with pkgs; [
       discord # Chat
@@ -15,6 +18,8 @@
     ++ (with pkgs-unstable; [
       ledger-live-desktop # Ledger Desktop App
       protonmail-desktop # ProtonMail Desktop App
+      jetbrains.idea-ultimate # Jetbrains JVM IDE
+      jetbrains.rust-rover # Jetbrains Rust IDE
     ]);
 
   services.spotifyd = {

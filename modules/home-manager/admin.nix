@@ -12,6 +12,7 @@ in {
     ./git.nix
     ./keyboard.nix
     ./neovim.nix
+    ./networking.nix
     ./rclone.nix
     ./terminal.nix
     ./wayland.nix
