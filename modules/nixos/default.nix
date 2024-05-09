@@ -15,6 +15,7 @@
     ./garbage-collection.nix
     ./hardware.nix
     ./hyprland.nix
+    ./keyboard.nix
     ./locale.nix
     ./networking.nix
     ./nvidia.nix

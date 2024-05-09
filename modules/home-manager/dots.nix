@@ -19,6 +19,12 @@
     file.".config/hypr".source = ./dots/hypr;
     file.".config/hypr".recursive = true;
 
+    # Kanata
+    file.".config/kanata" = {
+      source = ./dots/kanata;
+      recursive = true;
+    };
+
     # Mako
     file.".config/mako/config".source = ./dots/mako/config;
 
@@ -36,7 +42,7 @@
     file.".config/qutebrowser/config.py".source = ./dots/qutebrowser/config.py;
 
     # SSH
-    file.".ssh/config".source = ./dots/ssh/config;
+    file.".ssh/config".source = lib.mkIf config.host.desktop.enable ./dots/ssh/config;
 
     # Starship
     file.".config/starship.toml".source = ./dots/starship/starship.toml;

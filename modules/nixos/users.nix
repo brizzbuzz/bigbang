@@ -9,6 +9,7 @@
     extraGroups = [
       "docker"
       "networkmanager"
+      "connman"
       "wheel"
     ];
     shell = pkgs.nushell;

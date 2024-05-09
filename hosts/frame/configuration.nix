@@ -1,10 +1,4 @@
-{
-  config,
-  inputs,
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{...}: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/common
@@ -13,6 +7,7 @@
   ];
 
   host = {
+    keyboard = "framework";
     name = "frame";
   };
 

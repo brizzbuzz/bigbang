@@ -1,10 +1,15 @@
-{
-  lib,
-  config,
-  ...
-}: {
+{config, ...}: {
   networking.hostName = config.host.name;
-  networking.networkmanager.enable = true;
+  services.connman.enable = true;
+  services.connman.wifi.backend = "iwd";
 
-  systemd.services.NetworkManager-wait-online.enable = lib.mkIf config.host.remote.enable false;
+  # TODO: Conditionally enable based on host-info
+  # networking.wireless.iwd = {
+  #   enable = true;
+  #   settings = {
+  #     Settings = {
+  #       AutoConnect = true;
+  #     };
+  #   };
+  # };
 }

@@ -1,10 +1,11 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   options = with lib; {
     host = {
+      keyboard = mkOption {
+        type = with types; nullOr (enum ["moonlander" "framework"]);
+        default = null;
+        description = "The keyboard layout";
+      };
       name = mkOption {
         type = types.str;
         default = "nixos";
