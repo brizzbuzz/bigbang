@@ -7,6 +7,7 @@
 
   host = {
     name = "gigame";
+    keyboard = "moonlander";
     gpu.nvidia.enable = true;
     remote.enable = true;
   };

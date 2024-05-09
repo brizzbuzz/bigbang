@@ -1,9 +1,9 @@
 {lib, ...}: {
   options = with lib; {
     host = {
-      keeb = mkOption {
-        type = types.str;
-        default = "moonlander";
+      keyboard = mkOption {
+        type = with types; nullOr (enum ["moonlander" "framework"]);
+        default = null;
         description = "The keyboard layout";
       };
       name = mkOption {

@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -89,9 +89,14 @@
         force_default_wallpaper = 0;
       };
 
-      # TODO: Add laptop specific settings based on keeb
-      "$hypr" = "ALT CTRL";
-      "$meh" = "ALT CTRL SHIFT";
+      "$hypr" =
+        if config.host.keyboard == "moonlander"
+        then "ALT SHIFT CTRL SUPER"
+        else "ALT CTRL";
+      "$meh" =
+        if config.host.keyboard == "moonlander"
+        then "ALT SHIFT CTRL"
+        else "ALT CTRL SHIFT";
 
       bind =
         [
