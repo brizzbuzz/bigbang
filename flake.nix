@@ -52,6 +52,7 @@
       config.allowUnfree = true;
     };
     hello = pkgs.callPackage ./modules/derivations/hello.nix {};
+    glance = pkgs.callPackage ./modules/derivations/glance.nix {inherit pkgs-unstable;};
   in {
     colmena = {
       meta = {
@@ -61,6 +62,7 @@
             pkgs
             pkgs-unstable
             hello
+            glance
             ;
         };
         # NOTE: Not sure why but you also need to specify nixpkgs here
@@ -110,6 +112,7 @@
               git-cliff # Changelog generator
               lua-language-server # Lua Language Server
               nil # Nix Language Server
+              nurl # Nix Fetcher Generator
               stylua # Lua formatter
               tokei # Code statistics
             ];
