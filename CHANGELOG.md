@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-05-15
+
+### 🚀 Features
+
+- Add home manager modules to cloudy :)
+- Woooo I made a derivation!
+- Introduce dummy overlay for future reference
+- Wlogout icons n stuff
+- Host-specific hyprland config (#33)
+- Add derivation for glance dashboard
+
+### 🐛 Bug Fixes
+
+- Flip boolean for remote build apply
+- Go back to nil for nix lang server
+- Remove old hypr conf
+
+### ⚙️ Miscellaneous Tasks
+
+- Update lock file
+- Update lock file
+- Update lock file
+- Update lock file
+- Bump file watch count
+
 ## [0.3.0] - 2024-04-12
 
 ### 🚀 Features
@@ -24,6 +49,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Misc touch ups
+- Generate changelog for 0.3.0 release
 
 ## [0.2.0] - 2024-04-08
 
