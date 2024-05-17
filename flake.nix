@@ -112,6 +112,7 @@
           {
             packages = with pkgs-unstable; [
               git-cliff # Changelog generator
+              jujutsu # Git-compatible enriched VCS
               lua-language-server # Lua Language Server
               nil # Nix Language Server
               nurl # Nix Fetcher Generator
