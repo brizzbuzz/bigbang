@@ -4,6 +4,7 @@
   pkgs-unstable,
   hello,
   glance,
+  nufmt,
   ...
 }: {
   nixpkgs.config.allowUnfree = true;
@@ -25,6 +26,7 @@
         neovim
         hello
         glance
+        nufmt
       ])
       ++ (with pkgs-unstable; [
         nushell
