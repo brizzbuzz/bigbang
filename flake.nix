@@ -53,6 +53,7 @@
     };
     hello = pkgs.callPackage ./modules/derivations/hello.nix {};
     glance = pkgs.callPackage ./modules/derivations/glance.nix {inherit pkgs-unstable;};
+    nufmt = pkgs.callPackage ./modules/derivations/nufmt.nix {};
   in {
     colmena = {
       meta = {
@@ -63,6 +64,7 @@
             pkgs-unstable
             hello
             glance
+            nufmt
             ;
         };
         # NOTE: Not sure why but you also need to specify nixpkgs here
@@ -114,6 +116,7 @@
               nil # Nix Language Server
               nurl # Nix Fetcher Generator
               stylua # Lua formatter
+              tailwindcss-language-server # Tailwind CSS Language Server
               tokei # Code statistics
             ];
           }
