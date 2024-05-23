@@ -13,6 +13,7 @@
     ./flake-support.nix
     ./fonts.nix
     ./garbage-collection.nix
+    ./glance.nix
     ./hardware.nix
     ./hyprland.nix
     ./keyboard.nix
