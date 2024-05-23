@@ -7,7 +7,7 @@
       Type = "simple";
       ExecStart = "${glance}/bin/glance -config /etc/glance";
       Restart = "on-failure";
-      RestartSec = "1";
+      RestartSec = "10";
       TimeoutStopSec = "0";
     };
   };
