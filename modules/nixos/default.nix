@@ -25,11 +25,14 @@
     ./printer.nix
     ./pueue.nix
     ./security.nix
+    ./soft-serve.nix
     ./tailscale.nix
     ./users.nix
     ./xdg.nix
     ./xserver.nix
   ];
+
+  soft-serve.enable = lib.mkDefault false;
 
   password-manager = {
     enable = lib.mkDefault true;

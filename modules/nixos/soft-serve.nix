@@ -1,12 +1,13 @@
 {
   pkgs-unstable,
+  config,
   lib,
   ...
 }: {
   options = {
     soft-serve.enable = lib.mkEnableOption "Enable Soft Serve";
   };
-  config = {
+  config = lib.mkIf config.soft-serve.enable {
     systemd.user.services.soft-serve = {
       description = "Soft Serve";
       wantedBy = ["default.target"];
