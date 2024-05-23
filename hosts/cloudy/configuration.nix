@@ -13,5 +13,7 @@
     remote.enable = true;
   };
 
+  soft-serve.enable = true;
+
   system.stateVersion = "23.11";
 }
