@@ -91,6 +91,7 @@
       cloudy = {
         imports = [./hosts/cloudy/configuration.nix];
         deployment = {
+          allowLocalDeployment = true;
           targetUser = "ryan";
         };
       };
