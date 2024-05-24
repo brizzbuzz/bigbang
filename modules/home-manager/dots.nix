@@ -1,5 +1,5 @@
 {
-  config,
+  osConfig,
   lib,
   ...
 }: {
@@ -42,7 +42,9 @@
     file.".config/qutebrowser/config.py".source = ./dots/qutebrowser/config.py;
 
     # SSH
-    file.".ssh/config".source = lib.mkIf config.host.desktop.enable ./dots/ssh/config;
+    file.".ssh/config" = lib.mkIf osConfig.host.desktop.enable {
+      source = ./dots/ssh/config;
+    };
 
     # Starship
     file.".config/starship.toml".source = ./dots/starship/starship.toml;

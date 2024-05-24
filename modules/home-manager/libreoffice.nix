@@ -1,11 +1,11 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
 }: {
   home.packages = with pkgs;
-    lib.mkIf config.host.desktop.enable [
+    lib.mkIf osConfig.host.desktop.enable [
       libreoffice-qt
       hunspell
     ];

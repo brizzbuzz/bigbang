@@ -1,4 +1,4 @@
-{config, ...}: {
+{osConfig, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -90,11 +90,11 @@
       };
 
       "$hypr" =
-        if config.host.keyboard == "moonlander"
+        if osConfig.host.keyboard == "moonlander"
         then "ALT SHIFT CTRL SUPER"
         else "ALT CTRL";
       "$meh" =
-        if config.host.keyboard == "moonlander"
+        if osConfig.host.keyboard == "moonlander"
         then "ALT SHIFT CTRL"
         else "ALT CTRL SHIFT";
 

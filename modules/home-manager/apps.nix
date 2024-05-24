@@ -1,11 +1,11 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   pkgs-unstable,
   ...
 }:
-lib.mkIf config.host.desktop.enable
+lib.mkIf osConfig.host.desktop.enable
 {
   home.packages =
     (with pkgs; [
