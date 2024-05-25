@@ -31,6 +31,7 @@
     ./xserver.nix
   ];
 
+  glance.enable = lib.mkDefault false;
   soft-serve.enable = lib.mkDefault false;
 
   password-manager = {

@@ -13,7 +13,7 @@
       wantedBy = ["default.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs-unstable.soft-serve}/bin/soft-serve";
+        ExecStart = "${pkgs-unstable.soft-serve}/bin/soft";
         Restart = "always";
         RestartSec = "10";
       };
