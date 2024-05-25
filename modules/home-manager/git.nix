@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  osConfig,
+  ...
+}: {
   programs.git = {
     enable = true;
     userName = "Ryan Brink";
@@ -38,7 +42,7 @@
       gpg = {
         format = "ssh";
       };
-      "gpg \"ssh\"" = {
+      "gpg \"ssh\"" = lib.mkIf osConfig.host.desktop.enable {
         program = "/run/current-system/sw/bin/op-ssh-sign";
       };
       push = {
