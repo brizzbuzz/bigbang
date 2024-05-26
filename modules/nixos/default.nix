@@ -21,6 +21,7 @@
     ./nvidia.nix
     ./password-manager.nix
     ./polkit.nix
+    ./postgres.nix
     ./printer.nix
     ./pueue.nix
     ./security.nix
