@@ -11,11 +11,16 @@
     systemd.user.services.soft-serve = {
       description = "Soft Serve";
       wantedBy = ["default.target"];
+      unitConfig = {
+        Description = "Soft Serve";
+        After = ["network-online.target"];
+      };
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs-unstable.soft-serve}/bin/soft";
+        ExecStart = "${pkgs-unstable.soft-serve}/bin/soft serve";
         Restart = "always";
         RestartSec = "10";
+        # WorkingDirectory = "/var/local/lib/soft-serve";
       };
     };
   };
