@@ -27,7 +27,6 @@
         ripgrep # Text search
         sd # Sexy sed
         slurp # Screenshot utility
-        spotify-tui # TUI for Spotify (Required to control spotifyd)
         starship # Prompt configuration
         sysz # Systemctl TUI
         tokei # Code line counter
