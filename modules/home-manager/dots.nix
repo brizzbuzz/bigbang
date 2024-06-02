@@ -12,8 +12,12 @@
     file.".config/bat/config".source = ./dots/bat/config;
     file.".config/bat/themes/Catppucin-macchiato.tmTheme".source = ./dots/bat/themes/Catppuccin-macchiato.tmTheme;
 
-    # GitUI  TODO: Theme
-    file.".config/gitui/key_bindings.ron".source = ./dots/gitui/key_bindings.ron;
+    # Bottom
+    file.".config/bottom/bottom.toml".source = ./dots/bottom/bottom.toml;
+
+    # GitUI
+    file.".config/gitui".source = ./dots/gitui;
+    file.".config/gitui".recursive = true;
 
     # Hyprland
     file.".config/hypr".source = ./dots/hypr;
@@ -37,6 +41,12 @@
     # Nvim
     file.".config/nvim".source = ./dots/nvim;
     file.".config/nvim".recursive = true;
+
+    # Process Compose
+    file.".config/process-compose" = {
+      source = ./dots/process-compose;
+      recursive = true;
+    };
 
     # Qutebrowser
     file.".config/qutebrowser/config.py".source = ./dots/qutebrowser/config.py;
