@@ -51,8 +51,8 @@
       inherit system;
       config.allowUnfree = true;
     };
-    hello = pkgs.callPackage ./modules/derivations/hello.nix {};
     glance = pkgs.callPackage ./modules/derivations/glance.nix {inherit pkgs-unstable;};
+    kdlfmt = pkgs.callPackage ./modules/derivations/kdlfmt.nix {};
     nufmt = pkgs.callPackage ./modules/derivations/nufmt.nix {};
   in {
     colmena = {
@@ -62,8 +62,8 @@
             inputs
             pkgs
             pkgs-unstable
-            hello
             glance
+            kdlfmt
             nufmt
             ;
         };
