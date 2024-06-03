@@ -10,11 +10,11 @@ with pkgs;
     src = fetchFromGitHub {
       owner = "brizzbuzz";
       repo = pname;
-      rev = "fc32f488bb826dc5bec5179ef1ddf5aabacc9b74";
-      sha256 = "TiFkyKlYa1hExPaGljJniVlpPaYKUnXhJheSXY38TW4=";
+      rev = "e9a8da10ed10a005477923f62ec01005aac7a97e";
+      sha256 = "C+wmbm6eTt6H2crwLXNZXvArytZLVnrARgKxBJ2wF6s=";
     };
 
-    cargoSha256 = "X4jtHP4Gbq708Q000Wz3hly0x/yx/Vyh5Gio+NcTqng=";
+    cargoSha256 = "4hoJ84iLs1YlZ6rj6LcKNuonWsK1DipghjgCHYmaYTk=";
 
     meta = with lib; {
       description = "Formatter for the KDL config language";
