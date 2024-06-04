@@ -21,19 +21,33 @@ layout {
             }
         }
     }
-    tab name="Portfolio" cwd="~/Workspace/brizzbuzz/portfolio" {
+    tab name="Portfolio" cwd="~/Workspace/brizzbuzz/portfolio" hide_floating_panes=true {
         pane size=1 borderless=true {
             plugin location="tab-bar"
         }
         pane split_direction="horizontal" {
-            pane size="80%" command="nvim"
-            pane size="20%" name="Processes" {
-                command "nu"
-                args "-c" "direnv exec . process-compose"
-            }
+            pane size="70%" command="nvim"
         }
         pane size=2 borderless=true {
             plugin location="status-bar"
+        }
+        floating_panes {
+            pane cwd="~/Workspace/brizzbuzz/portfolio" name="Git" {
+                x "1%"
+                y "5%"
+                height "95%"
+                width "48%"
+                command "nu"
+                args "-c" "direnv exec . gitui"
+            }
+            pane cwd="~/Workspace/brizzbuzz/portfolio" name="Processes" {
+                x "51%"
+                y "5%"
+                height "95%"
+                width "48%"
+                command "nu"
+                args "-c" "direnv exec . process-compose"
+            }
         }
     }
     tab name="Novel" cwd="~/Workspace/brizzbuzz/novel" {
