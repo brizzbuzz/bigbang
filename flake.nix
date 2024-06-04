@@ -118,7 +118,6 @@
               nil # Nix Language Server
               nurl # Nix Fetcher Generator
               stylua # Lua formatter
-              tailwindcss-language-server # Tailwind CSS Language Server
               tokei # Code statistics
             ];
           }
