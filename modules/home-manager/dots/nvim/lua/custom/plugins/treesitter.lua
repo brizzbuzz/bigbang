@@ -21,7 +21,6 @@ return {
           "just",
           "kdl",
           "lua",
-          "markdown",
           "nix",
           "rust",
           "templ",

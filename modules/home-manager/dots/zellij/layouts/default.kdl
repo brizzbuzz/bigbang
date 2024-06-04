@@ -41,7 +41,10 @@ layout {
             plugin location="tab-bar"
         }
         pane split_direction="horizontal" {
-            pane command="nvim"
+            pane name="Neovim" {
+                command "nu"
+                args "-c" "direnv exec . nvim"
+            }
         }
         pane size=2 borderless=true {
             plugin location="status-bar"
