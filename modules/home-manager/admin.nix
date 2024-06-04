@@ -8,7 +8,6 @@ in {
     ./browsers.nix
     ./dev.nix
     ./dots.nix
-    ./gaming.nix
     ./git.nix
     ./keyboard.nix
     ./neovim.nix

@@ -12,6 +12,7 @@
     ./fingerprint-reader.nix
     ./flake-support.nix
     ./fonts.nix
+    ./gaming.nix
     ./glance.nix
     ./hardware.nix
     ./hyprland.nix
