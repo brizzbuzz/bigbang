@@ -14,7 +14,11 @@ layout {
             plugin location="status-bar"
         }
         floating_panes {
-            pane command="gitui"
+            // TODO: Doesn't seem to respect the cwd of the tab
+            pane cwd="~/Workspace/brizzbuzz/bigbang" {
+                command "nu"
+                args "-c" "direnv exec . gitui"
+            }
         }
     }
     tab name="Portfolio" cwd="~/Workspace/brizzbuzz/portfolio" {
@@ -27,6 +31,17 @@ layout {
                 command "nu"
                 args "-c" "direnv exec . process-compose"
             }
+        }
+        pane size=2 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+    tab name="Novel" cwd="~/Workspace/brizzbuzz/novel" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        pane split_direction="horizontal" {
+            pane command="nvim"
         }
         pane size=2 borderless=true {
             plugin location="status-bar"
