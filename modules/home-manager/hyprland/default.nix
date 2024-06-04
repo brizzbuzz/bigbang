@@ -101,9 +101,8 @@
       bind =
         [
           "$hypr, C, killactive,"
-          # "$hypr, V, togglefloating,"
           "$hypr, L, exec, hyprlock,"
-          "$hypr, R, exec, wofi"
+          "$hypr, R, exec, wofi --show drun,"
         ]
         ++ [
           "$meh, H, movefocus, l"
