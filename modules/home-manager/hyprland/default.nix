@@ -100,11 +100,10 @@
 
       bind =
         [
-          "$hypr, Q, exec, alacritty,"
           "$hypr, C, killactive,"
-          "$hypr, V, togglefloating,"
+          # "$hypr, V, togglefloating,"
           "$hypr, L, exec, hyprlock,"
-          "$hypr, R, exec, wofi --show drun,"
+          "$hypr, R, exec, wofi"
         ]
         ++ [
           "$meh, H, movefocus, l"
@@ -115,6 +114,12 @@
         ++ [
           "$meh, S, togglespecialworkspace, magic"
           "$hypr, S, movetoworkspace, special:magic"
+        ]
+        ++ [
+          "$meh, D, togglespecialworkspace, discord"
+        ]
+        ++ [
+          "$meh, P, exec, 1password --quick-access --enable-features=UseOzonePlatform --ozone-platform=wayland"
         ]
         ++ (
           # workspaces
@@ -133,11 +138,6 @@
             10)
         );
 
-      /*
-       TODO:
-      bind = ALT_SHIFT_CTRL_CMD, P, exec, 1password --quick-access --enable-features=UseOzonePlatform --ozone-platform=wayland
-      */
-
       bindm = [
         "$hypr, mouse:272, movewindow"
         "$hypr, mouse:273, resizewindow"
@@ -149,6 +149,7 @@
         "hypridle"
         "1password --silent"
         "systemctl start --user polkit-gnome-authentication-agent-1"
+        "[workspace special:discord silent] discord"
       ];
     };
   };
