@@ -116,7 +116,7 @@
         ]
         ++ [
           # "$meh, D, togglespecialworkspace, discord"
-          "$meh, B, togglespecialworkspace, browser"
+          # "$meh, B, togglespecialworkspace, browser"
         ]
         ++ [
           "$meh, P, exec, 1password --quick-access --enable-features=UseOzonePlatform --ozone-platform=wayland"
@@ -150,7 +150,7 @@
         "1password --silent"
         "systemctl start --user polkit-gnome-authentication-agent-1"
         # "[workspace special:discord silent] discord"
-        "[workspace special:browser silent] brave"
+        # "[workspace special:browser silent] brave"
       ];
     };
   };
