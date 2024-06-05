@@ -3,13 +3,12 @@
   services.connman.enable = true;
   services.connman.wifi.backend = "iwd";
 
-  # TODO: Conditionally enable based on host-info
-  # networking.wireless.iwd = {
-  #   enable = true;
-  #   settings = {
-  #     Settings = {
-  #       AutoConnect = true;
-  #     };
-  #   };
-  # };
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      Settings = {
+        AutoConnect = true;
+      };
+    };
+  };
 }
