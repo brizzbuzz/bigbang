@@ -4,20 +4,29 @@ layout {
             plugin location="tab-bar"
         }
         pane split_direction="horizontal" {
-            pane size="80%" name="Neovim" {
+            pane name="Neovim" {
                 command "nu"
                 args "-c" "direnv exec . nvim"
             }
-            pane size="20%" name="Shell"
         }
         pane size=2 borderless=true {
             plugin location="status-bar"
         }
         floating_panes {
-            // TODO: Doesn't seem to respect the cwd of the tab
-            pane cwd="~/Workspace/brizzbuzz/bigbang" {
+            pane cwd="~/Workspace/brizzbuzz/bigbang" name="Git" {
+                x "1%"
+                y "5%"
+                height "85%"
+                width "48%"
                 command "nu"
                 args "-c" "direnv exec . gitui"
+            }
+            pane cwd="~/Workspace/brizzbuzz/bigbang" name="Shell" {
+                x "51%"
+                y "5%"
+                height "85%"
+                width "48%"
+                command "nu"
             }
         }
     }
@@ -38,10 +47,17 @@ layout {
             pane cwd="~/Workspace/brizzbuzz/portfolio" name="Git" {
                 x "1%"
                 y "5%"
-                height "95%"
+                height "40%"
                 width "48%"
                 command "nu"
                 args "-c" "direnv exec . gitui"
+            }
+            pane cwd="~/Workspace/brizzbuzz/portfolio" name="Shell" {
+                x "1%"
+                y "55%"
+                height "40%"
+                width "48%"
+                command "nu"
             }
             pane cwd="~/Workspace/brizzbuzz/portfolio" name="Processes" {
                 x "51%"
