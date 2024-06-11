@@ -17,6 +17,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
 
+    darwin.url = "github:LnL7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     devenv = {
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +38,7 @@
 
   outputs = {
     devenv,
+    darwin,
     home-manager,
     nixpkgs,
     nixpkgs-unstable,
@@ -55,6 +59,11 @@
     kdlfmt = pkgs.callPackage ./modules/derivations/kdlfmt.nix {};
     nufmt = pkgs.callPackage ./modules/derivations/nufmt.nix {};
   in {
+    darwinConfigurations."Ryan-Revvbook-Pro" = darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      modules = [ ./hosts/revvbook/configuration.nix ];
+      specialArgs = { inherit inputs; };
+    };
     colmena = {
       meta = {
         specialArgs = {
