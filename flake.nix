@@ -61,8 +61,8 @@
   in {
     darwinConfigurations."Ryan-Revvbook-Pro" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      modules = [ ./hosts/revvbook/configuration.nix ];
-      specialArgs = { inherit inputs; };
+      modules = [./hosts/revvbook/configuration.nix];
+      specialArgs = {inherit inputs;};
     };
     colmena = {
       meta = {

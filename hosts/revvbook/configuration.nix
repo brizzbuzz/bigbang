@@ -1,15 +1,18 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
+  imports = [
+    ../../modules/common
+    ../../modules/home-manager-darwin
+  ];
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    with pkgs; [
+  environment.systemPackages = with pkgs; [
     neovim
     direnv
     gitui
-    ];
+  ];
 
-   programs.zsh.enable = true;
+  programs.zsh.enable = true;
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
