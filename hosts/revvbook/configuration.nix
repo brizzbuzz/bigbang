@@ -1,15 +1,16 @@
 {pkgs, ...}: {
   imports = [
     ../../modules/common
-    ../../modules/home-manager-darwin
+    #../../modules/home-manager-darwin
   ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    neovim
     direnv
     gitui
+    neovim
+    zellij
   ];
 
   programs.zsh.enable = true;
