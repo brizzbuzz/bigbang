@@ -1,14 +1,15 @@
 {
   pkgs,
-  pkgs-unstable,
+  #pkgs-unstable,
   ...
 }: {
   home = {
     packages =
       (with pkgs; [
         bat # Sexy cat
-        colmena # Stateless Nixos Deployment tool
+        #colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
+        direnv # Directory based environment loader
         du-dust # TUI folder size tool
         dua # TUI disk space tool
         espanso # Text Expander
@@ -26,7 +27,7 @@
         nnn # Terminal File Browser
         ripgrep # Text search
         sd # Sexy sed
-        slurp # Screenshot utility
+        #slurp # Screenshot utility
         starship # Prompt configuration
         sysz # Systemctl TUI
         tokei # Code line counter
@@ -34,23 +35,24 @@
         xplr # TUI File Explorer
         zellij # Terminal Multiplexer
       ])
-      ++ (with pkgs-unstable; [
-        alacritty # Terminal Emulator
+      #++ (with pkgs-unstable; [
+      ++ (with pkgs; [
+        #alacritty # Terminal Emulator
         atuin # Magical Shell History
         mise # Tool version manager
-        wallust # Color theme utility
-        wf-recorder # Wayland screen recorder
+        #wallust # Color theme utility
+        #wf-recorder # Wayland screen recorder
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
         zoxide # Directory Portal
       ]);
   };
 
-  programs = {
-    direnv = {
-      enable = true;
-      enableNushellIntegration = true;
-      nix-direnv.enable = true;
-    };
-  };
+  #programs = {
+  #  direnv = {
+  #    enable = true;
+  #    enableNushellIntegration = true;
+  #    nix-direnv.enable = true;
+  #  };
+  #};
 }
