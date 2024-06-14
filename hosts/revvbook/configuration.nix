@@ -6,6 +6,7 @@
 
   environment.systemPackages = with pkgs; [
     neovim
+    nushell
   ];
 
   programs.zsh.enable = true;

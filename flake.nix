@@ -4,26 +4,18 @@
   nixConfig = {
     extra-substituters = [
       "https://colmena.cachix.org"
-      "https://devenv.cachix.org"
     ];
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/release-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    systems.url = "github:nix-systems/default";
 
     darwin.url = "github:LnL7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    devenv = {
-      url = "github:cachix/devenv";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -37,27 +29,18 @@
   };
 
   outputs = {
-    devenv,
     darwin,
     home-manager,
     nixpkgs,
     nixpkgs-unstable,
-    systems,
     ...
   } @ inputs: let
-    system = "x86_64-linux";
-    forEachSystem = nixpkgs.lib.genAttrs (import systems);
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    glance = pkgs.callPackage ./modules/derivations/glance.nix {inherit pkgs-unstable;};
-    kdlfmt = pkgs.callPackage ./modules/derivations/kdlfmt.nix {};
-    nufmt = pkgs.callPackage ./modules/derivations/nufmt.nix {};
+    supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
+    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+    pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
+    #glance = pkgs.callPackage ./modules/derivations/glance.nix {inherit pkgs-unstable;};
+    #kdlfmt = pkgs.callPackage ./modules/derivations/kdlfmt.nix {};
+    #nufmt = pkgs.callPackage ./modules/derivations/nufmt.nix {};
   in {
     darwinConfigurations."Ryan-Revvbook-Pro" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
@@ -69,17 +52,25 @@
         specialArgs = {
           inherit
             inputs
-            pkgs
-            pkgs-unstable
-            glance
-            kdlfmt
-            nufmt
+            #glance
+
+            #kdlfmt
+
+            #nufmt
+
             ;
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          pkgs-unstable = import nixpkgs-unstable {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
         };
-        # NOTE: Not sure why but you also need to specify nixpkgs here
-        # TODO: Figure out why
+        # TODO: Not clear to me why I need to redeclare this here
         nixpkgs = import nixpkgs {
-          inherit system;
+          system = "x86_64-linux";
           overlays = [];
         };
       };
@@ -106,30 +97,17 @@
       };
     };
 
-    devShells = forEachSystem (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in {
-      default = devenv.lib.mkShell {
-        inherit inputs pkgs;
-        modules = [
-          {
-            packages = with pkgs-unstable; [
-              git-cliff # Changelog generator
-              jujutsu # Git-compatible enriched VCS
-              lua-language-server # Lua Language Server
-              nil # Nix Language Server
-              nurl # Nix Fetcher Generator
-              stylua # Lua formatter
-              tokei # Code statistics
-            ];
-          }
+    devShells = forAllSystems (system: {
+      default = pkgs.${system}.mkShell {
+        packages = with pkgs.${system}; [
+          alejandra # NixOS Formatter
+          git-cliff # Changelog generator
+          jujutsu # Git-compatible enriched VCS
+          lua-language-server # Lua Language Server
+          nil # Nix Language Server
+          nurl # Nix Fetcher Generator
+          stylua # Lua formatter
+          tokei # Code statistics
         ];
       };
     });
