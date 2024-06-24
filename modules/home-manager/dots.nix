@@ -38,6 +38,9 @@
       recursive = true;
     };
 
+    file."Library/Application Support/nushell/config.nu".source = lib.mkIf osConfig.host.isDarwin ./dots/nushell/config.nu;
+    file."Library/Application Support/nushell/env.nu".source = lib.mkIf osConfig.host.isDarwin ./dots/nushell/env.nu;
+
     # Nvim
     file.".config/nvim".source = ./dots/nvim;
     file.".config/nvim".recursive = true;

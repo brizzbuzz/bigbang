@@ -1,8 +1,13 @@
 {lib, ...}: {
   options = with lib; {
     host = {
+      isDarwin = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether the host is a MacOS";
+      };
       keyboard = mkOption {
-        type = with types; nullOr (enum ["moonlander" "framework"]);
+        type = with types; nullOr (enum ["moonlander" "voyager"]);
         default = null;
         description = "The keyboard layout";
       };

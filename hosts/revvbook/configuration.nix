@@ -9,6 +9,11 @@
     nushell
   ];
 
+  host = {
+    isDarwin = true;
+    keyboard = "voyager";
+    };
+
   programs.zsh.enable = true;
 
   services.nix-daemon.enable = true;
