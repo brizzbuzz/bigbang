@@ -1,7 +1,11 @@
-{config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   admin = config.host.admin.name;
 in {
-  imports = [../common];
+  imports = [../common ../home-manager/terminal.nix ../home-manager/dots.nix];
 
   home = {
     username = admin;

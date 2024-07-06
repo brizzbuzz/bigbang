@@ -2,9 +2,6 @@
   inputs,
   pkgs,
   pkgs-unstable,
-  glance,
-  nufmt,
-  kdlfmt,
   ...
 }: {
   nixpkgs.config.allowUnfree = true;
@@ -24,9 +21,6 @@
         font-awesome
         git
         neovim
-        glance
-        kdlfmt
-        nufmt
       ])
       ++ (with pkgs-unstable; [
         nushell
