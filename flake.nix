@@ -59,7 +59,6 @@
             config.allowUnfree = true;
           };
         };
-        # TODO: Not clear to me why I need to redeclare this here
         nixpkgs = import nixpkgs {
           system = "x86_64-linux";
           overlays = [];
