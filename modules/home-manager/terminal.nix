@@ -10,6 +10,7 @@
         #colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
         direnv # Directory based environment loader
+        doggo # DNS Lookup Tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
         espanso # Text Expander
