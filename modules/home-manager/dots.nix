@@ -38,10 +38,6 @@
       recursive = true;
     };
 
-    # TODO: Enable for darwin only
-    # file."Library/Application Support/nushell/config.nu".source = lib.mkIf osConfig.host.isDarwin ./dots/nushell/config.nu;
-    # file."Library/Application Support/nushell/env.nu".source = lib.mkIf osConfig.host.isDarwin ./dots/nushell/env.nu;
-
     # Nvim
     file.".config/nvim".source = ./dots/nvim;
     file.".config/nvim".recursive = true;
@@ -56,9 +52,11 @@
     file.".config/qutebrowser/config.py".source = ./dots/qutebrowser/config.py;
 
     # SSH
-    # TODO: Will break work config right now
     file.".ssh/config" = lib.mkIf osConfig.host.desktop.enable {
-      source = ./dots/ssh/config;
+      source =
+        if !osConfig.host.isDarwin
+        then ./dots/ssh/home-config
+        else ./dots/ssh/work-config;
     };
 
     # Starship
