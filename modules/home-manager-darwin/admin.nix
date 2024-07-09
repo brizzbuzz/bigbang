@@ -5,7 +5,8 @@
 }: let
   admin = config.host.admin.name;
 in {
-  imports = [../common ../home-manager/terminal.nix ../home-manager/dots.nix ../home-manager/darwin-dots.nix];
+  # TODO: find a way to merge this with the default home-manager config
+  imports = [../common ../home-manager/terminal.nix ../home-manager/dots.nix ../home-manager/darwin-dots.nix ../home-manager/git.nix];
 
   home = {
     username = admin;

@@ -45,7 +45,10 @@
         format = "ssh";
       };
       "gpg \"ssh\"" = lib.mkIf osConfig.host.desktop.enable {
-        program = "/run/current-system/sw/bin/op-ssh-sign";
+        program =
+          if osConfig.host.isDarwin
+          then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+          else "/run/current-system/sw/bin/ssh-sign";
       };
       push = {
         autoSetupRemote = true;
