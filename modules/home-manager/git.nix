@@ -14,11 +14,13 @@
     };
 
     aliases = {
+      blah = "git add .; git commit -m 'blah'; git push";
       co = "checkout";
       cs = "commit --allow-empty-message -m ''";
       cm = "commit -m";
       dft = "difftool";
       dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f";
+      main = "git co main; git pl";
       pl = "pull";
       ps = "push";
     };
