@@ -51,7 +51,7 @@
         autoSetupRemote = true;
       };
       user = {
-        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+        signingKey = osConfig.host.gitSigningKey;
       };
     };
   };

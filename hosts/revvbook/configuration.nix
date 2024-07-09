@@ -10,6 +10,7 @@
   ];
 
   host = {
+    gitSigningKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpBT61fePYbBmIS3sA6ZLceD3VTvQs22K45ORRRWD6L";
     isDarwin = true;
     keyboard = "voyager";
   };

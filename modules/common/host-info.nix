@@ -1,6 +1,11 @@
 {lib, ...}: {
   options = with lib; {
     host = {
+      gitSigningKey = mkOption {
+        type = types.str;
+        default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+        description = "The git signing key";
+      };
       isDarwin = mkOption {
         type = types.bool;
         default = false;
