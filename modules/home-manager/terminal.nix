@@ -43,6 +43,7 @@
       ++ (with pkgs; [
         alacritty # Terminal Emulator
         atuin # Magical Shell History
+        lazysql # Database TUI
         mise # Tool version manager
         # wallust # Color theme utility
         # wf-recorder # Wayland screen recorder

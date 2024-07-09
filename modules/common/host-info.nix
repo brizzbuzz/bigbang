@@ -37,6 +37,9 @@
       remote = {
         enable = mkEnableOption "Enable Remote Server";
       };
+      jellyfin.server = {
+        enable = mkEnableOption "Enable Jellyfin";
+      };
     };
   };
   config = {
@@ -52,6 +55,10 @@
       };
 
       remote = {
+        enable = lib.mkDefault false;
+      };
+
+      jellyfin.server = {
         enable = lib.mkDefault false;
       };
     };
