@@ -10,7 +10,7 @@
         colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
         # TODO: Only if osx
-        direnv # Environment loader
+        # direnv # Environment loader
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
@@ -54,11 +54,11 @@
   };
 
   # TODO: Only if not osx
-  # programs = {
-  #   direnv = {
-  #     enable = true;
-  #     enableNushellIntegration = true;
-  #     nix-direnv.enable = true;
-  #   };
-  # };
+  programs = {
+    direnv = {
+      enable = true;
+      enableNushellIntegration = true;
+      nix-direnv.enable = true;
+    };
+  };
 }

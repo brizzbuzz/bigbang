@@ -106,13 +106,9 @@
     devShells = forAllSystems (system: {
       default = pkgs.${system}.mkShell {
         packages = with pkgs.${system}; [
-          alejandra # NixOS Formatter
           git-cliff # Changelog generator
           jujutsu # Git-compatible enriched VCS
-          lua-language-server # Lua Language Server
-          nil # Nix Language Server
           nurl # Nix Fetcher Generator
-          stylua # Lua formatter
           tokei # Code statistics
         ];
       };
