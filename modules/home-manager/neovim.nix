@@ -4,6 +4,8 @@
     htmx-lsp # HTMX Language Server
     lua-language-server # Lua Language Server
     nil # Nix Language Server
+    pgformatter # Postgres Formatter
+    postgres-lsp # Postgres Language Server
     stylua # Lua formatter
     rust-analyzer # Rust language server
     tailwindcss-language-server # Tailwind CSS Language Server
