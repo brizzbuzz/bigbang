@@ -9,8 +9,7 @@
         bat # Sexy cat
         colmena # Stateless Nixos Deployment tool
         bottom # TUI System Monitoring
-        # TODO: Only if osx
-        # direnv # Environment loader
+        dive # Docker image explorer
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
@@ -53,7 +52,6 @@
       ]);
   };
 
-  # TODO: Only if not osx
   programs = {
     direnv = {
       enable = true;
