@@ -8,6 +8,7 @@
     postgres-lsp # Postgres Language Server
     stylua # Lua formatter
     rust-analyzer # Rust language server
+    sqlfluff # SQL Linter
     tailwindcss-language-server # Tailwind CSS Language Server
     terraform-ls # Terraform Language Server
     tree-sitter
