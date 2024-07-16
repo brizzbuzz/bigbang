@@ -8,6 +8,7 @@
     postgres-lsp # Postgres Language Server
     pyright # Python Language Server
     stylua # Lua formatter
+    ruff-lsp # Ruff Language Server
     rust-analyzer # Rust language server
     sqlfluff # SQL Linter
     tailwindcss-language-server # Tailwind CSS Language Server

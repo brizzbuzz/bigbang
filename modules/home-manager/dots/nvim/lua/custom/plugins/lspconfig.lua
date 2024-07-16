@@ -140,6 +140,7 @@ return {
       -- lspconfig.pylyzer.setup({})
       -- NOTE: Handled by rustacean.nvim now
       -- lspconfig.rust_analyzer.setup({})
+      lspconfig.ruff_lsp.setup({})
       lspconfig.tailwindcss.setup({
         filetypes = { "html", "css" },
       })
