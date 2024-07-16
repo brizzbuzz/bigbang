@@ -6,6 +6,7 @@
     nil # Nix Language Server
     pgformatter # Postgres Formatter
     postgres-lsp # Postgres Language Server
+    pyright # Python Language Server
     stylua # Lua formatter
     rust-analyzer # Rust language server
     sqlfluff # SQL Linter
