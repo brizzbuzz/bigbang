@@ -42,6 +42,12 @@
     file.".config/nvim".source = ./dots/nvim;
     file.".config/nvim".recursive = true;
 
+    # Posting
+    file.".config/posting" = {
+      source = ./dots/posting;
+      recursive = true;
+    };
+
     # Process Compose
     file.".config/process-compose" = {
       source = ./dots/process-compose;

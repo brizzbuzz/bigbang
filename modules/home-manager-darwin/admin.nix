@@ -8,6 +8,7 @@ in {
   # TODO: find a way to merge this with the default home-manager config
   imports = [
     ../common
+    ../home-manager/dev.nix
     ../home-manager/neovim.nix
     ../home-manager/terminal.nix
     ../home-manager/dots.nix
