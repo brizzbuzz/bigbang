@@ -1,5 +1,5 @@
 theme: galaxy
-layout: horizontal
+layout: vertical
 response:
   prettify_json: true
 heading:
