@@ -1,20 +1,18 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/common
     ../../modules/home-manager-darwin
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs; [
+    _1password
     neovim
     nushell
   ];
 
   host = {
-    gitSigningKey = lib.mkForce "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpBT61fePYbBmIS3sA6ZLceD3VTvQs22K45ORRRWD6L";
     isDarwin = true;
     keyboard = "voyager";
   };
@@ -30,5 +28,17 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+  };
+
+  homebrew = {
+    enable = true;
+    brews = [];
+    casks = [
+      "1password"
+      "alacritty"
+      "font-jetbrains-mono-nerd-font"
+      "orion"
+      "zed"
+    ];
   };
 }

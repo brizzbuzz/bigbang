@@ -27,6 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
     alejandra = {
       url = "github:kamadorueda/alejandra/3.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,6 +42,7 @@
     darwin,
     home-manager,
     nix-homebrew,
+    nix-homebrew-cask,
     nixpkgs,
     nixpkgs-unstable,
     ...
@@ -45,7 +51,7 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
   in {
-    darwinConfigurations."Ryan-Revvbook-Pro" = darwin.lib.darwinSystem {
+    darwinConfigurations.macme = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         nix-homebrew.darwinModules.nix-homebrew
@@ -54,6 +60,10 @@
             enable = true;
             enableRosetta = true;
             user = "ryan";
+            taps = {
+              "homebrew/homebrew-core" = nix-homebrew;
+              "homebrew/homebrew-cask" = nix-homebrew-cask;
+            };
           };
         }
         ./hosts/revvbook/configuration.nix
