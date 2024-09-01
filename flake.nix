@@ -66,7 +66,7 @@
             };
           };
         }
-        ./hosts/revvbook/configuration.nix
+        ./hosts/macme/configuration.nix
       ];
       specialArgs = {inherit inputs;};
     };
