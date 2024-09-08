@@ -68,7 +68,13 @@
         }
         ./hosts/macme/configuration.nix
       ];
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+        pkgs-unstable = import nixpkgs-unstable {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+        };
+      };
     };
     colmena = {
       meta = {

@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, pkgs-unstable, ...}: {
   imports = [
     ../../modules/common
     ../../modules/home-manager-darwin
@@ -6,11 +6,12 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     _1password
-    neovim
     nushell
-  ];
+  ]) ++ (with pkgs-unstable; [
+    neovim
+  ]);
 
   host = {
     isDarwin = true;
@@ -36,6 +37,7 @@
     casks = [
       "1password"
       "alacritty"
+      "discord"
       "font-jetbrains-mono-nerd-font"
       "orion"
       "zed"
