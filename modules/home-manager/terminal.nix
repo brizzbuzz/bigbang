@@ -13,7 +13,7 @@
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
-        espanso # Text Expander
+        # espanso # Text Expander
         fastfetch # Neofetch but faster
         fd # Sexy find
         fzf # Fuzzy search tool
