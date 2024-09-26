@@ -10,6 +10,7 @@ lib.mkIf osConfig.host.desktop.enable
   home.packages =
     (with pkgs; [
       discord # Chat
+      digikam # Photo editor
       mpv # Media player
       spotify # Music
       transmission_4 # Torrent client
