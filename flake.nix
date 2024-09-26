@@ -22,16 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-homebrew = {
-      url = "github:zhaofengli-wip/nix-homebrew";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-
     alejandra = {
       url = "github:kamadorueda/alejandra/3.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,8 +31,6 @@
   outputs = {
     darwin,
     home-manager,
-    nix-homebrew,
-    nix-homebrew-cask,
     nixpkgs,
     nixpkgs-unstable,
     ...
@@ -54,18 +42,6 @@
     darwinConfigurations.macme = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "ryan";
-            taps = {
-              "homebrew/homebrew-core" = nix-homebrew;
-              "homebrew/homebrew-cask" = nix-homebrew-cask;
-            };
-          };
-        }
         ./hosts/macme/configuration.nix
       ];
       specialArgs = {

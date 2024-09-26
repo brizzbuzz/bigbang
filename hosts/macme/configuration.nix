@@ -1,4 +1,8 @@
-{pkgs, pkgs-unstable, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   imports = [
     ../../modules/common
     ../../modules/home-manager-darwin
@@ -6,12 +10,14 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = (with pkgs; [
-    _1password
-    nushell
-  ]) ++ (with pkgs-unstable; [
-    neovim
-  ]);
+  environment.systemPackages =
+    (with pkgs; [
+      _1password
+      nushell
+    ])
+    ++ (with pkgs-unstable; [
+      neovim
+    ]);
 
   host = {
     isDarwin = true;
@@ -30,17 +36,5 @@
       experimental-features = nix-command flakes
     '';
   };
-
-  homebrew = {
-    enable = true;
-    brews = [];
-    casks = [
-      "1password"
-      "alacritty"
-      "discord"
-      "font-jetbrains-mono-nerd-font"
-      "orion"
-      "zed"
-    ];
-  };
+  system.stateVersion = 5;
 }
