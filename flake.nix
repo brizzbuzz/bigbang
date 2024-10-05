@@ -90,6 +90,7 @@
         imports = [./hosts/cloudy/configuration.nix];
         deployment = {
           allowLocalDeployment = true;
+          buildOnTarget = true;
           targetUser = "ryan";
         };
       };
