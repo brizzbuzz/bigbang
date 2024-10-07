@@ -2,13 +2,20 @@
   lib,
   osConfig,
   ...
-}: {
+}: let
+  isDarwin = osConfig.host.isDarwin;
+in {
   programs.ssh = lib.mkIf osConfig.host.desktop.enable {
     enable = true;
 
-    extraConfig = ''
-      IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-    '';
+    extraConfig =
+      if isDarwin
+      then ''
+        IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+      ''
+      else ''
+        IdentityAgent "~/.1password/agent.sock"
+      '';
 
     matchBlocks = {
       "cloudy" = {
@@ -18,7 +25,6 @@
       };
     };
 
-    # Override default settings
     forwardAgent = false;
     addKeysToAgent = "no";
     compression = false;

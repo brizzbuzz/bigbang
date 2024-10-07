@@ -17,7 +17,6 @@
     ./hardware.nix
     ./hyprland.nix
     ./jellyfin.nix
-    ./keyboard.nix
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
