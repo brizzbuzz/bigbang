@@ -21,6 +21,7 @@ in {
     ../home-manager/networking.nix
     ../home-manager/nushell.nix
     ../home-manager/rclone.nix
+    ../home-manager/ssh.nix
     ../home-manager/starship.nix
     ../home-manager/terminal.nix
     ../home-manager/wayland.nix

@@ -16,6 +16,7 @@ in {
     ./networking.nix
     ./nushell.nix
     ./rclone.nix
+    ./ssh.nix
     ./starship.nix
     ./terminal.nix
     ./wayland.nix

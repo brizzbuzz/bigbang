@@ -6,19 +6,8 @@
   programs.ssh = lib.mkIf osConfig.host.desktop.enable {
     enable = true;
 
-    compression = true;
-    controlMaster = "auto";
-    controlPath = "~/.ssh/control-%C";
-    controlPersist = "10m";
-
     extraConfig = ''
-      Host *
-        IdentityAgent ~/.1password/agent.sock
-        AddKeysToAgent yes
-        IdentitiesOnly yes
-        HashKnownHosts yes
-        ServerAliveInterval 60
-        ServerAliveCountMax 2
+      IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     '';
 
     matchBlocks = {
@@ -29,8 +18,16 @@
       };
     };
 
-    includes = [
-      "~/.ssh/config.d/*"
-    ];
+    # Override default settings
+    forwardAgent = false;
+    addKeysToAgent = "no";
+    compression = false;
+    serverAliveInterval = 0;
+    serverAliveCountMax = 3;
+    hashKnownHosts = false;
+    userKnownHostsFile = "~/.ssh/known_hosts";
+    controlMaster = "no";
+    controlPath = "~/.ssh/master-%r@%n:%p";
+    controlPersist = "no";
   };
 }
