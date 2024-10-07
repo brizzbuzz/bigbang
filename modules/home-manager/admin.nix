@@ -13,6 +13,7 @@ in {
     ./direnv.nix
     ./dots.nix
     ./git.nix
+    ./gitui.nix
     ./keyboard.nix
     ./neovim.nix
     ./networking.nix
