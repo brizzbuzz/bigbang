@@ -8,7 +8,7 @@
   isDeskop = osConfig.host.desktop.enable;
   isDarwin = osConfig.host.isDarwin;
 in
-  lib.mkIf (isDeskop && isDarwin)
+  lib.mkIf (isDeskop && !isDarwin)
   {
     imports = [./hyprland];
 
