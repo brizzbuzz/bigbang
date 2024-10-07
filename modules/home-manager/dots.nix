@@ -4,12 +4,6 @@
     file.".config/hypr".source = ./dots/hypr;
     file.".config/hypr".recursive = true;
 
-    # Kanata
-    file.".config/kanata" = {
-      source = ./dots/kanata;
-      recursive = true;
-    };
-
     # Mako
     file.".config/mako/config".source = ./dots/mako/config;
 

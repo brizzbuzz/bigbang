@@ -8,13 +8,10 @@ in {
     ./art.nix
     ./bat.nix
     ./bottom.nix
-    ./browsers.nix
-    ./dev.nix
     ./direnv.nix
     ./dots.nix
     ./git.nix
     ./gitui.nix
-    ./keyboard.nix
     ./neovim.nix
     ./networking.nix
     ./nushell.nix

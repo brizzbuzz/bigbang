@@ -1,7 +1,17 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    blender
-    gimp
-    inkscape
-  ];
-}
+{
+  pkgs,
+  lib,
+  osConfig,
+  ...
+}: let
+  isDesktop = osConfig.host.desktop.enable;
+  isDarwin = osConfig.host.isDarwin;
+in
+  lib.mkIf (isDesktop && !isDarwin)
+  {
+    home.packages = with pkgs; [
+      blender
+      gimp
+      inkscape
+    ];
+  }

@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  # TODO: Redo this
   home.packages = with pkgs; [
     alejandra # Nix Formatter
     htmx-lsp # HTMX Language Server

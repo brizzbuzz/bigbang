@@ -8,6 +8,7 @@
   admin = config.host.admin.name;
 in {
   imports = [
+    ../common
     inputs.home-manager.darwinModules.home-manager
   ];
 
