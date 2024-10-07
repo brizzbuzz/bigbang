@@ -12,8 +12,11 @@ in
   {
     home.packages =
       (with pkgs; [
+        blender # 3D modeling
         discord # Chat
         digikam # Photo editor
+        gimp # Photo editor
+        inkscape # Vector graphics editor
         mpv # Media player
         spotify # Music
         transmission_4 # Torrent client

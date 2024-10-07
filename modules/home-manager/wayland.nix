@@ -2,17 +2,19 @@
   pkgs,
   pkgs-unstable,
   osConfig,
-  lib,
   ...
 }: let
-  isDeskop = osConfig.host.desktop.enable;
+  isDesktop = osConfig.host.desktop.enable;
   isDarwin = osConfig.host.isDarwin;
-in
-  lib.mkIf (isDeskop && !isDarwin)
-  {
-    imports = [./hyprland];
+in {
+  imports =
+    if (isDesktop && !isDarwin)
+    then [./hyprland]
+    else [];
 
-    home.packages =
+  home.packages =
+    if (isDesktop && !isDarwin)
+    then
       (with pkgs; [
         libnotify
         mako
@@ -26,5 +28,6 @@ in
         hyprlock
         hyprpaper
         hyprpicker
-      ]);
-  }
+      ])
+    else [];
+}

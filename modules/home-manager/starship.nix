@@ -3,57 +3,62 @@
   programs.starship.enableNushellIntegration = true;
   programs.starship.settings = {
     add_newline = false;
-    aws.symbol = " ";
-    battery.symbol = " ";
-    battery.format = "%p%%";
-    battery.status_charged = "";
-    battery.status_charging = "";
-    battery.status_discharging = "";
-    battery.threshold = 10;
-    cmd_duration.enabled = true;
-    cmd_duration.min_time = 5;
-    cmd_duration.show_milliseconds = true;
-    cmd_duration.prefix = "took ";
-    directory.use_path_only = true;
-    git.symbol = " ";
-    git.prefix = "on ";
-    git.format = "(%s)";
-    git.status.ahead = "";
-    git.status.behind = "";
-    git.status.conflicted = "";
-    git.status.deleted = "";
-    git.status.modified = "";
-    git.status.renamed = "";
-    git.status.staged = "";
-    git.status.stashed = "";
-    git.status.unmerged = "";
-    git.status.untracked = "";
-    kubernetes.symbol = "行 ";
-    memory_usage.symbol = " ";
-    nix_shell.symbol = " ";
-    package.symbol = " ";
-    package.update.symbol = " ";
-    package.update.interval = 24;
-    package.upgraded_packages = "all";
-    path.style = "bold blue";
-    path.shorten = true;
-    path.prefix = "in ";
-    python.symbol = " ";
-    ruby.symbol = " ";
-    rust.symbol = " ";
-    status.disabled = false;
-    status.interval = 5;
-    status.format = "[$symbol$style] ";
-    status.style = "bold dimmed";
-    status.status_prefix = "❯ ";
-    time.disabled = false;
-    time.format = "%T";
-    time.style = "bold dimmed";
-    username.disabled = false;
-    username.format = "%s";
-    username.style = "bold dimmed";
-    uptime.disabled = false;
-    uptime.format = "up %d days, %H:%M";
-    uptime.style = "bold dimmed";
+    aws.symbol = " ";
+    battery = {
+      full_symbol = "";
+      charging_symbol = "";
+      discharging_symbol = "";
+      format = "[$percentage]($style)";
+    };
+    cmd_duration = {
+      min_time = 5000;
+      show_milliseconds = true;
+      format = "took [$duration](bold yellow)";
+    };
+    directory = {
+      truncation_length = 3;
+      truncate_to_repo = true;
+    };
+    git_branch = {
+      symbol = " ";
+      format = "on [$symbol$branch]($style) ";
+    };
+    git_status = {
+      format = "([$all_status$ahead_behind]($style))";
+      ahead = "";
+      behind = "";
+      conflicted = "";
+      deleted = "";
+      modified = "";
+      renamed = "";
+      staged = "";
+      stashed = "";
+      untracked = "";
+    };
+    kubernetes.symbol = "行 ";
+    memory_usage.symbol = " ";
+    nix_shell.symbol = " ";
+    package = {
+      symbol = " ";
+      format = "is [$symbol$version]($style) ";
+    };
+    python.symbol = " ";
+    ruby.symbol = " ";
+    rust.symbol = " ";
+    status = {
+      disabled = false;
+      format = "[$symbol$status]($style) ";
+      style = "bold red";
+      symbol = "❯";
+    };
+    time = {
+      disabled = false;
+      format = "at [$time]($style) ";
+      style = "bold dimmed";
+    };
+    username = {
+      format = "[$user]($style) ";
+      style_user = "bold dimmed";
+    };
   };
 }

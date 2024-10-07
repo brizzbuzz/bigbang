@@ -7,12 +7,6 @@
     # Mako
     file.".config/mako/config".source = ./dots/mako/config;
 
-    # Nushell
-    file.".config/nushell" = {
-      source = ./dots/nushell;
-      recursive = true;
-    };
-
     # Nvim
     file.".config/nvim".source = ./dots/nvim;
     file.".config/nvim".recursive = true;

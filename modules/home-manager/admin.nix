@@ -3,9 +3,9 @@
 in {
   imports = [
     ../common # NOTE: This is required because home-manager gets evaluated as a separate attribute set... I think...
+    ./atuin.nix
     ./alacritty.nix
     ./apps.nix
-    ./art.nix
     ./bat.nix
     ./bottom.nix
     ./direnv.nix
@@ -20,6 +20,7 @@ in {
     ./terminal.nix
     ./wayland.nix
     ./zellij.nix
+    ./zoxide.nix
   ];
 
   home = {

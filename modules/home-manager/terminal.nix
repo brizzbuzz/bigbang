@@ -16,7 +16,6 @@
         fd # Sexy find
         fzf # Fuzzy search tool
         gh # GitHub CLI
-        gitui # TUI for git
         glow # CLI markdown renderer
         kubectl # Official kubernetes CLI
         k9s # Kubernetes cluster TUI
@@ -33,13 +32,11 @@
         xplr # TUI File Explorer
       ])
       ++ (with pkgs-unstable; [
-        atuin # Magical Shell History
         lazysql # Database TUI
         # wallust # Color theme utility
         # wf-recorder # Wayland screen recorder
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
-        zoxide # Directory Portal
       ]);
   };
 }
