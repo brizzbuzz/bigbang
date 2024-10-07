@@ -224,7 +224,6 @@ $env.config = {
     }
 
     color_config: $dark_theme # if you want a more interesting theme, you can replace the empty record with `$dark_theme`, `$light_theme` or another custom record
-    use_grid_icons: true
     footer_mode: "25" # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
@@ -765,12 +764,6 @@ source ~/.config/nushell/aliases.nu
 $env.config.hooks.env_change.PWD = (
     $env.config.hooks.env_change.PWD | append (source ~/.config/nushell/direnv.nu)
 )
-
-# Mise
-source ~/.config/nushell/mise.nu
-
-# Starship
-source ~/.config/nushell/starship.nu
 
 # Zoxide
 source ~/.config/nushell/zoxide.nu

@@ -20,9 +20,9 @@
         inputs.alejandra.defaultPackage.${system}
         font-awesome
         git
-        neovim
       ])
       ++ (with pkgs-unstable; [
+        neovim
         nushell
         pueue
       ]);

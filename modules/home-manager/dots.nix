@@ -4,17 +4,6 @@
   ...
 }: {
   home = {
-    # Alacritty
-    file.".config/alacritty/alacritty.toml".source = ./dots/alacritty/alacritty.toml;
-    file.".config/alacritty/rose-pine-moon.toml".source = ./dots/alacritty/rose-pine-moon.toml;
-
-    # Bat
-    file.".config/bat/config".source = ./dots/bat/config;
-    file.".config/bat/themes/Catppucin-macchiato.tmTheme".source = ./dots/bat/themes/Catppuccin-macchiato.tmTheme;
-
-    # Bottom
-    file.".config/bottom/bottom.toml".source = ./dots/bottom/bottom.toml;
-
     # GitUI
     file.".config/gitui".source = ./dots/gitui;
     file.".config/gitui".recursive = true;
@@ -65,9 +54,6 @@
         else ./dots/ssh/work-config;
     };
 
-    # Starship
-    file.".config/starship.toml".source = ./dots/starship/starship.toml;
-
     # WLogout
     file.".config/wlogout".source = ./dots/wlogout;
     file.".config/wlogout".recursive = true;
@@ -84,9 +70,5 @@
 
     # Yubico
     file.".config/Yubico/u2f_keys".source = ./dots/yubico/u2f_keys;
-
-    # Zellij
-    file.".config/zellij".source = ./dots/zellij;
-    file.".config/zellij".recursive = true;
   };
 }

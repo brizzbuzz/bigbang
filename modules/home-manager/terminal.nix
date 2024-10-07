@@ -1,14 +1,12 @@
 {
   pkgs,
-  # pkgs-unstable,
+  pkgs-unstable,
   ...
 }: {
   home = {
     packages =
       (with pkgs; [
-        bat # Sexy cat
         colmena # Stateless Nixos Deployment tool
-        bottom # TUI System Monitoring
         dive # Docker image explorer
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
@@ -29,34 +27,19 @@
         ripgrep # Text search
         sd # Sexy sed
         # slurp # Screenshot utility
-        starship # Prompt configuration
         sysz # Systemctl TUI
         tokei # Code line counter
         unzip # Extraction utility
         xplr # TUI File Explorer
-        zellij # Terminal Multiplexer
       ])
-      # TODO: Add back unstable once darwin bug resolved
-      # TODO: Add darwin/nix specific packages
-      # ++ (with pkgs-unstable; [
-      ++ (with pkgs; [
-        alacritty # Terminal Emulator
+      ++ (with pkgs-unstable; [
         atuin # Magical Shell History
         lazysql # Database TUI
-        mise # Tool version manager
         # wallust # Color theme utility
         # wf-recorder # Wayland screen recorder
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
         zoxide # Directory Portal
       ]);
-  };
-
-  programs = {
-    direnv = {
-      enable = true;
-      enableNushellIntegration = true;
-      nix-direnv.enable = true;
-    };
   };
 }

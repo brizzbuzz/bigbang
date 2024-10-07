@@ -17,10 +17,13 @@ lib.mkIf osConfig.host.desktop.enable
       zoom-us # Video conferencing
     ])
     ++ (with pkgs-unstable; [
+      grim # Screenshot utility
+      gscreenshot # Screenshot utility
       ledger-live-desktop # Ledger Desktop App
       protonmail-desktop # ProtonMail Desktop App
       jetbrains.idea-ultimate # Jetbrains JVM IDE
       jetbrains.rust-rover # Jetbrains Rust IDE
+      slurp # Screenshot utility
     ]);
 
   services.spotifyd = {
