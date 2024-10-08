@@ -1,9 +1,4 @@
-{
-  inputs,
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{pkgs, ...}: {
   nixpkgs.config.allowUnfree = true;
 
   environment = {
@@ -15,16 +10,8 @@
       NIXOS_OZONE_WL = "1";
     };
     shells = with pkgs; [bashInteractive nushell];
-    systemPackages =
-      (with pkgs; [
-        inputs.alejandra.defaultPackage.${system}
-        font-awesome
-        git
-      ])
-      ++ (with pkgs-unstable; [
-        neovim
-        nushell
-        pueue
-      ]);
+    systemPackages = with pkgs; [
+      git
+    ];
   };
 }

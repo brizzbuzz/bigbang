@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/common
     ../../modules/home-manager-darwin
@@ -10,14 +6,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages =
-    (with pkgs; [
-      _1password
-      nushell
-    ])
-    ++ (with pkgs-unstable; [
-      neovim
-    ]);
+  environment.systemPackages = with pkgs; [
+    _1password
+    nushell
+  ];
 
   host = {
     isDarwin = true;

@@ -7,10 +7,6 @@
     # Mako
     file.".config/mako/config".source = ./dots/mako/config;
 
-    # Nvim
-    file.".config/nvim".source = ./dots/nvim;
-    file.".config/nvim".recursive = true;
-
     # WLogout
     file.".config/wlogout".source = ./dots/wlogout;
     file.".config/wlogout".recursive = true;

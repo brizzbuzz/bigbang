@@ -1,7 +1,12 @@
-{config, ...}: let
+{
+  config,
+  nixvim,
+  ...
+}: let
   admin = config.host.admin.name;
 in {
   imports = [
+    nixvim.homeManagerModules.nixvim
     ../common # NOTE: This is required because home-manager gets evaluated as a separate attribute set... I think...
     ./atuin.nix
     ./alacritty.nix
