@@ -1,12 +1,14 @@
 {
   config,
   lib,
+  nixvim,
   ...
 }: let
   admin = config.host.admin.name;
 in {
   # TODO: find a way to merge this with the default home-manager config
   imports = [
+    nixvim.homeManagerModules.nixvim
     ../common
     ../home-manager/atuin.nix
     ../home-manager/alacritty.nix

@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  programs.nixvim.enable = true;
   # TODO: Redo this
   home.packages = with pkgs; [
     alejandra # Nix Formatter
