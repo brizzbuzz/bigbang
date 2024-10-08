@@ -9,6 +9,11 @@
 
     globals.mapleader = " ";
 
+    colorschemes.catppuccin = {
+      enable = true;
+      settings.flavour = "macchiato";
+    };
+
     opts = {
       number = true;
       relativenumber = true;
