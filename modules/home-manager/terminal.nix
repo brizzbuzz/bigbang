@@ -7,6 +7,7 @@
     packages =
       (with pkgs; [
         colmena # Stateless Nixos Deployment tool
+        distrobox # Containerized distros
         dive # Docker image explorer
         doggo # DNS lookup tool
         du-dust # TUI folder size tool

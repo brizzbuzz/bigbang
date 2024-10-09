@@ -20,8 +20,5 @@
 
     # XModMap
     file.".config/xmodmap/xmodmap".source = ./dots/xmodmap/xmodmap;
-
-    # Yubico
-    file.".config/Yubico/u2f_keys".source = ./dots/yubico/u2f_keys;
   };
 }

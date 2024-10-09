@@ -3,7 +3,6 @@
   pkgs-unstable,
   ...
 }: {
-
   imports = [
     ./colorscheme.nix
     ./globals.nix
