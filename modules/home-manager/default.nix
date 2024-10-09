@@ -19,5 +19,6 @@ in {
 
   home-manager.extraSpecialArgs = {
     inherit pkgs pkgs-unstable;
+    nixvim = inputs.nixvim;
   };
 }

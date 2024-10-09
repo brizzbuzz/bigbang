@@ -8,6 +8,7 @@ in {
   imports = [
     nixvim.homeManagerModules.nixvim
     ../common # NOTE: This is required because home-manager gets evaluated as a separate attribute set... I think...
+    ./neovim
     ./atuin.nix
     ./alacritty.nix
     ./apps.nix
@@ -17,7 +18,6 @@ in {
     ./dots.nix
     ./git.nix
     ./gitui.nix
-    ./neovim.nix
     ./networking.nix
     ./nushell.nix
     ./rclone.nix
