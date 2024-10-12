@@ -67,6 +67,7 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
+            overlays = import ./modules/overlays;
           };
           pkgs-unstable = import nixpkgs-unstable {
             system = "x86_64-linux";
@@ -75,7 +76,7 @@
         };
         nixpkgs = import nixpkgs {
           system = "x86_64-linux";
-          overlays = [];
+          overlays = import ./modules/overlays;
         };
       };
       frame = {

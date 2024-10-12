@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{pkgs, pkgs-unstable, ...}: {
   imports = [
     ./colorscheme.nix
     ./globals.nix
@@ -13,6 +9,11 @@
     enable = true;
     package = pkgs-unstable.neovim-unwrapped;
     plugins = import ./plugins;
+    extraPlugins = [pkgs.vimPlugins.supermaven];
     keymaps = import ./keymap.nix;
+
+    extraConfigLua = ''
+    require("supermaven-nvim").setup{}
+    '';
   };
 }
