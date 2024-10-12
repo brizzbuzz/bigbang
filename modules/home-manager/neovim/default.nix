@@ -12,6 +12,7 @@
     extraPlugins = [pkgs.vimPlugins.supermaven];
     keymaps = import ./keymap.nix;
 
+    # TODO: Create custom plugin for nixvim
     extraConfigLua = ''
     require("supermaven-nvim").setup{}
     '';
