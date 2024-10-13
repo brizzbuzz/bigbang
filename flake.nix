@@ -29,6 +29,8 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
+      inputs.nix-darwin.follows = "darwin";
+      inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
