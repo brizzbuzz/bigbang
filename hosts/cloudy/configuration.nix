@@ -29,6 +29,7 @@
     jellyfin.server.enable = true;
   };
 
+  glance.enable = true;
   soft-serve.enable = true;
   speedtest.enable = true;
 

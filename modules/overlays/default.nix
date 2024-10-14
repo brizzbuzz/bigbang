@@ -1,4 +1,5 @@
 [
+  # Supermaven
   (final: prev: {
     vimPlugins =
       prev.vimPlugins
@@ -7,6 +8,7 @@
       };
   })
 
+  # Speedtest
   (final: prev: {
     speedtest = prev.callPackage ./../derivations/speedtest.nix {};
   })
