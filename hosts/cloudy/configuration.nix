@@ -30,6 +30,7 @@
   };
 
   soft-serve.enable = true;
+  speedtest.enable = true;
 
   system.stateVersion = "24.05";
 }

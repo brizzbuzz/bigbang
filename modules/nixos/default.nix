@@ -27,6 +27,7 @@
     ./pueue.nix
     ./security.nix
     ./soft-serve.nix
+    ./speedtest.nix
     ./tailscale.nix
     ./users.nix
     ./xdg.nix

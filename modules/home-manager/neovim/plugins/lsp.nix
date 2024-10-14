@@ -1,8 +1,7 @@
 {
-  enable = true;
+  #enable = true;
 
   servers = {
-
     # Golang
     gopls = {
       enable = true;
@@ -26,9 +25,7 @@
         };
       };
     };
-
   };
-
 
   keymaps = {
     diagnostic = {
@@ -58,4 +55,3 @@
     };
   };
 }
-
