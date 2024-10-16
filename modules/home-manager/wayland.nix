@@ -17,7 +17,7 @@ in {
     then
       (with pkgs; [
         libnotify
-        mako
+        swaynotificationcenter
         waybar
         wl-clipboard
         wlogout
@@ -25,9 +25,10 @@ in {
         xwayland
       ])
       ++ (with pkgs-unstable; [
-        hyprlock
         hyprpaper
         hyprpicker
+        hyprshot
+        hyprutils
       ])
     else [];
 }

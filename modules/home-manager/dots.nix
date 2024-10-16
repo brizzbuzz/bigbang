@@ -4,9 +4,6 @@
     file.".config/hypr".source = ./dots/hypr;
     file.".config/hypr".recursive = true;
 
-    # Mako
-    file.".config/mako/config".source = ./dots/mako/config;
-
     # WLogout
     file.".config/wlogout".source = ./dots/wlogout;
     file.".config/wlogout".recursive = true;

@@ -1,30 +1,11 @@
 {
-  #enable = true;
+  enable = true;
 
   servers = {
-    # Golang
-    gopls = {
-      enable = true;
-    };
-
     # Nix
-    nil_ls = {
-      enable = true;
-    };
-
-    # Python
-    pyright = {
-      enable = true;
-      settings = {
-        python = {
-          analysis = {
-            autoSearchPaths = true;
-            diagnosticMode = "workspace";
-            stubPath = "typings";
-          };
-        };
-      };
-    };
+    nil_ls.enable = true;
+    # Nushell
+    nushell.enable = true;
   };
 
   keymaps = {
