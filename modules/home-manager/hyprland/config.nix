@@ -1,25 +1,42 @@
-{osConfig}: {
+{osConfig}: let
+  colors = import ./theme.nix;
+in {
   enable = true;
   xwayland.enable = true;
 
   settings = {
-    "$base" = "0xff232136";
-    "$surface" = "0xff2a273f";
-    "$overlay" = "0xff393552";
-    "$muted" = "0xff6e6a86";
-    "$subtle" = "0xff908caa";
-    "$text" = "0xffe0def4";
-    "$love" = "0xffeb6f92";
-    "$gold" = "0xfff6c177";
-    "$rose" = "0xffea9a97";
-    "$pine" = "0xff3e8fb0";
-    "$foam" = "0xff9ccfd8";
-    "$iris" = "0xffc4a7e7";
-    "$highlightLow" = "0xff2a283e";
-    "$highlightMed" = "0xff44415a";
-    "$highlightHigh" = "0xff56526e";
+    "$rosewater" = colors.rosewater;
+    "$flamingo" = colors.flamingo;
+    "$pink" = colors.pink;
+    "$mauve" = colors.mauve;
+    "$red" = colors.red;
+    "$maroon" = colors.maroon;
+    "$peach" = colors.peach;
+    "$yellow" = colors.yellow;
+    "$green" = colors.green;
+    "$teal" = colors.teal;
+    "$sky" = colors.sky;
+    "$sapphire" = colors.sapphire;
+    "$blue" = colors.blue;
+    "$lavender" = colors.lavender;
+    "$text" = colors.text;
+    "$subtext1" = colors.subtext1;
+    "$subtext0" = colors.subtext0;
+    "$overlay2" = colors.overlay2;
+    "$overlay1" = colors.overlay1;
+    "$overlay0" = colors.overlay0;
+    "$surface2" = colors.surface2;
+    "$surface1" = colors.surface1;
+    "$surface0" = colors.surface0;
+    "$base" = colors.base;
+    "$mantle" = colors.mantle;
+    "$crust" = colors.crust;
 
     env = "XCURSOR_SIZE,24";
+
+    cursor = {
+      no_hardware_cursors = true;
+    };
 
     # TODO: Need to move to host-info
     monitor = [
@@ -36,11 +53,11 @@
     };
 
     general = {
-      gaps_in = 3;
-      gaps_out = 5;
+      gaps_in = 5;
+      gaps_out = 10;
       border_size = 3;
-      "col.active_border" = "$rose $pine $love $iris 90deg";
-      "col.inactive_border" = "$muted";
+      "col.active_border" = "$pink $teal $red $mauve 90deg";
+      "col.inactive_border" = "$surface0";
       layout = "dwindle";
       allow_tearing = false;
     };
@@ -76,10 +93,6 @@
       preserve_split = "yes";
     };
 
-    # master = {
-    #   new_is_master = true;
-    # };
-
     gestures = {
       workspace_swipe = "off"; # TODO: Switch to on for laptop?
     };
@@ -92,6 +105,7 @@
       if osConfig.host.keyboard == "moonlander"
       then "ALT SHIFT CTRL SUPER"
       else "ALT CTRL";
+
     "$meh" =
       if osConfig.host.keyboard == "moonlander"
       then "ALT SHIFT CTRL"
@@ -100,8 +114,9 @@
     bind =
       [
         "$hypr, C, killactive,"
-        "$hypr, L, exec, hyprlock,"
+        "$hypr, B, exec, floorp"
         "$hypr, R, exec, wofi --show drun,"
+        "$hypr, L, exec, hyprlock"
       ]
       ++ [
         "$meh, H, movefocus, l"

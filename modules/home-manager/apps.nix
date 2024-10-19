@@ -15,6 +15,7 @@ in
         blender # 3D modeling
         discord # Chat
         digikam # Photo editor
+        floorp # Browser du jour
         gimp # Photo editor
         inkscape # Vector graphics editor
         mpv # Media player
@@ -23,14 +24,9 @@ in
         zoom-us # Video conferencing
       ])
       ++ (with pkgs-unstable; [
-        brave # Web browser
         grim # Screenshot utility
         gscreenshot # Screenshot utility
         ledger-live-desktop # Ledger Desktop App
-        protonmail-desktop # ProtonMail Desktop App
-        jetbrains.idea-ultimate # Jetbrains JVM IDE
-        jetbrains.rust-rover # Jetbrains Rust IDE
-        ladybird # Experimental Web browser
         slurp # Screenshot utility
       ]);
   }
