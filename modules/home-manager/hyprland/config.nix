@@ -158,10 +158,10 @@ in {
     ];
 
     "exec-once" = [
-      "waybar"
       "hyprpaper"
       "hypridle"
       "swaync"
+      "waybar"
       "1password --silent"
       "systemctl start --user polkit-gnome-authentication-agent-1"
       # "[workspace special:discord silent] discord"

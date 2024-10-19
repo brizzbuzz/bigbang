@@ -24,6 +24,7 @@
         lf # File Manager
         mods # AI on the CL
         nnn # Terminal File Browser
+        playerctl # Control music players
         ripgrep # Text search
         sd # Sexy sed
         # slurp # Screenshot utility
