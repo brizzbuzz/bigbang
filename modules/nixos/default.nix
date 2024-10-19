@@ -7,6 +7,7 @@
     ../common
     ./audio.nix
     ./boot.nix
+    ./display-manager.nix
     ./docker.nix
     ./environment.nix
     ./fingerprint-reader.nix
@@ -31,7 +32,6 @@
     ./tailscale.nix
     ./users.nix
     ./xdg.nix
-    ./xserver.nix
   ];
 
   glance.enable = lib.mkDefault false;

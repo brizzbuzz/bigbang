@@ -114,7 +114,7 @@ in {
     bind =
       [
         "$hypr, C, killactive,"
-        "$hypr, B, exec, floorp"
+        "$meh, B, exec, floorp"
         "$hypr, R, exec, wofi --show drun,"
         "$hypr, L, exec, hyprlock"
       ]
