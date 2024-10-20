@@ -7,8 +7,11 @@
       }
 
       # Environment variables
-      $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
       $env.EDITOR = "nvim"
+
+      # Path
+      $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
+      $env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin') # TODO: Only if on macOS
     '';
 
     extraConfig = ''

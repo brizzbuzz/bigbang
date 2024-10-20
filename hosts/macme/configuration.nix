@@ -18,9 +18,14 @@
   homebrew = {
     enable = true;
 
-    taps = [ ];
-    brews = [ ];
-    casks = ["1password" "alacritty" "floorp"];
+    brews = ["mas"];
+    casks = ["1password" "alacritty" "floorp" "iina" "hammerspoon" "the-unarchiver" ];
+    masApps = {
+      "Xcode" = 497799835;
+      #"Yoink" = 457622435;
+    };
+    onActivation.autoUpdate = true;
+    onActivation.upgrade = true;
   };
 
   host = {
