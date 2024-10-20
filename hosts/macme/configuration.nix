@@ -6,6 +6,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
+   fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+  ];
+
   environment.systemPackages = with pkgs; [
     _1password
     nushell
