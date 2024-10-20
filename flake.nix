@@ -14,30 +14,51 @@
     nixpkgs.url = "github:nixos/nixpkgs/release-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    darwin.url = "github:LnL7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    alejandra = {
-      url = "github:kamadorueda/alejandra/3.0.0";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix-darwin.follows = "nix-darwin";
     };
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nix-darwin.follows = "darwin";
+      inputs.nix-darwin.follows = "nix-darwin";
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
     };
   };
 
   outputs = {
-    darwin,
+    nix-darwin,
     home-manager,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
     nixpkgs,
     nixpkgs-unstable,
     nixvim,
@@ -47,16 +68,37 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
   in {
-    darwinConfigurations.macme = darwin.lib.darwinSystem {
+    darwinConfigurations.macme = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./hosts/macme/configuration.nix
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            user = "ryan"; # TODO: Inherit
+
+            taps = {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+              "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+            };
+
+            mutableTaps = false;
+          };
+        }
       ];
       specialArgs = {
         inherit inputs;
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+          overlays = import ./modules/overlays;
+	};
         pkgs-unstable = import nixpkgs-unstable {
           system = "aarch64-darwin";
           config.allowUnfree = true;
+          overlays = import ./modules/overlays;
         };
       };
     };

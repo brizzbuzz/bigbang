@@ -11,6 +11,14 @@
     nushell
   ];
 
+  homebrew = {
+    enable = true;
+
+    taps = [ ];
+    brews = [ ];
+    casks = ["1password" "alacritty" "floorp"];
+  };
+
   host = {
     isDarwin = true;
     keyboard = "voyager";

@@ -19,7 +19,7 @@ in {
     ../home-manager/dots.nix
     ../home-manager/git.nix
     ../home-manager/gitui.nix
-    ../home-manager/neovim.nix
+    ../home-manager/neovim
     ../home-manager/networking.nix
     ../home-manager/nushell.nix
     ../home-manager/rclone.nix

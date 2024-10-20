@@ -1,13 +1,13 @@
 {
   pkgs,
   pkgs-unstable,
+  osConfig,
   ...
 }: {
   home = {
     packages =
       (with pkgs; [
         colmena # Stateless Nixos Deployment tool
-        distrobox # Containerized distros
         dive # Docker image explorer
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
@@ -24,7 +24,6 @@
         lf # File Manager
         mods # AI on the CL
         nnn # Terminal File Browser
-        playerctl # Control music players
         ripgrep # Text search
         sd # Sexy sed
         # slurp # Screenshot utility
@@ -39,6 +38,11 @@
         # wf-recorder # Wayland screen recorder
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
-      ]);
+      ])
+      ++ (if !osConfig.host.isDarwin then with pkgs; [
+        distrobox # Container manager
+        playerctl # Media player TUI
+      ] else [])
+      ;
   };
 }
