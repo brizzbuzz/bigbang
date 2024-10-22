@@ -3,207 +3,189 @@
     sensors | grep "Package id 0:" | awk '{print $4}' | cut -c 2-
   '';
 in {
- enable = true;
-    settings = [{
-      layer = "top";
-      position = "top";
-      height = 40;
-      margin-top = 5;
-      margin-left = 10;
-      margin-right = 10;
-      modules-left = [
-        "custom/launcher"
-        "hyprland/workspaces"
-        "hyprland/submap"
-      ];
-      modules-center = [
-        "clock"
-        "custom/weather"
-      ];
-      modules-right = [
-        "cpu"
-        "custom/gpu"
-        "memory"
-        "custom/temp"
-        "pulseaudio"
-        "tray"
-        "custom/power"
-      ];
+  enable = true;
+  systemd = {
+    enable = true;
+    target = "hyprland-session.target";
+  };
+  settings = [{
+    height = 40;
+    layer = "top";
+    position = "top";
+    spacing = 4;
+    margin-left = 15;
+    margin-right = 15;
+    margin-top = 8;
 
-      "custom/launcher" = {
-        format = " ";
-        on-click = "wofi --show drun";
-        tooltip = false;
+    modules-left = [
+      "custom/launcher"
+      "cpu"
+      "memory"
+      "temperature"
+    ];
+    modules-center = [
+      "hyprland/workspaces"
+    ];
+    modules-right = [
+      "pulseaudio"
+      "network"
+      "clock"
+    ];
+
+    "hyprland/workspaces" = {
+      format = "{id}";
+      on-click = "activate";
+      active-only = false;
+      all-outputs = true;
+      show-special = false;
+      persistent-workspaces = {
+        "1" = [];
+        "2" = [];
+        "3" = [];
+        "4" = [];
+        "5" = [];
       };
+    };
 
-      "hyprland/workspaces" = {
-        format = "{icon}";
-        on-click = "activate";
-        format-icons = {
-          "1" = "";
-          "2" = "";
-          "3" = "";
-          "4" = "";
-          "5" = "";
-          "urgent" = "";
-          "active" = "";
-          "default" = "";
-        };
-        sort-by-number = true;
+    "custom/launcher" = {
+      format = "";
+      on-click = "wofi --show drun";
+      tooltip = false;
+    };
+
+    "cpu" = {
+      interval = 10;
+      format = " {}%";
+      max-length = 10;
+    };
+
+    "temperature" = {
+      format = " {temperatureC}°C";
+    };
+
+    "memory" = {
+      interval = 30;
+      format = " {}%";
+      format-alt = " {used:0.1f}G";
+      max-length = 10;
+    };
+
+    "pulseaudio" = {
+      format = "{icon} {volume}%";
+      format-muted = "婢";
+      format-icons = {
+        default = ["" "" ""];
       };
+      on-click = "pavucontrol";
+    };
 
-      "hyprland/submap" = {
-        format = "{}";
-        max-length = 8;
-        tooltip = false;
-      };
+    "network" = {
+      format-wifi = "直 {signalStrength}%";
+      format-ethernet = "";
+      format-disconnected = "睊";
+    };
 
-      "clock" = {
-        format = "{:%H:%M}";
-        format-alt = "{:%Y-%m-%d}";
-        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-      };
+    "clock" = {
+      format = " {:%H:%M}";
+      format-alt = " {:%Y-%m-%d}";
+    };
+  }];
 
-      "custom/weather" = {
-        exec = "curl 'https://wttr.in/?format=1'";
-        interval = 3600;
-      };
+  style = ''
+    * {
+      font-family: "SFPro", "JetBrainsMono Nerd Font";
+      font-size: 14px;
+      min-height: 0;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: none;
+      padding: 0;
+      margin: 0;
+    }
 
-      "cpu" = {
-        format = "{usage}% ";
-        tooltip = false;
-      };
+    window#waybar {
+      background: transparent;
+    }
 
-      "custom/gpu" = {
-        exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{print $1}'";
-        format = "{}% 󰢮";
-        return-type = "json";
-        interval = 10;
-      };
+    .modules-left, .modules-center, .modules-right {
+      background: rgba(17, 17, 27, 0.45);
+      border-radius: 24px;
+      padding: 4px;
+      margin: 4px;
+    }
 
-      "memory" = {
-        format = "{}% ";
-      };
+    #workspaces {
+      margin: 4px;
+      padding: 0;
+      background: transparent;
+    }
 
-      "custom/temp" = {
-        exec = "${temperature}/bin/temperature";
-        format = "{}°C 󰔏";
-        interval = 10;
-      };
+    #workspaces button {
+      color: #cdd6f4;
+      background: rgba(49, 50, 68, 0.6);
+      border-radius: 16px;
+      padding: 2px 10px;
+      margin: 0 2px;
+      box-shadow: none;
+      text-shadow: none;
+      border: none;
+      min-width: 30px;
+    }
 
-      "pulseaudio" = {
-        format = "{icon} {volume}%";
-        format-muted = "婢 Muted";
-        format-icons = {
-          default = ["" "" ""];
-        };
-        on-click = "pavucontrol";
-      };
+    #workspaces button:hover {
+      background: rgba(49, 50, 68, 0.7);
+      color: #cdd6f4;
+    }
 
-      "tray" = {
-        icon-size = 21;
-        spacing = 10;
-      };
+    #workspaces button.active {
+      color: #11111b;
+      background: rgba(147, 153, 178, 0.8);
+    }
 
-      "custom/power" = {
-        format = "⏻";
-        on-click = "wlogout &";
-        tooltip = false;
-      };
-    }];
+    #custom-launcher,
+    #clock,
+    #cpu,
+    #temperature,
+    #network,
+    #pulseaudio,
+    #memory {
+      padding: 2px 12px;
+      margin: 4px;
+      border-radius: 16px;
+      color: #11111b;
+      box-shadow: none;
+      text-shadow: none;
+    }
 
-    style = ''
-      * {
-        font-family: "JetBrainsMono Nerd Font";
-        font-size: 14px;
-        min-height: 0;
-        border: none;
-        border-radius: 0;
-      }
+    #custom-launcher {
+      margin-left: 6px;
+      background-color: rgba(203, 166, 247, 0.8);
+    }
 
-      window#waybar {
-        background: rgba(30, 30, 46, 0.5);
-        color: #cdd6f4;
-        border-radius: 15px;
-      }
+    #cpu {
+      background-color: rgba(180, 190, 254, 0.8);
+    }
 
-      #workspaces {
-        background: #1e1e2e;
-        margin: 5px;
-        padding: 0 5px;
-        border-radius: 10px;
-      }
+    #temperature {
+      background-color: rgba(137, 180, 250, 0.8);
+    }
 
-      #workspaces button {
-        padding: 0 5px;
-        color: #cdd6f4;
-        border-radius: 8px;
-        margin: 3px 0;
-      }
+    #memory {
+      background-color: rgba(116, 199, 236, 0.8);
+    }
 
-      #workspaces button.active {
-        color: #1e1e2e;
-        background: #cba6f7;
-      }
+    #pulseaudio {
+      background-color: rgba(148, 226, 213, 0.8);
+    }
 
-      #clock,
-      #cpu,
-      #custom-gpu,
-      #memory,
-      #custom-temp,
-      #pulseaudio,
-      #custom-weather,
-      #tray,
-      #custom-power,
-      #custom-launcher {
-        background: #1e1e2e;
-        padding: 0 10px;
-        margin: 5px 0;
-        border-radius: 10px;
-      }
+    #network {
+      background-color: rgba(166, 227, 161, 0.8);
+    }
 
-      #custom-launcher {
-        color: #f5c2e7;
-        font-size: 20px;
-        margin-left: 15px;
-        margin-right: 10px;
-      }
-
-      #clock {
-        color: #fab387;
-      }
-
-      #cpu {
-        color: #f38ba8;
-      }
-
-      #custom-gpu {
-        color: #f9e2af;
-      }
-
-      #memory {
-        color: #a6e3a1;
-      }
-
-      #custom-temp {
-        color: #89b4fa;
-      }
-
-      #pulseaudio {
-        color: #89dceb;
-      }
-
-      #custom-weather {
-        color: #94e2d5;
-      }
-
-      #tray {
-        color: #b4befe;
-      }
-
-      #custom-power {
-        color: #f38ba8;
-        margin-right: 15px;
-      }
-    '';
-  }
+    #clock {
+      margin-right: 6px;
+      background-color: rgba(250, 179, 135, 0.8);
+    }
+  '';
+}
