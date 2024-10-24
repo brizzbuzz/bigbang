@@ -30,6 +30,7 @@ in {
       "pulseaudio"
       "network"
       "clock"
+      "custom/power"
     ];
 
     "hyprland/workspaces" = {
@@ -50,6 +51,12 @@ in {
     "custom/launcher" = {
       format = "";
       on-click = "wofi --show drun";
+      tooltip = false;
+    };
+
+    "custom/power" = {
+      format = "⏻";
+      on-click = "wlogout";
       tooltip = false;
     };
 
@@ -149,6 +156,7 @@ in {
     #temperature,
     #network,
     #pulseaudio,
+    #custom-power,
     #memory {
       padding: 2px 12px;
       margin: 4px;
@@ -184,8 +192,13 @@ in {
     }
 
     #clock {
-      margin-right: 6px;
       background-color: rgba(250, 179, 135, 0.8);
+    }
+
+    #custom-power {
+      margin-right: 6px;
+      background-color: rgba(243, 139, 168, 0.8);
+      padding: 2px 16px;
     }
   '';
 }
