@@ -39,10 +39,14 @@
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
       ])
-      ++ (if !osConfig.host.isDarwin then with pkgs; [
-        distrobox # Container manager
-        playerctl # Media player TUI
-      ] else [])
-      ;
+      ++ (
+        if !osConfig.host.isDarwin
+        then
+          with pkgs; [
+            distrobox # Container manager
+            playerctl # Media player TUI
+          ]
+        else []
+      );
   };
 }

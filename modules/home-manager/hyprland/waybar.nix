@@ -8,95 +8,97 @@ in {
     enable = true;
     target = "hyprland-session.target";
   };
-  settings = [{
-    height = 40;
-    layer = "top";
-    position = "top";
-    spacing = 4;
-    margin-left = 15;
-    margin-right = 15;
-    margin-top = 8;
+  settings = [
+    {
+      height = 40;
+      layer = "top";
+      position = "top";
+      spacing = 4;
+      margin-left = 15;
+      margin-right = 15;
+      margin-top = 8;
 
-    modules-left = [
-      "custom/launcher"
-      "cpu"
-      "memory"
-      "temperature"
-    ];
-    modules-center = [
-      "hyprland/workspaces"
-    ];
-    modules-right = [
-      "pulseaudio"
-      "network"
-      "clock"
-      "custom/power"
-    ];
+      modules-left = [
+        "custom/launcher"
+        "cpu"
+        "memory"
+        "temperature"
+      ];
+      modules-center = [
+        "hyprland/workspaces"
+      ];
+      modules-right = [
+        "pulseaudio"
+        "network"
+        "clock"
+        "custom/power"
+      ];
 
-    "hyprland/workspaces" = {
-      format = "{id}";
-      on-click = "activate";
-      active-only = false;
-      all-outputs = true;
-      show-special = false;
-      persistent-workspaces = {
-        "1" = [];
-        "2" = [];
-        "3" = [];
-        "4" = [];
-        "5" = [];
+      "hyprland/workspaces" = {
+        format = "{id}";
+        on-click = "activate";
+        active-only = false;
+        all-outputs = true;
+        show-special = false;
+        persistent-workspaces = {
+          "1" = [];
+          "2" = [];
+          "3" = [];
+          "4" = [];
+          "5" = [];
+        };
       };
-    };
 
-    "custom/launcher" = {
-      format = "";
-      on-click = "wofi --show drun";
-      tooltip = false;
-    };
-
-    "custom/power" = {
-      format = "⏻";
-      on-click = "wlogout";
-      tooltip = false;
-    };
-
-    "cpu" = {
-      interval = 10;
-      format = " {}%";
-      max-length = 10;
-    };
-
-    "temperature" = {
-      format = " {temperatureC}°C";
-    };
-
-    "memory" = {
-      interval = 30;
-      format = " {}%";
-      format-alt = " {used:0.1f}G";
-      max-length = 10;
-    };
-
-    "pulseaudio" = {
-      format = "{icon} {volume}%";
-      format-muted = "婢";
-      format-icons = {
-        default = ["" "" ""];
+      "custom/launcher" = {
+        format = "";
+        on-click = "wofi --show drun";
+        tooltip = false;
       };
-      on-click = "pavucontrol";
-    };
 
-    "network" = {
-      format-wifi = "直 {signalStrength}%";
-      format-ethernet = "";
-      format-disconnected = "睊";
-    };
+      "custom/power" = {
+        format = "⏻";
+        on-click = "wlogout";
+        tooltip = false;
+      };
 
-    "clock" = {
-      format = " {:%H:%M}";
-      format-alt = " {:%Y-%m-%d}";
-    };
-  }];
+      "cpu" = {
+        interval = 10;
+        format = " {}%";
+        max-length = 10;
+      };
+
+      "temperature" = {
+        format = " {temperatureC}°C";
+      };
+
+      "memory" = {
+        interval = 30;
+        format = " {}%";
+        format-alt = " {used:0.1f}G";
+        max-length = 10;
+      };
+
+      "pulseaudio" = {
+        format = "{icon} {volume}%";
+        format-muted = "婢";
+        format-icons = {
+          default = ["" "" ""];
+        };
+        on-click = "pavucontrol";
+      };
+
+      "network" = {
+        format-wifi = "直 {signalStrength}%";
+        format-ethernet = "";
+        format-disconnected = "睊";
+      };
+
+      "clock" = {
+        format = " {:%H:%M}";
+        format-alt = " {:%Y-%m-%d}";
+      };
+    }
+  ];
 
   style = ''
     * {

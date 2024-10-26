@@ -6,8 +6,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
-   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+  fonts.packages = with pkgs; [
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
   environment.systemPackages = with pkgs; [
@@ -19,7 +19,15 @@
     enable = true;
 
     brews = ["mas"];
-    casks = ["1password" "alacritty" "floorp" "iina" "hammerspoon" "the-unarchiver" ];
+    casks = [
+      "1password"
+      "alacritty"
+      "discord"
+      "floorp"
+      "iina"
+      "hammerspoon"
+      "the-unarchiver"
+    ];
     masApps = {
       "Xcode" = 497799835;
       #"Yoink" = 457622435;
