@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ../../modules/common
+    ../../modules/darwin
     ../../modules/home-manager-darwin
   ];
 
@@ -22,10 +23,12 @@
     casks = [
       "1password"
       "alacritty"
+      "betterdiscord-installer"
       "discord"
       "floorp"
       "iina"
       "hammerspoon"
+      "sf-symbols"
       "the-unarchiver"
     ];
     masApps = {

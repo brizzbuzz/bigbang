@@ -68,8 +68,8 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
   in {
-    darwinConfigurations = import ./flake/darwin.nix { inherit inputs; };
-    colmena = import ./flake/nixos.nix { inherit inputs; };
-    devShells = import ./flake/shell.nix { inherit forAllSystems pkgs; };
+    darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
+    colmena = import ./flake/nixos.nix {inherit inputs;};
+    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs;};
   };
 }

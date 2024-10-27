@@ -1,4 +1,4 @@
-{ inputs }: {
+{inputs}: {
   meta = {
     specialArgs = {
       inherit inputs;
@@ -19,7 +19,7 @@
   };
 
   frame = {
-    imports = [ ../hosts/frame/configuration.nix ];
+    imports = [../hosts/frame/configuration.nix];
     deployment = {
       allowLocalDeployment = true;
       targetUser = "ryan";
@@ -27,7 +27,7 @@
   };
 
   gigame = {
-    imports = [ ../hosts/gigame/configuration.nix ];
+    imports = [../hosts/gigame/configuration.nix];
     deployment = {
       allowLocalDeployment = true;
       targetUser = "ryan";
@@ -35,7 +35,7 @@
   };
 
   cloudy = {
-    imports = [ ../hosts/cloudy/configuration.nix ];
+    imports = [../hosts/cloudy/configuration.nix];
     deployment = {
       allowLocalDeployment = true;
       buildOnTarget = true;
