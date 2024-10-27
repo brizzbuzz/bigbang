@@ -1,5 +1,6 @@
 {
   conform-nvim = import ./conform.nix;
+  crates-nvim = import ./crates.nix;
   dashboard = import ./dashboard.nix;
   dressing = import ./dressing.nix;
   #helpview = import ./helpview.nix;
