@@ -28,6 +28,7 @@
       "floorp"
       "iina"
       "hammerspoon"
+      "proxyman"
       "sf-symbols"
       "the-unarchiver"
     ];
