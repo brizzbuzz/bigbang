@@ -1,6 +1,6 @@
 {pkgs-unstable, ...}: {
   services.aerospace = {
-    enable = true;
+    enable = false; # TODO: Enable once it doesn't suck
     package = pkgs-unstable.aerospace;
     settings = {
       # Basic window management settings
