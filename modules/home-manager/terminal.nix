@@ -18,6 +18,7 @@
         fzf # Fuzzy search tool
         gh # GitHub CLI
         glow # CLI markdown renderer
+        gnupg # GPG CLI
         kubectl # Official kubernetes CLI
         k9s # Kubernetes cluster TUI
         lazygit # Another TUI for git

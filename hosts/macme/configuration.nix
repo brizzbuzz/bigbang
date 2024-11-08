@@ -19,23 +19,32 @@
   homebrew = {
     enable = true;
 
-    brews = ["mas"];
+    brews = [
+      "mas"
+    ];
+
     casks = [
       "1password"
       "alacritty"
+      "bartender"
       "betterdiscord-installer"
+      "bruno"
       "discord"
       "floorp"
       "iina"
       "hammerspoon"
+      "jetbrains-toolbox"
       "proxyman"
       "sf-symbols"
       "the-unarchiver"
     ];
+
     masApps = {
+      "Tailscale" = 1475387142;
       "Xcode" = 497799835;
       #"Yoink" = 457622435;
     };
+
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
   };
