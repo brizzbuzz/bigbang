@@ -4,7 +4,6 @@
   ...
 }: {
   config = lib.mkIf config.host.desktop.enable {
-    sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {

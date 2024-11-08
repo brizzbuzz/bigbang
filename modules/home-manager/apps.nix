@@ -10,7 +10,8 @@ in
   lib.mkIf (isDesktop && !isDarwin)
   {
     home.packages = with pkgs; [
-      blender # 3D modeling
+      # Broken??
+      # blender # 3D modeling
       discord # Chat
       digikam # Photo editor
       floorp # Browser du jour

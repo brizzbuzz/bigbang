@@ -15,7 +15,6 @@
       ledger.enable = true;
       opengl = {
         enable = true;
-        driSupport = true;
       };
     };
   };

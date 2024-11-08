@@ -15,6 +15,7 @@
     ./flake-support.nix
     ./fonts.nix
     ./gaming.nix
+    ./garbage-collection.nix
     ./glance.nix
     ./hardware.nix
     ./hyprland.nix

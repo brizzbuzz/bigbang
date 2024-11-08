@@ -7,7 +7,12 @@
       "fs.inotify.max_user_instances" = 1024;
     };
 
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 15;
+      };
+      efi.canTouchEfiVariables = true;
+    };
   };
 }
