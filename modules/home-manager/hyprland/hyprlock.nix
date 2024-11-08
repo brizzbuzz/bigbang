@@ -1,8 +1,8 @@
-{pkgs-unstable, ...}: let
+{pkgs, ...}: let
   colors = import ./theme.nix;
 in {
   enable = true;
-  package = with pkgs-unstable;
+  package = with pkgs;
     hyprlock.overrideAttrs (old: {
       version = "git";
       # See https://github.com/hyprwm/hyprlock/issues/128

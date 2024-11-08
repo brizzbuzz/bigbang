@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   osConfig,
   ...
 }: let
@@ -15,7 +14,7 @@ in {
   home.packages =
     if (isDesktop && !isDarwin)
     then
-      (with pkgs; [
+      with pkgs; [
         libnotify
         swaynotificationcenter
         waybar
@@ -23,12 +22,10 @@ in {
         wlogout
         wofi
         xwayland
-      ])
-      ++ (with pkgs-unstable; [
         hyprpaper
         hyprpicker
         hyprshot
         hyprutils
-      ])
+      ]
     else [];
 }

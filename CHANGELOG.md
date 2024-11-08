@@ -2,6 +2,121 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2024-11-08
+
+### 🚀 Features
+
+- Nushell derivation (#34)
+- Add jj to flake
+- Launch glance as systemd service
+- Soft serve (#37)
+- Enable postgres db for all systems
+- Upgrade nixos to 24.05
+- Misc terminal updates
+- Add kdlfmt with neovim integration
+- Portfolio dev env floating panes
+- Adjustments to zellij default panels
+- Basic revv work setup
+- Add additional packages to revv laptop
+- More macos integration
+- Homebrew managed by nix
+- More darwin specific stuff
+- Add git signing key as configurable value
+- Add git signing key as configurable value
+- Add jellyfin server config
+- Pg noevim
+- Add posting tui
+- Revvbook -> macme
+- Transmission enabled
+- Add digikam
+- Move several dots to nix
+- More dots move to nix files
+- Darwin consolidation
+- Improved nix dot consolidation
+- Integrate nixvim to home manager
+- Nuking old nvim, going all in on nixvim
+- *(nvim)* Enable telescope
+- Nixvim file structure
+- Nvim dashboard plugin
+- Nvim plugins and touch ups
+- Use overlay to add custom neovim plugin
+- Basic nvim lsp support
+- Speedtest-go derivation
+- Reworking hypr confs
+- Disable plasma, integrate sddm and add theme
+- Steps towards a waybar i actually like
+- Reintegrated homebrew into home manager
+- Waybar looking goooood
+- Add power button to waybar
+- Sketchybar
+- Aerospace
+- *(nvim)* Crates-nvim
+- *(darwin)* Proxyman
+- Tailscale on macos
+
+### 🐛 Bug Fixes
+
+- Resolved issue where custom options were not present in home manager
+- Remove automatic garbage collection
+- Set new hw config for cloudy
+- Only enable glance and soft serve on cloudy
+- Soft serve systemd service working
+- Bug in zellij config
+- Steam was bugged
+- Wofi broken
+- Enable iwd autoconnect
+- Switch back to nm from connman cuz connman is pita
+- Temporarily remove home manager from darwin setup
+- Remove zellij default layout
+- Infinite rec on nixos
+- Atuin script
+- Misconfigured work ssh config
+- Forgot to adjust file location
+- Enable unstable pkgs on darwin
+- Remove homebrew from darwin install
+- Wayland not on darwin
+- Ssh config not symlinked to config dir
+- Support 1password auth agent for darwin and nix
+- Nvim color scheme and bat config warning
+- Add brew to nushell path
+
+### ⚙️ Miscellaneous Tasks
+
+- Enable local deploy for cloudy
+- Only install steam if desktop is enabled
+- Update lock file
+- Explicitly set pg version to 16
+- Bump kdlfmt
+- Misc bind updates to hyprland conf
+- Misc updates to hypr key bindings
+- Remove tailwind css lang server (why was it there)
+- Misc updates to nvim
+- Remove autolaunch for brave
+- Formatting
+- Enable blank home manager for darwin
+- Remove todo
+- Add a few git aliases
+- Flake update
+- Neovim touchups
+- Update lock file
+- Neovim deps
+- Neovim touchup
+- Darwin neovim touchup
+- Ruff neovim integration
+- Update lock
+- Change posting orientation
+- Remove espanso for now since its broken with wayland
+- Update lock
+- Cloudy build on machine
+- Enable a few nvim plugins
+- Misc flake updates and neovim plugins
+- Remove unnecessary derivations
+- Themes and stuff
+- Add jetbrains nerdfont to mac
+- Fix up stuff on macos
+- Restructure flake file
+- *(darwin)* Disable aerospace for now cuz it kinda sucks
+
 ## [0.4.0] - 2024-05-15
 
 ### 🚀 Features
@@ -26,6 +141,7 @@ All notable changes to this project will be documented in this file.
 - Update lock file
 - Update lock file
 - Bump file watch count
+- Update changelog
 
 ## [0.3.0] - 2024-04-12
 

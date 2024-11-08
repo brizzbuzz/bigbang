@@ -1,5 +1,5 @@
 {
-  pkgs-unstable,
+  pkgs,
   config,
   lib,
   ...
@@ -17,7 +17,7 @@
       };
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs-unstable.soft-serve}/bin/soft serve";
+        ExecStart = "${pkgs.soft-serve}/bin/soft serve";
         Restart = "always";
         RestartSec = "10";
         # WorkingDirectory = "/var/local/lib/soft-serve";

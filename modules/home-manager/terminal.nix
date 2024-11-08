@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   osConfig,
   ...
 }: {
@@ -32,8 +31,6 @@
         tokei # Code line counter
         unzip # Extraction utility
         xplr # TUI File Explorer
-      ])
-      ++ (with pkgs-unstable; [
         lazysql # Database TUI
         # wallust # Color theme utility
         # wf-recorder # Wayland screen recorder

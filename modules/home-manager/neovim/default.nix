@@ -1,11 +1,6 @@
-{
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{pkgs, ...}: {
   programs.nixvim = {
     enable = true;
-    package = pkgs-unstable.neovim-unwrapped;
 
     colorschemes = import ./colorscheme.nix;
     globals = import ./globals.nix;

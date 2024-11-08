@@ -11,8 +11,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -34,7 +33,7 @@
       url = "github:nix-community/nixvim";
       inputs.nix-darwin.follows = "nix-darwin";
       inputs.home-manager.follows = "home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     homebrew-core = {
@@ -60,7 +59,6 @@
     homebrew-core,
     homebrew-cask,
     nixpkgs,
-    nixpkgs-unstable,
     nixvim,
     ...
   } @ inputs: let

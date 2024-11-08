@@ -1,7 +1,7 @@
-{pkgs-unstable, ...}: {
+{pkgs, ...}: {
   services.aerospace = {
     enable = false; # TODO: Enable once it doesn't suck
-    package = pkgs-unstable.aerospace;
+    package = pkgs.aerospace;
     settings = {
       # Basic window management settings
       default-root-container-layout = "tiles";

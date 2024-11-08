@@ -7,10 +7,6 @@
         config.allowUnfree = true;
         overlays = import ../modules/overlays;
       };
-      pkgs-unstable = import inputs.nixpkgs-unstable {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
     };
     nixpkgs = import inputs.nixpkgs {
       system = "x86_64-linux";

@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../common
+    ./attic.nix
     ./audio.nix
     ./boot.nix
     ./display-manager.nix

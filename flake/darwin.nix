@@ -26,11 +26,6 @@
         config.allowUnfree = true;
         overlays = import ../modules/overlays;
       };
-      pkgs-unstable = import inputs.nixpkgs-unstable {
-        system = "aarch64-darwin";
-        config.allowUnfree = true;
-        overlays = import ../modules/overlays;
-      };
     };
   };
 }

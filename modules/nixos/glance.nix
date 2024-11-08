@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs-unstable,
+  pkgs,
   ...
 }: {
   options = {
@@ -15,7 +15,7 @@
       wantedBy = ["default.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs-unstable.glance}/bin/glance -config /etc/glance";
+        ExecStart = "${pkgs.glance}/bin/glance -config /etc/glance";
         Restart = "on-failure";
         RestartSec = "10";
         TimeoutStopSec = "0";

@@ -1,5 +1,5 @@
-{pkgs-unstable, ...}: let
-  temperature = pkgs-unstable.writeShellScriptBin "temperature" ''
+{pkgs, ...}: let
+  temperature = pkgs.writeShellScriptBin "temperature" ''
     sensors | grep "Package id 0:" | awk '{print $4}' | cut -c 2-
   '';
 in {

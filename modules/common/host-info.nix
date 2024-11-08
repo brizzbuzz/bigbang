@@ -37,6 +37,9 @@
       remote = {
         enable = mkEnableOption "Enable Remote Server";
       };
+      attic.server = {
+        enable = mkEnableOption "Enable Attic Binary Server";
+      };
       jellyfin.server = {
         enable = mkEnableOption "Enable Jellyfin";
       };
@@ -57,7 +60,9 @@
       remote = {
         enable = lib.mkDefault false;
       };
-
+      attic.server = {
+        enable = lib.mkDefault false;
+      };
       jellyfin.server = {
         enable = lib.mkDefault false;
       };

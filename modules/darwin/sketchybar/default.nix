@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   # Previous script definitions remain the same
   batteryScript = pkgs.writeScript "battery.sh" ''
     #!/bin/bash
@@ -84,11 +86,10 @@ let
     esac
     sketchybar --set "$NAME" icon="$ICON" label="$SPACE_ID"
   '';
-in
-{
+in {
   services.sketchybar = {
     enable = true;
-    extraPackages = [ pkgs.jq ];
+    extraPackages = [pkgs.jq];
     config = ''
       #!/bin/bash
 

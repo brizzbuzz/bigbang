@@ -2,7 +2,6 @@
   config,
   inputs,
   pkgs,
-  pkgs-unstable,
   ...
 }: let
   admin = config.host.admin.name;
@@ -17,7 +16,7 @@ in {
   home-manager.users.${admin} = import ./admin.nix;
 
   home-manager.extraSpecialArgs = {
-    inherit pkgs pkgs-unstable;
+    inherit pkgs;
     nixvim = inputs.nixvim;
   };
 }
