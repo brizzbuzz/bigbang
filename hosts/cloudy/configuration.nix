@@ -16,6 +16,7 @@
     remote.enable = true;
     attic.server.enable = true;
     jellyfin.server.enable = true;
+    minio.server.enable = true;
   };
 
   glance.enable = true;

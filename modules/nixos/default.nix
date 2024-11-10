@@ -23,6 +23,7 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
+    ./minio.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix
