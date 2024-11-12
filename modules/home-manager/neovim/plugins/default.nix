@@ -1,4 +1,5 @@
 {
+  avante = import ./avante.nix;
   conform-nvim = import ./conform.nix;
   crates-nvim = import ./crates.nix;
   dashboard = import ./dashboard.nix;
