@@ -14,6 +14,18 @@
 
         jwt = {};
 
+        storage = {
+          type = "s3";
+          region = "us-east-1";
+          bucket = "some-bucket";
+          endpoint = "http://cloudy:9001";
+
+          credentials = {
+            accessKey = "minioadmin";
+            secretKey = "minioadmin";
+          };
+        };
+
         # Data chunking
         #
         # Warning: If you change any of the values here, it will be
