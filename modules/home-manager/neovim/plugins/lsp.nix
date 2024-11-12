@@ -1,10 +1,9 @@
 {
-  #enable = true;
+  enable = true;
 
   servers = {
-    # Nix
-    nil_ls.enable = true;
-    # Nushell
+    gopls.enable = true;
+    nixd.enable = true;
     nushell.enable = true;
   };
 
