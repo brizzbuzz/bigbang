@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2024-11-08
+## [0.5.0] - 2024-11-12
 
 ### 🚀 Features
 
@@ -53,6 +53,9 @@ All notable changes to this project will be documented in this file.
 - *(nvim)* Crates-nvim
 - *(darwin)* Proxyman
 - Tailscale on macos
+- Bump entirely to unstable, enable attic on cloudy
+- Enable minio object storage server
+- Avante nvim integration
 
 ### 🐛 Bug Fixes
 
@@ -79,6 +82,7 @@ All notable changes to this project will be documented in this file.
 - Support 1password auth agent for darwin and nix
 - Nvim color scheme and bat config warning
 - Add brew to nushell path
+- Build broken on nixos
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -116,6 +120,7 @@ All notable changes to this project will be documented in this file.
 - Fix up stuff on macos
 - Restructure flake file
 - *(darwin)* Disable aerospace for now cuz it kinda sucks
+- Reenable nvim lsp
 
 ## [0.4.0] - 2024-05-15
 
