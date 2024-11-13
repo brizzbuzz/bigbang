@@ -34,6 +34,7 @@
       "iina"
       "hammerspoon"
       "jetbrains-toolbox"
+      "protonvpn"
       "proxyman"
       "sf-symbols"
       "the-unarchiver"
