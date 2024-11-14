@@ -1,15 +1,20 @@
 {
-  pkgs,
   inputs,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/common
     ../../modules/nixos
     ../../modules/home-manager
-    inputs.home-manager.nixosModules.home-manager
+    inputs.opnix.nixosModules.default
   ];
+
+  services.onepassword-secrets = {
+    enable = true;
+    tokenFile = "/etc/opnix-token";
+    configFile = ./../../secrets.json;
+  };
+
   host = {
     name = "cloudy";
     desktop.enable = false;
