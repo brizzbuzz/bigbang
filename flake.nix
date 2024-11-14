@@ -50,6 +50,11 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+
+    opnix = {
+      url = "github:brizzbuzz/opnix/v0.2.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -60,6 +65,7 @@
     homebrew-cask,
     nixpkgs,
     nixvim,
+    opnix,
     ...
   } @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
