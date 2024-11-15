@@ -1,30 +1,24 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: {
   config = lib.mkIf config.host.attic.server.enable {
     services.atticd = {
       enable = true;
-      environmentFile = "/etc/atticd.env";
+      environmentFile = "/var/lib/opnix/secrets/atticd/server/env";
 
       settings = {
-        listen = "[::]:9001"; # TODO: Make configurable
+        listen = "[::]:${toString config.host.attic.server.port}";
 
         jwt = {};
 
-        # storage = {
-        #   type = "s3";
-        #   region = "us-east-1";
-        #   bucket = "some-bucket";
-        #   endpoint = "http://cloudy:9001";
-        #
-        #   credentials = {
-        #     accessKey = "minioadmin";
-        #     secretKey = "minioadmin";
-        #   };
-        # };
+        storage = {
+          type = "s3";
+          region = "us-east-1";
+          bucket = "some-bucket";
+          endpoint = "https://cloudy.dory-mamba.ts.net:9002";
+        };
 
         # Data chunking
         #
