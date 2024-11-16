@@ -18,7 +18,7 @@
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 
-## // SYSTEM OVERVIEW
+## [SYS::OVERVIEW]
 ```
  ╭──────────────────────────────────────────────────────╮
  │ BIGBANG: Digital Reality Engineering & Virtualization │
@@ -27,7 +27,7 @@
 
 Welcome to BigBang, where code meets reality. This isn't just configuration - it's digital reality engineering, building worlds from pure information.
 
-## // CORE SYSTEMS
+## [SYS::CORES]
 ```
 ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
 │  FRAME  │   │ GIGAME  │   │ CLOUDY  │   │  MACME  │
@@ -38,47 +38,47 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
            UNIFIED REALITY PROTOCOL
 ```
 
-### ⚡ FRAME [MOBILE]
+### [NODE::FRAME] <MOB_1>
 ```
 ├─ NixOS Core
 ├─ Hyprland Interface
 └─ Mobile Operations
 ```
 
-### 🔥 GIGAME [POWERHOUSE]
+### [NODE::GIGAME] <PWR_1>
 ```
 ├─ NVIDIA Acceleration
 ├─ Gaming Protocols
 └─ Performance Engine
 ```
 
-### ☁️ CLOUDY [INFRASTRUCTURE]
+### [NODE::CLOUDY] <INF_1>
 ```
 ├─ Deployment Center
 ├─ Data Distribution
 └─ Network Gateway
 ```
 
-### 🍎 MACME [HYBRID]
+### [NODE::MACME] <HYB_1>
 ```
 ├─ Darwin/Nix Fusion
 ├─ Reality Bridge
 └─ Homebrew Matrix
 ```
 
-## // CORE CAPABILITIES
+## [SYS::CAPABILITIES]
 
-### 🛠️ Reality Engineering Tools
+### [TOOLS::CORE]
 ```
-▼ DEPLOYMENT  : Colmena           // Reality Sync
-▼ EDITOR      : NixVim           // Matrix Interface
-▼ ENV         : Home-Manager     // Reality Control
-▼ TERMINAL    : Alacritty       // Digital Viewport
-▼ SHELL       : Nushell         // Command Layer
-▼ MULTIPLEXER : Zellij         // Reality Division
+▼ DEPLOYMENT  :: Colmena           // Reality Sync
+▼ EDITOR      :: NixVim           // Matrix Interface
+▼ ENV         :: Home-Manager     // Reality Control
+▼ TERMINAL    :: Alacritty       // Digital Viewport
+▼ SHELL       :: Nushell         // Command Layer
+▼ MULTIPLEXER :: Zellij         // Reality Division
 ```
 
-## // ACTIVATION PROTOCOLS
+## [SYS::ACTIVATION]
 ```
 ┌────────────────────────────────────────┐
 │ nr  // Local reality synchronization   │
@@ -86,7 +86,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 └────────────────────────────────────────┘
 ```
 
-## // SYSTEM ARCHITECTURE
+## [SYS::ARCHITECTURE]
 ```
 BIGBANG
 ├─ flake.nix         // Universal Constants
@@ -99,42 +99,42 @@ BIGBANG
 └─ secrets.json      // Encrypted Data
 ```
 
-## // SECURITY MATRIX
+## [SEC::MATRIX]
 ```
 ╔═══════════════╗  ╔════════════╗  ╔═══════════╗
-║   1Password   ║──║  YubiKey   ║──║ Tailscale ║
+║   1PASSWORD   ║──║  YUBIKEY   ║──║ TAILSCALE ║
 ╚═══════════════╝  ╚════════════╝  ╚═══════════╝
         │               │               │
         └───────────────┴───────────────┘
 ```
 
-## // GETTING STARTED
+## [SYS::INIT]
 ```
- STEP 1 │ git clone https://github.com/yourusername/bigbang.git
- STEP 2 │ cd bigbang
- STEP 3 │ nix develop
- STEP 4 │ nr
+ <00> │ git clone https://github.com/yourusername/bigbang.git
+ <01> │ cd bigbang
+ <02> │ nix develop
+ <03> │ nr
 ```
 
-## // REALITY ENGINEERING TOOLS
+## [TOOLS::ENGINEERING]
 ```
 ┌─────────────┬────────────────────────┐
-│ git-cliff   │ Timeline Management    │
-│ nurl        │ Resource Fetcher       │
-│ tokei       │ Code Quantification    │
+│ GIT-CLIFF   │ Timeline Management    │
+│ NURL        │ Resource Fetcher       │
+│ TOKEI       │ Code Quantification    │
 └─────────────┴────────────────────────┘
 ```
 
-## // SUPPORT PROTOCOLS
+## [PROTOCOLS::SUPPORT]
 ```
 ┌────────────────────┐
-│ 1. Fork Timeline   │
-│ 2. Engineer Fix    │
-│ 3. Merge Reality   │
+│ [0] Fork Timeline  │
+│ [1] Engineer Fix   │
+│ [2] Merge Reality  │
 └────────────────────┘
 ```
 
-## // LICENSE
+## [SYS::LICENSE]
 ```
 ╔════════════════════════════════════════════╗
 ║  MIT License - Free Reality Engineering    ║
@@ -149,9 +149,6 @@ BIGBANG
 ```
 
 ```
-        ▀▀█▀▀ █  █ █▀▀ 　 █▀▀ █▀▀▄ █▀▀▄
-          █   █▀▀█ █▀▀ 　 █▀▀ █  █ █  █
-          ▀   ▀  ▀ ▀▀▀ 　 ▀▀▀ ▀  ▀ ▀▀▀
+[END::TRANSMISSION]
+<EOF>
 ```
-
-[END OF TRANSMISSION]
