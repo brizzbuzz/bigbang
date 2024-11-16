@@ -6,14 +6,26 @@
         default = 9001;
         description = "The port to bind to";
       };
-      minio.server = mkOption {
+      minio = {
+        server = mkOption {
+          type = types.int;
+          default = 9002;
+          description = "The port to bind to";
+        };
+        console = mkOption {
+          type = types.int;
+          default = 9003;
+          description = "The port to bind to";
+        };
+      };
+      ollama.api = mkOption {
         type = types.int;
-        default = 9002;
+        default = 11434;
         description = "The port to bind to";
       };
-      minio.console = mkOption {
+      open-webui = mkOption {
         type = types.int;
-        default = 9003;
+        default = 11435;
         description = "The port to bind to";
       };
     };
@@ -58,9 +70,9 @@
         nvidia.enable = mkEnableOption "Enable Nvidia GPU Drivers";
       };
 
-      remote = {
-        enable = mkEnableOption "Enable Remote Server";
-      };
+      remote.enable = mkEnableOption "Enable Remote Server";
+
+      ai.enable = mkEnableOption "Enable AI Services";
 
       attic.server = {
         enable = mkEnableOption "Enable Attic Binary Server";
@@ -105,13 +117,20 @@
       remote = {
         enable = lib.mkDefault false;
       };
+
+      ai = {
+        enable = lib.mkDefault false;
+      };
+
       attic.server = {
         enable = lib.mkDefault false;
         port = lib.mkDefault 9001;
       };
+
       jellyfin.server = {
         enable = lib.mkDefault false;
       };
+
       minio.server = {
         enable = lib.mkDefault false;
         port = lib.mkDefault 9002;

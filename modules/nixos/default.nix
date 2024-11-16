@@ -24,6 +24,8 @@
     ./networking.nix
     ./nvidia.nix
     ./minio.nix
+    ./ollama.nix
+    ./open-webui.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix
