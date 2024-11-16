@@ -69,12 +69,12 @@ in {
         size = 3;
         passes = 1;
       };
-      drop_shadow = "yes";
+      #drop_shadow = "yes";
       # shadow = {
       #   range = 4;
       #   render_power = 3;
       # };
-      "col.shadow" = "rgba(1a1a1aee)";
+      #"col.shadow" = "rgba(1a1a1aee)";
     };
 
     animations = {
