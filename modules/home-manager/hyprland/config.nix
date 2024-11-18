@@ -40,7 +40,7 @@ in {
 
     # TODO: Need to move to host-info
     monitor = [
-      "eDP-1,2256x1504@60,0x0,1"
+      "DP-3, 3440x1440@120, 0x0, 1"
     ];
 
     input = {
@@ -101,6 +101,7 @@ in {
 
     misc = {
       force_default_wallpaper = 0;
+      # vrr = 2;
     };
 
     "$hypr" =

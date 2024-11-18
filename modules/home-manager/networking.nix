@@ -10,9 +10,6 @@ in
   lib.mkIf (isDesktop && !isDarwin)
   {
     home.packages = with pkgs; [
-      connman
-      iwd
-      iwgtk
       tailscale
     ];
   }
