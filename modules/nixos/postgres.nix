@@ -15,14 +15,14 @@ in {
 
     # Ensure databases exist
     ensureDatabases = [
-      "superuser"  # Create a database for the superuser
+      "superuser" # Create a database for the superuser
     ];
 
     # Ensure our superuser exists with proper permissions
     ensureUsers = [
       {
         name = "superuser";
-        ensureDBOwnership = true;  # Give ownership of the superuser database
+        ensureDBOwnership = true; # Give ownership of the superuser database
         ensureClauses = {
           superuser = true;
           createrole = true;

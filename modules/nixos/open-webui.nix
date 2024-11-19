@@ -1,4 +1,8 @@
-{config, lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   services.open-webui = lib.mkIf config.host.ai.enable {
     enable = true;
     port = config.ports.open-webui;
@@ -8,4 +12,3 @@
     };
   };
 }
-

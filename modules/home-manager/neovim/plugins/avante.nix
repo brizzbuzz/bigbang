@@ -51,8 +51,8 @@
       endpoint = "https://api.anthropic.com";
       model = "claude-3-5-sonnet-20241022";
       temperature = 0;
-      max_tokens = 8000;  # Increased from 4096 to match default
-      timeout = 30000;    # Added timeout setting
+      max_tokens = 8000; # Increased from 4096 to match default
+      timeout = 30000; # Added timeout setting
     };
 
     behaviour = {
