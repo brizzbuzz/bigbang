@@ -17,6 +17,10 @@ in
       floorp # Browser du jour
       gimp # Photo editor
       inkscape # Vector graphics editor
+      jetbrains.datagrip # Database IDE
+      jetbrains.idea-ultimate # General IDE
+      jetbrains.pycharm-professional # Python IDE
+      jetbrains.rust-rover # Rust IDE
       mpv # Media player
       spotify # Music
       transmission_4 # Torrent client
