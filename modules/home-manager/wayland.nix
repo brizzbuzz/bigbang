@@ -4,7 +4,7 @@
   ...
 }: let
   isDesktop = osConfig.host.desktop.enable;
-  isDarwin = osConfig.host.isDarwin;
+  isDarwin = pkgs.stdenv.isDarwin;
 in {
   imports =
     if (isDesktop && !isDarwin)

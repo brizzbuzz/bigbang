@@ -1,6 +1,5 @@
 {
   pkgs,
-  osConfig,
   ...
 }: {
   home = {
@@ -38,7 +37,7 @@
         # wl-screenrec # Another wayland screen recorder
       ])
       ++ (
-        if !osConfig.host.isDarwin
+        if !pkgs.stdenv.isDarwin
         then
           with pkgs; [
             distrobox # Container manager

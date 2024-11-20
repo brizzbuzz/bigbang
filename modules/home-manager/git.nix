@@ -1,8 +1,12 @@
 {
   lib,
   osConfig,
+  pkgs,
   ...
-}: {
+}: let
+  isDarwin = pkgs.stdenv.isDarwin;
+  isDesktop = osConfig.host.desktop.enable;
+in {
   programs.git = {
     enable = true;
     userName = "Ryan Brink";
@@ -44,9 +48,9 @@
       gpg = {
         format = "ssh";
       };
-      "gpg \"ssh\"" = lib.mkIf osConfig.host.desktop.enable {
+      "gpg \"ssh\"" = lib.mkIf isDesktop {
         program =
-          if osConfig.host.isDarwin
+          if isDarwin
           then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
           else "/run/current-system/sw/bin/op-ssh-sign";
       };

@@ -1,11 +1,13 @@
 {
   lib,
+  pkgs,
   osConfig,
   ...
 }: let
-  isDarwin = osConfig.host.isDarwin;
+  isDarwin = pkgs.stdenv.isDarwin;
+  isDesktop = osConfig.host.desktop.enable;
 in {
-  programs.ssh = lib.mkIf osConfig.host.desktop.enable {
+  programs.ssh = lib.mkIf isDesktop {
     enable = true;
 
     extraConfig =
