@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  isDarwin = pkgs.stdenv.isDarwin;
+  rebuildCommand = if isDarwin then "darwin-rebuild switch --flake .#" else "sudo colmena apply-local";
+  rebuildRemoteCommand = if isDarwin then "colmena apply --on" else "sudo colmena apply --on";
+in {
   programs.nushell = {
     enable = true;
 
@@ -121,8 +125,8 @@
 
     extraConfig = ''
       # Aliases
-      alias nr = sudo colmena apply-local # Apply config only for the current host
-      alias nrr = sudo colmena apply --on # Apply config for all hosts
+      alias nr = ${rebuildCommand}
+      alias nrr = ${rebuildRemoteCommand}
       alias rd = repo dump
       alias zj = zellij
     '';
