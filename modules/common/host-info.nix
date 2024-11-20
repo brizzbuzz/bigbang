@@ -36,12 +36,6 @@
         description = "The git signing key";
       };
 
-      isDarwin = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Is this a Mac?";
-      };
-
       keyboard = mkOption {
         type = with types; nullOr (enum ["moonlander" "voyager"]);
         default = null;

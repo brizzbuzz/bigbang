@@ -51,7 +51,6 @@
   };
 
   host = {
-    isDarwin = true;
     keyboard = "voyager";
   };
 
