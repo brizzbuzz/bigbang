@@ -14,6 +14,7 @@ in
       # blender # 3D modeling
       discord # Chat
       digikam # Photo editor
+      libsForQt5.dolphin # File manager
       floorp # Browser du jour
       gimp # Photo editor
       inkscape # Vector graphics editor

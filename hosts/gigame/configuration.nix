@@ -1,9 +1,11 @@
 {inputs, ...}: {
   imports = [
+    inputs.disko.nixosModules.disko
+    inputs.opnix.nixosModules.default
     ./hardware-configuration.nix
+    ./disko.nix
     ../../modules/nixos
     ../../modules/home-manager
-    inputs.opnix.nixosModules.default
   ];
 
   services.onepassword-secrets = {
