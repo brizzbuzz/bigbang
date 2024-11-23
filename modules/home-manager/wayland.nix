@@ -17,7 +17,6 @@ in {
       with pkgs; [
         libnotify
         swaynotificationcenter
-        waybar
         wl-clipboard
         wlogout
         wofi

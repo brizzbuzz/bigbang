@@ -1,7 +1,13 @@
 {pkgs, ...}: let
   isDarwin = pkgs.stdenv.isDarwin;
-  rebuildCommand = if isDarwin then "darwin-rebuild switch --flake .#" else "sudo colmena apply-local";
-  rebuildRemoteCommand = if isDarwin then "colmena apply --on" else "sudo colmena apply --on";
+  rebuildCommand =
+    if isDarwin
+    then "darwin-rebuild switch --flake .#"
+    else "sudo colmena apply-local";
+  rebuildRemoteCommand =
+    if isDarwin
+    then "colmena apply --on"
+    else "sudo colmena apply --on";
 in {
   programs.nushell = {
     enable = true;

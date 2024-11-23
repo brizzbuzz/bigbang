@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -63,15 +68,15 @@
   };
 
   outputs = {
-    disko,
+    #disko,
     nix-darwin,
     home-manager,
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
     nixpkgs,
-    nixvim,
-    opnix,
+    #nixvim,
+    #opnix,
     ...
   } @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];

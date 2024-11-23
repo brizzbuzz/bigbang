@@ -14,7 +14,7 @@
     "/nix/store" = {
       device = "/dev/disk/by-uuid/c7d72a73-dd87-46f4-83df-38bfc42c8d6c";
       fsType = "ext4";
-      options = [ "ro" "relatime" ];
+      options = ["ro" "relatime"];
     };
   };
 

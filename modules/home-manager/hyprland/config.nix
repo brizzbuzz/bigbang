@@ -163,6 +163,7 @@ in {
     "exec-once" = [
       "hyprpaper"
       "hypridle"
+      "hyprpanel"
       "swaync"
       "1password --silent"
       "systemctl start --user polkit-gnome-authentication-agent-1"

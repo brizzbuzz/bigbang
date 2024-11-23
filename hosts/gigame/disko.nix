@@ -1,5 +1,5 @@
 {lib, ...}: {
-    fileSystems = lib.mkForce {
+  fileSystems = lib.mkForce {
     "/" = {
       device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
@@ -23,7 +23,7 @@
     "/nix/store" = {
       device = "/dev/disk/by-label/nix-store";
       fsType = "ext4";
-      options = [ "ro" "relatime" "noatime" ];
+      options = ["ro" "relatime" "noatime"];
     };
   };
 
@@ -68,7 +68,7 @@
             };
             nixos = {
               name = "nixos";
-              size = "100%";  # Use remaining space
+              size = "100%"; # Use remaining space
               content = {
                 type = "filesystem";
                 format = "ext4";
