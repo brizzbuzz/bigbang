@@ -40,7 +40,7 @@ in {
 
     # TODO: Need to move to host-info
     monitor = [
-      "DP-3, 3440x1440@120, 0x0, 1"
+      "DP-3, 3440x1440@175, 0x0, 1"
     ];
 
     input = {
