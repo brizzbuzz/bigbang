@@ -3,11 +3,11 @@
   rebuildCommand =
     if isDarwin
     then "darwin-rebuild switch --flake .#"
-    else "sudo colmena apply-local";
+    else "sudo colmena apply-local --impure";
   rebuildRemoteCommand =
     if isDarwin
-    then "colmena apply --on"
-    else "sudo colmena apply --on";
+    then "colmena apply --impure --on"
+    else "sudo colmena apply --impure --on";
 in {
   programs.nushell = {
     enable = true;
