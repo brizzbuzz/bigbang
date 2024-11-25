@@ -34,10 +34,14 @@
       "iina"
       "hammerspoon"
       "jetbrains-toolbox"
+      "pocket-casts"
       "protonvpn"
       "proxyman"
       "sf-symbols"
+      "spacedrive"
+      "spotify"
       "the-unarchiver"
+      "zoom"
     ];
 
     masApps = {
