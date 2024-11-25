@@ -1,32 +1,4 @@
-{lib, ...}: {
-  fileSystems = lib.mkForce {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-uuid/3FDC-0BDA";
-      fsType = "vfat";
-      options = [
-        "defaults"
-        "relatime"
-        "fmask=0022"
-        "dmask=0022"
-        "codepage=437"
-        "iocharset=iso8859-1"
-        "shortname=mixed"
-        "errors=remount-ro"
-      ];
-    };
-
-    "/nix/store" = {
-      device = "/dev/disk/by-label/nix-store";
-      fsType = "ext4";
-      options = ["ro" "relatime" "noatime"];
-    };
-  };
-
+{...}: {
   disko.devices = {
     disk = {
       nvme0 = {
@@ -35,45 +7,93 @@
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              name = "boot";
+            ESP = {
+              name = "ESP";
+              priority = 1;
               size = "512M";
-              type = "C12A7328-F81F-11D2-BA4B-00A0C93EC93B"; # EFI
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                  "relatime"
-                  "fmask=0022"
-                  "dmask=0022"
-                  "codepage=437"
-                  "iocharset=iso8859-1"
-                  "shortname=mixed"
-                  "errors=remount-ro"
-                ];
+                mountOptions = ["umask=0077"];
               };
             };
-            nix-store = {
-              name = "nix-store";
-              size = "150G";
+            swap = {
+              name = "swap";
+              priority = 2;
+              size = "32G";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                extraArgs = ["-L" "nix-store"];
-                mountpoint = "/nix/store";
-                mountOptions = ["defaults" "ro" "noatime"];
+                type = "swap";
+                resumeDevice = true;  # Enables hibernation
               };
             };
-            nixos = {
-              name = "nixos";
-              size = "100%"; # Use remaining space
+            root = {
+              name = "root";
+              size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-                mountOptions = ["defaults" "relatime"];
+                type = "btrfs";
+                extraArgs = ["-f"];  # Force creation
+                subvolumes = {
+                  # Subvolume for root filesystem
+                  "/root" = {
+                    mountpoint = "/";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  # Subvolume for nix store
+                  "/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  # Subvolume for home directories
+                  "/home" = {
+                    mountpoint = "/home";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  # Subvolume for state that persists across system updates
+                  "/persist" = {
+                    mountpoint = "/persist";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  # Subvolume for system state that should be wiped on boot
+                  "/tmp" = {
+                    mountpoint = "/tmp";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+      nvme1 = {
+        type = "disk";
+        device = "/dev/nvme1n1";
+        content = {
+          type = "gpt";
+          partitions = {
+            data = {
+              name = "data";
+              size = "100%";
+              content = {
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subvolumes = {
+                  "/data" = {
+                    mountpoint = "/data";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  # Games directory with no compression for better performance
+                  "/games" = {
+                    mountpoint = "/data/games";
+                    mountOptions = ["noatime"];
+                  };
+                  # Media directory with compression
+                  "/media" = {
+                    mountpoint = "/data/media";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                };
               };
             };
           };
