@@ -7,6 +7,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  programs.zsh.enableCompletion = false;
+
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
