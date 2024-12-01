@@ -2,6 +2,7 @@
   enable = true;
 
   servers = {
+    gleam.enable = true;
     gopls.enable = true;
     nixd.enable = true;
     nushell.enable = true;
