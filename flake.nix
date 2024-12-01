@@ -62,23 +62,12 @@
     };
 
     opnix = {
-      url = "github:brizzbuzz/opnix/v0.2.0";
+      url = "github:brizzbuzz/opnix/v0.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = {
-    #disko,
-    nix-darwin,
-    home-manager,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    nixpkgs,
-    #nixvim,
-    #opnix,
-    ...
-  } @ inputs: let
+  outputs = {nixpkgs, ...} @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});

@@ -25,7 +25,7 @@
               size = "32G";
               content = {
                 type = "swap";
-                resumeDevice = true;  # Enables hibernation
+                resumeDevice = true; # Enables hibernation
               };
             };
             root = {
@@ -33,7 +33,7 @@
               size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = ["-f"];  # Force creation
+                extraArgs = ["-f"]; # Force creation
                 subvolumes = {
                   # Subvolume for root filesystem
                   "/root" = {

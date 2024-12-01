@@ -5,12 +5,12 @@
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
         config.allowUnfree = true;
-        overlays = import ../modules/overlays ++ [ inputs.hyprpanel.overlay ];
+        overlays = import ../modules/overlays ++ [inputs.hyprpanel.overlay];
       };
     };
     nixpkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
-      overlays = import ../modules/overlays ++ [ inputs.hyprpanel.overlay ];
+      overlays = import ../modules/overlays ++ [inputs.hyprpanel.overlay];
     };
   };
 

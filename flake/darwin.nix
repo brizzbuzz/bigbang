@@ -1,40 +1,42 @@
-{inputs}: 
-let
+{inputs}: let
   mkDarwinSystem = {
     system ? "aarch64-darwin",
     username ? "ryan",
-    extraModules ? []
-  }: inputs.nix-darwin.lib.darwinSystem {
-    inherit system;
-    modules = [
-      ../hosts/macme/configuration.nix
-      inputs.nix-homebrew.darwinModules.nix-homebrew
-      {
-        nix-homebrew = {
-          enable = true;
-          user = username;
+    extraModules ? [],
+  }:
+    inputs.nix-darwin.lib.darwinSystem {
+      inherit system;
+      modules =
+        [
+          ../hosts/macme/configuration.nix
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = username;
 
-          taps = {
-            "homebrew/homebrew-core" = inputs.homebrew-core;
-            "homebrew/homebrew-cask" = inputs.homebrew-cask;
-            "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-          };
+              taps = {
+                "homebrew/homebrew-core" = inputs.homebrew-core;
+                "homebrew/homebrew-cask" = inputs.homebrew-cask;
+                "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+              };
 
-          mutableTaps = false;
+              mutableTaps = false;
+            };
+          }
+        ]
+        ++ extraModules;
+      specialArgs = {
+        inherit inputs;
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = import ../modules/overlays;
         };
-      }
-    ] ++ extraModules;
-    specialArgs = {
-      inherit inputs;
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        overlays = import ../modules/overlays;
       };
     };
-  };
 in {
-  minimacme = mkDarwinSystem { };
-  minimbpme = mkDarwinSystem { };
-  gigambpme = mkDarwinSystem { };
+  minimacme = mkDarwinSystem {};
+  minimbpme = mkDarwinSystem {};
+  gigambpme = mkDarwinSystem {};
 }
