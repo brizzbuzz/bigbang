@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2024-11-12
+## [0.5.0] - 2024-12-04
 
 ### 🚀 Features
 
@@ -56,6 +56,23 @@ All notable changes to this project will be documented in this file.
 - Bump entirely to unstable, enable attic on cloudy
 - Enable minio object storage server
 - Avante nvim integration
+- Integrate opnix
+- Move minio root creds to 1password
+- Store attic connection details in 1password
+- Improved postgres config
+- Big dumper (plus a readme)
+- Maximally epic readme
+- I lied, the prophecy is now complete
+- Repo dumper command
+- Turn on ollama and open webui
+- Add back jetbrain ides
+- I destroyed everything, yay nix
+- Hyprpanel, among other things
+- Spacedrive
+- Add a couple mac apps
+- Updated disko config for gigame
+- Enable gleam lsp
+- Wow i finally diskod
 
 ### 🐛 Bug Fixes
 
@@ -83,6 +100,17 @@ All notable changes to this project will be documented in this file.
 - Nvim color scheme and bat config warning
 - Add brew to nushell path
 - Build broken on nixos
+- Darwin version mismatch silence
+- Bump home-manager to master to avoid version error
+- Rollback minio attic storage for the moment
+- Comment out shadow hypr config section, broken on latest version
+- Comment out broken hypr conf section
+- Monitor refresh rate on desktop
+- Nr and nrr commands now system dependent
+- Monitor refresh rate
+- *(darwin)* Zsh compinit
+- *(darwin)* Config function for multiple darwin devices
+- Nerdfont dedicated packages
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -121,6 +149,12 @@ All notable changes to this project will be documented in this file.
 - Restructure flake file
 - *(darwin)* Disable aerospace for now cuz it kinda sucks
 - Reenable nvim lsp
+- Changelog
+- Format files
+- Switch to stdenv isDarwin
+- Switch to stdenv isDarwin for real
+- Add impure flag to system build aliases
+- Update lock file
 
 ## [0.4.0] - 2024-05-15
 
