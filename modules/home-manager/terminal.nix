@@ -32,6 +32,7 @@
         # wf-recorder # Wayland screen recorder
         # NOTE: Can't get this one to work
         # wl-screenrec # Another wayland screen recorder
+        yubikey-manager # Yubikey CLI
       ])
       ++ (
         if !pkgs.stdenv.isDarwin

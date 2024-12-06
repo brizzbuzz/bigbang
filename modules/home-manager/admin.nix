@@ -1,12 +1,14 @@
 {
   config,
   nixvim,
+  opnix,
   ...
 }: let
   admin = config.host.admin.name;
 in {
   imports = [
     nixvim.homeManagerModules.nixvim
+    opnix.homeManagerModules.default
     ../common # NOTE: This is required because home-manager gets evaluated as a separate attribute set... I think...
     ./neovim
     ./atuin.nix
@@ -36,4 +38,14 @@ in {
   };
 
   programs.home-manager.enable = true;
+
+  programs.onepassword-secrets = {
+    enable = true;
+    secrets = [
+      {
+        path = ".config/Yubico/u2f_keys";
+        reference = "op://Homelab/U2F Keys/notesPlain";
+      }
+    ];
+  };
 }

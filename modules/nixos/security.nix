@@ -1,12 +1,35 @@
 {
   config,
   lib,
+  pkgs,
   ...
-}: {
-  security.sudo.wheelNeedsPassword = lib.mkIf config.host.remote.enable false;
+}: let
+  isDesktop = config.host.desktop.enable;
+in {
+  environment.systemPackages = with pkgs; [
+    pam_u2f
+  ];
 
-  security.pam.services = lib.mkIf config.host.desktop.enable {
-    login.u2fAuth = true;
-    sudo.u2fAuth = true;
+  services.pcscd.enable = true;
+  services.udev.packages = with pkgs; [
+    yubikey-personalization
+  ];
+
+  services.yubikey-agent.enable = lib.mkIf isDesktop true;
+  programs.yubikey-touch-detector.enable = true;
+
+  security.pam = {
+    services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
+
+    u2f = {
+      enable = true;
+      settings = {
+        cue = false;
+        authFile = "/var/lib/opnix/secrets/u2f/keys";
+      };
+    };
   };
 }
