@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }: let
   admin = config.host.admin.name;
@@ -9,20 +8,16 @@ in {
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_17;
-
-    # Enable automatic database initialization
     enableTCPIP = true;
 
-    # Ensure databases exist
     ensureDatabases = [
-      "superuser" # Create a database for the superuser
+      "superuser"
     ];
 
-    # Ensure our superuser exists with proper permissions
     ensureUsers = [
       {
         name = "superuser";
-        ensureDBOwnership = true; # Give ownership of the superuser database
+        ensureDBOwnership = true;
         ensureClauses = {
           superuser = true;
           createrole = true;
@@ -32,30 +27,64 @@ in {
           bypassrls = true;
         };
       }
+      {
+        name = "roland";
+        ensureClauses = {
+          login = true;
+          createdb = false;
+          createrole = false;
+        };
+      }
     ];
 
     authentication = ''
       # TYPE  DATABASE        USER            ADDRESS         METHOD
-      # Allow postgres and superuser full access
       local   all            postgres                         trust
       local   all            superuser                       trust
       local   all            ${admin}                        peer map=superuser
-
-      # Allow TCP/IP connections with password
+      # Roland read-only access with password
+      local   all            roland                          scram-sha-256
+      host    all            roland          127.0.0.1/32    scram-sha-256
+      host    all            roland          ::1/128         scram-sha-256
+      # Superuser TCP access
       host    all            superuser       127.0.0.1/32    trust
       host    all            superuser       ::1/128         trust
     '';
 
-    # Add identity mapping for admin user to PostgreSQL role
+    # Setup read-only permissions for roland
+    initialScript = pkgs.writeText "postgres-init.sql" ''
+      REVOKE ALL ON ALL TABLES IN SCHEMA public FROM roland;
+      GRANT SELECT ON ALL TABLES IN SCHEMA public TO roland;
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO roland;
+    '';
+
     identMap = ''
       superuser ${admin} superuser
       superuser /^(.*)$ \1
     '';
   };
 
-  # Add postgres group to system groups
-  users.groups.postgres = {};
+  # Service to set up roland's password after both PostgreSQL and OPNix are ready
+  systemd.services.setup-roland-password = {
+    description = "Set up PostgreSQL password for roland";
+    after = ["postgresql.service" "onepassword-secrets.service"];
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "postgres";
+    };
+    script = ''
+      # Ensure password file exists
+      while [ ! -f /var/lib/opnix/secrets/postgresql/roland-password ]; do
+        sleep 1
+      done
 
-  # Ensure admin user is in postgres group
+      # Set password for roland
+      psql -d postgres -c "ALTER USER roland WITH PASSWORD '$(cat /var/lib/opnix/secrets/postgresql/roland-password)';"
+    '';
+  };
+
+  users.groups.postgres = {};
   users.users.${admin}.extraGroups = ["postgres"];
 }
