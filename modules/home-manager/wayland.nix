@@ -4,15 +4,15 @@
   ...
 }: let
   isDesktop = osConfig.host.desktop.enable;
-  isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
 in {
   imports =
-    if (isDesktop && !isDarwin)
+    if (isDesktop && isLinux)
     then [./hyprland]
     else [];
 
   home.packages =
-    if (isDesktop && !isDarwin)
+    if (isDesktop && isLinux)
     then
       with pkgs; [
         libnotify

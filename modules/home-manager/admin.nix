@@ -2,9 +2,12 @@
   config,
   nixvim,
   opnix,
+  pkgs,
+  lib,
   ...
 }: let
   admin = config.host.admin.name;
+  isDarwin = pkgs.stdenv.isDarwin;
 in {
   imports = [
     nixvim.homeManagerModules.nixvim
@@ -33,7 +36,7 @@ in {
 
   home = {
     username = admin;
-    homeDirectory = "/home/${admin}";
+    homeDirectory = lib.mkForce (if isDarwin then "/Users/${admin}" else "/home/${admin}");
     stateVersion = "24.05";
   };
 

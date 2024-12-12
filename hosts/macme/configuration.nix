@@ -1,8 +1,8 @@
-{pkgs, ...}: {
+{config, pkgs, inputs, ...}: {
   imports = [
     ../../modules/common
     ../../modules/darwin
-    ../../modules/home-manager-darwin
+    ../../modules/home-manager
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -13,7 +13,7 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  environment.systemPackages = with pkgs; [
+ environment.systemPackages = with pkgs; [
     _1password-cli
     nushell
   ];

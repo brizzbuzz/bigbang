@@ -1,11 +1,10 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   programs.alacritty = {
     enable = true;
     settings = {
+      terminal = {
+        #shell = "/etc/profiles/per-user/ryan/bin/nu";
+      };
       window = {
         dynamic_padding = true;
         padding = {
