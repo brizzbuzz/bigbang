@@ -8,6 +8,7 @@
 }: let
   admin = config.host.admin.name;
   isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
 in {
   imports = [
     nixvim.homeManagerModules.nixvim
@@ -42,7 +43,7 @@ in {
 
   programs.home-manager.enable = true;
 
-  programs.onepassword-secrets = {
+  programs.onepassword-secrets = lib.mkIf isLinux {
     enable = true;
     secrets = [
       {
