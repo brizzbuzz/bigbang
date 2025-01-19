@@ -10,7 +10,7 @@ in {
   programs.git = {
     enable = true;
     userName = "Ryan Brink";
-    userEmail = "dev@ryanbr.ink";
+    userEmail = "ryan@withodyssey.com";
 
     difftastic = {
       enable = true;

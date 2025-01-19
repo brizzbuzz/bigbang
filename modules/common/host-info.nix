@@ -32,7 +32,8 @@
     host = {
       gitSigningKey = mkOption {
         type = types.str;
-        default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+        # TODO: FIX!!!
+        default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl";
         description = "The git signing key";
       };
 

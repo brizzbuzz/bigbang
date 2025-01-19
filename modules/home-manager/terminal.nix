@@ -7,6 +7,7 @@
         doggo # DNS lookup tool
         du-dust # TUI folder size tool
         dua # TUI disk space tool
+        erdtree # File tree
         # espanso # Text Expander
         fastfetch # Neofetch but faster
         fd # Sexy find

@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }: let
@@ -88,7 +87,7 @@
   '';
 in {
   services.sketchybar = {
-    enable = true;
+    enable = false;
     extraPackages = [pkgs.jq];
     config = ''
       #!/bin/bash

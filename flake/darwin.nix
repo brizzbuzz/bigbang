@@ -39,4 +39,5 @@ in {
   minimacme = mkDarwinSystem {};
   minimbpme = mkDarwinSystem {};
   gigambpme = mkDarwinSystem {};
+  Odyssey-MBP = mkDarwinSystem {};
 }
