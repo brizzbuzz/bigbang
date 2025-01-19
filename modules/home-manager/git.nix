@@ -17,19 +17,19 @@ in {
     userEmail = "dev@ryanbr.ink";
 
     includes = [
-      {
-        condition = "gitdir:~/Workspace/withodyssey/";
-        contents = {
-          user = workUser;
-        };
-      }
-      {
-        condition = "gitdir:~/Workspace/ryan-odyssey/";
-        contents = {
-          user = workUser;
-        };
-      }
-    ];
+    {
+      condition = "gitdir:~/Workspace/withodyssey/**";  # Note the ** for recursive matching
+      contents = {
+        user = workUser;
+      };
+    }
+    {
+      condition = "gitdir:~/Workspace/ryan-odyssey/**";
+      contents = {
+        user = workUser;
+      };
+    }
+  ];
 
     difftastic = {
       enable = true;
