@@ -19,18 +19,18 @@
     vault = "Private"
     account = "my.1password.com"
   '';
+
+  # Define the agent socket path
+  opAgentSocket = if isDarwin
+    then "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    else "~/.1password/agent.sock";
 in {
   programs.ssh = lib.mkIf isDesktop {
     enable = true;
 
-    extraConfig =
-      if isDarwin
-      then ''
-        IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-      ''
-      else ''
-        IdentityAgent "~/.1password/agent.sock"
-      '';
+    extraConfig = ''
+      IdentityAgent "${opAgentSocket}"
+    '';
 
     matchBlocks = {
       # Personal GitHub (default)
@@ -69,4 +69,9 @@ in {
 
   # Create 1Password SSH agent config file
   home.file.".config/1Password/ssh/agent.toml".text = opAgentConfig;
+
+  # Set the environment variable
+  home.sessionVariables = {
+    SSH_AUTH_SOCK = opAgentSocket;
+  };
 }
