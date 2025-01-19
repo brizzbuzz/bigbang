@@ -6,11 +6,30 @@
 }: let
   isDarwin = pkgs.stdenv.isDarwin;
   isDesktop = osConfig.host.desktop.enable;
+  workUser = {
+    email = "ryan@withodyssey.com";
+    signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl";
+  };
 in {
   programs.git = {
     enable = true;
     userName = "Ryan Brink";
-    userEmail = "ryan@withodyssey.com";
+    userEmail = "dev@ryanbr.ink";
+
+    includes = [
+      {
+        condition = "gitdir:~/Workspace/withodyssey/";
+        contents = {
+          user = workUser;
+        };
+      }
+      {
+        condition = "gitdir:~/Workspace/ryan-odyssey/";
+        contents = {
+          user = workUser;
+        };
+      }
+    ];
 
     difftastic = {
       enable = true;
@@ -58,6 +77,7 @@ in {
         autoSetupRemote = true;
       };
       user = {
+        # Default personal signing key for all other directories
         signingKey = osConfig.host.gitSigningKey;
       };
     };

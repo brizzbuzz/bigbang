@@ -6,6 +6,19 @@
 }: let
   isDarwin = pkgs.stdenv.isDarwin;
   isDesktop = osConfig.host.desktop.enable;
+
+  # 1Password agent config
+  opAgentConfig = ''
+    # First, specify work keys from Odyssey vault
+    [[ssh-keys]]
+    vault = "Odyssey"
+    account = "my.1password.com"
+
+    # Then add personal keys
+    [[ssh-keys]]
+    vault = "Personal"
+    account = "my.1password.com"
+  '';
 in {
   programs.ssh = lib.mkIf isDesktop {
     enable = true;
@@ -38,4 +51,7 @@ in {
     controlPath = "~/.ssh/master-%r@%n:%p";
     controlPersist = "no";
   };
+
+  # Create 1Password SSH agent config file
+  home.file.".config/1Password/ssh/agent.toml".text = opAgentConfig;
 }
