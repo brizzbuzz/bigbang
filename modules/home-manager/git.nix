@@ -77,7 +77,6 @@ in {
         autoSetupRemote = true;
       };
       user = {
-        # Default personal signing key for all other directories
         signingKey = osConfig.host.gitSigningKey;
       };
     };

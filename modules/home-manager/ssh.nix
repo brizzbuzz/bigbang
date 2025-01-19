@@ -16,7 +16,7 @@
 
     # Then add personal keys
     [[ssh-keys]]
-    vault = "Personal"
+    vault = "Private"
     account = "my.1password.com"
   '';
 in {
