@@ -1,4 +1,9 @@
-{config, pkgs, inputs, ...}: {
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ../../modules/common
     ../../modules/darwin
@@ -13,7 +18,7 @@
     nerd-fonts.jetbrains-mono
   ];
 
- environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     _1password-cli
     nushell
   ];

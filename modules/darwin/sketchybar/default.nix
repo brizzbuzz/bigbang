@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   # Previous script definitions remain the same
   batteryScript = pkgs.writeScript "battery.sh" ''
     #!/bin/bash

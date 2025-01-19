@@ -1,4 +1,8 @@
-{config, inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default

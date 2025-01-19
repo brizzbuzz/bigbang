@@ -37,7 +37,11 @@ in {
 
   home = {
     username = admin;
-    homeDirectory = lib.mkForce (if isDarwin then "/Users/${admin}" else "/home/${admin}");
+    homeDirectory = lib.mkForce (
+      if isDarwin
+      then "/Users/${admin}"
+      else "/home/${admin}"
+    );
     stateVersion = "24.05";
   };
 
