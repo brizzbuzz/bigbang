@@ -28,14 +28,14 @@ in {
         condition = "gitdir:~/Workspace/withodyssey/**";
         contents = {
           user = workUser;
-          core.sshCommand = "ssh -i '${opSockPath}' -o IdentityAgent='${opSockPath}'";
+          core.sshCommand = "ssh -o IdentityAgent=\"${opSockPath}\"";
         };
       }
       {
         condition = "gitdir:~/Workspace/ryan-odyssey/**";
         contents = {
           user = workUser;
-          core.sshCommand = "ssh -i '${opSockPath}' -o IdentityAgent='${opSockPath}'";
+          core.sshCommand = "ssh -o IdentityAgent=\"${opSockPath}\"";
         };
       }
     ];
@@ -59,7 +59,7 @@ in {
         program = opPath;
       };
       push.autoSetupRemote = true;
-      core.sshCommand = "ssh -o IdentityAgent='${opSockPath}'";
+      core.sshCommand = "ssh -o IdentityAgent=\"${opSockPath}\"";
     };
 
     difftastic = {
