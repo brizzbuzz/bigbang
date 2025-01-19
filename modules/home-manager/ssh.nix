@@ -33,6 +33,21 @@ in {
       '';
 
     matchBlocks = {
+      # Personal GitHub (default)
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identitiesOnly = true;
+      };
+
+      # Work GitHub configuration
+      "github.com-work" = {
+        hostname = "github.com";
+        user = "git";
+        identitiesOnly = true;
+      };
+
+      # Your existing server config
       "cloudy" = {
         hostname = "cloudy";
         forwardAgent = true;
