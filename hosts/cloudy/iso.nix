@@ -27,53 +27,112 @@
     ];
   };
 
+  # Essential services for installation
+  services = {
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "yes";
+      hostKeys = [
+        {
+          path = "/etc/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+        {
+          path = "/etc/ssh/ssh_host_rsa_key";
+          type = "rsa";
+          bits = 4096;
+        }
+      ];
+    };
+
+    getty = {
+      autologinUser = lib.mkForce "root";
+    };
+  };
+
   # Create an installation script
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    wget
-    (writeScriptBin "install-cloudy" ''
-      #!${pkgs.stdenv.shell}
-      set -e
+  environment = {
+    systemPackages = with pkgs; [
+      git
+      vim
+      wget
+      curl
+      parted
+      gptfdisk
+      cryptsetup
+      (writeScriptBin "install-cloudy" ''
+        #!${pkgs.stdenv.shell}
+        set -e
 
-      echo "Starting Cloudy installation..."
+        echo "Starting Cloudy installation..."
 
-      # Apply disko configuration
-      echo "Partitioning drives..."
-      nix run github:nix-community/disko -- --mode disko /bigbang/hosts/cloudy/disko.nix
+        # Apply disko configuration
+        echo "Partitioning drives..."
+        nix run github:nix-community/disko -- --mode disko /bigbang/hosts/cloudy/disko.nix
 
-      # Mount the partitions (adjust based on your disko config)
-      echo "Mounting partitions..."
-      mount /dev/disk/by-label/nixos /mnt
-      mkdir -p /mnt/boot
-      mount /dev/disk/by-label/boot /mnt/boot
+        # Mount the partitions (adjust based on your disko config)
+        echo "Mounting partitions..."
+        mount /dev/disk/by-label/nixos /mnt
+        mkdir -p /mnt/boot
+        mount /dev/disk/by-label/boot /mnt/boot
 
-      # Install NixOS
-      echo "Installing Cloudy..."
-      nixos-install --flake /bigbang#cloudy --no-root-passwd
+        # Install NixOS
+        echo "Installing Cloudy..."
+        nixos-install --flake /bigbang#cloudy --no-root-passwd
 
-      echo "Installation complete! You can now reboot."
-    '')
-  ];
+        echo "Installation complete! You can now reboot."
+      '')
+    ];
+  };
 
-  # Disable wireless to avoid conflict with NetworkManager
+  # Network configuration
   networking = {
     wireless.enable = lib.mkForce false;
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
 
-  # Enable SSH in the ISO
-  services.openssh = {
-    enable = true;
-    settings.PermitRootLogin = "yes";
-  };
-
-  # Set a root password for the live system
+  # Initial user setup with password to allow login
   users.users.root.initialPassword = "cloudy";
 
-  # Disable automatic login
-  services.getty.autologinUser = lib.mkForce null;
+  # Essential system configuration
+  boot = {
+    kernelParams = [
+      "console=tty0" # Enable console output to display
+      "console=ttyS0,115200" # Enable serial console
+    ];
+    loader.timeout = 10; # Longer timeout for boot menu
+  };
 
-  # Allow unfree packages
+  # Allow unfree packages that might be needed during installation
   nixpkgs.config.allowUnfree = true;
+
+  # Enable flakes and nix-command
+  nix = {
+    package = pkgs.nixVersions.stable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+    settings.trusted-users = [ "root" ];
+  };
+
+  # Recovery options
+  users.mutableUsers = true;
+
+  # Enable cross-compilation support
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "armv6l-linux"
+    "armv7l-linux"
+    "riscv64-linux"
+  ];
+
+  # System message
+  system.stateVersion = "24.05";
 }

@@ -8,6 +8,7 @@
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
     ];
+    allow-dirty = true;
   };
 
   inputs = {
@@ -67,7 +68,7 @@
     };
   };
 
-  outputs = {nixpkgs, ...} @ inputs: let
+  outputs = {self, nixpkgs, ...} @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
@@ -86,15 +87,24 @@
     devShells = import ./flake/shell.nix { inherit forAllSystems pkgs; };
 
     # Add ISO configuration
-    nixosConfigurations.cloudy-iso = mkNixosSystem {
-      modules = [
-        inputs.home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
-        ./hosts/cloudy/iso.nix
-      ];
+    nixosConfigurations = {
+      # Your existing configurations, if any
+      cloudy-iso = mkNixosSystem {
+        modules = [
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+          ./hosts/cloudy/iso.nix
+        ];
+      };
     };
+
+    # Add a packages output for direct building
+    packages = forAllSystems (system: {
+      # This creates a package named 'cloudy-iso' that can be built with `nix build .#cloudy-iso`
+      cloudy-iso = self.nixosConfigurations.cloudy-iso.config.system.build.isoImage;
+    });
   };
 }
