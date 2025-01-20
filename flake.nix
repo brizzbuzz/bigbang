@@ -71,9 +71,30 @@
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
+
+    # Helper for consistent system configuration
+    mkNixosSystem = { system ? "x86_64-linux", modules ? [] }:
+      nixpkgs.lib.nixosSystem {
+        inherit system modules;
+        specialArgs = {
+          inherit inputs;
+        };
+      };
   in {
-    darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
-    colmena = import ./flake/nixos.nix {inherit inputs;};
-    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs;};
+    darwinConfigurations = import ./flake/darwin.nix { inherit inputs; };
+    colmena = import ./flake/nixos.nix { inherit inputs; };
+    devShells = import ./flake/shell.nix { inherit forAllSystems pkgs; };
+
+    # Add ISO configuration
+    nixosConfigurations.cloudy-iso = mkNixosSystem {
+      modules = [
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+        ./hosts/cloudy/iso.nix
+      ];
+    };
   };
 }

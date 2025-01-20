@@ -6,7 +6,7 @@ forAllSystems (system: {
   default = pkgs.${system}.mkShell {
     packages = with pkgs.${system}; [
       git-cliff # Changelog generator
-      # jujutsu # Git-compatible enriched VCS
+      nixos-generators # ISO and other image format generation
       nurl # Nix Fetcher Generator
       tokei # Code statistics
     ];
