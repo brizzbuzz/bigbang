@@ -1,4 +1,3 @@
-# hosts/cloudy/iso.nix
 { config, pkgs, lib, modulesPath, ... }: {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
@@ -22,7 +21,7 @@
     contents = [
       {
         source = ./../..;
-        target = "/bigbang";
+        target = "/iso/bigbang";
       }
     ];
   };
@@ -68,7 +67,7 @@
 
         # Apply disko configuration
         echo "Partitioning drives..."
-        nix run github:nix-community/disko -- --mode disko /bigbang/hosts/cloudy/disko.nix
+        nix run github:nix-community/disko -- --mode disko /iso/bigbang/hosts/cloudy/disko.nix
 
         # Mount the partitions (adjust based on your disko config)
         echo "Mounting partitions..."
@@ -78,7 +77,7 @@
 
         # Install NixOS
         echo "Installing Cloudy..."
-        nixos-install --flake /bigbang#cloudy --no-root-passwd
+        nixos-install --flake /iso/bigbang#cloudy --no-root-passwd
 
         echo "Installation complete! You can now reboot."
       '')
@@ -110,9 +109,6 @@
     loader.timeout = 10; # Longer timeout for boot menu
   };
 
-  # Allow unfree packages that might be needed during installation
-  nixpkgs.config.allowUnfree = true;
-
   # Enable flakes and nix-command
   nix = {
     package = pkgs.nixVersions.stable;
@@ -122,16 +118,11 @@
     settings.trusted-users = [ "root" ];
   };
 
+  # Allow unfree packages that might be needed during installation
+  nixpkgs.config.allowUnfree = true;
+
   # Recovery options
   users.mutableUsers = true;
-
-  # Enable cross-compilation support
-  boot.binfmt.emulatedSystems = [
-    "aarch64-linux"
-    "armv6l-linux"
-    "armv7l-linux"
-    "riscv64-linux"
-  ];
 
   # System message
   system.stateVersion = "24.05";
