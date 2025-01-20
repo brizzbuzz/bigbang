@@ -15,6 +15,8 @@ in {
     yubikey-personalization
   ];
 
+  security.sudo.wheelNeedsPassword = false;
+
   services.yubikey-agent.enable = lib.mkIf isDesktop true;
   programs.yubikey-touch-detector.enable = true;
 

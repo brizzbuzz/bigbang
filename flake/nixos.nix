@@ -33,9 +33,10 @@
   cloudy = {
     imports = [../hosts/cloudy/configuration.nix];
     deployment = {
+      targetHost = "192.168.1.248";
+      targetUser = "ryan";
       allowLocalDeployment = true;
       buildOnTarget = true;
-      targetUser = "ryan";
     };
-  };
+ };
 }

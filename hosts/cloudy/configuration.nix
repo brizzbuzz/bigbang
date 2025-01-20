@@ -7,11 +7,11 @@
     ../../modules/nixos
     ../../modules/home-manager
   ];
-
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";
     configFile = ./../../secrets.json;
+    users = [ "ryan" ]; # TODO: Read from config
   };
 
   host = {
