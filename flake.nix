@@ -85,26 +85,5 @@
     darwinConfigurations = import ./flake/darwin.nix { inherit inputs; };
     colmena = import ./flake/nixos.nix { inherit inputs; };
     devShells = import ./flake/shell.nix { inherit forAllSystems pkgs; };
-
-    # Add ISO configuration
-    nixosConfigurations = {
-      # Your existing configurations, if any
-      cloudy-iso = mkNixosSystem {
-        modules = [
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-          ./hosts/cloudy/iso.nix
-        ];
-      };
-    };
-
-    # Add a packages output for direct building
-    packages = forAllSystems (system: {
-      # This creates a package named 'cloudy-iso' that can be built with `nix build .#cloudy-iso`
-      cloudy-iso = self.nixosConfigurations.cloudy-iso.config.system.build.isoImage;
-    });
   };
 }
