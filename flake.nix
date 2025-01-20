@@ -8,6 +8,7 @@
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
     ];
+    allow-dirty = true;
   };
 
   inputs = {
@@ -67,13 +68,13 @@
     };
   };
 
-  outputs = {nixpkgs, ...} @ inputs: let
+  outputs = {self, nixpkgs, ...} @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
   in {
-    darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
-    colmena = import ./flake/nixos.nix {inherit inputs;};
-    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs;};
+    darwinConfigurations = import ./flake/darwin.nix { inherit inputs; };
+    colmena = import ./flake/nixos.nix { inherit inputs; };
+    devShells = import ./flake/shell.nix { inherit forAllSystems pkgs; };
   };
 }
