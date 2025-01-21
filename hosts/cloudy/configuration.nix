@@ -23,6 +23,20 @@
     minio.server.enable = true;
   };
 
+  # TODO: Make configurable module
+  networking = {
+    useDHCP = false;
+    interfaces.enp100s0 = {
+      useDHCP = false;
+      ipv4.addresses = [{
+        address = "192.168.1.50";
+        prefixLength = 24;
+      }];
+    };
+    defaultGateway = "192.168.1.1";
+    nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  };
+
   glance.enable = true;
   soft-serve.enable = true;
   speedtest.enable = true;

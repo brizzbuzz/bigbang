@@ -15,7 +15,6 @@
     description = "Supreme Ruler";
     extraGroups = [
       "docker"
-      "networkmanager"
       "connman"
       "wheel"
     ];

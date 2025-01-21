@@ -22,21 +22,23 @@
     };
   };
 
-  gigame = {
-    imports = [../hosts/gigame/configuration.nix];
-    deployment = {
-      allowLocalDeployment = true;
-      targetUser = "ryan";
-    };
-  };
-
   cloudy = {
     imports = [../hosts/cloudy/configuration.nix];
     deployment = {
-      targetHost = "192.168.1.248";
+      targetHost = "192.168.1.50";
+      targetUser = "root";
+      allowLocalDeployment = true;
+      buildOnTarget = true;
+    };
+  };
+
+  gigame = {
+    imports = [../hosts/gigame/configuration.nix];
+    deployment = {
+      targetHost = "192.168.1.51";
       targetUser = "ryan";
       allowLocalDeployment = true;
       buildOnTarget = true;
     };
- };
+  };
 }

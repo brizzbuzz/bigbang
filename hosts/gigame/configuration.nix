@@ -23,9 +23,24 @@
     name = "gigame";
     keyboard = "moonlander";
     gpu.nvidia.enable = true;
+    desktop.enable = false;
     remote.enable = true;
 
     ai.enable = true;
+  };
+
+  # TODO: Make configurable module
+  networking = {
+    useDHCP = false;
+    interfaces.enp4s0 = {
+      useDHCP = false;
+      ipv4.addresses = [{
+        address = "192.168.1.51";
+        prefixLength = 24;
+      }];
+    };
+    defaultGateway = "192.168.1.1";
+    nameservers = [ "8.8.8.8" "8.8.4.4" ];
   };
 
   system.stateVersion = "24.05";
