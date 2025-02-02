@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/common
     ../../modules/darwin
@@ -41,12 +36,14 @@
       "iina"
       "hammerspoon"
       "jetbrains-toolbox"
+      "parsec"
       "pocket-casts"
       "protonvpn"
       "proxyman"
       "sf-symbols"
       "spacedrive"
       "spotify"
+      "steam"
       "the-unarchiver"
       "zoom"
     ];
