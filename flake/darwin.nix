@@ -36,7 +36,7 @@
       };
     };
 in {
-  minimacme = mkDarwinSystem {};
+  Ryan-MBP-Mini = mkDarwinSystem {};
   minimbpme = mkDarwinSystem {};
   gigambpme = mkDarwinSystem {};
   Odyssey-MBP = mkDarwinSystem {};
