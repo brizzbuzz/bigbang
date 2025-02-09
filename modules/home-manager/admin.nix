@@ -24,7 +24,6 @@ in {
     ./dots.nix
     ./git.nix
     ./gitui.nix
-    ./networking.nix
     ./nushell.nix
     ./rclone.nix
     ./ssh.nix

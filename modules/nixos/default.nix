@@ -35,7 +35,6 @@
     ./soft-serve.nix
     ./speedtest.nix
     ./ssh.nix
-    ./tailscale.nix
     ./users.nix
     ./xdg.nix
   ];

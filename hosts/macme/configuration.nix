@@ -32,8 +32,9 @@
       "betterdiscord-installer"
       "bruno"
       "discord"
-      "floorp"
+      "gitbutler"
       "iina"
+      "ghostty"
       "hammerspoon"
       "jetbrains-toolbox"
       "parsec"
@@ -45,13 +46,15 @@
       "spotify"
       "steam"
       "the-unarchiver"
+      "zed"
+      "zen-browser"
       "zoom"
     ];
 
     masApps = {
-      "Tailscale" = 1475387142;
+      "Unifi" = 1057750338;
+      "Ubiquiti Wifiman" = 1385561119;
       "Xcode" = 497799835;
-      #"Yoink" = 457622435;
     };
 
     onActivation.autoUpdate = true;
