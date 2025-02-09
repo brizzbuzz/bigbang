@@ -40,13 +40,6 @@
       inputs.nix-darwin.follows = "nix-darwin";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nix-darwin.follows = "nix-darwin";
-      inputs.home-manager.follows = "home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;

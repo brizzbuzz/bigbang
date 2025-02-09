@@ -1,6 +1,5 @@
 {
   config,
-  nixvim,
   opnix,
   pkgs,
   lib,
@@ -11,10 +10,8 @@
   isLinux = pkgs.stdenv.isLinux;
 in {
   imports = [
-    nixvim.homeManagerModules.nixvim
     opnix.homeManagerModules.default
     ../common # NOTE: This is required because home-manager gets evaluated as a separate attribute set... I think...
-    ./neovim
     ./atuin.nix
     ./alacritty.nix
     ./apps.nix

@@ -28,7 +28,6 @@ in {
 
   home-manager.extraSpecialArgs = {
     inherit pkgs;
-    nixvim = inputs.nixvim;
     opnix = inputs.opnix;
   };
 }
