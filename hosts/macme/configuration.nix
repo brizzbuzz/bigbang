@@ -46,6 +46,8 @@
       "steam"
       "the-unarchiver"
       "zoom"
+      "zen-browser"
+      "zed"
     ];
 
     masApps = {
