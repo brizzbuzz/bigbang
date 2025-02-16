@@ -37,6 +37,7 @@
       "ghostty"
       "hammerspoon"
       "jetbrains-toolbox"
+      "logi-options+"
       "parsec"
       "pocket-casts"
       "protonvpn"
