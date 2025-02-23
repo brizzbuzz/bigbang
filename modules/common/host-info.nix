@@ -30,6 +30,15 @@
       };
     };
     host = {
+      caddy = {
+        enable = mkEnableOption "Enable Caddy reverse proxy";
+        domain = mkOption {
+          type = types.str;
+          default = "rgbr.ink";
+          description = "The primary domain name";
+        };
+      };
+
       gitSigningKey = mkOption {
         type = types.str;
         default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
@@ -99,6 +108,10 @@
   config = {
     host = {
       admin.name = lib.mkDefault "ryan";
+
+      caddy = {
+        enable = lib.mkDefault false;
+      };
 
       desktop = {
         enable = lib.mkDefault true;
