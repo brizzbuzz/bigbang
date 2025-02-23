@@ -8,6 +8,7 @@
     ./attic.nix
     ./audio.nix
     ./boot.nix
+    ./caddy.nix
     ./display-manager.nix
     ./docker.nix
     ./environment.nix

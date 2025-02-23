@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{inputs, pkgs, ...}: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
@@ -7,6 +7,7 @@
     ../../modules/nixos
     ../../modules/home-manager
   ];
+
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";
@@ -21,6 +22,11 @@
     attic.server.enable = true;
     jellyfin.server.enable = true;
     minio.server.enable = true;
+
+    caddy = {
+      enable = true;
+      domain = "rgbr.ink";
+    };
   };
 
   # TODO: Make configurable module
