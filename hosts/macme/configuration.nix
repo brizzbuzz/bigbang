@@ -27,7 +27,6 @@
 
     casks = [
       "1password"
-      "alacritty"
       "bartender"
       "betterdiscord-installer"
       "bruno"
