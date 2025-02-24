@@ -49,8 +49,6 @@
       "zed"
       "zen-browser"
       "zoom"
-      "zen-browser"
-      "zed"
     ];
 
     masApps = {
