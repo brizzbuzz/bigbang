@@ -29,7 +29,10 @@
     remote.enable = true;
   };
   
-  # Monitoring configurations will be added in the future
+  monitoring = {
+    mimir.enable = true;
+    nodeExporter.enable = true;
+  };
 
   # TODO: Make configurable module
   networking = {

@@ -20,6 +20,26 @@
           description = "The port for Grafana";
         };
       };
+      
+      # Mimir options
+      mimir = {
+        enable = lib.mkEnableOption "Enable Mimir metric collector";
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 9009;
+          description = "The port for Mimir";
+        };
+      };
+      
+      # Node exporter options
+      nodeExporter = {
+        enable = lib.mkEnableOption "Enable Prometheus Node Exporter";
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 9100;
+          description = "The port for Node Exporter";
+        };
+      };
     };
   };
 
@@ -41,6 +61,19 @@
           admin_password = "admin";
         };
       };
+      
+      provision = {
+        enable = true;
+        datasources.settings.datasources = [
+          {
+            name = "Mimir";
+            type = "prometheus";
+            access = "proxy";
+            url = "http://gigame.brizz.net:${toString cfg.mimir.port}/api/v1/prometheus";
+            isDefault = true;
+          }
+        ];
+      };
     };
 
     # Caddy reverse proxy for Grafana
@@ -53,7 +86,28 @@
       };
     };
 
-    # Firewall configuration for Grafana
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.grafana.enable [ cfg.grafana.port ];
+    # Firewall configuration
+    networking.firewall.allowedTCPPorts = lib.mkMerge [
+      (lib.mkIf cfg.grafana.enable [ cfg.grafana.port ])
+      (lib.mkIf cfg.mimir.enable [ cfg.mimir.port ])
+      (lib.mkIf cfg.nodeExporter.enable [ cfg.nodeExporter.port ])
+    ];
+    
+    # Mimir configuration with minimal settings
+    services.mimir = lib.mkIf cfg.mimir.enable {
+      enable = true;
+      # Absolutely minimal configuration
+      configuration = {
+        target = "all";
+        server.http_listen_port = cfg.mimir.port;
+      };
+    };
+    
+    # Prometheus Node Exporter
+    services.prometheus.exporters.node = lib.mkIf cfg.nodeExporter.enable {
+      enable = true;
+      enabledCollectors = ["systemd"];
+      port = cfg.nodeExporter.port;
+    };
   };
 }

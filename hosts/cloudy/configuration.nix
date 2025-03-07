@@ -32,8 +32,11 @@
     };
   };
   
-  # Enable Grafana on this host
-  monitoring.grafana.enable = true;
+  # Enable Grafana and Node Exporter on this host
+  monitoring = {
+    grafana.enable = true;
+    nodeExporter.enable = true;
+  };
 
   # TODO: Make configurable module
   networking = {
