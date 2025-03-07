@@ -22,6 +22,7 @@
     ./hyprland.nix
     ./jellyfin.nix
     ./locale.nix
+    ./monitoring.nix
     ./networking.nix
     ./nvidia.nix
     ./minio.nix

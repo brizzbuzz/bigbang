@@ -26,3 +26,10 @@
 - `hosts/` - Machine-specific configurations
 - `modules/` - Shared functionality and abstractions
 - `flake/` - Flake-related configurations
+
+## NETWORK ARCHITECTURE
+- Local network domain: brizz.net
+- Public domain: rgbr.ink (configured in Cloudflare with proxy mode)
+- Machines accessible locally or via Wireguard as [hostname].brizz.net
+- cloudy runs Caddy server that delegates traffic from rgbr.ink to appropriate services
+- gigame runs Jellyfin media server accessible via media.rgbr.ink

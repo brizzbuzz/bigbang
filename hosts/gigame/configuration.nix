@@ -28,6 +28,8 @@
     keyboard = "moonlander";
     remote.enable = true;
   };
+  
+  # Monitoring configurations will be added in the future
 
   # TODO: Make configurable module
   networking = {

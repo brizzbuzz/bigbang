@@ -31,6 +31,9 @@
       domain = "rgbr.ink";
     };
   };
+  
+  # Enable Grafana on this host
+  monitoring.grafana.enable = true;
 
   # TODO: Make configurable module
   networking = {
