@@ -13,7 +13,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,14 +64,31 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-master,
     ...
   } @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-    pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
+
+    nixpkgsConfig = {
+      config = {
+        allowUnfree = true;
+      };
+    };
+
+    pkgs = forAllSystems (system:
+      import nixpkgs {
+        inherit system;
+        inherit (nixpkgsConfig) config;
+      });
+    pkgs-master = forAllSystems (system:
+      import nixpkgs-master {
+        inherit system;
+        inherit (nixpkgsConfig) config;
+      });
   in {
     darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
     colmena = import ./flake/nixos.nix {inherit inputs;};
-    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs;};
+    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs pkgs-master;};
   };
 }

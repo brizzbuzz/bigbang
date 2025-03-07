@@ -1,4 +1,8 @@
-{inputs, pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
@@ -20,7 +24,6 @@
     desktop.enable = false;
     remote.enable = true;
     attic.server.enable = true;
-    jellyfin.server.enable = true;
     minio.server.enable = true;
 
     caddy = {
