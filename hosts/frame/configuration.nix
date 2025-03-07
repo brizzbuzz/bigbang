@@ -7,7 +7,6 @@
   ];
 
   host = {
-    keyboard = "framework";
     name = "frame";
   };
 

@@ -20,13 +20,13 @@
   };
 
   host = {
-    name = "gigame";
-    keyboard = "moonlander";
-    gpu.nvidia.enable = true;
-    desktop.enable = false;
-    remote.enable = true;
-
     ai.enable = true;
+    name = "gigame";
+    desktop.enable = false;
+    gpu.nvidia.enable = true;
+    jellyfin.server.enable = true;
+    keyboard = "moonlander";
+    remote.enable = true;
   };
 
   # TODO: Make configurable module
