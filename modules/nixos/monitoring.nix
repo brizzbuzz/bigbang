@@ -20,6 +20,26 @@
           description = "The port for Grafana";
         };
       };
+
+      # Prometheus options
+      prometheus = {
+        enable = lib.mkEnableOption "Enable Prometheus";
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 9090;
+          description = "The port for Prometheus";
+        };
+      };
+
+      # Node exporter options
+      nodeExporter = {
+        enable = lib.mkEnableOption "Enable Prometheus Node Exporter";
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 9100;
+          description = "The port for Node Exporter";
+        };
+      };
     };
   };
 
@@ -41,6 +61,19 @@
           admin_password = "admin";
         };
       };
+
+      provision = {
+        enable = true;
+        datasources.settings.datasources = [
+          {
+            name = "Prometheus";
+            type = "prometheus";
+            access = "proxy";
+            url = "http://gigame.brizz.net:${toString cfg.prometheus.port}";
+            isDefault = true;
+          }
+        ];
+      };
     };
 
     # Caddy reverse proxy for Grafana
@@ -53,7 +86,49 @@
       };
     };
 
-    # Firewall configuration for Grafana
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.grafana.enable [ cfg.grafana.port ];
+    # Firewall configuration
+    networking.firewall.allowedTCPPorts = lib.mkMerge [
+      (lib.mkIf cfg.grafana.enable [ cfg.grafana.port ])
+      (lib.mkIf cfg.prometheus.enable [ cfg.prometheus.port ])
+      (lib.mkIf cfg.nodeExporter.enable [ cfg.nodeExporter.port ])
+    ];
+
+    # Prometheus configuration for scraping
+    services.prometheus = {
+      exporters.node = lib.mkIf cfg.nodeExporter.enable {
+        enable = true;
+        enabledCollectors = ["systemd"];
+        port = cfg.nodeExporter.port;
+      };
+      
+      # Full Prometheus server configuration
+      enable = lib.mkIf cfg.prometheus.enable true;
+      port = lib.mkIf cfg.prometheus.enable cfg.prometheus.port;
+      
+      # Default retention time (2 weeks)
+      retentionTime = "14d";
+      
+      globalConfig = {
+        scrape_interval = "15s";
+        evaluation_interval = "15s";
+      };
+      
+      scrapeConfigs = [
+        {
+          job_name = "node";
+          static_configs = [
+            {
+              targets = [
+                "localhost:${toString cfg.nodeExporter.port}"
+                "cloudy.brizz.net:${toString cfg.nodeExporter.port}"
+              ];
+              labels = {
+                group = "production";
+              };
+            }
+          ];
+        }
+      ];
+    };
   };
 }

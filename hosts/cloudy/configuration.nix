@@ -32,8 +32,11 @@
     };
   };
   
-  # Enable Grafana on this host
-  monitoring.grafana.enable = true;
+  # Enable Grafana and Node Exporter on this host
+  monitoring = {
+    grafana.enable = true;
+    nodeExporter.enable = true;
+  };
 
   # TODO: Make configurable module
   networking = {
@@ -48,7 +51,6 @@
       ];
     };
     defaultGateway = "192.168.1.1";
-    nameservers = ["8.8.8.8" "8.8.4.4"];
   };
 
   glance.enable = true;
