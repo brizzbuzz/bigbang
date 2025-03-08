@@ -20,7 +20,7 @@
           description = "The port for Grafana";
         };
       };
-      
+
       # Mimir options
       mimir = {
         enable = lib.mkEnableOption "Enable Mimir metric collector";
@@ -30,7 +30,7 @@
           description = "The port for Mimir";
         };
       };
-      
+
       # Node exporter options
       nodeExporter = {
         enable = lib.mkEnableOption "Enable Prometheus Node Exporter";
@@ -61,7 +61,7 @@
           admin_password = "admin";
         };
       };
-      
+
       provision = {
         enable = true;
         datasources.settings.datasources = [
@@ -69,8 +69,15 @@
             name = "Mimir";
             type = "prometheus";
             access = "proxy";
-            url = "http://gigame.brizz.net:${toString cfg.mimir.port}/api/v1/prometheus";
+            url = "http://gigame.brizz.net:${toString cfg.mimir.port}/prometheus";
             isDefault = true;
+            # Headers commented out for now, may need them later
+            jsonData = {
+              httpHeaderName1 = "X-Scope-OrgID";
+            };
+            secureJsonData = {
+              httpHeaderValue1 = "anonymous";
+            };
           }
         ];
       };
@@ -92,17 +99,16 @@
       (lib.mkIf cfg.mimir.enable [ cfg.mimir.port ])
       (lib.mkIf cfg.nodeExporter.enable [ cfg.nodeExporter.port ])
     ];
-    
+
     # Mimir configuration with minimal settings
     services.mimir = lib.mkIf cfg.mimir.enable {
       enable = true;
-      # Absolutely minimal configuration
       configuration = {
         target = "all";
         server.http_listen_port = cfg.mimir.port;
       };
     };
-    
+
     # Prometheus Node Exporter
     services.prometheus.exporters.node = lib.mkIf cfg.nodeExporter.enable {
       enable = true;
