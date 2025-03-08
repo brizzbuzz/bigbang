@@ -30,7 +30,7 @@
   };
   
   monitoring = {
-    mimir.enable = true;
+    prometheus.enable = true;
     nodeExporter.enable = true;
   };
 
