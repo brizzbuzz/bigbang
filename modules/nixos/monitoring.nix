@@ -71,13 +71,6 @@
             access = "proxy";
             url = "http://gigame.brizz.net:${toString cfg.mimir.port}/prometheus";
             isDefault = true;
-            # Headers commented out for now, may need them later
-            jsonData = {
-              httpHeaderName1 = "X-Scope-OrgID";
-            };
-            secureJsonData = {
-              httpHeaderValue1 = "anonymous";
-            };
           }
         ];
       };
@@ -103,10 +96,17 @@
     # Mimir configuration with minimal settings
     services.mimir = lib.mkIf cfg.mimir.enable {
       enable = true;
+      
+      # Try a truly minimal configuration - just basic settings
       configuration = {
         target = "all";
-        server.http_listen_port = cfg.mimir.port;
+        server = {
+          http_listen_port = cfg.mimir.port;
+        };
       };
+      
+      # No extra flags - the auth.enabled flag doesn't exist
+      extraFlags = [];
     };
 
     # Prometheus Node Exporter
