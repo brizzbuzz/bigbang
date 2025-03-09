@@ -29,6 +29,26 @@
     caddy = {
       enable = true;
       domain = "rgbr.ink";
+      sites = {
+        root = {
+          enable = true;
+          content = "Hello from cloudy!";
+        };
+        proxies = {
+          media = {
+            enable = true;
+            subdomain = "media";
+            target = "gigame.brizz.net:8096";
+            logLevel = "DEBUG";
+          };
+          homeassistant = {
+            enable = true;
+            subdomain = "home";
+            target = "localhost:8123";
+            logLevel = "INFO";
+          };
+        };
+      };
     };
   };
   
@@ -56,6 +76,7 @@
   glance.enable = true;
   soft-serve.enable = true;
   speedtest.enable = true;
+  services.home-assistant.enable = true;
 
   system.stateVersion = "24.05";
 }
