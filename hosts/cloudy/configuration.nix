@@ -41,11 +41,12 @@
             target = "gigame.brizz.net:8096";
             logLevel = "DEBUG";
           };
+          # Use a custom home-assistant specific configuration
           homeassistant = {
             enable = true;
             subdomain = "home";
             target = "localhost:8123";
-            logLevel = "INFO";
+            logLevel = "DEBUG"; # Set to DEBUG temporarily to troubleshoot
           };
         };
       };

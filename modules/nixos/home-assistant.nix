@@ -9,18 +9,26 @@
     services.home-assistant = {
       package = pkgs.home-assistant;
       openFirewall = true;
+      
+      # Stick to essential components for initial setup
       extraComponents = [
         "default_config"
-        "esphome"
-        "met"
-        "homekit"
+        "frontend"
       ];
+      
       config = {
+        # Keep HTTP configuration simple
         http = {
           server_port = 8123;
           use_x_forwarded_for = true;
-          trusted_proxies = [ "127.0.0.1" "::1" ];
+          trusted_proxies = [
+            "127.0.0.1"
+            "::1"
+          ];
         };
+        
+        # Basic UI config
+        frontend = { };
         homeassistant = {
           name = "Home";
           time_zone = "America/Los_Angeles";
