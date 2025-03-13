@@ -52,11 +52,17 @@
       };
     };
   };
-  
+
   # Enable Grafana and Node Exporter on this host
-  monitoring = {
-    grafana.enable = true;
-    nodeExporter.enable = true;
+  lgtm = {
+    prometheus = {
+      nodeExporter = {
+        enable = true;
+      };
+    };
+    grafana = {
+      enable = true;
+    };
   };
 
   # TODO: Make configurable module
