@@ -28,10 +28,14 @@
     keyboard = "moonlander";
     remote.enable = true;
   };
-  
-  monitoring = {
-    prometheus.enable = true;
-    nodeExporter.enable = true;
+
+  lgtm = {
+    prometheus = {
+      enable = true;
+      nodeExporter = {
+        enable = true;
+      };
+    };
   };
 
   # TODO: Make configurable module

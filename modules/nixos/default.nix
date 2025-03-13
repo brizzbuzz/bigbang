@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../common
+    ./lgtm
     ./attic.nix
     ./audio.nix
     ./boot.nix
@@ -23,7 +24,6 @@
     ./hyprland.nix
     ./jellyfin.nix
     ./locale.nix
-    ./monitoring.nix
     ./networking.nix
     ./nvidia.nix
     ./minio.nix
@@ -44,6 +44,17 @@
 
   glance.enable = lib.mkDefault false;
   soft-serve.enable = lib.mkDefault false;
+
+  lgtm = {
+    grafana.enable = lib.mkDefault false;
+    prometheus = {
+      enable = lib.mkDefault false;
+      nodeExporter = {
+        enable = lib.mkDefault false;
+        targets = lib.mkDefault ["localhost" "cloudy.brizz.net"];
+      };
+    };
+  };
 
   password-manager = {
     enable = lib.mkDefault true;
