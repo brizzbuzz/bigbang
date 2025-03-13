@@ -19,6 +19,7 @@
     ./garbage-collection.nix
     ./glance.nix
     ./hardware.nix
+    ./home-assistant.nix
     ./hyprland.nix
     ./jellyfin.nix
     ./locale.nix
