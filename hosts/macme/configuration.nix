@@ -27,7 +27,6 @@
 
     casks = [
       "1password"
-      "bartender"
       "betterdiscord-installer"
       "bruno"
       "discord"
@@ -36,7 +35,9 @@
       "ghostty"
       "hammerspoon"
       "jetbrains-toolbox"
+      "keymapp"
       "logi-options+"
+      "orion"
       "parsec"
       "pocket-casts"
       "protonvpn"
