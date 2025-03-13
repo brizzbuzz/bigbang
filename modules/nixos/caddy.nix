@@ -5,7 +5,7 @@
 }: let
   # Helper function for TLS configuration
   tlsConfig = "/etc/ssl/certs/cloudflare-cert.pem /etc/ssl/private/cloudflare-key.pem";
-  
+
   # Helper function to create a log block
   mkLogBlock = name: level: ''
     log {
@@ -14,7 +14,7 @@
       level ${level}
     }
   '';
-  
+
   # Helper function to create the websocket matcher
   mkWebsocketMatcher = ''
     @websockets {
@@ -22,7 +22,7 @@
       header Upgrade websocket
     }
   '';
-  
+
   # Helper function to create a reverse proxy config for websockets
   mkWebsocketProxy = target: ''
     handle @websockets {
@@ -41,7 +41,7 @@
       }
     }
   '';
-  
+
   # Helper function to create a standard reverse proxy config
   mkReverseProxy = target: ''
     handle {
@@ -76,48 +76,48 @@
       }
     }
   '';
-  
+
   # Full proxy configuration with websocket support
   mkProxyConfig = name: target: level: ''
     tls ${tlsConfig}
-    
+
     ${mkLogBlock name level}
-    
+
     ${mkWebsocketMatcher}
     ${mkWebsocketProxy target}
     ${mkReverseProxy target}
   '';
-  
+
   # Special configuration optimized for Home Assistant
   mkHomeAssistantConfig = target: level: ''
     tls ${tlsConfig}
-    
+
     ${mkLogBlock "home-assistant" level}
-    
+
     # Basic WebSocket support
     @websockets {
       header Connection *Upgrade*
       header Upgrade websocket
     }
-    
+
     handle @websockets {
       reverse_proxy ${target}
     }
-    
+
     handle {
       reverse_proxy ${target}
     }
   '';
-  
+
   # Simple helper for static responses
   mkStaticResponse = content: ''
     tls ${tlsConfig}
     respond "${content}"
   '';
-  
+
   # Base domain
   domain = config.host.caddy.domain;
-  
+
   # Generate virtual hosts from services
   generateVirtualHosts = let
     # Root site
@@ -126,33 +126,38 @@
         extraConfig = mkStaticResponse config.host.caddy.sites.root.content;
       };
     };
-    
+
     # Special handling for Home Assistant if it exists
-    homeAssistantSite = 
-      if (config.host.caddy.sites.proxies ? "homeassistant" && 
-          config.host.caddy.sites.proxies.homeassistant.enable)
+    homeAssistantSite =
+      if
+        (config.host.caddy.sites.proxies
+          ? "homeassistant"
+          && config.host.caddy.sites.proxies.homeassistant.enable)
       then {
         "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}" = {
-          extraConfig = mkHomeAssistantConfig 
+          extraConfig =
+            mkHomeAssistantConfig
             config.host.caddy.sites.proxies.homeassistant.target
             config.host.caddy.sites.proxies.homeassistant.logLevel;
         };
-      } else {};
-    
-    # Handle other proxy sites with standard websocket support
-    otherProxySites = lib.mapAttrs' (name: site: 
-      lib.nameValuePair "${site.subdomain}.${domain}" {
-        extraConfig = mkProxyConfig name site.target site.logLevel;
       }
-    ) (lib.filterAttrs (name: site: site.enable && name != "homeassistant") 
+      else {};
+
+    # Handle other proxy sites with standard websocket support
+    otherProxySites =
+      lib.mapAttrs' (
+        name: site:
+          lib.nameValuePair "${site.subdomain}.${domain}" {
+            extraConfig = mkProxyConfig name site.target site.logLevel;
+          }
+      ) (lib.filterAttrs (name: site: site.enable && name != "homeassistant")
         config.host.caddy.sites.proxies);
   in
     rootSite // homeAssistantSite // otherProxySites;
-    
 in {
   options.host.caddy = {
     # The enable and domain options are already defined in modules/common/host-info.nix
-    
+
     sites = {
       root = {
         enable = lib.mkEnableOption "Enable root site";
@@ -162,7 +167,7 @@ in {
           description = "Content to display on root site";
         };
       };
-      
+
       proxies = lib.mkOption {
         type = lib.types.attrsOf (lib.types.submodule {
           options = {
@@ -194,10 +199,10 @@ in {
       mkdir -p /var/log/caddy
       chown caddy:caddy /var/log/caddy
     '';
-    
+
     # Default configuration values
     host.caddy.sites.root.enable = lib.mkDefault true;
-    
+
     # Default proxy configurations
     host.caddy.sites.proxies = lib.mkDefault {
       media = {
@@ -207,7 +212,7 @@ in {
         logLevel = "DEBUG";
       };
     };
-    
+
     services.caddy = {
       enable = true;
       virtualHosts = generateVirtualHosts;

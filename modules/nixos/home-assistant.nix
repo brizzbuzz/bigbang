@@ -9,13 +9,13 @@
     services.home-assistant = {
       package = pkgs.home-assistant;
       openFirewall = true;
-      
+
       # Stick to essential components for initial setup
       extraComponents = [
         "default_config"
         "frontend"
       ];
-      
+
       config = {
         # Keep HTTP configuration simple
         http = {
@@ -26,16 +26,16 @@
             "::1"
           ];
         };
-        
+
         # Basic UI config
-        frontend = { };
+        frontend = {};
         homeassistant = {
           name = "Home";
           time_zone = "America/Los_Angeles";
           unit_system = "metric";
           temperature_unit = "C";
         };
-        frontend = { };
+        frontend = {};
         automation = "!include automations.yaml";
         script = "!include scripts.yaml";
         scene = "!include scenes.yaml";
