@@ -6,18 +6,6 @@
         default = 9001;
         description = "The port to bind to";
       };
-      minio = {
-        server = mkOption {
-          type = types.int;
-          default = 9002;
-          description = "The port to bind to";
-        };
-        console = mkOption {
-          type = types.int;
-          default = 9003;
-          description = "The port to bind to";
-        };
-      };
       ollama.api = mkOption {
         type = types.int;
         default = 11434;
@@ -89,20 +77,6 @@
       jellyfin.server = {
         enable = mkEnableOption "Enable Jellyfin";
       };
-
-      minio.server = {
-        enable = mkEnableOption "Enable Minio";
-        port = mkOption {
-          type = types.int;
-          default = config.ports.minio.server;
-          description = "The port to bind to";
-        };
-        consolePort = mkOption {
-          type = types.int;
-          default = config.ports.minio.console;
-          description = "The port to bind to";
-        };
-      };
     };
   };
   config = {
@@ -136,12 +110,6 @@
 
       jellyfin.server = {
         enable = lib.mkDefault false;
-      };
-
-      minio.server = {
-        enable = lib.mkDefault false;
-        port = lib.mkDefault 9002;
-        consolePort = lib.mkDefault 9003;
       };
     };
   };

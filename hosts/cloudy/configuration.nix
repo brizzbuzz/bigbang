@@ -1,6 +1,6 @@
 {
+  config,
   inputs,
-  pkgs,
   ...
 }: {
   imports = [
@@ -19,12 +19,34 @@
     users = ["ryan"]; # TODO: Read from config
   };
 
+  # New Minio service
+  services.minio-server = {
+    enable = true;
+    port = 9002;
+    consolePort = 9003;
+  };
+
+  # New Grafana service
+  services.grafana-server = {
+    enable = true;
+    domain = "metrics.rgbr.ink";
+  };
+
+  # New Prometheus service
+  services.prometheus-server = {
+    enable = true;
+    nodeExporter = {
+      enable = true;
+      targets = ["localhost" "cloudy.brizz.net"];
+    };
+  };
+
   host = {
     name = "cloudy";
     desktop.enable = false;
     remote.enable = true;
     attic.server.enable = true;
-    minio.server.enable = true;
+    # Remove minio settings
 
     caddy = {
       enable = true;
@@ -41,43 +63,21 @@
             target = "gigame.brizz.net:8096";
             logLevel = "DEBUG";
           };
-          # Use a custom home-assistant specific configuration
           homeassistant = {
             enable = true;
             subdomain = "home";
             target = "localhost:8123";
-            logLevel = "DEBUG"; # Set to DEBUG temporarily to troubleshoot
+            logLevel = "DEBUG";
+          };
+          minio = {
+            enable = true;
+            subdomain = "storage";
+            target = "localhost:${toString config.services.minio-server.consolePort}";
+            logLevel = "INFO";
           };
         };
       };
     };
-  };
-
-  # Enable Grafana and Node Exporter on this host
-  lgtm = {
-    prometheus = {
-      nodeExporter = {
-        enable = true;
-      };
-    };
-    grafana = {
-      enable = true;
-    };
-  };
-
-  # TODO: Make configurable module
-  networking = {
-    useDHCP = false;
-    interfaces.enp100s0 = {
-      useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.1.50";
-          prefixLength = 24;
-        }
-      ];
-    };
-    defaultGateway = "192.168.1.1";
   };
 
   glance.enable = true;

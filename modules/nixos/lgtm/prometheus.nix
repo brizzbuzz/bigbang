@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.lgtm.prometheus;
+{
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.services.prometheus-server;
 in {
-  options.lgtm.prometheus = {
+  options.services.prometheus-server = {
     enable = lib.mkEnableOption "Enable Prometheus";
     port = lib.mkOption {
       type = lib.types.int;
@@ -56,8 +58,9 @@ in {
           job_name = "node";
           static_configs = [
             {
-              targets = builtins.map (target: "${target}:${toString cfg.nodeExporter.port}")
-                        cfg.nodeExporter.targets;
+              targets =
+                builtins.map (target: "${target}:${toString cfg.nodeExporter.port}")
+                cfg.nodeExporter.targets;
               labels = {
                 group = "production";
               };
@@ -68,8 +71,10 @@ in {
     };
 
     # Firewall configuration
-    networking.firewall.allowedTCPPorts = [
-      cfg.port
-    ] ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;
+    networking.firewall.allowedTCPPorts =
+      [
+        cfg.port
+      ]
+      ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;
   };
 }

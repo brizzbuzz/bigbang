@@ -1,24 +1,29 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.lgtm.grafana;
+{
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.services.grafana-server;
 in {
-  options.lgtm.grafana = {
+  options.services.grafana-server = {
     enable = lib.mkEnableOption "Enable Grafana";
+
     domain = lib.mkOption {
       type = lib.types.str;
-      default = "metrics.${config.host.caddy.domain}";
+      default = "metrics.${config.host.caddy.domain or "localhost"}";
       description = "The domain name for Grafana";
     };
+
     port = lib.mkOption {
       type = lib.types.int;
       default = 3000;
       description = "The port for Grafana";
     };
+
     prometheus = {
       url = lib.mkOption {
         type = lib.types.str;
-        default = "http://localhost:${toString config.lgtm.prometheus.port}";
+        default = "http://localhost:${toString (config.services.prometheus-server.port or 9090)}";
         description = "The URL for the Prometheus data source";
       };
     };
@@ -55,8 +60,8 @@ in {
       };
     };
 
-    # Caddy reverse proxy for Grafana
-    services.caddy.virtualHosts = {
+    # Caddy reverse proxy for Grafana (if Caddy is enabled)
+    services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
       "${cfg.domain}" = {
         extraConfig = ''
           tls /etc/ssl/certs/cloudflare-cert.pem /etc/ssl/private/cloudflare-key.pem
@@ -66,6 +71,6 @@ in {
     };
 
     # Firewall configuration
-    networking.firewall.allowedTCPPorts = [ cfg.port ];
+    networking.firewall.allowedTCPPorts = [cfg.port];
   };
 }

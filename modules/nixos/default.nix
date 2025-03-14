@@ -6,6 +6,7 @@
   imports = [
     ../common
     ./lgtm
+    ./storage
     ./attic.nix
     ./audio.nix
     ./boot.nix
@@ -26,7 +27,6 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
-    ./minio.nix
     ./ollama.nix
     ./open-webui.nix
     ./password-manager.nix
@@ -45,14 +45,12 @@
   glance.enable = lib.mkDefault false;
   soft-serve.enable = lib.mkDefault false;
 
-  lgtm = {
-    grafana.enable = lib.mkDefault false;
-    prometheus = {
+  services.grafana-server.enable = lib.mkDefault false;
+  services.prometheus-server = {
+    enable = lib.mkDefault false;
+    nodeExporter = {
       enable = lib.mkDefault false;
-      nodeExporter = {
-        enable = lib.mkDefault false;
-        targets = lib.mkDefault ["localhost" "cloudy.brizz.net"];
-      };
+      targets = lib.mkDefault ["localhost" "cloudy.brizz.net"];
     };
   };
 
