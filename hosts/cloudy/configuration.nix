@@ -19,34 +19,41 @@
     users = ["ryan"]; # TODO: Read from config
   };
 
-  # New Minio service
+  # Minio service
   services.minio-server = {
     enable = true;
     port = 9002;
     consolePort = 9003;
   };
 
-  # New Grafana service
+  # Grafana service (unchanged)
   services.grafana-server = {
     enable = true;
     domain = "metrics.rgbr.ink";
   };
 
-  # New Prometheus service
-  services.prometheus-server = {
+  lgtm.mimir = {
     enable = true;
+    port = 9009;
+    retentionTime = "45d";
+    storage.minio = {
+      endpoint = "localhost:${toString config.services.minio-server.port}";
+      bucketName = "mimir-metrics";
+      region = "us-east-1";
+      credentialsFile = "/var/lib/opnix/secrets/minio/mimir-credentials";
+    };
     nodeExporter = {
       enable = true;
       targets = ["localhost" "cloudy.brizz.net"];
     };
   };
 
+  # Rest of your configuration remains the same
   host = {
     name = "cloudy";
     desktop.enable = false;
     remote.enable = true;
     attic.server.enable = true;
-    # Remove minio settings
 
     caddy = {
       enable = true;
@@ -73,6 +80,12 @@
             enable = true;
             subdomain = "storage";
             target = "localhost:${toString config.services.minio-server.consolePort}";
+            logLevel = "INFO";
+          };
+          mimir = {
+            enable = true;
+            subdomain = "mimir";
+            target = "localhost:9009";
             logLevel = "INFO";
           };
         };

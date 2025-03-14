@@ -20,11 +20,11 @@ in {
       description = "The port for Grafana";
     };
 
-    prometheus = {
+    mimir = {
       url = lib.mkOption {
         type = lib.types.str;
-        default = "http://localhost:${toString (config.services.prometheus-server.port or 9090)}";
-        description = "The URL for the Prometheus data source";
+        default = "http://localhost:${toString (config.lgtm.mimir.port or 9009)}/prometheus";
+        description = "The URL for the Mimir data source";
       };
     };
   };
@@ -39,21 +39,16 @@ in {
           domain = cfg.domain;
           root_url = "https://${cfg.domain}";
         };
-        security = {
-          # Default admin user (should be changed after first login)
-          admin_user = "admin";
-          admin_password = "admin";
-        };
       };
 
       provision = {
         enable = true;
         datasources.settings.datasources = [
           {
-            name = "Prometheus";
+            name = "Mimir";
             type = "prometheus";
             access = "proxy";
-            url = cfg.prometheus.url;
+            url = cfg.mimir.url;
             isDefault = true;
           }
         ];
