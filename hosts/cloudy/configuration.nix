@@ -60,6 +60,19 @@
      };
    };
 
+   lgtm.tempo = {
+     enable = true;
+     port = 3200;
+     grpcPort = 9097;
+     retentionTime = "1080h"; # Same as Mimir and Loki for consistency
+     storage.minio = {
+       endpoint = "localhost:${toString config.services.minio-server.port}";
+       bucketName = "tempo";
+       region = "us-east-1";
+       credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+     };
+   };
+
   lgtm.alloy = {
     enable = true;
     port = 12345;
