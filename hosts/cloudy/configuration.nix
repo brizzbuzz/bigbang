@@ -73,14 +73,33 @@
      };
    };
 
-  lgtm.alloy = {
-    enable = true;
-    port = 12345;
-    mimirTarget = "http://localhost:${toString config.lgtm.mimir.port}/prometheus/api/v1/push";
-    extraFlags = [
-      "--disable-reporting"
-    ];
-  };
+   lgtm.alloy = {
+     enable = true;
+     port = 12345;
+     mimirTarget = "http://localhost:${toString config.lgtm.mimir.port}/prometheus/api/v1/push";
+     extraFlags = [
+       "--disable-reporting"
+     ];
+
+     # Add the log collector configuration
+     logCollector = {
+       enable = true;
+       lokiUrl = "http://localhost:${toString config.lgtm.loki.port}/loki/api/v1/push";
+       logPaths = [
+         "/var/log/*.log"
+         "/var/log/nixos/*.log"
+         "/var/log/caddy/*.log"
+       ];
+       excludePatterns = [
+         ".*Connection closed by authenticating user root.*"
+         ".*debug.*"
+       ];
+       additionalLabels = {
+         role = "server";
+         environment = "production";
+       };
+     };
+   };
 
   host = {
     name = "cloudy";
