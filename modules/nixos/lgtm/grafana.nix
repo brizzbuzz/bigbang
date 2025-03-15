@@ -43,15 +43,26 @@ in {
 
       provision = {
         enable = true;
-        datasources.settings.datasources = [
-          {
-            name = "Mimir";
-            type = "prometheus";
-            access = "proxy";
-            url = cfg.mimir.url;
-            isDefault = true;
-          }
-        ];
+        datasources.settings = {
+          datasources = [
+            {
+              name = "Mimir";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://localhost:${toString config.lgtm.mimir.port}/prometheus";
+              isDefault = true;
+              # editable = true;
+              jsonData = {
+                timeInterval = "15s";
+                httpHeaderName1 = "X-Scope-OrgID";
+                prometheusType = "Mimir";
+              };
+              secureJsonData = {
+                httpHeaderValue1 = "tenant1";
+              };
+            }
+          ];
+        };
       };
     };
 

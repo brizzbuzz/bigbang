@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.lgtm.mimir;
 in {
   options.lgtm.mimir = {
@@ -65,7 +67,6 @@ in {
     services.mimir = {
       enable = true;
 
-      # Set environment variables from credentials file
       extraFlags = ["--config.expand-env=true"];
 
       configuration = {
@@ -75,6 +76,7 @@ in {
           http_listen_port = cfg.port;
         };
 
+        # Common storage configuration for S3/Minio
         common = {
           storage = {
             backend = "s3";
@@ -96,9 +98,7 @@ in {
           bucket_store = {
             sync_dir = "/var/lib/mimir/tsdb-sync";
           };
-          s3 = {
-              prefix = "blocks_data/";
-            };
+          storage_prefix = "blocks";
         };
 
         # Ruler storage
@@ -109,8 +109,8 @@ in {
             bucket_name = cfg.storage.minio.bucketName;
             region = cfg.storage.minio.region;
             insecure = true;
-            prefix = "ruler_data/";
           };
+          storage_prefix = "ruler";
         };
 
         # Alertmanager storage
@@ -121,11 +121,10 @@ in {
             bucket_name = cfg.storage.minio.bucketName;
             region = cfg.storage.minio.region;
             insecure = true;
-            prefix = "alertmanager_data/";
           };
+          storage_prefix = "alertmanager";
         };
 
-        # Single-instance configuration for homelab use
         compactor = {
           data_dir = "/var/lib/mimir/compactor";
           sharding_ring = {
@@ -164,15 +163,15 @@ in {
       };
     };
 
-    # Set environment variables from credentials file for Mimir
     systemd.services.mimir.serviceConfig = {
       EnvironmentFile = cfg.storage.minio.credentialsFile;
       StateDirectory = "mimir"; # Ensure the state directory exists
     };
 
-    # Open firewall ports
-    networking.firewall.allowedTCPPorts = [
-      cfg.port
-    ] ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;
+    networking.firewall.allowedTCPPorts =
+      [
+        cfg.port
+      ]
+      ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;
   };
 }
