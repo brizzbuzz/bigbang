@@ -48,7 +48,15 @@
     };
   };
 
-  # Rest of your configuration remains the same
+  lgtm.alloy = {
+    enable = true;
+    port = 12345;
+    mimirTarget = "http://localhost:${toString config.lgtm.mimir.port}/prometheus/api/v1/push";
+    extraFlags = [
+      "--disable-reporting"
+    ];
+  };
+
   host = {
     name = "cloudy";
     desktop.enable = false;

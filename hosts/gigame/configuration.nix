@@ -29,13 +29,13 @@
     remote.enable = true;
   };
 
-  lgtm = {
-    prometheus = {
-      enable = true;
-      nodeExporter = {
-        enable = true;
-      };
-    };
+  lgtm.alloy = {
+    enable = true;
+    port = 12345;
+    mimirTarget = "http://cloudy.brizz.net:9009/prometheus/api/v1/push";
+    #nodeExporter.enable = true;
+    #nvidia.enable = true;
+    #selfMonitoring.enable = true;
   };
 
   # TODO: Make configurable module
