@@ -48,10 +48,6 @@
                     mountpoint = "/var/log";
                     mountOptions = ["subvol=log" "compress=zstd" "noatime"];
                   };
-                  "/swap" = {
-                    mountpoint = "/swap";
-                    swap.swapfile.size = "64G";
-                  };
                 };
               };
             };
