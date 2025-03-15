@@ -42,7 +42,7 @@ in {
 
         credentialsFile = lib.mkOption {
           type = lib.types.str;
-          default = "/var/lib/opnix/secrets/minio/mimir-credentials";
+          default = "/var/lib/opnix/secrets/minio/lgtm-credentials";
           description = "Path to the Minio credentials file";
         };
       };
