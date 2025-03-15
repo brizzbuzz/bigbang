@@ -37,6 +37,7 @@
       "jetbrains-toolbox"
       "keymapp"
       "logi-options+"
+      "notion"
       "orion"
       "parsec"
       "pocket-casts"
