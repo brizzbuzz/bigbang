@@ -33,9 +33,25 @@
     enable = true;
     port = 12345;
     mimirTarget = "http://cloudy.brizz.net:9009/prometheus/api/v1/push";
-    #nodeExporter.enable = true;
-    #nvidia.enable = true;
-    #selfMonitoring.enable = true;
+
+    # Add the log collector configuration
+    logCollector = {
+      enable = true;
+      lokiUrl = "http://cloudy.brizz.net:3100/loki/api/v1/push";
+      logPaths = [
+        "/var/log/*.log"
+        "/var/log/nixos/*.log"
+        "/var/log/jellyfin/*.log"
+      ];
+      excludePatterns = [
+        ".*debug.*"
+        ".*trace.*"
+      ];
+      additionalLabels = {
+        role = "media-server";
+        environment = "production";
+      };
+    };
   };
 
   # TODO: Make configurable module
