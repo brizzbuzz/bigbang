@@ -1,10 +1,9 @@
 {...}: {
   imports = [
     ./grafana.nix
-    ./prometheus.nix
+    ./mimir.nix
     # These will be implemented later:
     # ./loki.nix
     # ./tempo.nix
-    # ./mimir.nix
   ];
 }

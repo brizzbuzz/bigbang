@@ -46,13 +46,6 @@
   soft-serve.enable = lib.mkDefault false;
 
   services.grafana-server.enable = lib.mkDefault false;
-  services.prometheus-server = {
-    enable = lib.mkDefault false;
-    nodeExporter = {
-      enable = lib.mkDefault false;
-      targets = lib.mkDefault ["localhost" "cloudy.brizz.net"];
-    };
-  };
 
   password-manager = {
     enable = lib.mkDefault true;
