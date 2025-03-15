@@ -35,6 +35,19 @@ in {
         description = "The URL for the Loki data source";
       };
     };
+
+    tempo = {
+      url = lib.mkOption {
+        type = lib.types.str;
+        default = "http://localhost:${toString (config.lgtm.tempo.port or 3200)}";
+        description = "The URL for the Tempo data source";
+      };
+      enabled = lib.mkOption {
+        type = lib.types.bool;
+        default = config.lgtm.tempo.enable or false;
+        description = "Whether to enable the Tempo data source";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -76,6 +89,27 @@ in {
               jsonData = {
                 httpHeaderName1 = "X-Scope-OrgID";
                 maxLines = 1000;
+              };
+              secureJsonData = {
+                httpHeaderValue1 = "tenant1";
+              };
+            }
+            {
+              name = "Tempo";
+              type = "tempo";
+              access = "proxy";
+              url = cfg.tempo.url;
+              jsonData = {
+                httpHeaderName1 = "X-Scope-OrgID";
+                nodeGraph = {
+                  enabled = true;
+                };
+                tracesToLogs = {
+                  datasourceUid = "Loki";
+                  tags = ["job" "instance" "pod" "namespace"];
+                  spanStartTimeShift = "1h";
+                  spanEndTimeShift = "1h";
+                };
               };
               secureJsonData = {
                 httpHeaderValue1 = "tenant1";
