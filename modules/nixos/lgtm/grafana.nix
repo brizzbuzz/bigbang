@@ -27,6 +27,14 @@ in {
         description = "The URL for the Mimir data source";
       };
     };
+
+    loki = {
+      url = lib.mkOption {
+        type = lib.types.str;
+        default = "http://localhost:${toString (config.lgtm.loki.port or 3100)}";
+        description = "The URL for the Loki data source";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -49,13 +57,25 @@ in {
               name = "Mimir";
               type = "prometheus";
               access = "proxy";
-              url = "http://localhost:${toString config.lgtm.mimir.port}/prometheus";
+              url = cfg.mimir.url;
               isDefault = true;
-              # editable = true;
               jsonData = {
                 timeInterval = "15s";
                 httpHeaderName1 = "X-Scope-OrgID";
                 prometheusType = "Mimir";
+              };
+              secureJsonData = {
+                httpHeaderValue1 = "tenant1";
+              };
+            }
+            {
+              name = "Loki";
+              type = "loki";
+              access = "proxy";
+              url = cfg.loki.url;
+              jsonData = {
+                httpHeaderName1 = "X-Scope-OrgID";
+                maxLines = 1000;
               };
               secureJsonData = {
                 httpHeaderValue1 = "tenant1";

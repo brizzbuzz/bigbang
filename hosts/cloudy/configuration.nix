@@ -40,13 +40,25 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "mimir";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/mimir-credentials";
+      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
     };
     nodeExporter = {
       enable = true;
       targets = ["localhost" "cloudy.brizz.net"];
     };
   };
+
+  lgtm.loki = {
+     enable = true;
+     port = 3100;
+     retentionTime = "1080h"; # Same as Mimir for consistency
+     storage.minio = {
+       endpoint = "localhost:${toString config.services.minio-server.port}";
+       bucketName = "loki";
+       region = "us-east-1";
+       credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+     };
+   };
 
   lgtm.alloy = {
     enable = true;
