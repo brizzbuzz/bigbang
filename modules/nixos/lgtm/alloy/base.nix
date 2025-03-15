@@ -151,9 +151,6 @@ in {
       after = ["network.target"];
 
       serviceConfig = {
-        # Use DynamicUser for simplified permission management
-        DynamicUser = true;
-
         # Set the exec command with storage path
         ExecStart = "${lib.getExe cfg.package} run ${cfg.configDir} ${lib.escapeShellArgs ([
             "--server.http.listen-addr=0.0.0.0:${toString cfg.port}"
