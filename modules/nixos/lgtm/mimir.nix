@@ -14,8 +14,8 @@ in {
 
     retentionTime = lib.mkOption {
       type = lib.types.str;
-      default = "30d";
-      description = "Data retention period";
+      default = "720h"; # 30 days in hours (using Go duration format)
+      description = "Data retention period (in Go duration format, e.g., '720h' for 30 days)";
     };
 
     storage = {
@@ -62,24 +62,19 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # Enable node exporter if requested
-    services.prometheus.exporters.node = lib.mkIf cfg.nodeExporter.enable {
-      enable = true;
-      enabledCollectors = ["systemd"];
-      port = cfg.nodeExporter.port;
-    };
-
-    # Configure Mimir using the built-in NixOS module
     services.mimir = {
       enable = true;
 
+      # Set environment variables from credentials file
+      extraFlags = ["--config.expand-env=true"];
+
       configuration = {
-        # Basic server configuration
+        target = "all";
+
         server = {
           http_listen_port = cfg.port;
         };
 
-        # Common storage configuration
         common = {
           storage = {
             backend = "s3";
@@ -88,49 +83,45 @@ in {
               bucket_name = cfg.storage.minio.bucketName;
               region = cfg.storage.minio.region;
               insecure = true;
-              # Credentials handled via environment variables
             };
           };
         };
 
-        # Configure block storage
+        # Block storage configuration
         blocks_storage = {
-          storage = {
-            backend = "s3";
-            s3 = {
-              endpoint = cfg.storage.minio.endpoint;
-              bucket_name = cfg.storage.minio.bucketName;
-              region = cfg.storage.minio.region;
-              insecure = true;
-            };
-          };
-          bucket_store = {
-            sync_dir = "/var/lib/mimir/tsdb-sync";
-          };
           tsdb = {
             dir = "/var/lib/mimir/tsdb";
             retention_period = cfg.retentionTime;
           };
+          bucket_store = {
+            sync_dir = "/var/lib/mimir/tsdb-sync";
+          };
+          s3 = {
+              prefix = "blocks_data/";
+            };
         };
 
-        # Storage for other components
+        # Ruler storage
         ruler_storage = {
           backend = "s3";
           s3 = {
             endpoint = cfg.storage.minio.endpoint;
-            bucket_name = "${cfg.storage.minio.bucketName}-ruler";
+            bucket_name = cfg.storage.minio.bucketName;
             region = cfg.storage.minio.region;
             insecure = true;
+            prefix = "ruler_data/";
           };
         };
 
+        # Alertmanager storage
         alertmanager_storage = {
           backend = "s3";
           s3 = {
             endpoint = cfg.storage.minio.endpoint;
-            bucket_name = "${cfg.storage.minio.bucketName}-alertmanager";
+            bucket_name = cfg.storage.minio.bucketName;
             region = cfg.storage.minio.region;
             insecure = true;
+            prefix = "alertmanager_data/";
           };
         };
 
@@ -170,40 +161,16 @@ in {
         store_gateway = {
           sharding_ring.replication_factor = 1;
         };
-
-        # Built-in scraping configuration
-        prometheus = lib.mkIf cfg.nodeExporter.enable {
-          global = {
-            scrape_interval = "15s";
-            evaluation_interval = "15s";
-          };
-          scrape_configs = [
-            {
-              job_name = "node";
-              static_configs = [
-                {
-                  targets = builtins.map (target: "${target}:${toString cfg.nodeExporter.port}")
-                            cfg.nodeExporter.targets;
-                  labels = {
-                    group = "production";
-                  };
-                }
-              ];
-            }
-          ];
-        };
       };
-
-      # Set environment variables from credentials file
-      extraFlags = ["--config.expand-env=true"];
     };
 
-    # Configure environment file for Mimir
+    # Set environment variables from credentials file for Mimir
     systemd.services.mimir.serviceConfig = {
       EnvironmentFile = cfg.storage.minio.credentialsFile;
+      StateDirectory = "mimir"; # Ensure the state directory exists
     };
 
-    # Open firewall port
+    # Open firewall ports
     networking.firewall.allowedTCPPorts = [
       cfg.port
     ] ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;

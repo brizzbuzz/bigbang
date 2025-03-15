@@ -26,19 +26,19 @@
     consolePort = 9003;
   };
 
-  # Grafana service (unchanged)
   services.grafana-server = {
     enable = true;
     domain = "metrics.rgbr.ink";
+    mimir.url = "http://localhost:9009/prometheus";
   };
 
   lgtm.mimir = {
     enable = true;
     port = 9009;
-    retentionTime = "45d";
+    retentionTime = "1080h";
     storage.minio = {
       endpoint = "localhost:${toString config.services.minio-server.port}";
-      bucketName = "mimir-metrics";
+      bucketName = "mimir";
       region = "us-east-1";
       credentialsFile = "/var/lib/opnix/secrets/minio/mimir-credentials";
     };
