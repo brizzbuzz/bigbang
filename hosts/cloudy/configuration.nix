@@ -42,10 +42,10 @@
       region = "us-east-1";
       credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
     };
-    nodeExporter = {
-      enable = true;
-      targets = ["localhost" "cloudy.chateaubr.ink"];
-    };
+  };
+
+  lgtm.node_exporter = {
+    enable = true;
   };
 
   lgtm.loki = {

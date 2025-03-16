@@ -5,5 +5,6 @@
     ./mimir.nix
     ./loki.nix
     ./tempo.nix
+    ./node-exporter.nix
   ];
 }
