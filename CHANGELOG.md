@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2025-03-16
+
+### 🚀 Features
+
+- Yubi configuration
+- Unify home manager across darwin and nix
+- Odyssey work setup (#49)
+- Cloudy back online (mostly) (#50)
+- *(git)* Streamline git configuration and user settings (#52)
+- Zen browser and zod
+- *(networking)* Add Caddy reverse proxy configuration (#54)
+- Deploy jellyfin to gigame (#56)
+- Grafana metrics server on cloudy (#57)
+- Prometheus (#58)
+- *(house)* Start of home assistance
+- *(metrics)* Got the bones of the lgtm module in place (#60)
+- *(nixos)* Mimir configuration and grafana data source (#64)
+- *(nixos)* Basic alloy collector deployment (#65)
+- *(nixos)* Deploy loki (#67)
+- *(nixos)* Tempo deployment (#68)
+- *(nixos)* Alloy now pushes logs to loki (#69)
+- Node exporter on both servers (#71)
+
+### 🐛 Bug Fixes
+
+- *(darwin)* For now disable 1password home manager secrets
+- Update cloudy disko config
+- Cloudy and gigame alive in server mode
+- Macbook name
+
+### 🚜 Refactor
+
+- Move alloy configs to host definition (#70)
+
+### ⚙️ Miscellaneous Tasks
+
+- Update flake
+- Update lock and format
+- Remove luks from gigame for now
+- Update locks, touch up configs and remove darwin specific hm config
+- Remove nixvim config
+- *(darwin)* Remove outdated config val
+- *(darwin)* Remove alacritty
+- *(darwin)* Remove dup config
+- Qol updates (#59)
+- Reorganize minio and lgtm modules (#62)
+- *(darwin)* Add notion to casks (#63)
+- *(nixos)* Remove gigantic swap files from cloudy and gigame (#66)
+
 ## [0.5.0] - 2024-12-04
 
 ### 🚀 Features
@@ -155,6 +204,7 @@ All notable changes to this project will be documented in this file.
 - Switch to stdenv isDarwin for real
 - Add impure flag to system build aliases
 - Update lock file
+- Bump version
 
 ## [0.4.0] - 2024-05-15
 
