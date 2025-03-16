@@ -1,10 +1,15 @@
+// Basic Prometheus remote write configuration
 prometheus.remote_write "mimir" {
 	endpoint {
-		url = "http://localhost:9009/prometheus/api/v1/push"
+		url = "http://cloudy.chateaubr.ink:9009/api/v1/push"
 
 		basic_auth {
 			username = "tenant1"
 			password = "tenant1"
+		}
+
+		headers = {
+			"X-Scope-OrgID" = "tenant1",
 		}
 	}
 }
@@ -12,40 +17,30 @@ prometheus.remote_write "mimir" {
 // System metrics collection
 prometheus.scrape "node_exporter" {
 	targets = [
-		{"__address__" = "localhost:9100", "instance" = "cloudy", "job" = "node"},
+		{"__address__" = "localhost:9100", "instance" = "gigame", "job" = "node"},
 	]
 	forward_to      = [prometheus.remote_write.mimir.receiver]
 	scrape_interval = "15s"
 }
 
-// Additional metrics scraping for Caddy
-prometheus.scrape "caddy" {
+// Jellyfin metrics collection
+prometheus.scrape "jellyfin" {
 	targets = [
-		{"__address__" = "localhost:2019", "instance" = "cloudy", "job" = "caddy"},
+		{"__address__" = "localhost:8096", "instance" = "gigame", "job" = "jellyfin"},
 	]
 	metrics_path    = "/metrics"
 	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "15s"
+	scrape_interval = "30s"
 }
 
-// Mimir self monitoring
-prometheus.scrape "mimir" {
+// NVIDIA GPU metrics if available and node_exporter doesn't already collect them
+prometheus.scrape "nvidia_smi" {
 	targets = [
-		{"__address__" = "localhost:9009", "instance" = "cloudy", "job" = "mimir"},
+		{"__address__" = "localhost:9835", "instance" = "gigame", "job" = "nvidia_smi"},
 	]
 	metrics_path    = "/metrics"
 	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "15s"
-}
-
-// Loki self monitoring
-prometheus.scrape "loki" {
-	targets = [
-		{"__address__" = "localhost:3100", "instance" = "cloudy", "job" = "loki"},
-	]
-	metrics_path    = "/metrics"
-	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "15s"
+	scrape_interval = "30s"
 }
 
 // Log collection configuration
@@ -53,7 +48,7 @@ local.file_match "local_logs" {
 	path_targets = [
 		{"__path__" = "/var/log/*.log"},
 		{"__path__" = "/var/log/nixos/*.log"},
-		{"__path__" = "/var/log/caddy/*.log"},
+		{"__path__" = "/var/log/jellyfin/*.log"},
 	]
 	sync_period = "10s"
 }
@@ -66,13 +61,13 @@ loki.source.file "log_scraper" {
 
 loki.process "log_processor" {
 	stage.drop {
-		expression          = ".*Connection closed by authenticating user root.*"
+		expression          = ".*debug.*"
 		source              = ""
 		drop_counter_reason = "filtered"
 	}
 
 	stage.drop {
-		expression          = ".*debug.*"
+		expression          = ".*trace.*"
 		source              = ""
 		drop_counter_reason = "filtered"
 	}
@@ -80,8 +75,8 @@ loki.process "log_processor" {
 	// Add static labels to all logs
 	stage.static_labels {
 		values = {
-			"hostname"    = "cloudy",
-			"role"        = "server",
+			"hostname"    = "gigame",
+			"role"        = "media-server",
 			"environment" = "production",
 		}
 	}
@@ -91,7 +86,7 @@ loki.process "log_processor" {
 
 loki.write "remote_loki" {
 	endpoint {
-		url = "http://localhost:3100/loki/api/v1/push"
+		url = "http://cloudy.chateaubr.ink:3100/loki/api/v1/push"
 
 		// Uncomment and set these if your Loki requires authentication
 		// basic_auth {
