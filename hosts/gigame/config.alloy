@@ -1,0 +1,102 @@
+prometheus.remote_write "mimir" {
+	endpoint {
+		url = "http://localhost:9009/prometheus/api/v1/push"
+
+		basic_auth {
+			username = "tenant1"
+			password = "tenant1"
+		}
+	}
+}
+
+// System metrics collection
+prometheus.scrape "node_exporter" {
+	targets = [
+		{"__address__" = "localhost:9100", "instance" = "cloudy", "job" = "node"},
+	]
+	forward_to      = [prometheus.remote_write.mimir.receiver]
+	scrape_interval = "15s"
+}
+
+// Additional metrics scraping for Caddy
+prometheus.scrape "caddy" {
+	targets = [
+		{"__address__" = "localhost:2019", "instance" = "cloudy", "job" = "caddy"},
+	]
+	metrics_path    = "/metrics"
+	forward_to      = [prometheus.remote_write.mimir.receiver]
+	scrape_interval = "15s"
+}
+
+// Mimir self monitoring
+prometheus.scrape "mimir" {
+	targets = [
+		{"__address__" = "localhost:9009", "instance" = "cloudy", "job" = "mimir"},
+	]
+	metrics_path    = "/metrics"
+	forward_to      = [prometheus.remote_write.mimir.receiver]
+	scrape_interval = "15s"
+}
+
+// Loki self monitoring
+prometheus.scrape "loki" {
+	targets = [
+		{"__address__" = "localhost:3100", "instance" = "cloudy", "job" = "loki"},
+	]
+	metrics_path    = "/metrics"
+	forward_to      = [prometheus.remote_write.mimir.receiver]
+	scrape_interval = "15s"
+}
+
+// Log collection configuration
+local.file_match "local_logs" {
+	path_targets = [
+		{"__path__" = "/var/log/*.log"},
+		{"__path__" = "/var/log/nixos/*.log"},
+		{"__path__" = "/var/log/caddy/*.log"},
+	]
+	sync_period = "10s"
+}
+
+loki.source.file "log_scraper" {
+	targets       = local.file_match.local_logs.targets
+	forward_to    = [loki.process.log_processor.receiver]
+	tail_from_end = true
+}
+
+loki.process "log_processor" {
+	stage.drop {
+		expression          = ".*Connection closed by authenticating user root.*"
+		source              = ""
+		drop_counter_reason = "filtered"
+	}
+
+	stage.drop {
+		expression          = ".*debug.*"
+		source              = ""
+		drop_counter_reason = "filtered"
+	}
+
+	// Add static labels to all logs
+	stage.static_labels {
+		values = {
+			"hostname"    = "cloudy",
+			"role"        = "server",
+			"environment" = "production",
+		}
+	}
+
+	forward_to = [loki.write.remote_loki.receiver]
+}
+
+loki.write "remote_loki" {
+	endpoint {
+		url = "http://localhost:3100/loki/api/v1/push"
+
+		// Uncomment and set these if your Loki requires authentication
+		// basic_auth {
+		//   username = "tenant1"
+		//   password = "tenant1"
+		// }
+	}
+}
