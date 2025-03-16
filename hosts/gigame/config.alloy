@@ -1,97 +1,121 @@
 // Basic Prometheus remote write configuration
 prometheus.remote_write "mimir" {
-	endpoint {
-		url = "http://cloudy.chateaubr.ink:9009/api/v1/push"
+    endpoint {
+        url = "http://cloudy.chateaubr.ink:9009/api/v1/push"
 
-		basic_auth {
-			username = "tenant1"
-			password = "tenant1"
-		}
+        basic_auth {
+            username = "tenant1"
+            password = "tenant1"
+        }
 
-		headers = {
-			"X-Scope-OrgID" = "tenant1",
-		}
-	}
+        headers = {
+            "X-Scope-OrgID" = "tenant1",
+        }
+    }
 }
 
 // System metrics collection
 prometheus.scrape "node_exporter" {
-	targets = [
-		{"__address__" = "localhost:9100", "instance" = "gigame", "job" = "node"},
-	]
-	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "15s"
+    targets = [
+        {"__address__" = "localhost:9100", "instance" = "gigame", "job" = "node"},
+    ]
+    forward_to      = [prometheus.remote_write.mimir.receiver]
+    scrape_interval = "15s"
+}
+
+// NVIDIA GPU metrics collection using prometheus-nvidia-gpu-exporter
+prometheus.scrape "nvidia_gpu" {
+    targets = [
+        {"__address__" = "localhost:9835", "instance" = "gigame", "job" = "nvidia_gpu"},
+    ]
+    forward_to      = [prometheus.remote_write.mimir.receiver]
+    scrape_interval = "15s"
 }
 
 // Jellyfin metrics collection
 prometheus.scrape "jellyfin" {
-	targets = [
-		{"__address__" = "localhost:8096", "instance" = "gigame", "job" = "jellyfin"},
-	]
-	metrics_path    = "/metrics"
-	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "30s"
-}
-
-// NVIDIA GPU metrics if available and node_exporter doesn't already collect them
-prometheus.scrape "nvidia_smi" {
-	targets = [
-		{"__address__" = "localhost:9835", "instance" = "gigame", "job" = "nvidia_smi"},
-	]
-	metrics_path    = "/metrics"
-	forward_to      = [prometheus.remote_write.mimir.receiver]
-	scrape_interval = "30s"
+    targets = [
+        {"__address__" = "localhost:8096", "instance" = "gigame", "job" = "jellyfin"},
+    ]
+    metrics_path    = "/metrics"
+    forward_to      = [prometheus.remote_write.mimir.receiver]
+    scrape_interval = "30s"
 }
 
 // Log collection configuration
 local.file_match "local_logs" {
-	path_targets = [
-		{"__path__" = "/var/log/*.log"},
-		{"__path__" = "/var/log/nixos/*.log"},
-		{"__path__" = "/var/log/jellyfin/*.log"},
-	]
-	sync_period = "10s"
+    path_targets = [
+        {"__path__" = "/var/log/*.log"},
+        {"__path__" = "/var/log/nixos/*.log"},
+        {"__path__" = "/var/log/jellyfin/*.log"},
+    ]
+    sync_period = "10s"
+}
+
+// Add NVIDIA GPU related logs if available
+local.file_match "nvidia_logs" {
+    path_targets = [
+        {"__path__" = "/var/log/nvidia-driver/*.log"},
+        {"__path__" = "/var/log/Xorg.*.log"},
+    ]
+    sync_period = "10s"
 }
 
 loki.source.file "log_scraper" {
-	targets       = local.file_match.local_logs.targets
-	forward_to    = [loki.process.log_processor.receiver]
-	tail_from_end = true
+    targets       = local.file_match.local_logs.targets
+    forward_to    = [loki.process.log_processor.receiver]
+    tail_from_end = true
+}
+
+loki.source.file "nvidia_log_scraper" {
+    targets       = local.file_match.nvidia_logs.targets
+    forward_to    = [loki.process.log_processor.receiver]
+    tail_from_end = true
 }
 
 loki.process "log_processor" {
-	stage.drop {
-		expression          = ".*debug.*"
-		source              = ""
-		drop_counter_reason = "filtered"
-	}
+    stage.drop {
+        expression          = ".*debug.*"
+        source              = ""
+        drop_counter_reason = "filtered"
+    }
 
-	stage.drop {
-		expression          = ".*trace.*"
-		source              = ""
-		drop_counter_reason = "filtered"
-	}
+    stage.drop {
+        expression          = ".*trace.*"
+        source              = ""
+        drop_counter_reason = "filtered"
+    }
 
-	// Add static labels to all logs
-	stage.static_labels {
-		values = {
-			"hostname"    = "gigame",
-			"role"        = "server",
-			"environment" = "production",
-		}
-	}
+    // Add static labels to all logs
+    stage.static_labels {
+        values = {
+            "hostname"    = "gigame",
+            "role"        = "server",
+            "environment" = "production",
+        }
+    }
 
-	forward_to = [loki.write.remote_loki.receiver]
+    // Add special labeling for GPU-related logs - Fixed selector syntax
+    stage.match {
+        selector = `{__path__=~"/var/log/nvidia.*|/var/log/Xorg.*"}`
+        stage.labels {
+            values = {
+                "component" = "gpu",
+            }
+        }
+    }
+
+    forward_to = [loki.write.remote_loki.receiver]
 }
 
 loki.write "remote_loki" {
-	endpoint {
-		url = "http://cloudy.chateaubr.ink:3100/loki/api/v1/push"
+    endpoint {
+        url = "http://cloudy.chateaubr.ink:3100/loki/api/v1/push"
 
-		// Uncomment and set these if your Loki requires authentication
-		// basic_auth {
-		//   username = "tenant1"
-		//   password = "tenant1"
-		// }
-	}
+        // Uncomment and set these if your Loki requires authentication
+        // basic_auth {
+        //   username = "tenant1"
+        //   password = "tenant1"
+        // }
+    }
 }

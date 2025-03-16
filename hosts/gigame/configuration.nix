@@ -40,6 +40,7 @@
 
   lgtm.node_exporter = {
     enable = true;
+    enableGpuMetrics = true; # Enable GPU metrics collection
   };
 
   # TODO: Make configurable module
