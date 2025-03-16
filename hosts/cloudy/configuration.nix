@@ -44,7 +44,7 @@
     };
     nodeExporter = {
       enable = true;
-      targets = ["localhost" "cloudy.brizz.net"];
+      targets = ["localhost" "cloudy.chateaubr.ink"];
     };
   };
 
@@ -100,7 +100,7 @@
           media = {
             enable = true;
             subdomain = "media";
-            target = "gigame.brizz.net:8096";
+            target = "gigame.chateaubr.ink:8096";
             logLevel = "DEBUG";
           };
           homeassistant = {
