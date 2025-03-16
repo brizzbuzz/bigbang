@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./alloy
+    ./alloy.nix
     ./grafana.nix
     ./mimir.nix
     ./loki.nix

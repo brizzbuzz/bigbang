@@ -21,22 +21,16 @@ in {
       description = "The port for Alloy to listen on";
     };
 
-    configDir = lib.mkOption {
-      type = lib.types.str;
-      default = "/etc/alloy";
-      description = "Directory containing Alloy configuration files";
+    configFile = lib.mkOption {
+      type = lib.types.path;
+      description = "Path to the Alloy configuration file";
+      example = lib.literalExpression "./config.alloy";
     };
 
     dataDir = lib.mkOption {
       type = lib.types.str;
       default = "/var/lib/alloy";
       description = "Directory where Alloy stores its data";
-    };
-
-    mimirTarget = lib.mkOption {
-      type = lib.types.str;
-      default = "http://localhost:${toString (config.lgtm.mimir.port or 9009)}/prometheus/api/v1/push";
-      description = "The Mimir remote_write API endpoint";
     };
 
     extraFlags = lib.mkOption {
@@ -49,81 +43,23 @@ in {
         ]
       '';
     };
-
-    configs = lib.mkOption {
-      type = lib.types.attrsOf lib.types.lines;
-      default = {};
-      description = "Alloy configuration files to write";
-      example = lib.literalExpression ''
-        {
-          "basic.alloy" = '''
-            prometheus.remote_write "mimir" {
-              endpoint {
-                url = "http://localhost:9009/prometheus/api/v1/push"
-                basic_auth {
-                  username = "tenant1"
-                  password = "tenant1"
-                }
-              }
-            }
-          ''';
-        }
-      '';
-    };
   };
 
   config = lib.mkIf cfg.enable {
-    # Create configuration files
-    environment.etc =
-      lib.mapAttrs'
-      (name: content: {
-        name = "alloy/${name}";
-        value = {
-          text = content;
-          mode = "0644";
-        };
-      })
-      (cfg.configs
-        // (
-          # Add the base remote_write configuration if none exists
-          if !(cfg.configs ? "remote_write.alloy")
-          then {
-            "remote_write.alloy" = ''
-              // Remote write configuration to send metrics to Mimir
-              prometheus.remote_write "mimir" {
-                endpoint {
-                  url = "${cfg.mimirTarget}"
-
-                  basic_auth {
-                    username = "tenant1"
-                    password = "tenant1"
-                  }
-                }
-              }
-            '';
-          }
-          else {}
-        ));
-
     # Create test executables to verify Alloy works
     environment.systemPackages = [
       (pkgs.writeShellScriptBin "alloy-version" ''
         ${lib.getExe cfg.package} --version
       '')
 
-      (pkgs.writeShellScriptBin "alloy-test-configs" ''
-        echo "Checking all Alloy configuration files..."
-
-        for config in ${cfg.configDir}/*.alloy; do
-          echo "Checking $config..."
-          ${lib.getExe cfg.package} check "$config"
-          if [ $? -ne 0 ]; then
-            echo "Error in $config"
-            exit 1
-          fi
-        done
-
-        echo "All configs passed syntax check!"
+      (pkgs.writeShellScriptBin "alloy-test-config" ''
+        echo "Checking Alloy configuration file..."
+        ${lib.getExe cfg.package} check "${cfg.configFile}"
+        if [ $? -ne 0 ]; then
+          echo "Error in config file"
+          exit 1
+        fi
+        echo "Config passed syntax check!"
       '')
 
       (pkgs.writeShellScriptBin "alloy-help" ''
@@ -152,7 +88,7 @@ in {
 
       serviceConfig = {
         # Set the exec command with storage path
-        ExecStart = "${lib.getExe cfg.package} run ${cfg.configDir} ${lib.escapeShellArgs ([
+        ExecStart = "${lib.getExe cfg.package} run ${cfg.configFile} ${lib.escapeShellArgs ([
             "--server.http.listen-addr=0.0.0.0:${toString cfg.port}"
             "--storage.path=${cfg.dataDir}"
           ]

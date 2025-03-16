@@ -9,6 +9,7 @@ forAllSystems (system: {
       alejandra # Nix Formatter
       claude-code # Claude Code
       git-cliff # Changelog generator
+      grafana-alloy # Grafana Alloy
       nil # Nix LSP
       nurl # Nix Fetcher Generator
       tokei # Code statistics
