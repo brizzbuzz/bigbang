@@ -76,7 +76,7 @@ loki.process "log_processor" {
 	stage.static_labels {
 		values = {
 			"hostname"    = "gigame",
-			"role"        = "media-server",
+			"role"        = "server",
 			"environment" = "production",
 		}
 	}

@@ -129,7 +129,10 @@ in {
 
         storage = {
           trace = {
-            backend = if cfg.storage.minio.enable then "s3" else "local";
+            backend =
+              if cfg.storage.minio.enable
+              then "s3"
+              else "local";
             wal = {
               path = "${cfg.dataDir}/wal";
             };
@@ -187,11 +190,11 @@ in {
       # Receivers ports
       14268 # Jaeger thrift HTTP
       14250 # Jaeger gRPC
-      6831  # Jaeger thrift compact
-      6832  # Jaeger thrift binary
-      4317  # OTLP gRPC
-      4318  # OTLP HTTP
-      9411  # Zipkin
+      6831 # Jaeger thrift compact
+      6832 # Jaeger thrift binary
+      4317 # OTLP gRPC
+      4318 # OTLP HTTP
+      9411 # Zipkin
     ];
   };
 }

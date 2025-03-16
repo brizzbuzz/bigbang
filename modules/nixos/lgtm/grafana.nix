@@ -1,9 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.services.grafana-server;
+
+  # Dashboard directory
+  dashboardsDir = ./dashboards;
 in {
   options.services.grafana-server = {
     enable = lib.mkEnableOption "Enable Grafana";
@@ -60,11 +64,23 @@ in {
           domain = cfg.domain;
           root_url = "https://${cfg.domain}";
         };
+
+        # Default homepage and dashboard settings
+        dashboards = {
+          default_home_dashboard_path = "${dashboardsDir}/home-overview.json";
+        };
+
+        # Customize preferences for default org
+        preferences = {
+          # Default home dashboard with the UID from your dashboard JSON
+          home_dashboard = "home-overview";
+        };
       };
 
       provision = {
         enable = true;
         datasources.settings = {
+          apiVersion = 1;
           datasources = [
             {
               name = "Mimir";
@@ -114,6 +130,23 @@ in {
               secureJsonData = {
                 httpHeaderValue1 = "tenant1";
               };
+            }
+          ];
+        };
+
+        # Dashboard provisioning
+        dashboards.settings = {
+          apiVersion = 1;
+          providers = [
+            {
+              name = "Default";
+              type = "file";
+              folder = "";
+              options.path = dashboardsDir;
+              allowUiUpdates = true;
+              updateIntervalSeconds = 30;
+              # Mark the first dashboard as default (will be marked with a star)
+              options.foldersFromFilesStructure = true;
             }
           ];
         };

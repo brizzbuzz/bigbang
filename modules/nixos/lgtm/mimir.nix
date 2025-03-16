@@ -154,9 +154,8 @@ in {
       StateDirectory = "mimir"; # Ensure the state directory exists
     };
 
-    networking.firewall.allowedTCPPorts =
-      [
-        cfg.port
-      ];
+    networking.firewall.allowedTCPPorts = [
+      cfg.port
+    ];
   };
 }

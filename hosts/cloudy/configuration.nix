@@ -49,38 +49,38 @@
   };
 
   lgtm.loki = {
-     enable = true;
-     port = 3100;
-     retentionTime = "1080h"; # Same as Mimir for consistency
-     storage.minio = {
-       endpoint = "localhost:${toString config.services.minio-server.port}";
-       bucketName = "loki";
-       region = "us-east-1";
-       credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
-     };
-   };
+    enable = true;
+    port = 3100;
+    retentionTime = "1080h"; # Same as Mimir for consistency
+    storage.minio = {
+      endpoint = "localhost:${toString config.services.minio-server.port}";
+      bucketName = "loki";
+      region = "us-east-1";
+      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+    };
+  };
 
-   lgtm.tempo = {
-     enable = true;
-     port = 3200;
-     grpcPort = 9097;
-     retentionTime = "1080h"; # Same as Mimir and Loki for consistency
-     storage.minio = {
-       endpoint = "localhost:${toString config.services.minio-server.port}";
-       bucketName = "tempo";
-       region = "us-east-1";
-       credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
-     };
-   };
+  lgtm.tempo = {
+    enable = true;
+    port = 3200;
+    grpcPort = 9097;
+    retentionTime = "1080h"; # Same as Mimir and Loki for consistency
+    storage.minio = {
+      endpoint = "localhost:${toString config.services.minio-server.port}";
+      bucketName = "tempo";
+      region = "us-east-1";
+      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+    };
+  };
 
-   lgtm.alloy = {
-     enable = true;
-     port = 12345;
-     configFile = ./config.alloy;
-     extraFlags = [
-       "--disable-reporting"
-     ];
-   };
+  lgtm.alloy = {
+    enable = true;
+    port = 12345;
+    configFile = ./config.alloy;
+    extraFlags = [
+      "--disable-reporting"
+    ];
+  };
 
   host = {
     name = "cloudy";
