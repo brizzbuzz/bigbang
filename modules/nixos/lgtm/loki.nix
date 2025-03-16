@@ -101,8 +101,11 @@ in {
           configs = [
             {
               from = "2020-10-24";
-              store = "boltdb-shipper";  # We keep this for now but will need to migrate to tsdb eventually
-              object_store = if cfg.storage.minio.enable then "s3" else "filesystem";
+              store = "boltdb-shipper"; # We keep this for now but will need to migrate to tsdb eventually
+              object_store =
+                if cfg.storage.minio.enable
+                then "s3"
+                else "filesystem";
               schema = "v13"; # Changed from v11 to v13 as required
               index = {
                 prefix = "index_";
@@ -112,24 +115,30 @@ in {
           ];
         };
 
-        storage_config = {
-          boltdb_shipper = {
-            active_index_directory = "${cfg.dataDir}/index";
-            cache_location = "${cfg.dataDir}/cache";
-            cache_ttl = "24h";
-          };
-        } // (if cfg.storage.minio.enable then {
-          aws = {
-            s3 = "s3://${cfg.storage.minio.region}/${cfg.storage.minio.bucketName}";
-            s3forcepathstyle = true;
-            endpoint = "http://${cfg.storage.minio.endpoint}";
-            insecure = true;
-          };
-        } else {
-          filesystem = {
-            directory = "${cfg.dataDir}/chunks";
-          };
-        });
+        storage_config =
+          {
+            boltdb_shipper = {
+              active_index_directory = "${cfg.dataDir}/index";
+              cache_location = "${cfg.dataDir}/cache";
+              cache_ttl = "24h";
+            };
+          }
+          // (
+            if cfg.storage.minio.enable
+            then {
+              aws = {
+                s3 = "s3://${cfg.storage.minio.region}/${cfg.storage.minio.bucketName}";
+                s3forcepathstyle = true;
+                endpoint = "http://${cfg.storage.minio.endpoint}";
+                insecure = true;
+              };
+            }
+            else {
+              filesystem = {
+                directory = "${cfg.dataDir}/chunks";
+              };
+            }
+          );
 
         limits_config = {
           reject_old_samples = true;

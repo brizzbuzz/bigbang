@@ -38,6 +38,10 @@
     ];
   };
 
+  lgtm.node_exporter = {
+    enable = true;
+  };
+
   # TODO: Make configurable module
   networking = {
     useDHCP = false;

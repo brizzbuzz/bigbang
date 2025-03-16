@@ -47,20 +47,6 @@ in {
         };
       };
     };
-
-    nodeExporter = {
-      enable = lib.mkEnableOption "Enable node exporter support";
-      port = lib.mkOption {
-        type = lib.types.int;
-        default = 9100;
-        description = "Node exporter port";
-      };
-      targets = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = ["localhost"];
-        description = "List of node exporter targets";
-      };
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -168,10 +154,8 @@ in {
       StateDirectory = "mimir"; # Ensure the state directory exists
     };
 
-    networking.firewall.allowedTCPPorts =
-      [
-        cfg.port
-      ]
-      ++ lib.optional cfg.nodeExporter.enable cfg.nodeExporter.port;
+    networking.firewall.allowedTCPPorts = [
+      cfg.port
+    ];
   };
 }
