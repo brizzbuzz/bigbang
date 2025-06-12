@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
     kernelParams = ["psmouse.synaptics_intertouch=0"];
     kernel.sysctl = {
       "kernel.perf_event_paranoid" = 1;
