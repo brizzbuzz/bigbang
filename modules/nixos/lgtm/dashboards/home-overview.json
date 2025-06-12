@@ -537,7 +537,7 @@
             "uid": "Loki"
           },
           "editorMode": "builder",
-          "expr": "{hostname=~\"cloudy|gigame\", role=~\"server|media-server\"} |= ``",
+          "expr": "{hostname=~\"cloudy|ganymede\", role=~\"server|media-server\"} |= ``",
           "queryType": "range",
           "refId": "A"
         }

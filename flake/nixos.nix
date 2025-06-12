@@ -32,8 +32,8 @@
     };
   };
 
-  gigame = {
-    imports = [../hosts/gigame/configuration.nix];
+  ganymede = {
+    imports = [../hosts/ganymede/configuration.nix];
     deployment = {
       targetHost = "192.168.1.51";
       targetUser = "ryan";

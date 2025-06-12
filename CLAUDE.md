@@ -32,4 +32,4 @@
 - Public domain: rgbr.ink (configured in Cloudflare with proxy mode)
 - Machines accessible locally or via Wireguard as [hostname].chateaubr.ink
 - cloudy runs Caddy server that delegates traffic from rgbr.ink to appropriate services
-- gigame runs Jellyfin media server accessible via media.rgbr.ink
+- ganymede runs Jellyfin media server accessible via media.rgbr.ink
