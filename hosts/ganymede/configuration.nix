@@ -21,7 +21,7 @@
 
   host = {
     ai.enable = true;
-    name = "gigame";
+    name = "ganymede";
     desktop.enable = false;
     gpu.nvidia.enable = true;
     jellyfin.server.enable = true;

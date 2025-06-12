@@ -17,7 +17,7 @@ prometheus.remote_write "mimir" {
 // System metrics collection
 prometheus.scrape "node_exporter" {
     targets = [
-        {"__address__" = "localhost:9100", "instance" = "gigame", "job" = "node"},
+        {"__address__" = "localhost:9100", "instance" = "ganymede", "job" = "node"},
     ]
     forward_to      = [prometheus.remote_write.mimir.receiver]
     scrape_interval = "15s"
@@ -26,7 +26,7 @@ prometheus.scrape "node_exporter" {
 // NVIDIA GPU metrics collection using prometheus-nvidia-gpu-exporter
 prometheus.scrape "nvidia_gpu" {
     targets = [
-        {"__address__" = "localhost:9835", "instance" = "gigame", "job" = "nvidia_gpu"},
+        {"__address__" = "localhost:9835", "instance" = "ganymede", "job" = "nvidia_gpu"},
     ]
     forward_to      = [prometheus.remote_write.mimir.receiver]
     scrape_interval = "15s"
@@ -35,7 +35,7 @@ prometheus.scrape "nvidia_gpu" {
 // Jellyfin metrics collection
 prometheus.scrape "jellyfin" {
     targets = [
-        {"__address__" = "localhost:8096", "instance" = "gigame", "job" = "jellyfin"},
+        {"__address__" = "localhost:8096", "instance" = "ganymede", "job" = "jellyfin"},
     ]
     metrics_path    = "/metrics"
     forward_to      = [prometheus.remote_write.mimir.receiver]
@@ -89,7 +89,7 @@ loki.process "log_processor" {
     // Add static labels to all logs
     stage.static_labels {
         values = {
-            "hostname"    = "gigame",
+            "hostname"    = "ganymede",
             "role"        = "server",
             "environment" = "production",
         }

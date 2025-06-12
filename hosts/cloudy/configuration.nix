@@ -100,7 +100,7 @@
           media = {
             enable = true;
             subdomain = "media";
-            target = "gigame.chateaubr.ink:8096";
+            target = "ganymede.chateaubr.ink:8096";
             logLevel = "DEBUG";
           };
           homeassistant = {

@@ -30,7 +30,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 ## [SYS::CORES]
 ```
 ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
-│  FRAME  │   │ GIGAME  │   │ CLOUDY  │   │  MACME  │
+│  FRAME  │   │ Ganymede│   │ CLOUDY  │   │  MACME  │
 │ [MOB-1] │   │ [PWR-1] │   │ [INF-1] │   │ [HYB-1] │
 └─────────┘   └─────────┘   └─────────┘   └─────────┘
     ▲             ▲             ▲             ▲
@@ -45,7 +45,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 └─ Mobile Operations
 ```
 
-### [NODE::GIGAME] <PWR_1>
+### [NODE::GANYMEDE] <PWR_1>
 ```
 ├─ NVIDIA Acceleration
 ├─ Gaming Protocols
@@ -93,7 +93,7 @@ BIGBANG
 ├─ hosts/            // Reality Nodes
 │  ├─ cloudy/        // ■■■■■■■■■□ 90%
 │  ├─ frame/         // ■■■■■■■■■■ 100%
-│  ├─ gigame/        // ■■■■■■■■■□ 90%
+│  ├─ ganymede/        // ■■■■■■■■■□ 90%
 │  └─ macme/         // ■■■■■■■■□□ 80%
 ├─ modules/          // Reality Modules
 └─ secrets.json      // Encrypted Data
