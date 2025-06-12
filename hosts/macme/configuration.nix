@@ -7,6 +7,9 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # Define the system user for nix-darwin
+  system.primaryUser = "ryan";
+
   programs.zsh.enableCompletion = false;
 
   fonts.packages = with pkgs; [
@@ -20,6 +23,7 @@
 
   homebrew = {
     enable = true;
+    user = "ryan";
 
     brews = [
       "mas"
@@ -30,7 +34,9 @@
       "betterdiscord-installer"
       "bruno"
       "discord"
+      "docker"
       "gitbutler"
+      "google-chrome"
       "iina"
       "ghostty"
       "hammerspoon"
@@ -49,7 +55,6 @@
       "steam"
       "the-unarchiver"
       "zed"
-      "zen-browser"
       "zoom"
     ];
 
