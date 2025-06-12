@@ -2,7 +2,7 @@
   isDarwin = pkgs.stdenv.isDarwin;
   rebuildCommand =
     if isDarwin
-    then "darwin-rebuild switch --flake .#"
+    then "sudo darwin-rebuild switch --flake .#"
     else "sudo colmena apply-local --impure";
   rebuildRemoteCommand =
     if isDarwin

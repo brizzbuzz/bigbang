@@ -11,6 +11,7 @@
           ../hosts/macme/configuration.nix
           inputs.nix-homebrew.darwinModules.nix-homebrew
           {
+            system.primaryUser = username;
             nix-homebrew = {
               enable = true;
               user = username;
@@ -36,8 +37,6 @@
       };
     };
 in {
-  Ryan-MBP-Mini = mkDarwinSystem {};
-  minimbpme = mkDarwinSystem {};
-  gigambpme = mkDarwinSystem {};
   Odyssey-MBP = mkDarwinSystem {};
+  Mac-Mini = mkDarwinSystem {};
 }
