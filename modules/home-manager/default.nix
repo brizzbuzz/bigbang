@@ -8,10 +8,8 @@
   cfg = config.host;
   isDarwin = pkgs.stdenv.isDarwin;
 
-  # Get all users that have Home Manager enabled
   homeManagerUsers = lib.filterAttrs (_: user: user.homeManagerEnabled) cfg.users;
 
-  # Generate user configurations based on profile
   generateUserConfig = userName: userConfig: let
     profileConfig =
       if userConfig.profile == "personal"
