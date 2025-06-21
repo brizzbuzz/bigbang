@@ -2,6 +2,7 @@
   mkDarwinSystem = {
     system ? "aarch64-darwin",
     username ? "ryan",
+    users ? {},
     extraModules ? [],
   }:
     inputs.nix-darwin.lib.darwinSystem {
@@ -24,6 +25,9 @@
 
               mutableTaps = false;
             };
+
+            # Pass users configuration to the system
+            host.users = users;
           }
         ]
         ++ extraModules;
@@ -37,6 +41,57 @@
       };
     };
 in {
-  Odyssey-MBP = mkDarwinSystem {};
-  Mac-Mini = mkDarwinSystem {};
+  # Personal configuration (ryan user)
+  Odyssey-MBP = mkDarwinSystem {
+    users = {
+      ryan = {
+        name = "ryan";
+        profile = "personal";
+        isPrimary = true;
+        homeManagerEnabled = true;
+      };
+      Work = {
+        name = "Work";
+        profile = "work";
+        isPrimary = false;
+        homeManagerEnabled = true;
+      };
+    };
+  };
+
+  # Work configuration (ryan primary, Work user secondary)
+  Odyssey-MBP-Work = mkDarwinSystem {
+    users = {
+      ryan = {
+        name = "ryan";
+        profile = "personal";
+        isPrimary = true;
+        homeManagerEnabled = true;
+      };
+      Work = {
+        name = "Work";
+        profile = "work";
+        isPrimary = false;
+        homeManagerEnabled = true;
+      };
+    };
+  };
+
+  # Mac Mini with both users
+  Mac-Mini = mkDarwinSystem {
+    users = {
+      ryan = {
+        name = "ryan";
+        profile = "personal";
+        isPrimary = true;
+        homeManagerEnabled = true;
+      };
+      Work = {
+        name = "Work";
+        profile = "work";
+        isPrimary = false;
+        homeManagerEnabled = true;
+      };
+    };
+  };
 }

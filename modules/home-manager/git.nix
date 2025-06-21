@@ -9,8 +9,8 @@
 in {
   programs.git = {
     enable = true;
-    userName = "Ryan Brink";
-    userEmail = "dev@ryanbr.ink";
+    userName = lib.mkDefault "Ryan Brink";
+    userEmail = lib.mkDefault "dev@ryanbr.ink";
 
     difftastic = {
       enable = true;

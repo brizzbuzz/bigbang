@@ -77,6 +77,48 @@
       jellyfin.server = {
         enable = mkEnableOption "Enable Jellyfin";
       };
+
+      users = mkOption {
+        type = types.attrsOf (types.submodule {
+          options = {
+            name = mkOption {
+              type = types.str;
+              description = "The username for this user";
+            };
+            profile = mkOption {
+              type = types.enum ["personal" "work"];
+              default = "personal";
+              description = "The profile type for this user";
+            };
+            isPrimary = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether this is the primary system user";
+            };
+            homeManagerEnabled = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Whether to enable Home Manager for this user";
+            };
+          };
+        });
+        default = {};
+        description = "User configurations";
+      };
+
+      profiles = {
+        personal = {
+          appleIdApps = mkEnableOption "Enable Apple ID dependent apps" // {default = true;};
+          entertainmentApps = mkEnableOption "Enable entertainment apps" // {default = true;};
+          developmentApps = mkEnableOption "Enable development apps" // {default = true;};
+          personalApps = mkEnableOption "Enable personal productivity apps" // {default = true;};
+        };
+        work = {
+          businessApps = mkEnableOption "Enable business apps" // {default = true;};
+          restrictedApps = mkEnableOption "Enable restricted work apps" // {default = false;};
+          developmentApps = mkEnableOption "Enable development apps" // {default = false;};
+        };
+      };
     };
   };
   config = {
@@ -110,6 +152,29 @@
 
       jellyfin.server = {
         enable = lib.mkDefault false;
+      };
+
+      users = lib.mkDefault {
+        ryan = {
+          name = "ryan";
+          profile = "personal";
+          isPrimary = true;
+          homeManagerEnabled = true;
+        };
+      };
+
+      profiles = {
+        personal = {
+          appleIdApps = lib.mkDefault true;
+          entertainmentApps = lib.mkDefault true;
+          developmentApps = lib.mkDefault true;
+          personalApps = lib.mkDefault true;
+        };
+        work = {
+          businessApps = lib.mkDefault true;
+          restrictedApps = lib.mkDefault false;
+          developmentApps = lib.mkDefault false;
+        };
       };
     };
   };

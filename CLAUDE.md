@@ -25,7 +25,64 @@
 ## REPOSITORY STRUCTURE
 - `hosts/` - Machine-specific configurations
 - `modules/` - Shared functionality and abstractions
+  - `modules/darwin/app-profiles.nix` - Profile-based app management
+  - `modules/home-manager/profiles/` - User profile configurations
 - `flake/` - Flake-related configurations
+
+## MULTI-USER CONFIGURATION
+
+### User Profiles
+- `personal` - Full access including Apple ID apps (Xcode), entertainment, development tools
+- `work` - Business apps only, no Apple ID dependencies, limited development tools
+
+### User Configuration
+Configure users in host configuration:
+```nix
+host = {
+  users = {
+    ryan = {
+      name = "ryan";
+      profile = "personal";
+      isPrimary = true;
+      homeManagerEnabled = true;
+    };
+    Work = {
+      name = "Work";
+      profile = "work";
+      isPrimary = false;
+      homeManagerEnabled = true;
+    };
+  };
+  
+  profiles = {
+    personal = {
+      appleIdApps = true;           # Xcode, etc.
+      entertainmentApps = true;     # Discord, Spotify, Steam
+      developmentApps = true;       # JetBrains, Docker, etc.
+      personalApps = true;          # Personal productivity
+    };
+    work = {
+      businessApps = true;          # Notion, Zoom, Chrome
+      restrictedApps = false;       # Limited app access
+      developmentApps = false;      # No dev tools by default
+    };
+  };
+};
+```
+
+### Available Darwin Configurations
+- `Odyssey-MBP` - Default with both users (ryan primary)
+- `Odyssey-MBP-Work` - Work-focused with Work user as primary
+- `Mac-Mini` - Default with both users (ryan primary)
+
+### Switching Between Configurations
+```bash
+# Personal setup (ryan primary)
+darwin-rebuild switch --flake .#Odyssey-MBP
+
+# Work setup (Work user primary)
+darwin-rebuild switch --flake .#Odyssey-MBP-Work
+```
 
 ## NETWORK ARCHITECTURE
 - Local network domain: chateaubr.ink
