@@ -7,6 +7,39 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  host = {
+    users = {
+      ryan = {
+        name = "ryan";
+        profile = "personal";
+        isPrimary = true;
+        homeManagerEnabled = true;
+      };
+      Work = {
+        name = "Work";
+        profile = "work";
+        isPrimary = false;
+        homeManagerEnabled = true;
+      };
+    };
+
+    profiles = {
+      personal = {
+        appleIdApps = true;
+        entertainmentApps = true;
+        developmentApps = true;
+        personalApps = true;
+      };
+      work = {
+        businessApps = true;
+        restrictedApps = false;
+        developmentApps = false;
+      };
+    };
+
+    keyboard = "voyager";
+  };
+
   # Define the system user for nix-darwin
   system.primaryUser = "ryan";
 
@@ -24,53 +57,8 @@
   homebrew = {
     enable = true;
     user = "ryan";
-
-    brews = [
-      "mas"
-    ];
-
-    casks = [
-      "1password"
-      "betterdiscord-installer"
-      "bruno"
-      "discord"
-      "docker"
-      "gitbutler"
-      "google-chrome"
-      "iina"
-      "ghostty"
-      "hammerspoon"
-      "jetbrains-toolbox"
-      "keymapp"
-      "logi-options+"
-      "notion"
-      "orion"
-      "parsec"
-      "pocket-casts"
-      "protonvpn"
-      "proxyman"
-      "sf-symbols"
-      "spacedrive"
-      "spotify"
-      "steam"
-      "the-unarchiver"
-      "zed"
-      "zoom"
-    ];
-
-    masApps = {
-      "Unifi" = 1057750338;
-      "Ubiquiti Wifiman" = 1385561119;
-      "WireGuard" = 1451685025;
-      "Xcode" = 497799835;
-    };
-
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
-  };
-
-  host = {
-    keyboard = "voyager";
   };
 
   programs.zsh.enable = true;

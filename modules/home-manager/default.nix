@@ -1,11 +1,26 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }: let
-  admin = config.host.admin.name;
+  cfg = config.host;
   isDarwin = pkgs.stdenv.isDarwin;
+
+  homeManagerUsers = lib.filterAttrs (_: user: user.homeManagerEnabled) cfg.users;
+
+  generateUserConfig = userName: userConfig: let
+    profileConfig =
+      if userConfig.profile == "personal"
+      then ./profiles/personal.nix
+      else ./profiles/work.nix;
+  in {
+    imports = [profileConfig];
+    home.username = userName;
+  };
+
+  userConfigurations = lib.mapAttrs generateUserConfig homeManagerUsers;
 in {
   imports =
     [
@@ -23,11 +38,13 @@ in {
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "backup";
 
-  home-manager.users.${admin} = import ./admin.nix;
+  home-manager.users = userConfigurations;
 
   home-manager.extraSpecialArgs = {
     inherit pkgs;
     opnix = inputs.opnix;
+    hostUsers = cfg.users;
   };
 }
