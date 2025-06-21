@@ -72,16 +72,15 @@ host = {
 
 ### Available Darwin Configurations
 - `Odyssey-MBP` - Default with both users (ryan primary)
-- `Odyssey-MBP-Work` - Work-focused with Work user as primary
 - `Mac-Mini` - Default with both users (ryan primary)
 
-### Switching Between Configurations
+### Using the Configuration
 ```bash
-# Personal setup (ryan primary)
+# Build and switch to configuration
 darwin-rebuild switch --flake .#Odyssey-MBP
 
-# Work setup (Work user primary)
-darwin-rebuild switch --flake .#Odyssey-MBP-Work
+# Both ryan (personal) and Work (work profile) users are available
+# Apps are automatically segregated based on user profiles
 ```
 
 ## NETWORK ARCHITECTURE
