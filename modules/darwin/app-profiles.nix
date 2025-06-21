@@ -5,10 +5,8 @@
 }: let
   cfg = config.host;
 
-  # Helper function to get users with a specific profile
   getUsersByProfile = profile: lib.filterAttrs (_: user: user.profile == profile) cfg.users;
 
-  # App definitions by category
   personalApps = {
     casks = [
       "discord"
@@ -64,7 +62,6 @@
     ];
   };
 
-  # Shared/common apps that both profiles get
   commonApps = {
     casks = [
       "1password"
@@ -81,7 +78,6 @@
     ];
   };
 
-  # Generate app lists based on active profiles
   generateAppList = appType: let
     personalProfile = cfg.profiles.personal;
     workProfile = cfg.profiles.work;
@@ -89,24 +85,20 @@
     personalUsers = getUsersByProfile "personal";
     workUsers = getUsersByProfile "work";
 
-    # Add common apps
     commonList = commonApps.${appType} or [];
 
-    # Add personal profile apps
     personalList =
       lib.optionals (personalUsers != {} && personalProfile.personalApps) (personalApps.${appType} or [])
       ++ lib.optionals (personalUsers != {} && personalProfile.appleIdApps) (appleIdApps.${appType} or [])
       ++ lib.optionals (personalUsers != {} && personalProfile.entertainmentApps) (entertainmentApps.${appType} or [])
       ++ lib.optionals (personalUsers != {} && personalProfile.developmentApps) (developmentApps.${appType} or []);
 
-    # Add work profile apps
     workList =
       lib.optionals (workUsers != {} && workProfile.businessApps) (businessApps.${appType} or [])
       ++ lib.optionals (workUsers != {} && workProfile.developmentApps) (developmentApps.${appType} or []);
   in
     lib.unique (commonList ++ personalList ++ workList);
 
-  # Generate MAS apps with proper attribute merging
   generateMasApps = let
     personalProfile = cfg.profiles.personal;
     workProfile = cfg.profiles.work;

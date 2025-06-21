@@ -7,7 +7,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # Multi-user configuration
   host = {
     users = {
       ryan = {
@@ -58,7 +57,6 @@
   homebrew = {
     enable = true;
     user = "ryan";
-    # App lists are now managed by the app-profiles module
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
   };

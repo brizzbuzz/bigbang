@@ -22,7 +22,6 @@
     home.username = userName;
   };
 
-  # Generate home-manager user configurations
   userConfigurations = lib.mapAttrs generateUserConfig homeManagerUsers;
 in {
   imports =
@@ -43,7 +42,6 @@ in {
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
 
-  # Configure all users with Home Manager enabled
   home-manager.users = userConfigurations;
 
   home-manager.extraSpecialArgs = {

@@ -3,12 +3,9 @@
   opnix,
   pkgs,
   lib,
-  hostUsers,
   ...
 }: let
-  # Get current user from home.username
   currentUsername = config.home.username;
-  userConfig = hostUsers.${currentUsername} or null;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
 in {
@@ -46,13 +43,11 @@ in {
 
   programs.home-manager.enable = true;
 
-  # Personal profile specific configurations
   programs.git = {
     userName = "Ryan Brink";
     userEmail = "dev@ryanbr.ink";
   };
 
-  # Enable OnePassword secrets for Linux personal users
   programs.onepassword-secrets = lib.mkIf isLinux {
     enable = true;
     secrets = [
@@ -63,7 +58,6 @@ in {
     ];
   };
 
-  # Personal user gets full development environment
   home.packages = with pkgs; [
     # Development tools
     nodejs
@@ -71,15 +65,8 @@ in {
     rustc
     cargo
     go
-
-    # Personal productivity
     obsidian
-
-    # Media tools
     ffmpeg
     yt-dlp
   ];
-
-  # Personal profile specific dotfiles and configurations
-  # xdg.configFile configurations can be added here as needed
 }
