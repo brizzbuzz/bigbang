@@ -40,6 +40,10 @@ in {
   programs.git = {
     userName = "Ryan Brink";
     userEmail = "ryan@withodyssey.com";
+
+    extraConfig = {
+      user.signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl"; # Work signing key - update with actual key
+    };
   };
 
   home.packages = with pkgs; [
@@ -51,4 +55,17 @@ in {
   ];
 
   programs.ssh.enable = lib.mkDefault false;
+
+  # Work 1Password SSH Agent Configuration
+  xdg.configFile."1Password/ssh/agent.toml".text = ''
+    [[ssh-keys]]
+    item = "Odyssey Auth Key"
+    vault = "Employee"
+    account = "teamodyssey.1password.com"
+
+    [[ssh-keys]]
+    item = "Odyssey Signing Key"
+    vault = "Employee"
+    account = "teamodyssey.1password.com"
+  '';
 }

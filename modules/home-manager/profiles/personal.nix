@@ -46,6 +46,10 @@ in {
   programs.git = {
     userName = "Ryan Brink";
     userEmail = "dev@ryanbr.ink";
+
+    extraConfig = {
+      user.signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+    };
   };
 
   programs.onepassword-secrets = lib.mkIf isLinux {
@@ -69,4 +73,17 @@ in {
     ffmpeg
     yt-dlp
   ];
+
+  # Personal 1Password SSH Agent Configuration
+  xdg.configFile."1Password/ssh/agent.toml".text = ''
+    [[ssh-keys]]
+    item = "Personal Auth Key"
+    vault = "Private"
+    account = "my.1password.com"
+
+    [[ssh-keys]]
+    item = "Personal Signing Key"
+    vault = "Private"
+    account = "my.1password.com"
+  '';
 }
