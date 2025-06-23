@@ -65,6 +65,8 @@
   commonApps = {
     casks = [
       "1password"
+      "fantastical"
+      "figma"
       "ghostty"
       "hammerspoon"
       "keymapp"
