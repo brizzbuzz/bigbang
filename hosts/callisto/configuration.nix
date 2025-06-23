@@ -83,7 +83,7 @@
   };
 
   host = {
-    name = "cloudy";
+    name = "callisto";
     desktop.enable = false;
     remote.enable = true;
     attic.server.enable = true;
@@ -94,7 +94,7 @@
       sites = {
         root = {
           enable = true;
-          content = "Hello from cloudy!";
+          content = "Hello from callisto!";
         };
         proxies = {
           media = {

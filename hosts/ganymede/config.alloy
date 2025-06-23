@@ -1,7 +1,7 @@
 // Basic Prometheus remote write configuration
 prometheus.remote_write "mimir" {
     endpoint {
-        url = "http://cloudy.chateaubr.ink:9009/api/v1/push"
+        url = "http://callisto.chateaubr.ink:9009/api/v1/push"
 
         basic_auth {
             username = "tenant1"
@@ -110,7 +110,7 @@ loki.process "log_processor" {
 
 loki.write "remote_loki" {
     endpoint {
-        url = "http://cloudy.chateaubr.ink:3100/loki/api/v1/push"
+        url = "http://callisto.chateaubr.ink:3100/loki/api/v1/push"
 
         // Uncomment and set these if your Loki requires authentication
         // basic_auth {

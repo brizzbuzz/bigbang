@@ -20,8 +20,8 @@ in {
       '';
 
     matchBlocks = {
-      "cloudy" = {
-        hostname = "cloudy";
+      "callisto" = {
+        hostname = "callisto";
         forwardAgent = true;
         user = "ryan";
       };
