@@ -56,9 +56,7 @@ in {
   ];
 
   programs.ssh.enable = lib.mkDefault false;
-<<<<<<< ours
 
-  # Work 1Password SSH Agent Configuration
   xdg.configFile."1Password/ssh/agent.toml".text = ''
     [[ssh-keys]]
     item = "Odyssey Auth Key"
@@ -71,22 +69,5 @@ in {
     account = "teamodyssey.1password.com"
   '';
 
-  # Work Zed Editor Configuration
   xdg.configFile."zed/settings.json".source = zedConfig.zed.work;
-||||||| ancestor
-=======
-
-  # Work 1Password SSH Agent Configuration
-  xdg.configFile."1Password/ssh/agent.toml".text = ''
-    [[ssh-keys]]
-    item = "Odyssey Auth Key"
-    vault = "Employee"
-    account = "teamodyssey.1password.com"
-
-    [[ssh-keys]]
-    item = "Odyssey Signing Key"
-    vault = "Employee"
-    account = "teamodyssey.1password.com"
-  '';
->>>>>>> theirs
 }
