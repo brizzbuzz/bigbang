@@ -8,6 +8,7 @@
   currentUsername = config.home.username;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  zedConfig = import ../zed-config.nix {inherit lib pkgs;};
 in {
   imports = [
     opnix.homeManagerModules.default
@@ -74,7 +75,6 @@ in {
     yt-dlp
   ];
 
-  # Personal 1Password SSH Agent Configuration
   xdg.configFile."1Password/ssh/agent.toml".text = ''
     [[ssh-keys]]
     item = "Personal Auth Key"
@@ -86,4 +86,6 @@ in {
     vault = "Private"
     account = "my.1password.com"
   '';
+
+  xdg.configFile."zed/settings.json".source = zedConfig.zed.personal;
 }

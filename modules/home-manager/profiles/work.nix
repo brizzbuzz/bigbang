@@ -7,6 +7,7 @@
 }: let
   currentUsername = config.home.username;
   isDarwin = pkgs.stdenv.isDarwin;
+  zedConfig = import ../zed-config.nix {inherit lib pkgs;};
 in {
   imports = [
     opnix.homeManagerModules.default
@@ -56,7 +57,6 @@ in {
 
   programs.ssh.enable = lib.mkDefault false;
 
-  # Work 1Password SSH Agent Configuration
   xdg.configFile."1Password/ssh/agent.toml".text = ''
     [[ssh-keys]]
     item = "Odyssey Auth Key"
@@ -68,4 +68,6 @@ in {
     vault = "Employee"
     account = "teamodyssey.1password.com"
   '';
+
+  xdg.configFile."zed/settings.json".source = zedConfig.zed.work;
 }
