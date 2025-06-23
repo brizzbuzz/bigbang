@@ -8,6 +8,7 @@
   currentUsername = config.home.username;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  zedConfig = import ../zed-config.nix {inherit lib pkgs;};
 in {
   imports = [
     opnix.homeManagerModules.default
@@ -73,6 +74,7 @@ in {
     ffmpeg
     yt-dlp
   ];
+<<<<<<< ours
 
   # Personal 1Password SSH Agent Configuration
   xdg.configFile."1Password/ssh/agent.toml".text = ''
@@ -86,4 +88,23 @@ in {
     vault = "Private"
     account = "my.1password.com"
   '';
+
+  # Personal Zed Editor Configuration
+  xdg.configFile."zed/settings.json".source = zedConfig.zed.personal;
+||||||| ancestor
+=======
+
+  # Personal 1Password SSH Agent Configuration
+  xdg.configFile."1Password/ssh/agent.toml".text = ''
+    [[ssh-keys]]
+    item = "Personal Auth Key"
+    vault = "Private"
+    account = "my.1password.com"
+
+    [[ssh-keys]]
+    item = "Personal Signing Key"
+    vault = "Private"
+    account = "my.1password.com"
+  '';
+>>>>>>> theirs
 }
