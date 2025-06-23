@@ -87,5 +87,5 @@ darwin-rebuild switch --flake .#Odyssey-MBP
 - Local network domain: chateaubr.ink
 - Public domain: rgbr.ink (configured in Cloudflare with proxy mode)
 - Machines accessible locally or via Wireguard as [hostname].chateaubr.ink
-- cloudy runs Caddy server that delegates traffic from rgbr.ink to appropriate services
+- callisto runs Caddy server that delegates traffic from rgbr.ink to appropriate services
 - ganymede runs Jellyfin media server accessible via media.rgbr.ink

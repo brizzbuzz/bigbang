@@ -22,8 +22,8 @@
     };
   };
 
-  cloudy = {
-    imports = [../hosts/cloudy/configuration.nix];
+  callisto = {
+    imports = [../hosts/callisto/configuration.nix];
     deployment = {
       targetHost = "192.168.1.50";
       targetUser = "root";

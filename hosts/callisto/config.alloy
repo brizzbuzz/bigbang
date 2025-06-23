@@ -17,7 +17,7 @@ prometheus.remote_write "mimir" {
 // System metrics collection
 prometheus.scrape "node_exporter" {
 	targets = [
-		{"__address__" = "localhost:9100", "instance" = "cloudy", "job" = "node"},
+		{"__address__" = "localhost:9100", "instance" = "callisto", "job" = "node"},
 	]
 	forward_to      = [prometheus.remote_write.mimir.receiver]
 	scrape_interval = "15s"
@@ -26,7 +26,7 @@ prometheus.scrape "node_exporter" {
 // Additional metrics scraping for Caddy
 prometheus.scrape "caddy" {
 	targets = [
-		{"__address__" = "localhost:2019", "instance" = "cloudy", "job" = "caddy"},
+		{"__address__" = "localhost:2019", "instance" = "callisto", "job" = "caddy"},
 	]
 	metrics_path    = "/metrics"
 	forward_to      = [prometheus.remote_write.mimir.receiver]
@@ -36,7 +36,7 @@ prometheus.scrape "caddy" {
 // Mimir self monitoring
 prometheus.scrape "mimir" {
 	targets = [
-		{"__address__" = "localhost:9009", "instance" = "cloudy", "job" = "mimir"},
+		{"__address__" = "localhost:9009", "instance" = "callisto", "job" = "mimir"},
 	]
 	metrics_path    = "/metrics"
 	forward_to      = [prometheus.remote_write.mimir.receiver]
@@ -46,7 +46,7 @@ prometheus.scrape "mimir" {
 // Loki self monitoring
 prometheus.scrape "loki" {
 	targets = [
-		{"__address__" = "localhost:3100", "instance" = "cloudy", "job" = "loki"},
+		{"__address__" = "localhost:3100", "instance" = "callisto", "job" = "loki"},
 	]
 	metrics_path    = "/metrics"
 	forward_to      = [prometheus.remote_write.mimir.receiver]
@@ -85,7 +85,7 @@ loki.process "log_processor" {
 	// Add static labels to all logs
 	stage.static_labels {
 		values = {
-			"hostname"    = "cloudy",
+			"hostname"    = "callisto",
 			"role"        = "server",
 			"environment" = "production",
 		}

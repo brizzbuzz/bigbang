@@ -17,7 +17,7 @@
           type = "s3";
           region = "us-east-1";
           bucket = "some-bucket";
-          endpoint = "https://cloudy.dory-mamba.ts.net:9002";
+          endpoint = "https://callisto.dory-mamba.ts.net:9002";
         };
 
         # Data chunking

@@ -30,7 +30,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 ## [SYS::CORES]
 ```
 ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
-│  FRAME  │   │ Ganymede│   │ CLOUDY  │   │  MACME  │
+│  FRAME  │   │ Ganymede│   │ Callisto│   │  MACME  │
 │ [MOB-1] │   │ [PWR-1] │   │ [INF-1] │   │ [HYB-1] │
 └─────────┘   └─────────┘   └─────────┘   └─────────┘
     ▲             ▲             ▲             ▲
@@ -52,7 +52,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 └─ Performance Engine
 ```
 
-### [NODE::CLOUDY] <INF_1>
+### [NODE::CALLISTO] <INF_1>
 ```
 ├─ Deployment Center
 ├─ Data Distribution
@@ -91,9 +91,9 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 BIGBANG
 ├─ flake.nix         // Universal Constants
 ├─ hosts/            // Reality Nodes
-│  ├─ cloudy/        // ■■■■■■■■■□ 90%
+│  ├─ callisto/      // ■■■■■■■■■□ 90%
 │  ├─ frame/         // ■■■■■■■■■■ 100%
-│  ├─ ganymede/        // ■■■■■■■■■□ 90%
+│  ├─ ganymede/      // ■■■■■■■■■□ 90%
 │  └─ macme/         // ■■■■■■■■□□ 80%
 ├─ modules/          // Reality Modules
 └─ secrets.json      // Encrypted Data
