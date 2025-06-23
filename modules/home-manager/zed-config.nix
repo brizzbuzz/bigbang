@@ -52,8 +52,8 @@
   contextServers = {
     linear = {
       command = {
-        path = "pnpm";
-        args = ["dlx" "mcp-remote" "https://mcp.linear.app/sse"];
+        path = "nix";
+        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.linear.app/sse"];
         env = {};
       };
       settings = {};
@@ -61,17 +61,26 @@
 
     figma = {
       command = {
-        path = "pnpm";
-        args = ["dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
-        env = null;
+        path = "nix";
+        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
+        env = {};
       };
       settings = {};
     };
 
     asana = {
       command = {
-        path = "pnpm";
-        args = ["dlx" "mcp-remote" "https://mcp.asana.com/sse"];
+        path = "nix";
+        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.asana.com/sse"];
+        env = {};
+      };
+      settings = {};
+    };
+
+    nixos = {
+      command = {
+        path = "nix";
+        args = ["run" "github:utensils/mcp-nixos/v1.0.0" "--"];
         env = {};
       };
       settings = {};
@@ -93,7 +102,7 @@ in {
     inherit mkZedConfig contextServers baseZedConfig;
 
     # Pre-configured profiles
-    personal = mkZedConfig ["linear" "figma"];
-    work = mkZedConfig ["linear" "asana" "figma"];
+    personal = mkZedConfig ["linear" "nixos"];
+    work = mkZedConfig ["linear" "asana" "figma" "nixos"];
   };
 }
