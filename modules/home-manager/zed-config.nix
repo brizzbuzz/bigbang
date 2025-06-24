@@ -85,6 +85,15 @@
       };
       settings = {};
     };
+
+    withodyssey = {
+      command = {
+        path = "nix";
+        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "@modelcontextprotocol/server-filesystem" "/Users/Work/Workspace/withodyssey"];
+        env = {};
+      };
+      settings = {};
+    };
   };
 
   # Function to create Zed config with specific context servers
@@ -103,6 +112,6 @@ in {
 
     # Pre-configured profiles
     personal = mkZedConfig ["linear" "nixos"];
-    work = mkZedConfig ["linear" "asana" "figma" "nixos"];
+    work = mkZedConfig ["linear" "asana" "figma" "nixos" "withodyssey"];
   };
 }
