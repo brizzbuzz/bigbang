@@ -24,6 +24,9 @@
           trusted_proxies = [
             "127.0.0.1"
             "::1"
+            "192.168.1.0/24" # Local network range
+            "10.0.0.0/8" # Private network ranges
+            "172.16.0.0/12" # Private network ranges
           ];
         };
 

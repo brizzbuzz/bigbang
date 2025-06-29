@@ -11,6 +11,7 @@ forAllSystems (system: {
       git-cliff # Changelog generator
       grafana-alloy # Grafana Alloy
       nil # Nix LSP
+      nixd # Another Nix LSP
       nurl # Nix Fetcher Generator
       tokei # Code statistics
     ];

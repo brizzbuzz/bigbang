@@ -4,15 +4,6 @@
   programs.zsh.enable = true;
 
   environment = {
-    etc = {
-      "1password/custom_allowed_browsers" = {
-        text = ''
-          floorp
-          vivaldi-bin
-        '';
-        mode = "0755";
-      };
-    };
     variables = {
       EDITOR = "nvim";
     };

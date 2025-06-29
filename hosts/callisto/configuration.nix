@@ -15,9 +15,47 @@
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";
-    configFile = ./../../secrets.json;
     users = ["ryan"]; # TODO: Read from config
+
+    # Keep existing secrets in JSON file for gradual migration
+    configFiles = [
+      ./../../secrets.json
+    ];
+
+    # New declarative SSL certificate configuration
+    secrets = {
+      "ssl/cloudflare-cert" = {
+        reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/cert";
+        path = "/etc/ssl/certs/cloudflare-origin.pem";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0644";
+        services = ["caddy"];
+      };
+
+      "ssl/cloudflare-key" = {
+        reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/privateKey";
+        path = "/etc/ssl/private/cloudflare-origin.key";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0600";
+        services = ["caddy"];
+      };
+    };
+
+    # Enable systemd integration for reliable service management
+    systemdIntegration = {
+      enable = true;
+      services = ["caddy"];
+      restartOnChange = true;
+    };
   };
+
+  # Create SSL directories for OpNix-managed certificates
+  systemd.tmpfiles.rules = [
+    "d /etc/ssl/certs 0755 root root -"
+    "d /etc/ssl/private 0700 root root -"
+  ];
 
   # Minio service
   services.minio-server = {
@@ -119,6 +157,18 @@
             enable = true;
             subdomain = "mimir";
             target = "localhost:9009";
+            logLevel = "INFO";
+          };
+          ollama = {
+            enable = true;
+            subdomain = "ollama";
+            target = "ganymede.chateaubr.ink:11434";
+            logLevel = "INFO";
+          };
+          ai = {
+            enable = true;
+            subdomain = "ai";
+            target = "ganymede.chateaubr.ink:11435";
             logLevel = "INFO";
           };
         };

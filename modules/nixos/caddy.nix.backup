@@ -3,8 +3,8 @@
   lib,
   ...
 }: let
-  # Helper function for TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
-  tlsConfig = "/etc/ssl/certs/cloudflare-origin.pem /etc/ssl/private/cloudflare-origin.key";
+  # Helper function for TLS configuration
+  tlsConfig = "/etc/ssl/certs/cloudflare-cert.pem /etc/ssl/private/cloudflare-key.pem";
 
   # Helper function to create a log block
   mkLogBlock = name: level: ''
@@ -77,7 +77,7 @@
     }
   '';
 
-  # Full proxy configuration with websocket support using Cloudflare Origin certificates
+  # Full proxy configuration with websocket support
   mkProxyConfig = name: target: level: ''
     tls ${tlsConfig}
 
@@ -88,7 +88,7 @@
     ${mkReverseProxy target}
   '';
 
-  # Special configuration optimized for Home Assistant using Cloudflare Origin certificates
+  # Special configuration optimized for Home Assistant
   mkHomeAssistantConfig = target: level: ''
     tls ${tlsConfig}
 
@@ -101,27 +101,15 @@
     }
 
     handle @websockets {
-      reverse_proxy ${target} {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote}
-        header_up X-Forwarded-Proto {scheme}
-        header_up X-Forwarded-Host {host}
-      }
+      reverse_proxy ${target}
     }
 
     handle {
-      reverse_proxy ${target} {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote}
-        header_up X-Forwarded-Proto {scheme}
-        header_up X-Forwarded-Host {host}
-      }
+      reverse_proxy ${target}
     }
   '';
 
-  # Simple helper for static responses using Cloudflare Origin certificates
+  # Simple helper for static responses
   mkStaticResponse = content: ''
     tls ${tlsConfig}
     respond "${content}"
@@ -144,7 +132,7 @@
       if
         (config.host.caddy.sites.proxies
           ? "homeassistant"
-        && config.host.caddy.sites.proxies.homeassistant.enable)
+          && config.host.caddy.sites.proxies.homeassistant.enable)
       then {
         "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}" = {
           extraConfig =
@@ -230,11 +218,6 @@ in {
       virtualHosts = generateVirtualHosts;
     };
 
-    # Ensure Caddy starts after OpNix secrets are available
-    systemd.services.caddy.after = ["opnix-secrets.service"];
-    systemd.services.caddy.requires = ["opnix-secrets.service"];
-
-    # Only open HTTPS port since we're using Cloudflare proxy
     networking.firewall.allowedTCPPorts = [443];
   };
 }

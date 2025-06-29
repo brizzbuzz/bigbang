@@ -47,7 +47,6 @@
       "gitbutler"
       "bruno"
       "proxyman"
-      "docker"
       "zed"
     ];
   };
@@ -57,7 +56,6 @@
       "notion"
       "zoom"
       "google-chrome"
-      "docker"
       "zed"
     ];
   };

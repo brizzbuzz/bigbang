@@ -11,4 +11,8 @@
       WEBUI_AUTH = "False";
     };
   };
+
+  networking.firewall.allowedTCPPorts = lib.mkIf config.host.ai.enable [
+    config.ports.open-webui
+  ];
 }
