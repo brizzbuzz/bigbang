@@ -1,11 +1,40 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
+    inputs.opnix.darwinModules.default
     ../../modules/common
     ../../modules/darwin
     ../../modules/home-manager
   ];
 
   nixpkgs.config.allowUnfree = true;
+
+  # OpNix system-level secrets configuration
+  services.onepassword-secrets = {
+    enable = true;
+    tokenFile = "/etc/opnix-token";
+
+    secrets = {
+      wireguardConfig = {
+        reference = "op://Homelab/Wireguard Config/notesPlain";
+        path = "/etc/wireguard/brizzguard.conf";
+        owner = "root";
+        group = "wheel";
+        mode = "0600";
+      };
+    };
+
+    # Note: Darwin uses launchd instead of systemd, so no systemdIntegration option
+  };
+
+  # Create necessary directories for Wireguard
+  system.activationScripts.createWireguardDir.text = ''
+    mkdir -p /etc/wireguard
+    chmod 700 /etc/wireguard
+  '';
 
   host = {
     users = {

@@ -25,7 +25,7 @@
   callisto = {
     imports = [../hosts/callisto/configuration.nix];
     deployment = {
-      targetHost = "192.168.1.50";
+      targetHost = "callisto.chateaubr.ink";
       targetUser = "root";
       allowLocalDeployment = true;
       buildOnTarget = true;
@@ -35,7 +35,7 @@
   ganymede = {
     imports = [../hosts/ganymede/configuration.nix];
     deployment = {
-      targetHost = "192.168.1.51";
+      targetHost = "ganymede.chateaubr.ink";
       targetUser = "ryan";
       allowLocalDeployment = true;
       buildOnTarget = true;

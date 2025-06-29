@@ -157,7 +157,7 @@ in {
     services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
       "${cfg.domain}" = {
         extraConfig = ''
-          tls /etc/ssl/certs/cloudflare-cert.pem /etc/ssl/private/cloudflare-key.pem
+          tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
           reverse_proxy localhost:${toString cfg.port}
         '';
       };

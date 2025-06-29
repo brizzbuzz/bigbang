@@ -3,9 +3,8 @@
   lib,
   ...
 }: let
-  # Helper function for TLS configuration
-  tlsConfig = "/etc/ssl/certs/cloudflare-cert.pem /etc/ssl/private/cloudflare-key.pem";
-
+  # TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
+  # Moved to inline usage to avoid early evaluation issues
   # Helper function to create a log block
   mkLogBlock = name: level: ''
     log {
@@ -77,9 +76,9 @@
     }
   '';
 
-  # Full proxy configuration with websocket support
+  # Full proxy configuration with websocket support using Cloudflare Origin certificates
   mkProxyConfig = name: target: level: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
 
     ${mkLogBlock name level}
 
@@ -88,9 +87,9 @@
     ${mkReverseProxy target}
   '';
 
-  # Special configuration optimized for Home Assistant
+  # Special configuration optimized for Home Assistant using Cloudflare Origin certificates
   mkHomeAssistantConfig = target: level: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
 
     ${mkLogBlock "home-assistant" level}
 
@@ -101,17 +100,29 @@
     }
 
     handle @websockets {
-      reverse_proxy ${target}
+      reverse_proxy ${target} {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+      }
     }
 
     handle {
-      reverse_proxy ${target}
+      reverse_proxy ${target} {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+      }
     }
   '';
 
-  # Simple helper for static responses
+  # Simple helper for static responses using Cloudflare Origin certificates
   mkStaticResponse = content: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
     respond "${content}"
   '';
 
@@ -132,7 +143,7 @@
       if
         (config.host.caddy.sites.proxies
           ? "homeassistant"
-          && config.host.caddy.sites.proxies.homeassistant.enable)
+        && config.host.caddy.sites.proxies.homeassistant.enable)
       then {
         "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}" = {
           extraConfig =
@@ -218,6 +229,11 @@ in {
       virtualHosts = generateVirtualHosts;
     };
 
+    # Ensure Caddy starts after OpNix secrets are available
+    systemd.services.caddy.after = ["opnix-secrets.service"];
+    systemd.services.caddy.requires = ["opnix-secrets.service"];
+
+    # Only open HTTPS port since we're using Cloudflare proxy
     networking.firewall.allowedTCPPorts = [443];
   };
 }

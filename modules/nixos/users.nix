@@ -18,7 +18,7 @@
       "connman"
       "wheel"
     ];
-    shell = pkgs.zsh;
+    shell = pkgs.nushell;
   };
   nix.settings.trusted-users = [config.host.admin.name];
 }

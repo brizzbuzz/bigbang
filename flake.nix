@@ -56,7 +56,8 @@
     };
 
     opnix = {
-      url = "github:brizzbuzz/opnix/v0.4.0";
+      # url = "github:brizzbuzz/opnix/v0.4.0";
+      url = "path:/Users/ryan/Workspace/brizbuzz/opnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -89,6 +90,6 @@
   in {
     darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
     colmena = import ./flake/nixos.nix {inherit inputs;};
-    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs pkgs-master;};
+    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs pkgs-master inputs;};
   };
 }

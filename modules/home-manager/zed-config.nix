@@ -50,6 +50,7 @@
 
   # Context server definitions
   contextServers = {
+    source = "custom";
     linear = {
       command = {
         path = "nix";
@@ -60,6 +61,7 @@
     };
 
     figma = {
+      source = "custom";
       command = {
         path = "nix";
         args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
@@ -69,6 +71,7 @@
     };
 
     asana = {
+      source = "custom";
       command = {
         path = "nix";
         args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.asana.com/sse"];
@@ -78,6 +81,7 @@
     };
 
     nixos = {
+      source = "custom";
       command = {
         path = "nix";
         args = ["run" "github:utensils/mcp-nixos/v1.0.0" "--"];

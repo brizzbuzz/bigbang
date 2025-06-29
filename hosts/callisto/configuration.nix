@@ -15,9 +15,68 @@
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";
-    configFile = ./../../secrets.json;
     users = ["ryan"]; # TODO: Read from config
+
+    # Fully declarative secrets configuration
+    secrets = {
+      # SSL certificates for Caddy
+      sslCloudflareCert = {
+        reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/cert";
+        path = "/var/lib/caddy/ssl/cloudflare-origin.pem";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0644";
+        services = ["caddy"];
+      };
+
+      sslCloudflareKey = {
+        reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/privateKey";
+        path = "/var/lib/caddy/ssl/cloudflare-origin.key";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0600";
+        services = ["caddy"];
+      };
+
+      # Atticd server environment
+      atticdServerEnv = {
+        reference = "op://Homelab/Atticd/notesPlain";
+        path = "/var/lib/opnix/secrets/atticd/server/env";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+
+      # Minio credentials
+      minioRootCredentials = {
+        reference = "op://Homelab/Minio Root Credentials/notesPlain";
+        path = "/var/lib/opnix/secrets/minio/root-credentials";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+
+      minioLgtmCredentials = {
+        reference = "op://Homelab/Minio LGTM Credentials/notesPlain";
+        path = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+    };
+
+    # Enable systemd integration for reliable service management
+    systemdIntegration = {
+      enable = true;
+      services = ["caddy"];
+      restartOnChange = true;
+    };
   };
+
+  # Create SSL directories for OpNix-managed certificates
+  systemd.tmpfiles.rules = [
+    "d /var/lib/caddy/ssl 0750 caddy caddy -"
+  ];
 
   # Minio service
   services.minio-server = {
@@ -40,7 +99,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "mimir";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 
@@ -56,7 +115,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "loki";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 
@@ -69,7 +128,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "tempo";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 
@@ -119,6 +178,18 @@
             enable = true;
             subdomain = "mimir";
             target = "localhost:9009";
+            logLevel = "INFO";
+          };
+          ollama = {
+            enable = true;
+            subdomain = "ollama";
+            target = "ganymede.chateaubr.ink:11434";
+            logLevel = "INFO";
+          };
+          ai = {
+            enable = true;
+            subdomain = "ai";
+            target = "ganymede.chateaubr.ink:11435";
             logLevel = "INFO";
           };
         };
