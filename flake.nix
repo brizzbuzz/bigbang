@@ -56,8 +56,7 @@
     };
 
     opnix = {
-      # url = "github:brizzbuzz/opnix/v0.4.0";
-      url = "path:/Users/ryan/Workspace/brizbuzz/opnix";
+      url = "github:brizzbuzz/opnix/v0.7.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
