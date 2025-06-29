@@ -16,7 +16,9 @@
     enable = true;
     users = [config.host.admin.name];
     tokenFile = "/etc/opnix-token";
-    configFile = ./../../secrets.json;
+
+    # Ganymede doesn't need specific secrets yet, but enable the service
+    secrets = {};
   };
 
   host = {

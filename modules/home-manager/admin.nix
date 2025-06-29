@@ -47,7 +47,7 @@ in {
   programs.onepassword-secrets = lib.mkIf isLinux {
     enable = true;
     secrets = {
-      "yubico/u2f_keys" = {
+      yubicoU2fKeys = {
         reference = "op://Homelab/U2F Keys/notesPlain";
         path = ".config/Yubico/u2f_keys";
         mode = "0600";

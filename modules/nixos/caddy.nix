@@ -3,9 +3,8 @@
   lib,
   ...
 }: let
-  # Helper function for TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
-  tlsConfig = "/etc/ssl/certs/cloudflare-origin.pem /etc/ssl/private/cloudflare-origin.key";
-
+  # TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
+  # Moved to inline usage to avoid early evaluation issues
   # Helper function to create a log block
   mkLogBlock = name: level: ''
     log {
@@ -79,7 +78,7 @@
 
   # Full proxy configuration with websocket support using Cloudflare Origin certificates
   mkProxyConfig = name: target: level: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
 
     ${mkLogBlock name level}
 
@@ -90,7 +89,7 @@
 
   # Special configuration optimized for Home Assistant using Cloudflare Origin certificates
   mkHomeAssistantConfig = target: level: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
 
     ${mkLogBlock "home-assistant" level}
 
@@ -123,7 +122,7 @@
 
   # Simple helper for static responses using Cloudflare Origin certificates
   mkStaticResponse = content: ''
-    tls ${tlsConfig}
+    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
     respond "${content}"
   '';
 

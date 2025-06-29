@@ -1,6 +1,7 @@
 {
   forAllSystems,
   pkgs-master,
+  inputs,
   ...
 }:
 forAllSystems (system: {
@@ -14,6 +15,7 @@ forAllSystems (system: {
       nixd # Another Nix LSP
       nurl # Nix Fetcher Generator
       tokei # Code statistics
+      inputs.opnix.packages.${system}.default # OpNix CLI
     ];
   };
 })

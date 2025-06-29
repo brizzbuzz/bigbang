@@ -17,29 +17,51 @@
     tokenFile = "/etc/opnix-token";
     users = ["ryan"]; # TODO: Read from config
 
-    # Keep existing secrets in JSON file for gradual migration
-    configFiles = [
-      ./../../secrets.json
-    ];
-
-    # New declarative SSL certificate configuration
+    # Fully declarative secrets configuration
     secrets = {
-      "ssl/cloudflare-cert" = {
+      # SSL certificates for Caddy
+      sslCloudflareCert = {
         reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/cert";
-        path = "/etc/ssl/certs/cloudflare-origin.pem";
+        path = "/var/lib/caddy/ssl/cloudflare-origin.pem";
         owner = "caddy";
         group = "caddy";
         mode = "0644";
         services = ["caddy"];
       };
 
-      "ssl/cloudflare-key" = {
+      sslCloudflareKey = {
         reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/privateKey";
-        path = "/etc/ssl/private/cloudflare-origin.key";
+        path = "/var/lib/caddy/ssl/cloudflare-origin.key";
         owner = "caddy";
         group = "caddy";
         mode = "0600";
         services = ["caddy"];
+      };
+
+      # Atticd server environment
+      atticdServerEnv = {
+        reference = "op://Homelab/Atticd/notesPlain";
+        path = "/var/lib/opnix/secrets/atticd/server/env";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+
+      # Minio credentials
+      minioRootCredentials = {
+        reference = "op://Homelab/Minio Root Credentials/notesPlain";
+        path = "/var/lib/opnix/secrets/minio/root-credentials";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+
+      minioLgtmCredentials = {
+        reference = "op://Homelab/Minio LGTM Credentials/notesPlain";
+        path = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+        owner = "root";
+        group = "root";
+        mode = "0600";
       };
     };
 
@@ -53,8 +75,7 @@
 
   # Create SSL directories for OpNix-managed certificates
   systemd.tmpfiles.rules = [
-    "d /etc/ssl/certs 0755 root root -"
-    "d /etc/ssl/private 0700 root root -"
+    "d /var/lib/caddy/ssl 0750 caddy caddy -"
   ];
 
   # Minio service
@@ -78,7 +99,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "mimir";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 
@@ -94,7 +115,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "loki";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 
@@ -107,7 +128,7 @@
       endpoint = "localhost:${toString config.services.minio-server.port}";
       bucketName = "tempo";
       region = "us-east-1";
-      credentialsFile = "/var/lib/opnix/secrets/minio/lgtm-credentials";
+      credentialsFile = config.services.onepassword-secrets.secretPaths.minioLgtmCredentials;
     };
   };
 

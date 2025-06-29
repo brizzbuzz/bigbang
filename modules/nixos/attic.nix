@@ -6,7 +6,7 @@
   config = lib.mkIf config.host.attic.server.enable {
     services.atticd = {
       enable = true;
-      environmentFile = "/var/lib/opnix/secrets/atticd/server/env";
+      environmentFile = config.services.onepassword-secrets.secretPaths.atticdServerEnv;
 
       settings = {
         listen = "[::]:${toString config.host.attic.server.port}";
