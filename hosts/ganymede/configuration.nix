@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   ...
 }: {
   imports = [
@@ -12,13 +13,9 @@
     ../../modules/home-manager
   ];
 
+  # OpNix disabled - ganymede doesn't need any secrets
   services.onepassword-secrets = {
-    enable = true;
-    users = [config.host.admin.name];
-    tokenFile = "/etc/opnix-token";
-
-    # Ganymede doesn't need specific secrets yet, but enable the service
-    secrets = {};
+    enable = false;
   };
 
   host = {
@@ -30,6 +27,9 @@
     keyboard = "moonlander";
     remote.enable = true;
   };
+
+  # Enable Home Assistant (moved from callisto for better proxy setup)
+  services.home-assistant.enable = true;
 
   lgtm.alloy = {
     enable = true;
@@ -58,6 +58,11 @@
       ];
     };
     defaultGateway = "192.168.1.1";
+  };
+
+  # Disable OpNix for Home Manager since system-level OpNix is disabled
+  home-manager.users.${config.host.admin.name} = {
+    programs.onepassword-secrets.enable = lib.mkForce false;
   };
 
   system.stateVersion = "24.05";
