@@ -103,9 +103,9 @@
       reverse_proxy ${target} {
         header_up Host {host}
         header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
         header_up X-Forwarded-Host {host}
+        header_down X-Forwarded-For
       }
     }
 
@@ -113,9 +113,9 @@
       reverse_proxy ${target} {
         header_up Host {host}
         header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
         header_up X-Forwarded-Host {host}
+        header_down X-Forwarded-For
       }
     }
   '';

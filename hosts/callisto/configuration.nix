@@ -165,7 +165,7 @@
           homeassistant = {
             enable = true;
             subdomain = "home";
-            target = "localhost:8123";
+            target = "ganymede.chateaubr.ink:8123";
             logLevel = "DEBUG";
           };
           minio = {
@@ -200,7 +200,7 @@
   glance.enable = true;
   soft-serve.enable = true;
   speedtest.enable = true;
-  services.home-assistant.enable = true;
+  # services.home-assistant.enable = true; # Moved to ganymede
 
   system.stateVersion = "24.05";
 }
