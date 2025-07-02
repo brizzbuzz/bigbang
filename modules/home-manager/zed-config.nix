@@ -50,8 +50,8 @@
 
   # Context server definitions
   contextServers = {
-    source = "custom";
     linear = {
+      source = "custom";
       command = {
         path = "nix";
         args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.linear.app/sse"];
