@@ -31,6 +31,26 @@
   # Enable Home Assistant (moved from callisto for better proxy setup)
   services.home-assistant.enable = true;
 
+  # Enable PostgreSQL for home lab services and development
+  services.postgresql = {
+    enable = true;
+    developmentMode = true;
+    serviceDatabases = [
+      "hass"
+      "jellyfin"
+    ];
+    serviceUsers = [
+      {
+        name = "hass";
+        database = "hass";
+      }
+      {
+        name = "jellyfin";
+        database = "jellyfin";
+      }
+    ];
+  };
+
   lgtm.alloy = {
     enable = true;
     port = 12345;
@@ -58,6 +78,13 @@
       ];
     };
     defaultGateway = "192.168.1.1";
+  };
+
+  # Configure Home Assistant to use PostgreSQL
+  services.home-assistant.config.recorder = {
+    db_url = "postgresql://hass@localhost/hass";
+    purge_keep_days = 30;
+    commit_interval = 5;
   };
 
   # Disable OpNix for Home Manager since system-level OpNix is disabled
