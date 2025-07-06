@@ -18,7 +18,7 @@ in {
       }
 
       # Environment variables
-      $env.EDITOR = "nvim"
+      $env.EDITOR = "zed"
 
       # Path
       $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
