@@ -21,21 +21,27 @@ in {
 
     matchBlocks = {
       "callisto" = {
-        hostname = "callisto";
+        hostname = "callisto.chateaubr.ink";
+        forwardAgent = true;
+        user = "ryan";
+      };
+
+      "ganymede" = {
+        hostname = "ganymede.chateaubr.ink";
         forwardAgent = true;
         user = "ryan";
       };
     };
 
     forwardAgent = false;
-    addKeysToAgent = "no";
-    compression = false;
-    serverAliveInterval = 0;
+    addKeysToAgent = "yes";
+    compression = true;
+    serverAliveInterval = 60;
     serverAliveCountMax = 3;
-    hashKnownHosts = false;
+    hashKnownHosts = true;
     userKnownHostsFile = "~/.ssh/known_hosts";
-    controlMaster = "no";
-    controlPath = "~/.ssh/master-%r@%n:%p";
-    controlPersist = "no";
+    controlMaster = "auto";
+    controlPath = "~/.ssh/master-%r@%h:%p";
+    controlPersist = "10m";
   };
 }
