@@ -23,7 +23,6 @@
         provider = "zed.dev";
         model = "claude-sonnet-4";
       };
-      version = "2";
     };
     features = {
       edit_prediction_provider = "zed";
@@ -52,42 +51,32 @@
   contextServers = {
     linear = {
       source = "custom";
-      command = {
-        path = "nix";
-        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.linear.app/sse"];
-        env = {};
-      };
-      settings = {};
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.linear.app/sse"];
     };
 
     figma = {
       source = "custom";
-      command = {
-        path = "nix";
-        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
-        env = {};
-      };
-      settings = {};
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
     };
 
     asana = {
       source = "custom";
-      command = {
-        path = "nix";
-        args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.asana.com/sse"];
-        env = {};
-      };
-      settings = {};
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.asana.com/sse"];
     };
 
     nixos = {
       source = "custom";
-      command = {
-        path = "nix";
-        args = ["run" "github:utensils/mcp-nixos/v1.0.0" "--"];
-        env = {};
-      };
-      settings = {};
+      command = "nix";
+      args = ["shell" "nixpkgs#nixos" "-c" "nixos-rebuild" "switch" "--flake" "github:utensils/mcp-nixos/v1.0.0"];
+    };
+
+    gitbutler = {
+      source = "custom";
+      command = "but";
+      args = ["mcp"];
     };
   };
 
@@ -106,7 +95,7 @@ in {
     inherit mkZedConfig contextServers baseZedConfig;
 
     # Pre-configured profiles
-    personal = mkZedConfig ["linear" "nixos"];
-    work = mkZedConfig ["linear" "asana" "figma" "nixos"];
+    personal = mkZedConfig ["linear" "nixos" "gitbutler"];
+    work = mkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler"];
   };
 }
