@@ -56,7 +56,7 @@
         // {
           default_model = {
             provider = "anthropic";
-            model = "claude-sonnet-4";
+            model = "claude-sonnet-4-latest";
           };
         };
     };
