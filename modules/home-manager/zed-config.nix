@@ -92,6 +92,12 @@
       command = "but";
       args = ["mcp"];
     };
+
+    browsermcp = {
+      source = "custom";
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "@browsermcp/mcp@latest"];
+    };
   };
 
   # Function to create Zed config with specific context servers
@@ -119,7 +125,7 @@ in {
     inherit mkZedConfig mkWorkZedConfig contextServers baseZedConfig workZedConfig;
 
     # Pre-configured profiles
-    personal = mkZedConfig ["linear" "nixos" "gitbutler"];
-    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler"];
+    personal = mkZedConfig ["linear" "nixos" "gitbutler" "browsermcp"];
+    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler" "browsermcp"];
   };
 }
