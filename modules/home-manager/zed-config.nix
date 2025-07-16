@@ -47,6 +47,20 @@
     };
   };
 
+  # Work profile configuration with Anthropic provider
+  workZedConfig =
+    baseZedConfig
+    // {
+      agent =
+        baseZedConfig.agent
+        // {
+          default_model = {
+            provider = "anthropic";
+            model = "claude-sonnet-4";
+          };
+        };
+    };
+
   # Context server definitions
   contextServers = {
     linear = {
@@ -89,13 +103,23 @@
       };
   in
     jsonFormat.generate "zed-settings.json" config;
+
+  # Function to create work Zed config with specific context servers
+  mkWorkZedConfig = servers: let
+    config =
+      workZedConfig
+      // {
+        context_servers = lib.genAttrs servers (name: contextServers.${name});
+      };
+  in
+    jsonFormat.generate "zed-settings.json" config;
 in {
   # Export the configuration functions
   zed = {
-    inherit mkZedConfig contextServers baseZedConfig;
+    inherit mkZedConfig mkWorkZedConfig contextServers baseZedConfig workZedConfig;
 
     # Pre-configured profiles
     personal = mkZedConfig ["linear" "nixos" "gitbutler"];
-    work = mkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler"];
+    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler"];
   };
 }
