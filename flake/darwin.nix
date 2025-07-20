@@ -40,7 +40,8 @@
       };
     };
 in {
-  Odyssey-MBP = mkDarwinSystem {
+  # 14" MacBook Pro
+  pip = mkDarwinSystem {
     users = {
       ryan = {
         name = "ryan";
@@ -57,8 +58,26 @@ in {
     };
   };
 
-  # Mac Mini with both users
-  Mac-Mini = mkDarwinSystem {
+  # 16" MacBook Pro
+  ember = mkDarwinSystem {
+    users = {
+      ryan = {
+        name = "ryan";
+        profile = "personal";
+        isPrimary = true;
+        homeManagerEnabled = true;
+      };
+      Work = {
+        name = "Work";
+        profile = "work";
+        isPrimary = false;
+        homeManagerEnabled = true;
+      };
+    };
+  };
+
+  # Mac Mini
+  dot = mkDarwinSystem {
     users = {
       ryan = {
         name = "ryan";
