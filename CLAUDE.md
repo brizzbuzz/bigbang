@@ -71,13 +71,20 @@ host = {
 ```
 
 ### Available Darwin Configurations
-- `Odyssey-MBP` - Default with both users (ryan primary)
-- `Mac-Mini` - Default with both users (ryan primary)
+- `pip` - 14" MacBook Pro with both users (ryan primary)
+- `ember` - 16" MacBook Pro with both users (ryan primary)
+- `dot` - Mac Mini with both users (ryan primary)
 
 ### Using the Configuration
 ```bash
-# Build and switch to configuration
-darwin-rebuild switch --flake .#Odyssey-MBP
+# Build and switch to configuration for 14" MBP
+darwin-rebuild switch --flake .#pip
+
+# Build and switch to configuration for 16" MBP
+darwin-rebuild switch --flake .#ember
+
+# Build and switch to configuration for Mac Mini
+darwin-rebuild switch --flake .#dot
 
 # Both ryan (personal) and Work (work profile) users are available
 # Apps are automatically segregated based on user profiles
