@@ -37,6 +37,8 @@
   '';
 
   host = {
+    desktop.enable = false;
+
     users = {
       ryan = {
         name = "ryan";

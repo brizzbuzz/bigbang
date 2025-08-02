@@ -65,7 +65,7 @@ in {
           if $nu.os-info.name == "macos" {
               $content | pbcopy
           } else if $nu.os-info.name == "linux" {
-              $content | ^${pkgs.wl-clipboard}/bin/wl-copy
+              $content | wl-copy
           } else {
               print "Clipboard operation not supported on this OS"
               return
