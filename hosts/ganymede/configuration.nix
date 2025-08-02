@@ -65,21 +65,6 @@
     enableGpuMetrics = true; # Enable GPU metrics collection
   };
 
-  # TODO: Make configurable module
-  networking = {
-    useDHCP = false;
-    interfaces.enp4s0 = {
-      useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.1.51";
-          prefixLength = 24;
-        }
-      ];
-    };
-    defaultGateway = "192.168.1.1";
-  };
-
   # Configure Home Assistant to use PostgreSQL
   services.home-assistant.config.recorder = {
     db_url = "postgresql://hass@localhost/hass";

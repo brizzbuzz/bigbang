@@ -1,9 +1,12 @@
 {
   pkgs,
-  osConfig,
+  osConfig ? null,
   ...
 }: let
-  isDesktop = osConfig.host.desktop.enable;
+  isDesktop =
+    if osConfig != null
+    then (osConfig.host.desktop.enable or false)
+    else false;
   isLinux = pkgs.stdenv.isLinux;
 in {
   imports =

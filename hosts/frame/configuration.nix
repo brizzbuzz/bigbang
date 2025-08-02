@@ -8,6 +8,7 @@
 
   host = {
     name = "frame";
+    desktop.enable = true;
   };
 
   system.stateVersion = "24.05";

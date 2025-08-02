@@ -96,6 +96,8 @@ in {
           host    all            postgres        ::1/128         trust
           host    all            superuser       127.0.0.1/32    trust
           host    all            superuser       ::1/128         trust
+          host    all            ${admin}        127.0.0.1/32    trust
+          host    all            ${admin}        ::1/128         trust
         ''
         + lib.optionalString cfg.developmentMode ''
 

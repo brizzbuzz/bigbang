@@ -130,7 +130,7 @@
       };
 
       desktop = {
-        enable = lib.mkDefault true;
+        enable = lib.mkDefault false;
       };
 
       gpu.nvidia = {
