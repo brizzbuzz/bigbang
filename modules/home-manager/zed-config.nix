@@ -72,7 +72,7 @@
     figma = {
       source = "custom";
       command = "nix";
-      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/sse"];
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "http://127.0.0.1:3845/mcp"];
     };
 
     asana = {
@@ -97,6 +97,12 @@
       source = "custom";
       command = "nix";
       args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "@browsermcp/mcp@latest"];
+    };
+
+    playwright = {
+      source = "custom";
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "@playwright/mcp@latest"];
     };
   };
 
@@ -125,7 +131,7 @@ in {
     inherit mkZedConfig mkWorkZedConfig contextServers baseZedConfig workZedConfig;
 
     # Pre-configured profiles
-    personal = mkZedConfig ["linear" "nixos" "gitbutler" "browsermcp"];
-    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler" "browsermcp"];
+    personal = mkZedConfig ["linear" "nixos" "gitbutler" "browsermcp" "figma" "playwright"];
+    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler" "browsermcp" "playwright"];
   };
 }
