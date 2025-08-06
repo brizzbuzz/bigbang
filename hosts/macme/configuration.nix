@@ -26,8 +26,6 @@
         mode = "0600";
       };
     };
-
-    # Note: Darwin uses launchd instead of systemd, so no systemdIntegration option
   };
 
   # Create necessary directories for Wireguard
