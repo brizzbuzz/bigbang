@@ -19,8 +19,6 @@
       "protonvpn"
     ];
     masApps = {
-      "Unifi" = 1057750338;
-      "Ubiquiti Wifiman" = 1385561119;
       "WireGuard" = 1451685025;
     };
   };
