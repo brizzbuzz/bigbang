@@ -55,8 +55,6 @@ in {
     jq
   ];
 
-  programs.ssh.enable = lib.mkDefault false;
-
   xdg.configFile."1Password/ssh/agent.toml".text = ''
     [[ssh-keys]]
     item = "Odyssey Auth Key"
