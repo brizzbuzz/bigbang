@@ -7,7 +7,7 @@
   isDarwin = pkgs.stdenv.isDarwin;
   isDesktop = osConfig.host.desktop.enable;
 in {
-  programs.ssh = (lib.mkIf isDesktop || isDarwin) {
+  programs.ssh = lib.mkIf (isDesktop || isDarwin) {
     enable = true;
 
     extraConfig =
