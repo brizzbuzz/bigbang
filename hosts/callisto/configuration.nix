@@ -146,6 +146,24 @@
     desktop.enable = false;
     remote.enable = true;
     attic.server.enable = true;
+    blocky = {
+      enable = true;
+      customDNS.enable = false; # UniFi handles local domain resolution
+      blocking = {
+        enable = true;
+        clientGroups = {
+          default = ["ads" "malware" "tracking"];
+          kids = ["ads" "malware" "tracking"];
+        };
+      };
+      caching = {
+        enable = true;
+        minTime = "5m";
+        maxTime = "30m";
+        prefetching = true;
+      };
+      logLevel = "info";
+    };
 
     caddy = {
       enable = true;
@@ -190,6 +208,12 @@
             enable = true;
             subdomain = "ai";
             target = "ganymede.chateaubr.ink:11435";
+            logLevel = "INFO";
+          };
+          blocky = {
+            enable = true;
+            subdomain = "dns";
+            target = "localhost:4000";
             logLevel = "INFO";
           };
         };

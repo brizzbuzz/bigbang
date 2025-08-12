@@ -9,6 +9,7 @@
     ./storage
     ./attic.nix
     ./audio.nix
+    ./blocky.nix
     ./boot.nix
     ./caddy.nix
     ./display-manager.nix
