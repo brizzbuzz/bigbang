@@ -38,7 +38,7 @@ in {
       };
       init.defaultBranch = "main";
       gpg.format = "ssh";
-      "gpg \"ssh\"" = lib.mkIf isDesktop {
+      "gpg \"ssh\"" = lib.mkIf (isDesktop || isDarwin) {
         program =
           if isDarwin
           then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
