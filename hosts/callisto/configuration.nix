@@ -198,12 +198,6 @@
             target = "localhost:9009";
             logLevel = "INFO";
           };
-          ollama = {
-            enable = true;
-            subdomain = "ollama";
-            target = "ganymede.chateaubr.ink:11434";
-            logLevel = "INFO";
-          };
           ai = {
             enable = true;
             subdomain = "ai";

@@ -101,10 +101,10 @@ in {
         ''
         + lib.optionalString cfg.developmentMode ''
 
-          # Development mode: Allow TCP/IP connections for all users from local networks
-          host    all            all             192.168.0.0/16  trust
-          host    all            all             10.0.0.0/8      trust
-          host    all            all             172.16.0.0/12   trust
+          # Development mode: Allow TCP/IP connections for all users from local networks with password
+          host    all            all             192.168.0.0/16  md5
+          host    all            all             10.0.0.0/8      md5
+          host    all            all             172.16.0.0/12   md5
 
           # Service users specific access
           ${lib.concatMapStringsSep "\n" (user: "host    ${user.database}     ${user.name}        127.0.0.1/32    trust") cfg.serviceUsers}
