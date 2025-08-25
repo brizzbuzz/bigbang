@@ -24,6 +24,45 @@
         model = "claude-sonnet-4";
       };
     };
+    language_models = {
+      ollama = {
+        api_url = "http://ganymede:11434";
+        available_models = [
+          {
+            name = "deepseek-coder-v2:16b";
+            display_name = "DeepSeek Coder V2 16B";
+            max_tokens = 8192;
+            supports_tools = true;
+            supports_thinking = false;
+            supports_images = false;
+          }
+          {
+            name = "gemma3:12b";
+            display_name = "Gemma 3 12B";
+            max_tokens = 131072;
+            supports_tools = true;
+            supports_thinking = false;
+            supports_images = true;
+          }
+          {
+            name = "mistral-nemo:latest";
+            display_name = "Mistral Nemo 12B";
+            max_tokens = 131072;
+            supports_tools = true;
+            supports_thinking = false;
+            supports_images = false;
+          }
+          {
+            name = "llama3.1:8b";
+            display_name = "Llama 3.1 8B";
+            max_tokens = 131072;
+            supports_tools = true;
+            supports_thinking = false;
+            supports_images = false;
+          }
+        ];
+      };
+    };
     features = {
       edit_prediction_provider = "zed";
     };

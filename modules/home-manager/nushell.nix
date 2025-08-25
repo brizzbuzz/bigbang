@@ -19,6 +19,7 @@ in {
 
       # Environment variables
       $env.EDITOR = "zed"
+      $env.OLLAMA_HOST = "http://ganymede:11434"
 
       # Path
       $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
@@ -140,6 +141,13 @@ in {
     envFile.text = ''
       # Nushell Environment Config File
       $env.STARSHIP_SHELL = "nu"
+
+      # 1Password SSH Agent
+      ${
+        if isDarwin
+        then ''$env.SSH_AUTH_SOCK = $"($env.HOME)/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"''
+        else ""
+      }
 
       def create_left_prompt [] {
         starship prompt --cmd-duration $env.CMD_DURATION_MS $'--status=($env.LAST_EXIT_CODE)'
