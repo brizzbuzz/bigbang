@@ -204,6 +204,12 @@
             target = "ganymede.chateaubr.ink:11435";
             logLevel = "INFO";
           };
+          torrents = {
+            enable = true;
+            subdomain = "torrents";
+            target = "ganymede.chateaubr.ink:8080";
+            logLevel = "INFO";
+          };
           blocky = {
             enable = true;
             subdomain = "dns";
