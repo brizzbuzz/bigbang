@@ -29,6 +29,48 @@
     remote.enable = true;
   };
 
+  # qBittorrent configuration (traffic routed via UniFi VPN policies)
+  services.qbittorrent = {
+    enable = true;
+    webuiPort = 8080;
+    torrentingPort = 6881;
+    openFirewall = true;
+    serverConfig = {
+      LegalNotice.Accepted = true;
+      Preferences = {
+        WebUI = {
+          Username = "admin";
+          PasswordFile = config.services.onepassword-secrets.secretPaths.qbittorrentPassword;
+          LocalHostAuth = false;
+          AuthSubnetWhitelistEnabled = true;
+          AuthSubnetWhitelist = "10.200.200.0/24, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
+        };
+        Downloads = {
+          SavePath = "/srv/torrents/complete";
+          TempPathEnabled = true;
+          TempPath = "/srv/torrents/incomplete";
+        };
+        Connection = {
+          PortRangeMin = 6881;
+          PortRangeMax = 6889;
+          UPnP = false;
+          RandomPort = true;
+        };
+        BitTorrent = {
+          Encryption = 1;
+          AnonymousMode = true;
+        };
+      };
+    };
+  };
+
+  # Create torrent directories
+  systemd.tmpfiles.rules = [
+    "d /srv/torrents 0755 qbittorrent qbittorrent -"
+    "d /srv/torrents/complete 0755 qbittorrent qbittorrent -"
+    "d /srv/torrents/incomplete 0755 qbittorrent qbittorrent -"
+  ];
+
   # Enable Home Assistant (moved from callisto for better proxy setup)
   services.home-assistant.enable = true;
 
