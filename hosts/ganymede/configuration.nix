@@ -35,15 +35,14 @@
     webuiPort = 8080;
     torrentingPort = 6881;
     openFirewall = true;
+    extraArgs = ["--confirm-legal-notice"];
     serverConfig = {
       LegalNotice.Accepted = true;
       Preferences = {
         WebUI = {
-          Username = "admin";
-          PasswordFile = config.services.onepassword-secrets.secretPaths.qbittorrentPassword;
-          LocalHostAuth = false;
+          LocalHostAuth = true;
           AuthSubnetWhitelistEnabled = true;
-          AuthSubnetWhitelist = "10.200.200.0/24, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
+          AuthSubnetWhitelist = "127.0.0.1, ::1, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
         };
         Downloads = {
           SavePath = "/srv/torrents/complete";
