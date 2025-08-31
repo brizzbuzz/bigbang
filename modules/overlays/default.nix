@@ -7,6 +7,7 @@
   # MSP430 GCC Toolchain
   (final: prev: {
     msp430-gcc = prev.callPackage ./../derivations/msp430-gcc.nix {};
+    msp430-test = prev.callPackage ./../derivations/msp430-test.nix {};
   })
 
   # Fix opensearch-py build issues by disabling tests that fail in sandbox

@@ -97,6 +97,26 @@ in
           patchelf --set-rpath "${pkgs.lib.makeLibraryPath buildInputs}" "$binary" || true
         fi
       done
+
+      # Also patch libexec binaries (like cc1, cc1plus, etc.)
+      for binary in $(find $out/libexec -type f -executable); do
+        if [ -f "$binary" ] && file "$binary" | grep -q "ELF.*executable"; then
+          echo "Patching libexec binary $binary"
+          patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) "$binary" || true
+          patchelf --set-rpath "${pkgs.lib.makeLibraryPath buildInputs}" "$binary" || true
+        fi
+      done
+
+      # Also patch msp430-elf binaries (assembler, linker, etc.)
+      if [ -d "$out/msp430-elf/bin" ]; then
+        for binary in $out/msp430-elf/bin/*; do
+          if [ -f "$binary" ] && file "$binary" | grep -q "ELF.*executable"; then
+            echo "Patching msp430-elf binary $binary"
+            patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) "$binary" || true
+            patchelf --set-rpath "${pkgs.lib.makeLibraryPath buildInputs}" "$binary" || true
+          fi
+        done
+      fi
     '';
 
     # Add some basic metadata

@@ -29,9 +29,10 @@
     remote.enable = true;
   };
 
-  # Add MSP430 GCC for testing
+  # Add MSP430 GCC and test program for testing
   environment.systemPackages = with pkgs; [
     msp430-gcc
+    msp430-test
   ];
 
   # qBittorrent configuration (traffic routed via UniFi VPN policies)
