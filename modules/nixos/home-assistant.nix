@@ -29,8 +29,13 @@
         # HTTP configuration - simple setup for callisto proxy
         http = {
           server_port = 8123;
-          # Disable X-Forwarded-For since Caddy strips it to avoid Cloudflare format issues
-          use_x_forwarded_for = false;
+          # Enable X-Forwarded-For to handle reverse proxy requests from callisto
+          use_x_forwarded_for = true;
+          trusted_proxies = [
+            "192.168.11.200" # callisto reverse proxy
+            "127.0.0.1"
+            "::1"
+          ];
           # Allow connections from any IP since DNS-level protection is in place
           ip_ban_enabled = false;
           login_attempts_threshold = -1; # Disable login attempt limiting
