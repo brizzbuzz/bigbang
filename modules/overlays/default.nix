@@ -4,6 +4,11 @@
     speedtest = prev.callPackage ./../derivations/speedtest.nix {};
   })
 
+  # MSP430 GCC Toolchain
+  (final: prev: {
+    msp430-gcc = prev.callPackage ./../derivations/msp430-gcc.nix {};
+  })
+
   # Fix opensearch-py build issues by disabling tests that fail in sandbox
   (final: prev: {
     python3Packages =
