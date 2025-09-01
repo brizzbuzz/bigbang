@@ -4,7 +4,6 @@
   pkgs,
   ...
 }: {
-  # Use NixOS's built-in home-assistant module instead of defining our own options
   config = lib.mkIf config.services.home-assistant.enable {
     # Create missing YAML files that Home Assistant expects
     systemd.tmpfiles.rules = [
@@ -21,9 +20,27 @@
       extraComponents = [
         "default_config"
         "frontend"
-        "met"
-        "radio_browser"
+        "isal"
       ];
+
+      extraPackages = python3Packages:
+        with python3Packages; [
+          # recorder postgresql support
+          psycopg2
+          # Hue support
+          aiohue
+          # Litter Robot
+          pylitterbot
+          # Roborock (with tests disabled)
+          (python-roborock.overridePythonAttrs (oldAttrs: {
+            doCheck = false;
+          }))
+          # Tapo
+          python-kasa
+          # Onvif
+          pyownet
+          onvif-zeep
+        ];
 
       config = {
         # HTTP configuration - simple setup for callisto proxy
