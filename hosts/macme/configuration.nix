@@ -99,6 +99,10 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+    settings = {
+      download-buffer-size = 268435456; # 256MB
+      trusted-users = ["root" "ryan" "Work"];
+    };
   };
   system.stateVersion = 5;
 }
