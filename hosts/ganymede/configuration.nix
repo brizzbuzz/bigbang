@@ -21,6 +21,7 @@
 
   host = {
     ai.enable = true;
+    audiobookshelf.enable = true;
     name = "ganymede";
     desktop.enable = false;
     gpu.nvidia.enable = true;

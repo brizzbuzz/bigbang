@@ -9,6 +9,7 @@
     ./storage
     ./attic.nix
     ./audio.nix
+    ./audiobookshelf.nix
     ./blocky.nix
     ./boot.nix
     ./caddy.nix
