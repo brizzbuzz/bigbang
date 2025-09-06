@@ -16,16 +16,18 @@
         createDB = true;
         enableVectors = false;
       };
-      mediaLocation = "/srv/immich";
+      mediaLocation = "/data/immich";
     };
 
-    # Create media storage directory
+    # Create media storage directories on the dedicated media drive
     systemd.tmpfiles.rules = [
-      "d /srv/immich 0750 immich immich -"
-      "d /srv/immich/upload 0750 immich immich -"
-      "d /srv/immich/profile 0750 immich immich -"
-      "d /srv/immich/thumbs 0750 immich immich -"
-      "d /srv/immich/encoded-video 0750 immich immich -"
+      "d /data/immich 0750 immich immich -"
+      "d /data/immich/upload 0750 immich immich -"
+      "d /data/immich/profile 0750 immich immich -"
+      "d /data/immich/thumbs 0750 immich immich -"
+      "d /data/immich/encoded-video 0750 immich immich -"
+      "d /data/immich/library 0750 immich immich -"
+      "d /data/immich/backups 0750 immich immich -"
     ];
 
     # Add Immich database and user to PostgreSQL configuration
