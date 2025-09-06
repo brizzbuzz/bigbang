@@ -98,6 +98,9 @@ in {
           host    all            superuser       ::1/128         trust
           host    all            ${admin}        127.0.0.1/32    trust
           host    all            ${admin}        ::1/128         trust
+
+          # Service users local socket access
+          ${lib.concatMapStringsSep "\n" (user: "local   ${user.database}     ${user.name}                        trust") cfg.serviceUsers}
         ''
         + lib.optionalString cfg.developmentMode ''
 

@@ -216,6 +216,12 @@
             target = "localhost:4000";
             logLevel = "INFO";
           };
+          photos = {
+            enable = true;
+            subdomain = "photos";
+            target = "ganymede.chateaubr.ink:2283";
+            logLevel = "INFO";
+          };
         };
       };
     };

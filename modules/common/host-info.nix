@@ -78,6 +78,15 @@
         enable = mkEnableOption "Enable Jellyfin";
       };
 
+      immich = {
+        enable = mkEnableOption "Enable Immich photo management server";
+        port = mkOption {
+          type = types.int;
+          default = 2283;
+          description = "Port for Immich web interface";
+        };
+      };
+
       users = mkOption {
         type = types.attrsOf (types.submodule {
           options = {
@@ -151,6 +160,10 @@
       };
 
       jellyfin.server = {
+        enable = lib.mkDefault false;
+      };
+
+      immich = {
         enable = lib.mkDefault false;
       };
 
