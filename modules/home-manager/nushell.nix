@@ -73,6 +73,37 @@ in {
           }
       }
 
+      # Audiobook upload function
+      def upload-audiobook [
+          local_file: string,
+          author: string,
+          book: string,
+          series?: string
+      ] {
+          let temp_file = "~/temp_audiobook.m4b"
+
+          # Build the remote directory path
+          let remote_dir = if ($series == null) {
+              $"/data/media/audiobooks/($author)/($book)"
+          } else {
+              $"/data/media/audiobooks/($author)/($series)/($book)"
+          }
+
+          let remote_path = $"($remote_dir)/Audiobook.m4b"
+
+          print $"Uploading ($local_file) to ganymede:($remote_path)..."
+
+          # Upload file to temp location
+          print "Copying file to ganymede..."
+          ^scp $local_file $"ganymede:($temp_file)"
+
+          # Create directory structure and move file
+          print "Creating directory structure and moving file..."
+          ^ssh ganymede $'sudo mkdir -p "($remote_dir)"; sudo mv ($temp_file) "($remote_path)"'
+
+          print $"✅ Audiobook uploaded successfully to ($remote_path)"
+      }
+
       # Repository dump command
       def "repo dump" [
           output?: string = "repo_dump.txt"  # Optional output file name
