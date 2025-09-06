@@ -24,6 +24,7 @@
     name = "ganymede";
     desktop.enable = false;
     gpu.nvidia.enable = true;
+    immich.enable = true;
     jellyfin.server.enable = true;
     keyboard = "moonlander";
     remote.enable = true;
@@ -82,6 +83,7 @@
     ];
     serviceDatabases = [
       "hass"
+      "immich"
       "jellyfin"
       "openwebui"
     ];
@@ -89,6 +91,10 @@
       {
         name = "hass";
         database = "hass";
+      }
+      {
+        name = "immich";
+        database = "immich";
       }
       {
         name = "jellyfin";

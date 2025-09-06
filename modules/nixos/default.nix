@@ -24,6 +24,7 @@
     ./hardware.nix
     ./home-assistant.nix
     ./hyprland.nix
+    ./immich.nix
     ./jellyfin.nix
     ./locale.nix
     ./networking.nix
