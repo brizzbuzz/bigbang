@@ -9,6 +9,7 @@
 in {
   programs.ssh = lib.mkIf (isDesktop || isDarwin) {
     enable = true;
+    enableDefaultConfig = false;
 
     extraConfig =
       if isDarwin
@@ -20,6 +21,20 @@ in {
       '';
 
     matchBlocks = {
+      # Default configuration for all hosts
+      "*" = {
+        forwardAgent = false;
+        addKeysToAgent = "yes";
+        compression = true;
+        serverAliveInterval = 60;
+        serverAliveCountMax = 3;
+        hashKnownHosts = true;
+        userKnownHostsFile = "~/.ssh/known_hosts";
+        controlMaster = "auto";
+        controlPath = "~/.ssh/master-%r@%h:%p";
+        controlPersist = "10m";
+      };
+
       "callisto" = {
         hostname = "callisto.chateaubr.ink";
         forwardAgent = true;
@@ -32,16 +47,5 @@ in {
         user = "ryan";
       };
     };
-
-    forwardAgent = false;
-    addKeysToAgent = "yes";
-    compression = true;
-    serverAliveInterval = 60;
-    serverAliveCountMax = 3;
-    hashKnownHosts = true;
-    userKnownHostsFile = "~/.ssh/known_hosts";
-    controlMaster = "auto";
-    controlPath = "~/.ssh/master-%r@%h:%p";
-    controlPersist = "10m";
   };
 }
