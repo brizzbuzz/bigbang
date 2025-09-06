@@ -222,6 +222,12 @@
             target = "ganymede.chateaubr.ink:2283";
             logLevel = "INFO";
           };
+          books = {
+            enable = true;
+            subdomain = "books";
+            target = "ganymede.chateaubr.ink:13378";
+            logLevel = "INFO";
+          };
         };
       };
     };
