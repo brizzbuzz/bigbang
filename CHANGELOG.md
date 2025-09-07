@@ -2,6 +2,72 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2025-09-07
+
+### 🚀 Features
+
+- Support for nvidia gpu monitoring (#73)
+- Multi user (#79)
+- Dedicated 1password agent tomls per account (#80)
+- Rename host from cloudy to callisto across configs (#81)
+- *(home-manager)* Add Zed editor configuration (#82)
+- *(darwin)* Add fantastical and figma to common casks (#83)
+- *(home-manager)* Update contextServers to use nix shell commands (#84)
+- *(home-manager)* Add withodyssey context server to Zed config (#85)
+- Migrate to OpNix v1 (#87)
+- *(zed)* Add browser mcp support (#97)
+- *(ai)* Add playwright mcp to zed (#101)
+- Blocky dns proxy configuration (#105)
+- Ollama setup functioning (#107)
+- Qbittorent setup for ganymede (#108)
+- Qbittorent setup (#109)
+- Immich deployment (#115)
+- Audiobookshelf (#116)
+- Upload audiobook nushell command (#118)
+
+### 🐛 Bug Fixes
+
+- Idk what i was doing
+- Nix darwin updated user requirements (#74)
+- Set default shell to zsh to make Zed happy (#75)
+- *(home-assistant)* Move home assistant to ganymede to circumvent cloudflare proxy issues (#89)
+- Zed config typo (#90)
+- Set default editor to zed (#92)
+- Postgres user auth (#93)
+- Ssh aliases for home servers (#91)
+- Update zed config to new schema and add gitbutler mcp (#94)
+- *(zed)* Custom model provider based on work v personal (#95)
+- *(zed)* Model name incorrect for anthropic (#96)
+- Misc fixes and updates (#99)
+- *(darwin)* Remove broken apps (#100)
+- Ssh on darwin (#103)
+- Syntax error (#104)
+- Ssh agent not found for signing commits
+- Openwebui setup (#106)
+- Allow traffic from caddy to be trusted by qbittorrent (#110)
+- Update flake and patch open-webui (#111)
+- Set up trusted home assistant proxies (#113)
+- Install required python packages for home assistant (#114)
+- Immich data location (#117)
+- Remove unnecessary inputs from nix homebrew (#120)
+- Update ssh config to match latest shape (#119)
+- Bump dl buffer size and add trusted users to mac config (#121)
+
+### 🚜 Refactor
+
+- Renamed gigame to ganymede (#78)
+- *(home-manager)* Remove withodyssey context from Zed config (#86)
+
+### ⚙️ Miscellaneous Tasks
+
+- Update linux kernel (#76)
+- Update lock (#77)
+- Update opnix input to v0.7.0 and refresh lockfile (#88)
+- Update host names and add another mbp (#98)
+- Update lock (#102)
+- Bump flake (#122)
+- Improve caching and resolve errors (#123)
+
 ## [0.6.0] - 2025-03-16
 
 ### 🚀 Features
@@ -50,6 +116,7 @@ All notable changes to this project will be documented in this file.
 - Reorganize minio and lgtm modules (#62)
 - *(darwin)* Add notion to casks (#63)
 - *(nixos)* Remove gigantic swap files from cloudy and gigame (#66)
+- Bump flake and changelog (#72)
 
 ## [0.5.0] - 2024-12-04
 
