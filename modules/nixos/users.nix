@@ -20,5 +20,5 @@
     ];
     shell = pkgs.nushell;
   };
-  nix.settings.trusted-users = [config.host.admin.name];
+  nix.settings.trusted-users = [config.host.admin.name "root" "@wheel"];
 }
