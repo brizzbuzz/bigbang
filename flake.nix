@@ -3,24 +3,37 @@
 
   nixConfig = {
     extra-substituters = [
+      "https://nix-community.cachix.org"
       "https://colmena.cachix.org"
+      "https://hyprland.cachix.org"
+      "https://cuda-maintainers.cachix.org"
+      "https://nixos-rocm.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPiCgBvmJ7pYGD+8DWvGYA2VhHfZUZhYk="
+      "nixos-rocm.cachix.org-1:uuM0K2U1XGQYcv4VdGpHyxqjgJl9DzLlqsj/Y3iQNXc="
     ];
     allow-dirty = true;
+    # Ensure binary caches are prioritized
+    max-jobs = "auto";
+    cores = 0;
+    # Allow importing from derivation for better cache usage
+    allow-import-from-derivation = true;
+    # Prevent unnecessary rebuilds
+    builders-use-substitutes = true;
+    # Keep failed builds for debugging but don't waste time
+    keep-failed = false;
+    # Use all available download bandwidth
+    http-connections = 25;
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprpanel = {
-      url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -62,7 +75,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-master,
     ...
   } @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
@@ -79,14 +91,9 @@
         inherit system;
         inherit (nixpkgsConfig) config;
       });
-    pkgs-master = forAllSystems (system:
-      import nixpkgs-master {
-        inherit system;
-        inherit (nixpkgsConfig) config;
-      });
   in {
     darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
     colmena = import ./flake/nixos.nix {inherit inputs;};
-    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs pkgs-master inputs;};
+    devShells = import ./flake/shell.nix {inherit forAllSystems pkgs inputs;};
   };
 }
