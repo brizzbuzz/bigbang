@@ -164,9 +164,18 @@ in {
     extraConfig = ''
       # Aliases
       alias nr = ${rebuildCommand}
-      alias nrr = ${rebuildRemoteCommand}
       alias rd = repo dump
       alias zj = zellij
+
+      # Remote rebuild function - builds remote hosts if no host specified
+      def nrr [host?: string] {
+        if ($host == null) {
+          print "No host specified, building remote hosts (ganymede, callisto)..."
+          ^colmena apply --impure --on ganymede,callisto
+        } else {
+          ^${rebuildRemoteCommand} $host
+        }
+      }
     '';
 
     envFile.text = ''
