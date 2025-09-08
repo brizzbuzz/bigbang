@@ -80,6 +80,22 @@ in {
           book: string,
           series?: string
       ] {
+          # Check if file is AAX format (DRM-protected Audible format)
+          let file_extension = ($local_file | path parse | get extension | str downcase)
+          if $file_extension == "aax" {
+              print "🚫 Error: AAX files are not supported!"
+              print ""
+              print "AAX files are DRM-protected Audible audiobooks that cannot be played"
+              print "on open-source media servers like AudioBookShelf."
+              print ""
+              print "To use this audiobook, you need to:"
+              print "1. Convert AAX to M4B using tools like:"
+              print "   - AAXtoMP3: https://github.com/KrumpetPirate/AAXtoMP3"
+              print "   - audible-cli: https://github.com/mkb79/audible-cli"
+              print "2. Then upload the converted M4B file instead"
+              return null
+          }
+
           let temp_file = "~/temp_audiobook.m4b"
 
           # Build the remote directory path
