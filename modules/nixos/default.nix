@@ -10,6 +10,7 @@
     ./attic.nix
     ./audio.nix
     ./audiobookshelf.nix
+
     ./blocky.nix
     ./boot.nix
     ./caddy.nix
@@ -27,7 +28,7 @@
     ./hyprland.nix
     ./immich.nix
     ./jellyfin.nix
-    ./nix.nix
+
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
