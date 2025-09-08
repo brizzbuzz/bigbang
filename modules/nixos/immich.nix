@@ -17,6 +17,23 @@
         enableVectors = false;
       };
       mediaLocation = "/data/immich";
+      # Disable machine learning to avoid resource-intensive video processing
+      machine-learning = {
+        enable = false;
+      };
+      # Configure settings to optimize for large file uploads and disable ML features
+      settings = {
+        job = {
+          smartSearch.enabled = false;
+          faceDetection.enabled = false;
+          facialRecognition.enabled = false;
+          # Keep thumbnail generation enabled for videos
+          thumbnailGeneration.enabled = true;
+          videoConversion.enabled = true;
+        };
+        # Disable new version checking for privacy
+        newVersionCheck.enabled = false;
+      };
     };
 
     # Create media storage directories on the dedicated media drive
