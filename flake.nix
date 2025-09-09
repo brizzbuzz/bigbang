@@ -70,6 +70,11 @@
       url = "github:brizzbuzz/opnix/v0.7.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    authentik-nix = {
+      url = "github:nix-community/authentik-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

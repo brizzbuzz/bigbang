@@ -10,7 +10,7 @@
     ./attic.nix
     ./audio.nix
     ./audiobookshelf.nix
-
+    ./authentik.nix
     ./blocky.nix
     ./boot.nix
     ./caddy.nix

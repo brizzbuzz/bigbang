@@ -96,6 +96,20 @@
         };
       };
 
+      authentik = {
+        enable = mkEnableOption "Enable Authentik authentication server";
+        port = mkOption {
+          type = types.int;
+          default = 9000;
+          description = "Port for Authentik web interface";
+        };
+        workerPort = mkOption {
+          type = types.int;
+          default = 9001;
+          description = "Port for Authentik worker interface";
+        };
+      };
+
       users = mkOption {
         type = types.attrsOf (types.submodule {
           options = {
@@ -177,6 +191,10 @@
       };
 
       audiobookshelf = {
+        enable = lib.mkDefault false;
+      };
+
+      authentik = {
         enable = lib.mkDefault false;
       };
 

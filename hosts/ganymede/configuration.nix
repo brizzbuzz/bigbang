@@ -14,14 +14,36 @@
     ../../modules/home-manager
   ];
 
-  # OpNix disabled - ganymede doesn't need any secrets
+  # OpNix configuration for secrets management
   services.onepassword-secrets = {
-    enable = false;
+    enable = true;
+    tokenFile = "/etc/opnix-token";
+    users = ["ryan"];
+
+    # Authentik secrets configuration
+    secrets = {
+      authentikEnv = {
+        reference = "op://Homelab/Authentik/notesPlain";
+        path = "/var/lib/opnix/secrets/authentik/env";
+        owner = "root";
+        group = "authentik";
+        mode = "0640";
+        services = ["authentik" "authentik-worker" "authentik-migrate"];
+      };
+    };
+
+    # Enable systemd integration for reliable service management
+    systemdIntegration = {
+      enable = true;
+      services = ["authentik" "authentik-worker" "authentik-migrate"];
+      restartOnChange = true;
+    };
   };
 
   host = {
     ai.enable = true;
     audiobookshelf.enable = true;
+    authentik.enable = true;
     name = "ganymede";
     desktop.enable = false;
     gpu.nvidia.enable = true;
@@ -90,12 +112,17 @@
       pgvector
     ];
     serviceDatabases = [
+      "authentik"
       "hass"
       "immich"
       "jellyfin"
       "openwebui"
     ];
     serviceUsers = [
+      {
+        name = "authentik";
+        database = "authentik";
+      }
       {
         name = "hass";
         database = "hass";
