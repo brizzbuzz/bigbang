@@ -141,11 +141,8 @@
     ];
   };
 
-  # Enable increased system limits for heavy service workloads
   system-limits = {
-    enable = true;
-    fileDescriptors = 262144; # 256K file descriptors for proxy connections
-    processes = 131072; # 128K processes
+    enable = false;
   };
 
   host = {
