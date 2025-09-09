@@ -43,6 +43,7 @@
     ./soft-serve.nix
     ./speedtest.nix
     ./ssh.nix
+    ./system-limits.nix
     ./users.nix
     ./xdg.nix
   ];
