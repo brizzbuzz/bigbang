@@ -141,6 +141,13 @@
     ];
   };
 
+  # Enable increased system limits for heavy service workloads
+  system-limits = {
+    enable = true;
+    fileDescriptors = 262144; # 256K file descriptors for proxy connections
+    processes = 131072; # 128K processes
+  };
+
   host = {
     name = "callisto";
     desktop.enable = false;
@@ -226,6 +233,12 @@
             enable = true;
             subdomain = "books";
             target = "ganymede.chateaubr.ink:13378";
+            logLevel = "INFO";
+          };
+          auth = {
+            enable = true;
+            subdomain = "auth";
+            target = "ganymede.chateaubr.ink:9000";
             logLevel = "INFO";
           };
         };
