@@ -14,8 +14,7 @@
     ../../modules/home-manager
   ];
 
-  # OpNix configuration for secrets management
-  services.onepassword-secrets = {
+  services.onepassword-secrets = lib.mkIf config.host.authentik.enable {
     enable = true;
     tokenFile = "/etc/opnix-token";
     users = ["ryan"];
@@ -23,20 +22,19 @@
     # Authentik secrets configuration
     secrets = {
       authentikEnv = {
-        reference = "op://Homelab/Authentik/notesPlain";
+        reference = "op://Homelab/AuthentikSecrets/notesPlain";
         path = "/var/lib/opnix/secrets/authentik/env";
         owner = "root";
-        group = "authentik";
+        group = "root";
         mode = "0640";
         services = ["authentik" "authentik-worker" "authentik-migrate"];
       };
     };
 
-    # Enable systemd integration for reliable service management
+    # Disable systemd integration to avoid circular dependencies
+    # (authentik services will start independently)
     systemdIntegration = {
-      enable = true;
-      services = ["authentik" "authentik-worker" "authentik-migrate"];
-      restartOnChange = true;
+      enable = false;
     };
   };
 
