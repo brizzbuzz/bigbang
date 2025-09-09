@@ -60,6 +60,13 @@
     processes = 65536; # 64K processes
   };
 
+  # Enable increased system limits for heavy service workloads
+  system-limits = {
+    enable = true;
+    fileDescriptors = 131072; # 128K file descriptors
+    processes = 65536; # 64K processes
+  };
+
   # qBittorrent configuration (traffic routed via UniFi VPN policies)
   services.qbittorrent = {
     enable = true;
