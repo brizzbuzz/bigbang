@@ -6,16 +6,6 @@
         default = 9001;
         description = "The port to bind to";
       };
-      ollama.api = mkOption {
-        type = types.int;
-        default = 11434;
-        description = "The port to bind to";
-      };
-      open-webui = mkOption {
-        type = types.int;
-        default = 11435;
-        description = "The port to bind to";
-      };
     };
     host = {
       caddy = {
@@ -62,8 +52,6 @@
       };
 
       remote.enable = mkEnableOption "Enable Remote Server";
-
-      ai.enable = mkEnableOption "Enable AI Services";
 
       attic.server = {
         enable = mkEnableOption "Enable Attic Binary Server";
@@ -170,10 +158,6 @@
       };
 
       remote = {
-        enable = lib.mkDefault false;
-      };
-
-      ai = {
         enable = lib.mkDefault false;
       };
 

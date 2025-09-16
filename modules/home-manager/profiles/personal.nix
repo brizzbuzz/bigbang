@@ -74,6 +74,8 @@ in {
     obsidian
     ffmpeg
     yt-dlp
+    bind
+    jq
   ];
 
   xdg.configFile."1Password/ssh/agent.toml".text = ''
