@@ -174,10 +174,16 @@
       domain = "rgbr.ink";
       sites = {
         root = {
-          enable = true;
+          enable = false; # Disabled - using Glance as root instead
           content = "Hello from callisto!";
         };
         proxies = {
+          glance = {
+            enable = true;
+            subdomain = ""; # Empty subdomain means root domain
+            target = "localhost:8081";
+            logLevel = "INFO";
+          };
           media = {
             enable = true;
             subdomain = "media";
@@ -203,12 +209,12 @@
             logLevel = "INFO";
           };
 
-          torrents = {
-            enable = true;
-            subdomain = "torrents";
-            target = "ganymede.chateaubr.ink:8080";
-            logLevel = "INFO";
-          };
+          # torrents = {
+          #   enable = true;
+          #   subdomain = "torrents";
+          #   target = "ganymede.chateaubr.ink:8080";
+          #   logLevel = "INFO";
+          # };
           blocky = {
             enable = true;
             subdomain = "dns";
@@ -238,7 +244,347 @@
     };
   };
 
-  glance.enable = true;
+  glance = {
+    enable = true;
+    settings = {
+      server = {
+        host = "127.0.0.1";
+        port = 8081;
+      };
+      pages = [
+        {
+          name = "Homelab Dashboard";
+          columns = [
+            {
+              size = "small";
+              widgets = [
+                {
+                  type = "monitor";
+                  cache = "30s";
+                  title = "🏠 Core Services";
+                  sites = [
+                    {
+                      title = "Jellyfin Media";
+                      url = "https://media.rgbr.ink";
+                      icon = "si:jellyfin";
+                    }
+                    {
+                      title = "Home Assistant";
+                      url = "https://home.rgbr.ink";
+                      icon = "si:homeassistant";
+                    }
+                    {
+                      title = "Photo Library";
+                      url = "https://photos.rgbr.ink";
+                      icon = "si:immich";
+                    }
+                    {
+                      title = "Authentication";
+                      url = "https://auth.rgbr.ink";
+                      icon = "si:authentik";
+                    }
+                  ];
+                }
+                {
+                  type = "monitor";
+                  cache = "1m";
+                  title = "🔧 Infrastructure";
+                  sites = [
+                    {
+                      title = "Grafana Metrics";
+                      url = "https://metrics.rgbr.ink";
+                      icon = "si:grafana";
+                    }
+                    {
+                      title = "MinIO Storage";
+                      url = "https://storage.rgbr.ink";
+                      icon = "si:minio";
+                    }
+                    {
+                      title = "DNS Filtering";
+                      url = "https://dns.rgbr.ink";
+                      icon = "si:pihole";
+                    }
+                    # {
+                    #   title = "Torrent Client";
+                    #   url = "https://torrents.rgbr.ink";
+                    #   icon = "si:qbittorrent";
+                    # }
+                  ];
+                }
+                {
+                  type = "calendar";
+                  title = "📅 Calendar";
+                }
+              ];
+            }
+            {
+              size = "full";
+              widgets = [
+                {
+                  type = "bookmarks";
+                  title = "🚀 Quick Access";
+                  groups = [
+                    {
+                      title = "🎬 Media Services";
+                      color = "280 100 50";
+                      links = [
+                        {
+                          title = "Jellyfin - Movies & TV";
+                          url = "https://media.rgbr.ink";
+                          icon = "si:jellyfin";
+                        }
+                        {
+                          title = "Immich - Photo Library";
+                          url = "https://photos.rgbr.ink";
+                          icon = "si:immich";
+                        }
+                        {
+                          title = "AudioBookshelf - Books & Podcasts";
+                          url = "https://books.rgbr.ink";
+                          icon = "si:audiobookshelf";
+                        }
+                      ];
+                    }
+                    {
+                      title = "📊 Monitoring & Storage";
+                      color = "220 100 40";
+                      links = [
+                        {
+                          title = "Grafana - System Metrics";
+                          url = "https://metrics.rgbr.ink";
+                          icon = "si:grafana";
+                        }
+                        {
+                          title = "MinIO - Object Storage";
+                          url = "https://storage.rgbr.ink";
+                          icon = "si:minio";
+                        }
+                        {
+                          title = "Mimir - Metrics Database";
+                          url = "https://mimir.rgbr.ink";
+                          icon = "si:prometheus";
+                        }
+                        {
+                          title = "Blocky - DNS & Ad Blocking";
+                          url = "https://dns.rgbr.ink";
+                          icon = "si:pihole";
+                        }
+                      ];
+                    }
+                    {
+                      title = "🏠 Smart Home";
+                      color = "120 100 45";
+                      links = [
+                        {
+                          title = "Home Assistant - Automation Hub";
+                          url = "https://home.rgbr.ink";
+                          icon = "si:homeassistant";
+                        }
+                        {
+                          title = "Authentik - Identity Management";
+                          url = "https://auth.rgbr.ink";
+                          icon = "si:authentik";
+                        }
+                      ];
+                    }
+                    {
+                      title = "⬇️ Downloads & Network";
+                      color = "10 100 50";
+                      links = [
+                        # {
+                        #   title = "qBittorrent - Torrent Client";
+                        #   url = "https://torrents.rgbr.ink";
+                        #   icon = "si:qbittorrent";
+                        # }
+                      ];
+                    }
+                  ];
+                }
+                {
+                  type = "hacker-news";
+                  title = "📰 Hacker News";
+                  limit = 10;
+                  collapse-after = 5;
+                }
+                {
+                  type = "reddit";
+                  title = "🛠️ r/selfhosted";
+                  subreddit = "selfhosted";
+                  limit = 8;
+                  collapse-after = 4;
+                }
+              ];
+            }
+            {
+              size = "small";
+              widgets = [
+                {
+                  type = "weather";
+                  title = "🌤️ London Weather";
+                  location = "London, United Kingdom";
+                  units = "metric";
+                }
+                {
+                  type = "clock";
+                  title = "🕐 System Time";
+                  hour-format = "24h";
+                  timezones = [
+                    {
+                      timezone = "Europe/London";
+                      label = "London";
+                    }
+                  ];
+                }
+                {
+                  type = "rss";
+                  title = "📡 Tech Feeds";
+                  limit = 5;
+                  collapse-after = 3;
+                  cache = "6h";
+                  feeds = [
+                    {
+                      url = "https://www.jeffgeerling.com/blog.xml";
+                      title = "Jeff Geerling";
+                    }
+                    {
+                      url = "https://ciechanow.ski/atom.xml";
+                      title = "Bartosz Ciechanowski";
+                    }
+                    {
+                      url = "https://samwho.dev/rss.xml";
+                      title = "Sam Rose";
+                    }
+                  ];
+                }
+                {
+                  type = "stocks";
+                  title = "📈 Markets";
+                  stocks = [
+                    {
+                      symbol = "SPY";
+                      name = "S&P 500";
+                    }
+                    {
+                      symbol = "QQQ";
+                      name = "NASDAQ";
+                    }
+                    {
+                      symbol = "BTC-USD";
+                      name = "Bitcoin";
+                    }
+                    {
+                      symbol = "NVDA";
+                      name = "NVIDIA";
+                    }
+                  ];
+                }
+              ];
+            }
+          ];
+        }
+        {
+          name = "System Overview";
+          columns = [
+            {
+              size = "full";
+              widgets = [
+                {
+                  type = "bookmarks";
+                  title = "🖥️ Infrastructure Map";
+                  groups = [
+                    {
+                      title = "☁️ Callisto - Infrastructure Hub";
+                      color = "200 80 60";
+                      links = [
+                        {
+                          title = "Caddy Reverse Proxy";
+                          url = "https://rgbr.ink";
+                          icon = "si:caddy";
+                        }
+                        {
+                          title = "Grafana Monitoring";
+                          url = "https://metrics.rgbr.ink";
+                          icon = "si:grafana";
+                        }
+                        {
+                          title = "MinIO Object Storage";
+                          url = "https://storage.rgbr.ink";
+                          icon = "si:minio";
+                        }
+                        {
+                          title = "Blocky DNS Filter";
+                          url = "https://dns.rgbr.ink";
+                          icon = "si:pihole";
+                        }
+                      ];
+                    }
+                    {
+                      title = "🌙 Ganymede - Media & Services";
+                      color = "280 80 60";
+                      links = [
+                        {
+                          title = "Jellyfin Media Server";
+                          url = "https://media.rgbr.ink";
+                          icon = "si:jellyfin";
+                        }
+                        {
+                          title = "Immich Photo Management";
+                          url = "https://photos.rgbr.ink";
+                          icon = "si:immich";
+                        }
+                        {
+                          title = "Home Assistant";
+                          url = "https://home.rgbr.ink";
+                          icon = "si:homeassistant";
+                        }
+                        {
+                          title = "AudioBookshelf";
+                          url = "https://books.rgbr.ink";
+                          icon = "si:audiobookshelf";
+                        }
+                        {
+                          title = "Authentik SSO";
+                          url = "https://auth.rgbr.ink";
+                          icon = "si:authentik";
+                        }
+                        # {
+                        #   title = "qBittorrent";
+                        #   url = "https://torrents.rgbr.ink";
+                        #   icon = "si:qbittorrent";
+                        # }
+                      ];
+                    }
+                    {
+                      title = "🔧 Development & Tools";
+                      color = "120 80 50";
+                      links = [
+                        {
+                          title = "NixOS Configurations";
+                          url = "https://github.com/your-username/bigbang";
+                          icon = "si:nixos";
+                        }
+                        {
+                          title = "Atticd Binary Cache";
+                          url = "https://attic.rgbr.ink";
+                          icon = "si:nix";
+                        }
+                        {
+                          title = "Soft Serve Git Server";
+                          url = "ssh://git.rgbr.ink";
+                          icon = "si:git";
+                        }
+                      ];
+                    }
+                  ];
+                }
+              ];
+            }
+          ];
+        }
+      ];
+    };
+  };
   soft-serve.enable = true;
   speedtest.enable = true;
   # services.home-assistant.enable = true; # Moved to ganymede

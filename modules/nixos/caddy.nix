@@ -144,8 +144,13 @@
         (config.host.caddy.sites.proxies
           ? "homeassistant"
         && config.host.caddy.sites.proxies.homeassistant.enable)
-      then {
-        "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}" = {
+      then let
+        hostname =
+          if config.host.caddy.sites.proxies.homeassistant.subdomain == ""
+          then domain
+          else "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}";
+      in {
+        "${hostname}" = {
           extraConfig =
             mkHomeAssistantConfig
             config.host.caddy.sites.proxies.homeassistant.target
@@ -158,7 +163,11 @@
     otherProxySites =
       lib.mapAttrs' (
         name: site:
-          lib.nameValuePair "${site.subdomain}.${domain}" {
+          lib.nameValuePair (
+            if site.subdomain == ""
+            then domain
+            else "${site.subdomain}.${domain}"
+          ) {
             extraConfig = mkProxyConfig name site.target site.logLevel;
           }
       ) (lib.filterAttrs (name: site: site.enable && name != "homeassistant")
