@@ -1,25 +1,22 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options = {
     glance.enable = lib.mkEnableOption "Enable Glance Dashboard";
+
+    glance.settings = lib.mkOption {
+      type = lib.types.attrs;
+      default = {};
+      description = "Glance configuration settings";
+    };
   };
 
   config = lib.mkIf config.glance.enable {
-    environment.etc.glance.text = builtins.readFile ./glance.yml;
-    systemd.user.services.glance = {
-      description = "Glance";
-      wantedBy = ["default.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.glance}/bin/glance -config /etc/glance";
-        Restart = "on-failure";
-        RestartSec = "10";
-        TimeoutStopSec = "0";
-      };
+    services.glance = {
+      enable = true;
+      settings = config.glance.settings;
     };
   };
 }
