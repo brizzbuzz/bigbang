@@ -39,7 +39,6 @@
   };
 
   host = {
-    ai.enable = true;
     audiobookshelf.enable = true;
     authentik.enable = true;
     name = "ganymede";
@@ -111,7 +110,6 @@
       "hass"
       "immich"
       "jellyfin"
-      "openwebui"
     ];
     serviceUsers = [
       {
@@ -130,23 +128,8 @@
         name = "jellyfin";
         database = "jellyfin";
       }
-      {
-        name = "openwebui";
-        database = "openwebui";
-      }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''
-      CREATE EXTENSION IF NOT EXISTS vector;
-
-      -- Grant permissions for openwebui user
-      \c openwebui;
-      ALTER DATABASE openwebui OWNER TO openwebui;
-      GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO openwebui;
-      GRANT USAGE, CREATE ON SCHEMA public TO openwebui;
-      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO openwebui;
-      GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO openwebui;
-      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO openwebui;
-
       CREATE EXTENSION IF NOT EXISTS vector;
     '';
   };

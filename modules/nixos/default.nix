@@ -32,8 +32,6 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
-    ./ollama.nix
-    ./open-webui.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix

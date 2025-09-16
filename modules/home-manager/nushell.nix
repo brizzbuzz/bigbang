@@ -19,7 +19,6 @@ in {
 
       # Environment variables
       $env.EDITOR = "zed"
-      $env.OLLAMA_HOST = "http://ganymede:11434"
 
       # Path
       $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")

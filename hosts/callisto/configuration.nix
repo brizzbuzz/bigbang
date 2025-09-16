@@ -202,12 +202,7 @@
             target = "localhost:9009";
             logLevel = "INFO";
           };
-          ai = {
-            enable = true;
-            subdomain = "ai";
-            target = "ganymede.chateaubr.ink:11435";
-            logLevel = "INFO";
-          };
+
           torrents = {
             enable = true;
             subdomain = "torrents";
