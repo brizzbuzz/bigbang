@@ -105,6 +105,12 @@
       command = "nix";
       args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "@playwright/mcp@latest"];
     };
+
+    notion = {
+      source = "custom";
+      command = "nix";
+      args = ["shell" "nixpkgs#pnpm" "-c" "pnpm" "dlx" "mcp-remote" "https://mcp.notion.com/mcp"];
+    };
   };
 
   # Function to create Zed config with specific context servers
@@ -133,6 +139,6 @@ in {
 
     # Pre-configured profiles
     personal = mkZedConfig ["linear" "nixos" "gitbutler" "browsermcp" "figma" "playwright"];
-    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler" "browsermcp" "playwright"];
+    work = mkWorkZedConfig ["linear" "asana" "figma" "nixos" "gitbutler" "browsermcp" "playwright" "notion"];
   };
 }
