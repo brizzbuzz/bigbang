@@ -40,6 +40,40 @@ in {
       };
     };
 
+    oauth = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable OAuth authentication";
+      };
+
+      authentik = {
+        authUrl = lib.mkOption {
+          type = lib.types.str;
+          default = "https://auth.${config.host.caddy.domain}/application/o/authorize/";
+          description = "The OAuth authorization URL";
+        };
+
+        tokenUrl = lib.mkOption {
+          type = lib.types.str;
+          default = "https://auth.${config.host.caddy.domain}/application/o/token/";
+          description = "The OAuth token URL";
+        };
+
+        apiUrl = lib.mkOption {
+          type = lib.types.str;
+          default = "https://auth.${config.host.caddy.domain}/application/o/userinfo/";
+          description = "The OAuth API URL for user info";
+        };
+
+        allowedDomains = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+          description = "List of allowed email domains";
+        };
+      };
+    };
+
     tempo = {
       url = lib.mkOption {
         type = lib.types.str;
@@ -63,6 +97,38 @@ in {
           http_port = cfg.port;
           domain = cfg.domain;
           root_url = "https://${cfg.domain}";
+        };
+
+        # OAuth configuration
+        "auth.generic_oauth" = lib.mkIf cfg.oauth.enable {
+          enabled = true;
+          name = "Authentik";
+          allow_sign_up = true;
+          client_id = "$__file{${config.services.onepassword-secrets.secretPaths.grafanaOAuthClientId}}";
+          client_secret = "$__file{${config.services.onepassword-secrets.secretPaths.grafanaOAuthClientSecret}}";
+          scopes = "openid profile email";
+          empty_scopes = false;
+          auth_url = cfg.oauth.authentik.authUrl;
+          token_url = cfg.oauth.authentik.tokenUrl;
+          api_url = cfg.oauth.authentik.apiUrl;
+          allowed_domains = lib.concatStringsSep " " cfg.oauth.authentik.allowedDomains;
+          allow_assign_grafana_admin = true;
+          auto_login = false;
+          role_attribute_path = "contains(groups[*], 'authentik Admins') && 'GrafanaAdmin' || 'Admin'";
+        };
+
+        # Disable other auth methods when OAuth is enabled
+        "auth.anonymous" = lib.mkIf cfg.oauth.enable {
+          enabled = false;
+        };
+
+        "auth.basic" = lib.mkIf cfg.oauth.enable {
+          enabled = false;
+        };
+
+        # Disable login form when OAuth is enabled
+        "auth" = lib.mkIf cfg.oauth.enable {
+          disable_login_form = true;
         };
 
         # Default homepage and dashboard settings
@@ -165,5 +231,12 @@ in {
 
     # Firewall configuration
     networking.firewall.allowedTCPPorts = [cfg.port];
+
+    # Create secrets directory for OAuth files when OAuth is enabled
+    systemd.tmpfiles.rules = lib.mkIf cfg.oauth.enable [
+      "d /var/lib/grafana/secrets 0700 grafana grafana - -"
+    ];
+
+    # No additional systemd configuration needed - using file provider
   };
 }

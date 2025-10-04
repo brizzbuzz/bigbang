@@ -63,12 +63,32 @@
         group = "root";
         mode = "0600";
       };
+
+      # Grafana OAuth client ID for Authentik
+      grafanaOAuthClientId = {
+        reference = "op://Homelab/Grafana OAuth/client_id";
+        path = "/var/lib/grafana/secrets/oauth-client-id";
+        owner = "grafana";
+        group = "grafana";
+        mode = "0600";
+        services = ["grafana"];
+      };
+
+      # Grafana OAuth client secret for Authentik
+      grafanaOAuthClientSecret = {
+        reference = "op://Homelab/Grafana OAuth/client_secret";
+        path = "/var/lib/grafana/secrets/oauth-client-secret";
+        owner = "grafana";
+        group = "grafana";
+        mode = "0600";
+        services = ["grafana"];
+      };
     };
 
     # Enable systemd integration for reliable service management
     systemdIntegration = {
       enable = true;
-      services = ["caddy"];
+      services = ["caddy" "grafana"];
       restartOnChange = true;
     };
   };
@@ -89,6 +109,12 @@
     enable = true;
     domain = "metrics.rgbr.ink";
     mimir.url = "http://localhost:9009/prometheus";
+    oauth = {
+      enable = true;
+      authentik = {
+        allowedDomains = [];
+      };
+    };
   };
 
   lgtm.mimir = {
