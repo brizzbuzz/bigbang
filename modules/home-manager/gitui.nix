@@ -1,6 +1,8 @@
-{...}: {
+{pkgs, ...}: let
+  isDarwin = pkgs.stdenv.isDarwin;
+in {
   programs.gitui = {
-    enable = true;
+    enable = !isDarwin;
     theme = ''
       (
           selected_tab: Some("Reset"),
