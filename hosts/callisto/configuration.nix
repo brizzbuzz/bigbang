@@ -265,6 +265,12 @@
             target = "ganymede.chateaubr.ink:9000";
             logLevel = "INFO";
           };
+          tandoor = {
+            enable = true;
+            subdomain = "recipes";
+            target = "ganymede.chateaubr.ink:8000";
+            logLevel = "INFO";
+          };
         };
       };
     };
