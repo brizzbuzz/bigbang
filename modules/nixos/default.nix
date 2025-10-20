@@ -28,6 +28,7 @@
     ./hyprland.nix
     ./immich.nix
     ./jellyfin.nix
+    ./tandoor.nix
 
     ./locale.nix
     ./networking.nix

@@ -48,6 +48,7 @@
     jellyfin.server.enable = true;
     keyboard = "moonlander";
     remote.enable = true;
+    tandoor.enable = true;
   };
 
   system-limits = {
@@ -110,6 +111,7 @@
       "hass"
       "immich"
       "jellyfin"
+      "tandoor"
     ];
     serviceUsers = [
       {
@@ -127,6 +129,10 @@
       {
         name = "jellyfin";
         database = "jellyfin";
+      }
+      {
+        name = "tandoor";
+        database = "tandoor";
       }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''
