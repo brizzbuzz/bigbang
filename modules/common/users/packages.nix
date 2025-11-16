@@ -52,6 +52,11 @@
       tokei
       docker-compose
       kubectl
+      # AI
+      codex
+      crush
+      # Package Managers
+      uv
     ]
     ++ lib.optionals isLinux [
       docker
