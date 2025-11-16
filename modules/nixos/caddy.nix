@@ -116,7 +116,7 @@
           ) {
             extraConfig = mkProxyConfig name site.target site.logLevel;
           }
-      ) (lib.filterAttrs (name: site: site.enable)
+      ) (lib.filterAttrs (_name: site: site.enable)
         config.host.caddy.sites.proxies);
   in
     rootSite // proxySites;

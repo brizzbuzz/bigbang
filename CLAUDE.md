@@ -6,6 +6,8 @@
 - `nrr <host>` - Rebuild remote system (colmena apply --impure --on <host>)
 - `git-cliff` - Generate changelogs
 - `tokei` - Code statistics
+- `deadnix` - Check for dead code in Nix files
+- `alejandra` - Format Nix files
 
 ## CODE STYLE
 - Use 2-space indentation for Nix files
@@ -21,6 +23,21 @@
 - Follow standard Nix error handling patterns
 - Use descriptive variable names that indicate purpose
 - Ensure all modules have clear interfaces with documentation
+
+## PR CHECKS
+GitHub Actions workflow (`pr-checks.yml`) runs on all PRs and main branch pushes:
+- `nix flake check` - Validates flake and all configurations
+- `alejandra --check .` - Ensures consistent code formatting
+- `deadnix --fail .` - Fails PR if dead code is found
+
+PRs with dead code will be blocked from merging.
+
+To run locally before pushing:
+```bash
+nix flake check --show-trace
+alejandra .
+deadnix .
+```
 
 ## REPOSITORY STRUCTURE
 - `hosts/` - Machine-specific configurations

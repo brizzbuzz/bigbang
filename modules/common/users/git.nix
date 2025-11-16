@@ -6,10 +6,9 @@
 }: let
   cfg = config.host;
   isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
 
   # Get git settings for each user based on their profile
-  getUserGitConfig = userName: userConfig: let
+  getUserGitConfig = userConfig: let
     personalConfig = {
       user = {
         name = "Ryan Brink";
@@ -52,7 +51,7 @@ in {
     system.activationScripts.userGitConfigs = {
       text = lib.concatMapStringsSep "\n" (userName: let
         userConfig = cfg.users.${userName};
-        gitConfig = getUserGitConfig userName userConfig;
+        gitConfig = getUserGitConfig userConfig;
         homeDir =
           if isDarwin
           then "/Users/${userName}"

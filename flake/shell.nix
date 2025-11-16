@@ -9,6 +9,7 @@ forAllSystems (system: {
     packages = with pkgs.${system}; [
       alejandra # Nix Formatter
       colmena # NixOS deployment tool
+      deadnix # Dead code scanner for Nix files
       git-cliff # Changelog generator
       nurl # Nix Fetcher Generator
       tokei # Code statistics
