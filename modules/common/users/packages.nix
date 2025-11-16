@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.host;
-  isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
 
   # Base packages for all users
@@ -110,9 +109,9 @@
 
   # Generate system packages from all user profiles
   allUserPackages = lib.flatten (
-    lib.mapAttrsToList
-    (userName: userConfig: getPackagesForProfile userConfig.profile)
-    cfg.users
+    map
+    (userConfig: getPackagesForProfile userConfig.profile)
+    (lib.attrValues cfg.users)
   );
 in {
   options.host.userPackages = {

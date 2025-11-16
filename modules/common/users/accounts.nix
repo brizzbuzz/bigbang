@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.host;
-  isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
 
   # Generate Linux user account configuration
@@ -30,15 +29,6 @@ in {
   };
 
   config = lib.mkIf cfg.userAccounts.enable (let
-    # Get primary user name safely
-    primaryUser =
-      if cfg.users != {}
-      then
-        lib.findFirst
-        (userName: cfg.users.${userName}.isPrimary)
-        "ryan"
-        (lib.attrNames cfg.users)
-      else "ryan";
   in {
     # Linux user management
     users.users = lib.mkIf isLinux linuxUsers;

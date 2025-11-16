@@ -6,32 +6,32 @@
 }: let
   isDesktop = config.host.desktop.enable;
 in {
-    environment.systemPackages = with pkgs; [
-      pam_u2f
-    ];
+  environment.systemPackages = with pkgs; [
+    pam_u2f
+  ];
 
-    services.pcscd.enable = true;
-    services.udev.packages = with pkgs; [
-      yubikey-personalization
-    ];
+  services.pcscd.enable = true;
+  services.udev.packages = with pkgs; [
+    yubikey-personalization
+  ];
 
-    security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = false;
 
   services.yubikey-agent.enable = lib.mkIf isDesktop true;
   programs.yubikey-touch-detector.enable = true;
 
-    security.pam = {
-      services = {
-        login.u2fAuth = true;
-        sudo.u2fAuth = true;
-      };
+  security.pam = {
+    services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
 
-      u2f = {
-        enable = true;
-        settings = {
-          cue = false;
-          authFile = "/var/lib/opnix/secrets/u2f/keys";
-        };
+    u2f = {
+      enable = true;
+      settings = {
+        cue = false;
+        authFile = "/var/lib/opnix/secrets/u2f/keys";
       };
+    };
   };
 }

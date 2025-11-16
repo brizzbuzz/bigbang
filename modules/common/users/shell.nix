@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.host;
-  isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
 in {
   options.host.userShell = {

@@ -6,10 +6,9 @@
 }: let
   cfg = config.host;
   isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
 
   # Generate 1Password SSH agent config for each user
-  mk1PasswordConfig = userName: userConfig: let
+  mk1PasswordConfig = userConfig: let
     personalConfig = ''
       [[ssh-keys]]
       item = "Personal Auth Key"
@@ -39,7 +38,7 @@
     else workConfig;
 
   # Generate Zed config for each user
-  mkZedConfig = userName: userConfig: let
+  mkZedConfig = userConfig: let
     baseConfig = {
       theme = "Catppuccin Macchiato";
       ui_font_size = 16;
@@ -79,7 +78,7 @@
     else workConfig;
 
   # Generate SSH config for each user
-  mkSSHConfig = userName: userConfig: ''
+  sshConfig = ''
     Host *
       IdentityAgent ~/.1password/agent.sock
       AddKeysToAgent yes
@@ -99,10 +98,12 @@
     Host callisto
       Hostname callisto.chateaubr.ink
       User ryan
+      IdentitiesOnly yes
 
     Host ganymede
       Hostname ganymede.chateaubr.ink
       User ryan
+      IdentitiesOnly yes
   '';
 in {
   options.host.userConfigs = {
@@ -129,19 +130,19 @@ in {
 
         # 1Password SSH agent configuration
         cat > ${homeDir}/.config/1Password/ssh/agent.toml << 'EOF'
-        ${mk1PasswordConfig userName userConfig}
+        ${mk1PasswordConfig userConfig}
         EOF
         chmod 600 ${homeDir}/.config/1Password/ssh/agent.toml
 
         # Zed editor configuration
         cat > ${homeDir}/.config/zed/settings.json << 'EOF'
-        ${builtins.toJSON (mkZedConfig userName userConfig)}
+        ${builtins.toJSON (mkZedConfig userConfig)}
         EOF
         chmod 644 ${homeDir}/.config/zed/settings.json
 
         # SSH configuration
         cat > ${homeDir}/.ssh/config << 'EOF'
-        ${mkSSHConfig userName userConfig}
+        ${sshConfig}
         EOF
         chmod 600 ${homeDir}/.ssh/config
 
