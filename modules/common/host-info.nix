@@ -87,11 +87,6 @@
               default = false;
               description = "Whether this is the primary system user";
             };
-            homeManagerEnabled = mkOption {
-              type = types.bool;
-              default = true;
-              description = "Whether to enable Home Manager for this user";
-            };
           };
         });
         default = {};
@@ -149,7 +144,6 @@
           name = "ryan";
           profile = "personal";
           isPrimary = true;
-          homeManagerEnabled = true;
         };
       };
 

@@ -11,13 +11,12 @@
     ./hardware-configuration.nix
     ./disko.nix
     ../../modules/nixos
-    ../../modules/home-manager
   ];
 
   host = {
     audiobookshelf.enable = true;
     name = "ganymede";
-    desktop.enable = false;
+
     gpu.nvidia.enable = true;
     immich.enable = true;
     jellyfin.server.enable = true;
@@ -94,11 +93,6 @@
     initialScript = pkgs.writeText "postgresql-init.sql" ''
       CREATE EXTENSION IF NOT EXISTS vector;
     '';
-  };
-
-  # Disable OpNix for Home Manager since system-level OpNix is disabled
-  home-manager.users.${config.host.admin.name} = {
-    programs.onepassword-secrets.enable = lib.mkForce false;
   };
 
   system.stateVersion = "24.05";
