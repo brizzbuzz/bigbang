@@ -1,15 +1,10 @@
-{
-  config,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
     ./hardware-configuration.nix
     ./disko.nix
     ../../modules/nixos
-    ../../modules/home-manager
   ];
 
   services.onepassword-secrets = {
@@ -58,7 +53,6 @@
 
   host = {
     name = "callisto";
-    desktop.enable = false;
     remote.enable = true;
 
     blocky = {

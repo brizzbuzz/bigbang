@@ -47,13 +47,11 @@ in {
         name = "ryan";
         profile = "personal";
         isPrimary = true;
-        homeManagerEnabled = true;
       };
       Work = {
         name = "Work";
         profile = "work";
         isPrimary = false;
-        homeManagerEnabled = true;
       };
     };
   };
@@ -65,13 +63,11 @@ in {
         name = "ryan";
         profile = "personal";
         isPrimary = true;
-        homeManagerEnabled = true;
       };
       Work = {
         name = "Work";
         profile = "work";
         isPrimary = false;
-        homeManagerEnabled = true;
       };
     };
   };
@@ -83,13 +79,11 @@ in {
         name = "ryan";
         profile = "personal";
         isPrimary = true;
-        homeManagerEnabled = true;
       };
       Work = {
         name = "Work";
         profile = "work";
         isPrimary = false;
-        homeManagerEnabled = true;
       };
     };
   };

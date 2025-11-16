@@ -7,7 +7,6 @@
     inputs.opnix.darwinModules.default
     ../../modules/common
     ../../modules/darwin
-    ../../modules/home-manager
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -35,20 +34,18 @@
   '';
 
   host = {
-    desktop.enable = false;
+    userManagement.enable = true;
 
     users = {
       ryan = {
         name = "ryan";
         profile = "personal";
         isPrimary = true;
-        homeManagerEnabled = true;
       };
       Work = {
         name = "Work";
         profile = "work";
         isPrimary = false;
-        homeManagerEnabled = true;
       };
     };
 
@@ -70,8 +67,6 @@
 
   # Define the system user for nix-darwin
   system.primaryUser = "ryan";
-
-  programs.zsh.enableCompletion = false;
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

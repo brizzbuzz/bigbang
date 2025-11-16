@@ -8,6 +8,7 @@ forAllSystems (system: {
   default = pkgs.${system}.mkShell {
     packages = with pkgs.${system}; [
       alejandra # Nix Formatter
+      colmena # NixOS deployment tool
       git-cliff # Changelog generator
       nurl # Nix Fetcher Generator
       tokei # Code statistics

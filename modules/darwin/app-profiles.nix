@@ -9,12 +9,6 @@
 
   personalApps = {
     casks = [
-      "discord"
-      "spotify"
-      "steam"
-      "pocket-casts"
-      "parsec"
-      "iina"
       "spacedrive"
       "protonvpn"
     ];
@@ -25,7 +19,6 @@
       "discord"
       "spotify"
       "steam"
-      "pocket-casts"
       "iina"
     ];
   };
@@ -58,7 +51,6 @@
       "ghostty"
       "hammerspoon"
       "keymapp"
-      "logi-options+"
       "orion"
       "sf-symbols"
       "the-unarchiver"

@@ -1,3 +1,6 @@
 {...}: {
-  imports = [./host-info.nix];
+  imports = [
+    ./host-info.nix
+    ./users
+  ];
 }
