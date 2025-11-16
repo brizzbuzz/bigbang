@@ -2,16 +2,18 @@
   home = {
     packages =
       (with pkgs; [
+        codex # OpenAI Codex CLI
         colmena # Stateless Nixos Deployment tool
+        crush # Crush AI CLI
         dive # Docker image explorer
         doggo # DNS lookup tool
-        du-dust # TUI folder size tool
+        dust # TUI folder size tool
         dua # TUI disk space tool
         erdtree # File tree
-        # espanso # Text Expander
         fastfetch # Neofetch but faster
         fd # Sexy find
         fzf # Fuzzy search tool
+        gemini-cli # Gemini AI CLI
         gh # GitHub CLI
         glow # CLI markdown renderer
         gnupg # GPG CLI
@@ -23,16 +25,12 @@
         nnn # Terminal File Browser
         ripgrep # Text search
         sd # Sexy sed
-        # slurp # Screenshot utility
         sysz # Systemctl TUI
         tokei # Code line counter
         unzip # Extraction utility
+        uv # Python Package Manager
         xplr # TUI File Explorer
         lazysql # Database TUI
-        # wallust # Color theme utility
-        # wf-recorder # Wayland screen recorder
-        # NOTE: Can't get this one to work
-        # wl-screenrec # Another wayland screen recorder
         yubikey-manager # Yubikey CLI
       ])
       ++ (

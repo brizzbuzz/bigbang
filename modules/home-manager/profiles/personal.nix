@@ -22,6 +22,7 @@ in {
     ../dots.nix
     ../git.nix
     ../gitui.nix
+    ../lsp.nix
     ../nushell.nix
     ../rclone.nix
     ../ssh.nix
@@ -45,11 +46,12 @@ in {
   programs.home-manager.enable = true;
 
   programs.git = {
-    userName = "Ryan Brink";
-    userEmail = "dev@ryanbr.ink";
-
-    extraConfig = {
-      user.signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+    settings = {
+      user = {
+        name = "Ryan Brink";
+        email = "dev@ryanbr.ink";
+        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
+      };
     };
   };
 

@@ -87,39 +87,6 @@
     ${mkReverseProxy target}
   '';
 
-  # Special configuration optimized for Home Assistant using Cloudflare Origin certificates
-  mkHomeAssistantConfig = target: level: ''
-    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
-
-    ${mkLogBlock "home-assistant" level}
-
-    # Basic WebSocket support
-    @websockets {
-      header Connection *Upgrade*
-      header Upgrade websocket
-    }
-
-    handle @websockets {
-      reverse_proxy ${target} {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-        header_up X-Forwarded-Host {host}
-        header_down X-Forwarded-For
-      }
-    }
-
-    handle {
-      reverse_proxy ${target} {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-        header_up X-Forwarded-Host {host}
-        header_down X-Forwarded-For
-      }
-    }
-  '';
-
   # Simple helper for static responses using Cloudflare Origin certificates
   mkStaticResponse = content: ''
     tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
@@ -138,29 +105,8 @@
       };
     };
 
-    # Special handling for Home Assistant if it exists
-    homeAssistantSite =
-      if
-        (config.host.caddy.sites.proxies
-          ? "homeassistant"
-        && config.host.caddy.sites.proxies.homeassistant.enable)
-      then let
-        hostname =
-          if config.host.caddy.sites.proxies.homeassistant.subdomain == ""
-          then domain
-          else "${config.host.caddy.sites.proxies.homeassistant.subdomain}.${domain}";
-      in {
-        "${hostname}" = {
-          extraConfig =
-            mkHomeAssistantConfig
-            config.host.caddy.sites.proxies.homeassistant.target
-            config.host.caddy.sites.proxies.homeassistant.logLevel;
-        };
-      }
-      else {};
-
-    # Handle other proxy sites with standard websocket support
-    otherProxySites =
+    # Handle proxy sites with standard websocket support
+    proxySites =
       lib.mapAttrs' (
         name: site:
           lib.nameValuePair (
@@ -170,10 +116,10 @@
           ) {
             extraConfig = mkProxyConfig name site.target site.logLevel;
           }
-      ) (lib.filterAttrs (name: site: site.enable && name != "homeassistant")
+      ) (lib.filterAttrs (name: site: site.enable)
         config.host.caddy.sites.proxies);
   in
-    rootSite // homeAssistantSite // otherProxySites;
+    rootSite // proxySites;
 in {
   options.host.caddy = {
     # The enable and domain options are already defined in modules/common/host-info.nix

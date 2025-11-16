@@ -9,29 +9,23 @@
 in {
   programs.git = {
     enable = true;
-    userName = lib.mkDefault "Ryan Brink";
-    userEmail = lib.mkDefault "dev@ryanbr.ink";
-
-    difftastic = {
-      enable = true;
-      options = {
-        background = "dark";
+    settings = {
+      user = {
+        name = lib.mkDefault "Ryan Brink";
+        email = lib.mkDefault "dev@ryanbr.ink";
+        signingKey = lib.mkDefault "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
       };
-    };
-
-    aliases = {
-      blah = "git add .; git commit -m 'blah'; git push";
-      co = "checkout";
-      cs = "commit --allow-empty-message -m ''";
-      cm = "commit -m";
-      dft = "difftool";
-      dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f";
-      main = "git co main; git pl";
-      pl = "pull";
-      ps = "push";
-    };
-
-    extraConfig = {
+      alias = {
+        blah = "git add .; git commit -m 'blah'; git push";
+        co = "checkout";
+        cs = "commit --allow-empty-message -m ''";
+        cm = "commit -m";
+        dft = "difftool";
+        dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f";
+        main = "git co main; git pl";
+        pl = "pull";
+        ps = "push";
+      };
       commit.gpgsign = true;
       diff.tool = "difftastic";
       difftool.prompt = false;
@@ -47,7 +41,6 @@ in {
           else "/run/current-system/sw/bin/op-ssh-sign";
       };
       push.autoSetupRemote = true;
-      user.signingKey = lib.mkDefault "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
     };
 
     includes = [
@@ -61,6 +54,14 @@ in {
         };
       }
     ];
+  };
+
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+    options = {
+      background = "dark";
+    };
   };
 
   programs.git-cliff.enable = true;

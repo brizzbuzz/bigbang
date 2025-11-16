@@ -53,10 +53,9 @@ host = {
       homeManagerEnabled = true;
     };
   };
-  
+
   profiles = {
     personal = {
-      appleIdApps = true;           # Xcode, etc.
       entertainmentApps = true;     # Discord, Spotify, Steam
       developmentApps = true;       # JetBrains, Docker, etc.
       personalApps = true;          # Personal productivity

@@ -9,8 +9,6 @@ forAllSystems (system: {
     packages = with pkgs.${system}; [
       alejandra # Nix Formatter
       git-cliff # Changelog generator
-      nil # Nix LSP
-      nixd # Another Nix LSP
       nurl # Nix Fetcher Generator
       tokei # Code statistics
       inputs.opnix.packages.${system}.default # OpNix CLI

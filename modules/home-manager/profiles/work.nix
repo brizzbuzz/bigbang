@@ -39,11 +39,12 @@ in {
   programs.home-manager.enable = true;
 
   programs.git = {
-    userName = "Ryan Brink";
-    userEmail = "ryan@withodyssey.com";
-
-    extraConfig = {
-      user.signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl"; # Work signing key - update with actual key
+    settings = {
+      user = {
+        name = "Ryan Brink";
+        email = "ryan@withodyssey.com";
+        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl"; # Work signing key - update with actual key
+      };
     };
   };
 
