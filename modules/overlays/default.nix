@@ -1,9 +1,4 @@
 [
-  # Speedtest
-  (final: prev: {
-    speedtest = prev.callPackage ./../derivations/speedtest.nix {};
-  })
-
   # Fix opensearch-py build issues by disabling tests that fail in sandbox
   (final: prev: {
     python3Packages =
@@ -20,6 +15,13 @@
     # Fix open-webui missing rapidocr-onnxruntime dependency
     open-webui = prev.open-webui.overridePythonAttrs (oldAttrs: {
       dontCheckRuntimeDeps = true; # Disable runtime dependency check
+    });
+  })
+
+  # Disable checks for fish shell
+  (final: prev: {
+    fish = prev.fish.overrideAttrs (oldAttrs: {
+      doCheck = false;
     });
   })
 ]

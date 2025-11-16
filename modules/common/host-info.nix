@@ -1,11 +1,6 @@
 {lib, ...}: {
   options = with lib; {
     ports = {
-      attic.server = mkOption {
-        type = types.int;
-        default = 9001;
-        description = "The port to bind to";
-      };
     };
     host = {
       caddy = {
@@ -53,15 +48,6 @@
 
       remote.enable = mkEnableOption "Enable Remote Server";
 
-      attic.server = {
-        enable = mkEnableOption "Enable Attic Binary Server";
-        port = mkOption {
-          type = types.int;
-          default = config.ports.attic.server;
-          description = "The port to bind to";
-        };
-      };
-
       jellyfin.server = {
         enable = mkEnableOption "Enable Jellyfin";
       };
@@ -81,20 +67,6 @@
           type = types.int;
           default = 13378;
           description = "Port for AudioBookshelf web interface";
-        };
-      };
-
-      authentik = {
-        enable = mkEnableOption "Enable Authentik authentication server";
-        port = mkOption {
-          type = types.int;
-          default = 9000;
-          description = "Port for Authentik web interface";
-        };
-        workerPort = mkOption {
-          type = types.int;
-          default = 9001;
-          description = "Port for Authentik worker interface";
         };
       };
 
@@ -128,7 +100,6 @@
 
       profiles = {
         personal = {
-          appleIdApps = mkEnableOption "Enable Apple ID dependent apps" // {default = true;};
           entertainmentApps = mkEnableOption "Enable entertainment apps" // {default = true;};
           developmentApps = mkEnableOption "Enable development apps" // {default = true;};
           personalApps = mkEnableOption "Enable personal productivity apps" // {default = true;};
@@ -161,11 +132,6 @@
         enable = lib.mkDefault false;
       };
 
-      attic.server = {
-        enable = lib.mkDefault false;
-        port = lib.mkDefault 9001;
-      };
-
       jellyfin.server = {
         enable = lib.mkDefault false;
       };
@@ -175,10 +141,6 @@
       };
 
       audiobookshelf = {
-        enable = lib.mkDefault false;
-      };
-
-      authentik = {
         enable = lib.mkDefault false;
       };
 
@@ -193,7 +155,6 @@
 
       profiles = {
         personal = {
-          appleIdApps = lib.mkDefault true;
           entertainmentApps = lib.mkDefault true;
           developmentApps = lib.mkDefault true;
           personalApps = lib.mkDefault true;

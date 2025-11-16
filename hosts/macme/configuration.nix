@@ -54,7 +54,6 @@
 
     profiles = {
       personal = {
-        appleIdApps = true;
         entertainmentApps = true;
         developmentApps = true;
         personalApps = true;
