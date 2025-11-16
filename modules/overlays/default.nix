@@ -11,11 +11,6 @@
           checkInputs = [];
         });
       };
-
-    # Fix open-webui missing rapidocr-onnxruntime dependency
-    open-webui = prev.open-webui.overridePythonAttrs (oldAttrs: {
-      dontCheckRuntimeDeps = true; # Disable runtime dependency check
-    });
   })
 
   # Disable checks for fish shell
