@@ -37,46 +37,6 @@
     then personalConfig
     else workConfig;
 
-  # Generate Zed config for each user
-  mkZedConfig = userConfig: let
-    baseConfig = {
-      theme = "Catppuccin Macchiato";
-      ui_font_size = 16;
-      buffer_font_size = 14;
-      buffer_font_family = "JetBrainsMono Nerd Font";
-      autosave = "on_focus_change";
-      tab_size = 2;
-      hard_tabs = false;
-      show_whitespaces = "selection";
-      vim_mode = false;
-      assistant = {
-        enabled = true;
-        version = "2";
-      };
-    };
-
-    personalConfig =
-      baseConfig
-      // {
-        assistant.provider.anthropic = {
-          api_url = "https://api.anthropic.com";
-          low_speed_timeout_in_seconds = 30;
-        };
-      };
-
-    workConfig =
-      baseConfig
-      // {
-        assistant.provider.anthropic = {
-          api_url = "https://api.anthropic.com";
-          low_speed_timeout_in_seconds = 30;
-        };
-      };
-  in
-    if userConfig.profile == "personal"
-    then personalConfig
-    else workConfig;
-
   # Generate SSH config for each user
   sshConfig = ''
     Host *
@@ -125,7 +85,7 @@ in {
           else userName;
       in ''
         # Create config directories
-        mkdir -p ${homeDir}/.config/{1Password/ssh,zed,starship,zellij}
+        mkdir -p ${homeDir}/.config/{1Password/ssh,starship,zellij}
         mkdir -p ${homeDir}/.ssh
 
         # 1Password SSH agent configuration
@@ -133,12 +93,6 @@ in {
         ${mk1PasswordConfig userConfig}
         EOF
         chmod 600 ${homeDir}/.config/1Password/ssh/agent.toml
-
-        # Zed editor configuration
-        cat > ${homeDir}/.config/zed/settings.json << 'EOF'
-        ${builtins.toJSON (mkZedConfig userConfig)}
-        EOF
-        chmod 644 ${homeDir}/.config/zed/settings.json
 
         # SSH configuration
         cat > ${homeDir}/.ssh/config << 'EOF'
