@@ -70,6 +70,20 @@
         };
       };
 
+      portfolio = {
+        enable = mkEnableOption "Enable Hyperbaric portfolio service";
+        port = mkOption {
+          type = types.int;
+          default = 7878;
+          description = "Port for the portfolio service";
+        };
+        listenAddress = mkOption {
+          type = types.str;
+          default = "0.0.0.0";
+          description = "Bind address for the portfolio service";
+        };
+      };
+
       users = mkOption {
         type = types.attrsOf (types.submodule {
           options = {
@@ -136,6 +150,10 @@
       };
 
       audiobookshelf = {
+        enable = lib.mkDefault false;
+      };
+
+      portfolio = {
         enable = lib.mkDefault false;
       };
 

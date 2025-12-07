@@ -14,7 +14,7 @@
 
     # Fully declarative secrets configuration
     secrets = {
-      # SSL certificates for Caddy
+      # SSL certificates for Caddy (rgbr.ink)
       sslCloudflareCert = {
         reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/cert";
         path = "/var/lib/caddy/ssl/cloudflare-origin.pem";
@@ -27,6 +27,25 @@
       sslCloudflareKey = {
         reference = "op://Homelab/Cloudflare Origin Certs/rgbr.ink/privateKey";
         path = "/var/lib/caddy/ssl/cloudflare-origin.key";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0600";
+        services = ["caddy"];
+      };
+
+      # SSL certificates for Caddy (ryanbr.ink)
+      sslRyanbrCert = {
+        reference = "op://Homelab/Cloudflare Origin Certs/ryanbr.ink/cert";
+        path = "/var/lib/caddy/ssl/ryanbr-origin.pem";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0644";
+        services = ["caddy"];
+      };
+
+      sslRyanbrKey = {
+        reference = "op://Homelab/Cloudflare Origin Certs/ryanbr.ink/privateKey";
+        path = "/var/lib/caddy/ssl/ryanbr-origin.key";
         owner = "caddy";
         group = "caddy";
         mode = "0600";
@@ -112,6 +131,17 @@
             enable = true;
             subdomain = "books";
             target = "ganymede.chateaubr.ink:13378";
+            logLevel = "INFO";
+          };
+        };
+        # Portfolio now served via standalone ryanbr.ink domain
+        standalone = {
+          portfolio = {
+            enable = true;
+            domain = "ryanbr.ink";
+            target = "ganymede.chateaubr.ink:7878";
+            tlsCertSecret = "sslRyanbrCert";
+            tlsKeySecret = "sslRyanbrKey";
             logLevel = "INFO";
           };
         };
