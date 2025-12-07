@@ -26,6 +26,7 @@
     ./hyprland.nix
     ./immich.nix
     ./jellyfin.nix
+    ./portfolio.nix
 
     ./locale.nix
     ./networking.nix

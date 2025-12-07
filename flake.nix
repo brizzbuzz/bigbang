@@ -70,6 +70,11 @@
       url = "github:nix-community/authentik-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyperbaric = {
+      url = "git+ssh://git@github.com/brizzbuzz/hyperbaric";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {nixpkgs, ...} @ inputs: let

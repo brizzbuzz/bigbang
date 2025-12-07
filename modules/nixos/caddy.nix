@@ -3,6 +3,8 @@
   lib,
   ...
 }: let
+  cfg = config.host.caddy;
+
   # TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
   # Moved to inline usage to avoid early evaluation issues
   # Helper function to create a log block
@@ -76,9 +78,9 @@
     }
   '';
 
-  # Full proxy configuration with websocket support using Cloudflare Origin certificates
-  mkProxyConfig = name: target: level: ''
-    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
+  # Full proxy configuration with websocket support using specified TLS certificates
+  mkProxyConfig = name: target: level: certPath: keyPath: ''
+    tls ${certPath} ${keyPath}
 
     ${mkLogBlock name level}
 
@@ -87,25 +89,29 @@
     ${mkReverseProxy target}
   '';
 
-  # Simple helper for static responses using Cloudflare Origin certificates
-  mkStaticResponse = content: ''
-    tls ${config.services.onepassword-secrets.secretPaths.sslCloudflareCert} ${config.services.onepassword-secrets.secretPaths.sslCloudflareKey}
+  # Simple helper for static responses using specified TLS certificates
+  mkStaticResponse = content: certPath: keyPath: ''
+    tls ${certPath} ${keyPath}
     respond "${content}"
   '';
 
+  # Default cert paths (for rgbr.ink domain)
+  defaultCertPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;
+  defaultKeyPath = config.services.onepassword-secrets.secretPaths.sslCloudflareKey;
+
   # Base domain
-  domain = config.host.caddy.domain;
+  domain = cfg.domain;
 
   # Generate virtual hosts from services
   generateVirtualHosts = let
     # Root site
-    rootSite = lib.optionalAttrs config.host.caddy.sites.root.enable {
+    rootSite = lib.optionalAttrs cfg.sites.root.enable {
       "${domain}" = {
-        extraConfig = mkStaticResponse config.host.caddy.sites.root.content;
+        extraConfig = mkStaticResponse cfg.sites.root.content defaultCertPath defaultKeyPath;
       };
     };
 
-    # Handle proxy sites with standard websocket support
+    # Handle proxy sites with standard websocket support (subdomains of primary domain)
     proxySites =
       lib.mapAttrs' (
         name: site:
@@ -114,12 +120,25 @@
             then domain
             else "${site.subdomain}.${domain}"
           ) {
-            extraConfig = mkProxyConfig name site.target site.logLevel;
+            extraConfig = mkProxyConfig name site.target site.logLevel defaultCertPath defaultKeyPath;
           }
       ) (lib.filterAttrs (_name: site: site.enable)
-        config.host.caddy.sites.proxies);
+        cfg.sites.proxies);
+
+    # Handle standalone sites with custom domains and their own TLS certs
+    standaloneSites =
+      lib.mapAttrs' (
+        name: site:
+          lib.nameValuePair site.domain {
+            extraConfig =
+              mkProxyConfig name site.target site.logLevel
+              config.services.onepassword-secrets.secretPaths.${site.tlsCertSecret}
+              config.services.onepassword-secrets.secretPaths.${site.tlsKeySecret};
+          }
+      ) (lib.filterAttrs (_name: site: site.enable)
+        cfg.sites.standalone);
   in
-    rootSite // proxySites;
+    rootSite // proxySites // standaloneSites;
 in {
   options.host.caddy = {
     # The enable and domain options are already defined in modules/common/host-info.nix
@@ -154,12 +173,43 @@ in {
           };
         });
         default = {};
-        description = "Proxy sites configuration";
+        description = "Proxy sites configuration (subdomains of primary domain)";
+      };
+
+      standalone = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule {
+          options = {
+            enable = lib.mkEnableOption "Enable this standalone site";
+            domain = lib.mkOption {
+              type = lib.types.str;
+              description = "Full domain name for this site";
+            };
+            target = lib.mkOption {
+              type = lib.types.str;
+              description = "Target address (host:port) for reverse proxy";
+            };
+            tlsCertSecret = lib.mkOption {
+              type = lib.types.str;
+              description = "OpNix secret name for TLS certificate";
+            };
+            tlsKeySecret = lib.mkOption {
+              type = lib.types.str;
+              description = "OpNix secret name for TLS private key";
+            };
+            logLevel = lib.mkOption {
+              type = lib.types.str;
+              default = "INFO";
+              description = "Log level for Caddy (DEBUG, INFO, WARN, ERROR)";
+            };
+          };
+        });
+        default = {};
+        description = "Standalone sites with custom domains and TLS certificates";
       };
     };
   };
 
-  config = lib.mkIf config.host.caddy.enable {
+  config = lib.mkIf cfg.enable {
     # Create log directory for Caddy
     system.activationScripts.caddyLogDir = ''
       mkdir -p /var/log/caddy
@@ -178,6 +228,9 @@ in {
         logLevel = "DEBUG";
       };
     };
+
+    # Default standalone configurations
+    host.caddy.sites.standalone = lib.mkDefault {};
 
     services.caddy = {
       enable = true;

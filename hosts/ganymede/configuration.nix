@@ -20,6 +20,7 @@
     immich.enable = true;
     jellyfin.server.enable = true;
     keyboard = "moonlander";
+    portfolio.enable = true;
     remote.enable = true;
   };
 
