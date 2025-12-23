@@ -46,6 +46,7 @@
       nodePackages.typescript-language-server
       pyright
       nil
+      nixd
       # Development tools
       gh
       git-cliff
