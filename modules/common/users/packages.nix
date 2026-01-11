@@ -8,28 +8,32 @@
   isLinux = pkgs.stdenv.isLinux;
 
   # Base packages for all users
-  basePackages = with pkgs; [
-    curl
-    git
-    jq
-    wget
-    zip
-    unzip
-    fd
-    ripgrep
-    tree
-    _1password-cli
-    # Shell tools
-    starship
-    zoxide
-    atuin
-    bat
-    bottom
-    direnv
-    zellij
-    nushell
-    colmena
-  ];
+  basePackages = with pkgs;
+    [
+      curl
+      git
+      jq
+      wget
+      zip
+      unzip
+      fd
+      ripgrep
+      tree
+      _1password-cli
+      # Shell tools
+      starship
+      zoxide
+      atuin
+      bat
+      bottom
+      direnv
+      zellij
+      nushell
+      colmena
+    ]
+    ++ lib.optionals isLinux [
+      tftp-hpa
+    ];
 
   # Development packages
   devPackages = with pkgs;
@@ -55,7 +59,6 @@
       kubectl
       # AI
       codex
-      crush
       # Package Managers
       uv
     ]
@@ -74,7 +77,6 @@
     ++ lib.optionals isLinux [
       discord
       spotify
-      floorp
       mpv
     ];
 
