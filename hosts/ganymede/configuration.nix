@@ -22,6 +22,7 @@
     keyboard = "moonlander";
     portfolio.enable = true;
     remote.enable = true;
+    userManagement.enable = true;
   };
 
   system-limits = {

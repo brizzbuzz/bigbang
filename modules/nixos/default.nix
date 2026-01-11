@@ -31,6 +31,7 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
+    ./netboot.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix

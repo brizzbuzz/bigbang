@@ -73,6 +73,16 @@
   host = {
     name = "callisto";
     remote.enable = true;
+    userManagement.enable = true;
+
+    netboot = {
+      enable = true;
+      interface = "enp100s0";
+      serverIp = "192.168.11.200";
+      router = "192.168.11.1";
+      dhcpRange = "192.168.11.0,proxy,255.255.255.0";
+      updateSchedule = "daily";
+    };
 
     blocky = {
       enable = true;
