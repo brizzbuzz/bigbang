@@ -193,11 +193,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1768053300,
-        "narHash": "sha256-2X+8KIVoOyhABimUj6GEIZE2OhKbOorP0KDXAoZCIog=",
+        "lastModified": 1768171475,
+        "narHash": "sha256-HdcdrG//azSOFmRLWb0swuXzqtuvWYmYI7bSs1ernbY=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "f85833ff6a867ff9f338517cb27fb3ef346124b6",
+        "rev": "6f94662ca42331474f412637a736681893f389dc",
         "type": "github"
       },
       "original": {
@@ -209,11 +209,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1768055884,
-        "narHash": "sha256-huFA8h9cHhVgSPzOcBhB+0IgJA2ibWQLtme7BKKcQgY=",
+        "lastModified": 1768167532,
+        "narHash": "sha256-3tBz5NU3nplMOoDALSTbNRXWrCNJt32e5jfHl4gAOrs=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "08fc8966b5114d78357317bf584ce8e745af2fb9",
+        "rev": "4d84410ffee585e6ff58d8ec0fe673177c5fc7f4",
         "type": "github"
       },
       "original": {
@@ -231,11 +231,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1767328678,
-        "narHash": "sha256-kckW3VS4g7QX0jePZbEZ7pHPQozdslX088m3j69g6UI=",
+        "lastModified": 1768141458,
+        "narHash": "sha256-oQWkoED9aAo2ZLP/eIKOay4T8yUreJ+Cff7DnjsFMtc=",
         "ref": "refs/heads/main",
-        "rev": "4c0273e8e3c55f55f058264f379d3658a6ae5aba",
-        "revCount": 60,
+        "rev": "f5a4cc8ae1e752c6bcc1ad5adc62cdd1272424b9",
+        "revCount": 61,
         "type": "git",
         "url": "ssh://git@github.com/brizzbuzz/hyperbaric"
       },
@@ -310,11 +310,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1767892417,
-        "narHash": "sha256-dhhvQY67aboBk8b0/u0XB6vwHdgbROZT3fJAjyNh5Ww=",
+        "lastModified": 1768127708,
+        "narHash": "sha256-1Sm77VfZh3mU0F5OqKABNLWxOuDeHIlcFjsXeeiPazs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "3497aa5c9457a9d88d71fa93a4a8368816fbeeba",
+        "rev": "ffbc9f8cbaacfb331b6017d5a5abb21a492c9a38",
         "type": "github"
       },
       "original": {

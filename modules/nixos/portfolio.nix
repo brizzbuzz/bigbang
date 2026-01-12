@@ -7,11 +7,21 @@
 }: let
   cfg = config.host.portfolio;
   portfolioPkg = inputs.hyperbaric.packages.${pkgs.stdenv.hostPlatform.system}.portfolio;
+  hasEnvFiles = cfg.environmentFileSecrets != [];
+  environmentFiles =
+    builtins.map
+    (secret:
+      lib.attrByPath
+      ["services" "onepassword-secrets" "secretPaths" secret]
+      (throw ''Portfolio environment secret "${secret}" is not defined in services.onepassword-secrets.secrets'')
+      config)
+    cfg.environmentFileSecrets;
 in {
   config = lib.mkIf cfg.enable {
     systemd.services.hyperbaric-portfolio = {
       description = "Hyperbaric Portfolio";
-      after = ["network.target"];
+      after = ["network.target"] ++ lib.optionals hasEnvFiles ["opnix-secrets.service"];
+      requires = lib.optionals hasEnvFiles ["opnix-secrets.service"];
       wantedBy = ["multi-user.target"];
 
       environment = {
@@ -19,6 +29,7 @@ in {
       };
 
       serviceConfig = {
+        EnvironmentFile = environmentFiles;
         ExecStart = "${portfolioPkg}/bin/portfolio";
         Restart = "on-failure";
         RestartSec = "5s";

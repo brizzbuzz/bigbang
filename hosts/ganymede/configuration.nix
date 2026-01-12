@@ -12,6 +12,29 @@
     ../../modules/nixos
   ];
 
+  services.onepassword-secrets = {
+    enable = true;
+    tokenFile = "/etc/opnix-token";
+    users = ["ryan"];
+
+    secrets = {
+      portfolioEnv = {
+        reference = "op://Homelab/Portfolio Secrets/notesPlain";
+        path = "/var/lib/opnix/secrets/hyperbaric-portfolio.env";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+        services = ["hyperbaric-portfolio"];
+      };
+    };
+
+    systemdIntegration = {
+      enable = true;
+      services = ["hyperbaric-portfolio"];
+      restartOnChange = true;
+    };
+  };
+
   host = {
     audiobookshelf.enable = true;
     name = "ganymede";
@@ -20,7 +43,10 @@
     immich.enable = true;
     jellyfin.server.enable = true;
     keyboard = "moonlander";
-    portfolio.enable = true;
+    portfolio = {
+      enable = true;
+      environmentFileSecrets = ["portfolioEnv"];
+    };
     remote.enable = true;
     userManagement.enable = true;
   };
