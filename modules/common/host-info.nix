@@ -82,6 +82,13 @@
           default = "0.0.0.0";
           description = "Bind address for the portfolio service";
         };
+        environmentFileSecrets = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          description = ''
+            OpNix secret names that resolve to environment files (KEY=VALUE) to include for the portfolio service.
+          '';
+        };
       };
 
       users = mkOption {

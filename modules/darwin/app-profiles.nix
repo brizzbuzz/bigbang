@@ -25,7 +25,6 @@
 
   developmentApps = {
     casks = [
-      "claude-code"
       "jetbrains-toolbox"
       "gitbutler"
       "bruno"
