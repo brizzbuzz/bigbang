@@ -59,6 +59,7 @@
       kubectl
       # AI
       codex
+      opencode
       # Package Managers
       uv
     ]

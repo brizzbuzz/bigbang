@@ -24,6 +24,13 @@
         group = "wheel";
         mode = "0600";
       };
+      kagiApiKey = {
+        reference = "op://Homelab/Kagi Api Key/notesPlain";
+        path = "/var/lib/opnix/secrets/kagi-api-key";
+        owner = "root";
+        group = "wheel";
+        mode = "0600";
+      };
     };
   };
 

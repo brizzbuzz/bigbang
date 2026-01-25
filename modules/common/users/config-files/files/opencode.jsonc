@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "opencode",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["mcp-server-playwright"],
+      "enabled": true,
+    },
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp",
+    },
+    "kagi": {
+      "type": "local",
+      "command": ["uvx", "kagimcp"],
+      "environment": {
+        "KAGI_API_KEY": "Hmaq8NVf04JeROjYs_PYP-ErQzRRkoEUsjfZe-Mty38.TZQQpKc-A0Dyga6-HEIxl20PKeh-cJZk6x-Nr8oc4P4",
+      },
+    },
+  },
+}
