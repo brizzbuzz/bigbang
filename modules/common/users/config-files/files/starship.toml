@@ -1,0 +1,27 @@
+format = """
+$all$character
+"""
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[>](bold red)"
+
+[git_branch]
+symbol = " "
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+
+[git_status]
+conflicted = "="
+ahead = ">"
+behind = "<"
+diverged = "<>"
+up_to_date = ""
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "r"
+deleted = "x"

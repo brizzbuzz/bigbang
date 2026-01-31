@@ -108,6 +108,23 @@
               default = false;
               description = "Whether this is the primary system user";
             };
+            git = {
+              name = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override git user.name (defaults to profile setting)";
+              };
+              email = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override git user.email (defaults to profile setting)";
+              };
+              signingKey = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override git signing key (defaults to profile setting)";
+              };
+            };
           };
         });
         default = {};

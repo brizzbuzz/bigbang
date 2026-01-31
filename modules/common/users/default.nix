@@ -9,8 +9,7 @@ in {
     ./accounts.nix
     ./packages.nix
     ./shell.nix
-    ./git.nix
-    ./config-files.nix
+    ./config-files
   ];
 
   options.host.userManagement = {
@@ -23,8 +22,7 @@ in {
       userAccounts.enable = lib.mkDefault true;
       userPackages.enable = lib.mkDefault true;
       userShell.enable = lib.mkDefault true;
-      userGit.enable = lib.mkDefault true;
-      userConfigs.enable = lib.mkDefault true;
+      configFiles.enable = lib.mkDefault true;
     };
   };
 }

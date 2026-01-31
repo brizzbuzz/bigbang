@@ -1,0 +1,11 @@
+theme "catppuccin-macchiato"
+default_shell "zsh"
+
+keybinds {
+    normal {
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+    }
+}
