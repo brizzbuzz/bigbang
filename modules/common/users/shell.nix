@@ -12,6 +12,21 @@ in {
   };
 
   config = lib.mkIf cfg.userShell.enable {
+    # Bash configuration - used as login shell to launch nushell
+    # Nushell is not POSIX-compliant, so we use bash as login shell
+    # and auto-launch nushell from it (recommended by NixOS wiki)
+    programs.bash = {
+      completion.enable = true;
+      interactiveShellInit = ''
+        # Auto-launch nushell if in interactive terminal (not dumb terminal or script)
+        if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
+          if command -v nu >/dev/null 2>&1; then
+            exec nu
+          fi
+        fi
+      '';
+    };
+
     # Zsh configuration - basic setup compatible with both Darwin and Linux
     programs.zsh =
       {
