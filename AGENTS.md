@@ -25,7 +25,26 @@
 - For deployment rehearsal, run `nr` locally; use `nrr <host>` for targeted remote verification.
 - Keep profiles and host inputs minimal to avoid impurity surprises; prefer deterministic options and pinned inputs.
 
+## Version Control with Jujutsu (jj)
+
+This repository uses Jujutsu (jj) for version control. Jujutsu is Git-compatible and provides a cleaner workflow.
+
+### Agent Permissions
+- ✅ **Allowed**: Use `jj` freely for local version control (describe, new, edit, undo, fetch, etc.)
+- ❌ **Forbidden**: Push to remote (`jj git push`) or create PRs without explicit user permission
+- ⚠️ **Always Ask**: Before any operation that modifies remote repositories
+
+### Workflow Guidelines
+- Use `jj new` to start new logical units of work
+- Use `jj describe -m "..."` to create descriptive commit messages following conventional commit format
+- Run `alejandra .` before finalizing changes
+- Create bookmarks with `jj bookmark create feat/...` for features that will become PRs
+- Use `jj undo` if mistakes are made - all operations are reversible
+
+See `.opencode/skills/jj-workflow.md` for detailed jj usage patterns and best practices.
+
 ## Commit & Pull Requests
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) as seen in history; include scope when useful.
 - PRs should describe the intent, list affected hosts/modules, and note any deployment steps (`nr`, `nrr <host>`). Include output snippets for `nix flake check` when changes are wide-reaching.
 - Update `CHANGELOG.md` via `git-cliff` when making user-visible changes. Link issues or tickets when available.
+- **NEVER push to remote or create pull requests without explicit user approval**
