@@ -30,6 +30,9 @@
       zellij
       nushell
       colmena
+      # Version control
+      jujutsu
+      jjui
     ]
     ++ lib.optionals isLinux [
       tftp-hpa
