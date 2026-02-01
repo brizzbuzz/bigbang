@@ -1,27 +1,105 @@
+# Synthwave Cyberpunk Theme - Matching Ghostty retro aesthetic
+# Inspired by 80s neon and hacker culture
+
 format = """
-$all$character
-"""
+[╭─](bold purple)\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$python\
+$rust\
+$nodejs\
+$golang\
+$docker_context\
+$time
+[╰─](bold purple)$character"""
 
+# Neon purple/pink prompt character (classic synthwave)
 [character]
-success_symbol = "[>](bold green)"
-error_symbol = "[>](bold red)"
+success_symbol = "[▶](bold bright-magenta)"
+error_symbol = "[▶](bold red)"
+vimcmd_symbol = "[◀](bold bright-cyan)"
 
-[git_branch]
-symbol = " "
+# Bright cyan username (hacker aesthetic)
+[username]
+format = "[$user]($style)@"
+style_user = "bold bright-cyan"
+style_root = "bold red"
+show_always = false
 
+# Pink hostname for that retro vibe
+[hostname]
+format = "[$hostname]($style) "
+style = "bold bright-magenta"
+ssh_only = true
+
+# Directory with neon green (terminal classic)
 [directory]
 truncation_length = 3
 truncate_to_repo = false
+format = "[$path]($style) "
+style = "bold bright-green"
+truncation_symbol = "…/"
 
+# Git branch with purple/pink gradient feel
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "bold purple"
+
+# Git status with bright colors
 [git_status]
-conflicted = "="
-ahead = ">"
-behind = "<"
-diverged = "<>"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "bold bright-yellow"
+conflicted = "≠"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕"
 up_to_date = ""
 untracked = "?"
 stashed = "$"
 modified = "!"
 staged = "+"
-renamed = "r"
-deleted = "x"
+renamed = "»"
+deleted = "✘"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bold bright-yellow"
+
+# Language indicators with cyberpunk colors
+[python]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold bright-blue"
+
+[rust]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold bright-red"
+
+[nodejs]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold bright-green"
+
+[golang]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold bright-cyan"
+
+[docker_context]
+symbol = " "
+format = '[$symbol$context]($style) '
+style = "bold bright-blue"
+
+# Optional time display with neon blue
+[time]
+disabled = false
+format = '[$time]($style) '
+style = "bold bright-blue"
+time_format = "%T"
+use_12hr = false

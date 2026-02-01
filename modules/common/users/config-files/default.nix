@@ -16,6 +16,7 @@
   zellijModule = import ./configs/zellij.nix {inherit config lib pkgs;};
   nushellModule = import ./configs/nushell.nix {inherit config lib pkgs;};
   opencodeModule = import ./configs/opencode.nix {inherit config lib pkgs;};
+  ghosttyModule = import ./configs/ghostty.nix {inherit config lib pkgs;};
 
   # Generate activation script for a single user
   mkUserConfigScript = userName: let
@@ -37,6 +38,7 @@
     mkdir -p "${homeDir}/.config/starship"
     mkdir -p "${homeDir}/.config/zellij"
     mkdir -p "${homeDir}/.config/opencode"
+    mkdir -p "${homeDir}/.config/ghostty/themes"
     mkdir -p "${homeDir}/.ssh"
 
     ${onePasswordModule.mkOnePasswordScript {
@@ -72,6 +74,11 @@
     ${opencodeModule.mkOpencodeScript {
       inherit homeDir;
       enabled = configFiles.opencode.enable;
+    }}
+
+    ${ghosttyModule.mkGhosttyScript {
+      inherit user homeDir;
+      enabled = configFiles.ghostty.enable;
     }}
 
     # Set ownership (ignore errors if user doesn't exist yet)
@@ -139,6 +146,14 @@ in {
         description = "Deploy opencode AI assistant configuration";
       };
     };
+
+    ghostty = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Deploy ghostty terminal configuration";
+      };
+    };
   };
 
   config = lib.mkIf configFiles.enable {
@@ -158,6 +173,13 @@ in {
       ++ lib.optionals configFiles.opencode.enable [
         playwright-mcp
         uv
+      ]
+      ++ lib.optionals configFiles.ghostty.enable [
+        (
+          if pkgs.stdenv.isDarwin
+          then pkgs.ghostty-bin
+          else pkgs.ghostty
+        )
       ];
   };
 }

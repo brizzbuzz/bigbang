@@ -125,6 +125,38 @@
                 description = "Override git signing key (defaults to profile setting)";
               };
             };
+            ghostty = {
+              theme = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override Ghostty theme (defaults to profile setting)";
+              };
+              font-family = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override Ghostty font family (defaults to profile setting)";
+              };
+              font-size = mkOption {
+                type = types.nullOr types.int;
+                default = null;
+                description = "Override Ghostty font size (defaults to profile setting)";
+              };
+              background-opacity = mkOption {
+                type = types.nullOr types.float;
+                default = null;
+                description = "Override Ghostty background opacity 0.0-1.0 (defaults to profile setting)";
+              };
+              cursor-style = mkOption {
+                type = types.nullOr (types.enum ["block" "bar" "underline" "block_hollow"]);
+                default = null;
+                description = "Override Ghostty cursor style (defaults to profile setting)";
+              };
+              extraConfig = mkOption {
+                type = types.lines;
+                default = "";
+                description = "Additional raw Ghostty configuration";
+              };
+            };
           };
         });
         default = {};

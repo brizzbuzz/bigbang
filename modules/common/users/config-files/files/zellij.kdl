@@ -1,11 +1,28 @@
-theme "catppuccin-macchiato"
-default_shell "zsh"
+// Synthwave cyberpunk aesthetic matching Ghostty terminal
+theme "retro-wave"
+
+// Use nushell as the default shell in Zellij panes/tabs
+default_shell "nu"
+
+// Disable startup tips and release notes
+show_startup_tips false
+show_release_notes false
 
 keybinds {
     normal {
+        // Vim-style pane navigation with Alt
         bind "Alt h" { MoveFocus "Left"; }
         bind "Alt l" { MoveFocus "Right"; }
         bind "Alt j" { MoveFocus "Down"; }
         bind "Alt k" { MoveFocus "Up"; }
+        
+        // macOS native keybindings (forwarded from Ghostty)
+        // These match standard macOS Terminal.app behavior
+        bind "Super c" { Copy; }                    // Cmd+C to copy
+        bind "Super Alt Left" { GoToPreviousTab; }  // Cmd+Alt+Left for prev tab
+        bind "Super Alt Right" { GoToNextTab; }     // Cmd+Alt+Right for next tab
+        bind "Super w" { CloseTab; }                // Cmd+W to close tab
+        bind "Super n" { NewTab; }                  // Cmd+N for new tab
+        bind "Super t" { NewTab; }                  // Cmd+T for new tab (alternative)
     }
 }

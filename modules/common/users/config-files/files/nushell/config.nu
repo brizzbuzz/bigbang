@@ -5,6 +5,7 @@ $env.config = {
 
 # Environment variables
 $env.EDITOR = "zed"
+$env.ZELLIJ_CONFIG_DIR = ($env.HOME | path join ".config" "zellij")
 
 # Path
 $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
