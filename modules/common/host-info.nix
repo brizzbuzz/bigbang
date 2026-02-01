@@ -157,6 +157,13 @@
                 description = "Additional raw Ghostty configuration";
               };
             };
+            helix = {
+              theme = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Override Helix theme (defaults to profile setting)";
+              };
+            };
           };
         });
         default = {};

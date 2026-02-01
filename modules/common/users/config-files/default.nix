@@ -17,6 +17,8 @@
   nushellModule = import ./configs/nushell.nix {inherit config lib pkgs;};
   opencodeModule = import ./configs/opencode.nix {inherit config lib pkgs;};
   ghosttyModule = import ./configs/ghostty.nix {inherit config lib pkgs;};
+  helixModule = import ./configs/helix.nix {inherit config lib pkgs;};
+  direnvModule = import ./configs/direnv.nix {inherit config lib pkgs;};
 
   # Generate activation script for a single user
   mkUserConfigScript = userName: let
@@ -39,6 +41,8 @@
     mkdir -p "${homeDir}/.config/zellij"
     mkdir -p "${homeDir}/.config/opencode"
     mkdir -p "${homeDir}/.config/ghostty/themes"
+    mkdir -p "${homeDir}/.config/helix"
+    mkdir -p "${homeDir}/.config/direnv"
     mkdir -p "${homeDir}/.ssh"
 
     ${onePasswordModule.mkOnePasswordScript {
@@ -79,6 +83,16 @@
     ${ghosttyModule.mkGhosttyScript {
       inherit user homeDir;
       enabled = configFiles.ghostty.enable;
+    }}
+
+    ${helixModule.mkHelixScript {
+      inherit user homeDir;
+      enabled = configFiles.helix.enable;
+    }}
+
+    ${direnvModule.mkDirenvScript {
+      inherit homeDir;
+      enabled = configFiles.direnv.enable;
     }}
 
     # Set ownership (ignore errors if user doesn't exist yet)
@@ -152,6 +166,22 @@ in {
         type = lib.types.bool;
         default = true;
         description = "Deploy ghostty terminal configuration";
+      };
+    };
+
+    helix = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Deploy helix editor configuration";
+      };
+    };
+
+    direnv = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Deploy direnv configuration";
       };
     };
   };

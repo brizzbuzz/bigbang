@@ -1,0 +1,6 @@
+[global]
+# Hide environment variable diffs
+hide_env_diff = true
+
+# Disable normal logging completely (empty string disables output)
+log_format = ""

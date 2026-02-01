@@ -55,11 +55,15 @@
       nil
       nixd
       # Development tools
+      helix
       gh
       git-cliff
       tokei
       docker-compose
       kubectl
+      alejandra # Nix formatter for Helix
+      gotools # Go tools including goimports for Helix
+      delve # Go debugger for Helix
       # AI
       codex
       opencode
