@@ -1,0 +1,116 @@
+# Helix Language Server Configuration
+# Optimized for Rust, TypeScript, Nix, and Go development
+# Only override what we need - Helix has good defaults
+
+# Language Server Definitions
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+config = { check = { command = "clippy" }, diagnostics = { enable = true } }
+
+[language-server.typescript-language-server]
+command = "typescript-language-server"
+args = ["--stdio"]
+config.hostInfo = "helix"
+
+[language-server.nil]
+command = "nil"
+
+[language-server.nixd]
+command = "nixd"
+
+[language-server.gopls]
+command = "gopls"
+
+[language-server.gopls.config]
+staticcheck = true
+semanticTokens = true
+gofumpt = true
+
+[language-server.gopls.config.hints]
+assignVariableTypes = true
+compositeLiteralFields = true
+compositeLiteralTypes = true
+constantValues = true
+functionTypeParameters = true
+parameterNames = true
+rangeVariableTypes = true
+
+# Language Overrides
+# Only specify what differs from Helix defaults
+
+# Rust - enable auto-format and use rust-analyzer
+[[language]]
+name = "rust"
+auto-format = true
+language-servers = ["rust-analyzer"]
+
+# TypeScript - enable auto-format
+[[language]]
+name = "typescript"
+auto-format = true
+language-servers = ["typescript-language-server"]
+
+# TSX - enable auto-format
+[[language]]
+name = "tsx"
+auto-format = true
+language-servers = ["typescript-language-server"]
+
+# JavaScript - enable auto-format
+[[language]]
+name = "javascript"
+auto-format = true
+language-servers = ["typescript-language-server"]
+
+# JSX - enable auto-format
+[[language]]
+name = "jsx"
+auto-format = true
+language-servers = ["typescript-language-server"]
+
+# Nix - use both nil and nixd, alejandra formatter
+[[language]]
+name = "nix"
+auto-format = true
+language-servers = ["nil", "nixd"]
+formatter = { command = "alejandra", args = ["--quiet"] }
+
+# Go - use gopls with goimports formatter
+[[language]]
+name = "go"
+auto-format = true
+language-servers = ["gopls"]
+formatter = { command = "goimports" }
+
+# Go Module
+[[language]]
+name = "gomod"
+auto-format = true
+language-servers = ["gopls"]
+
+# Go Work
+[[language]]
+name = "gowork"
+auto-format = true
+language-servers = ["gopls"]
+
+# TOML - enable auto-format
+[[language]]
+name = "toml"
+auto-format = true
+
+# JSON - enable auto-format
+[[language]]
+name = "json"
+auto-format = true
+
+# YAML - enable auto-format
+[[language]]
+name = "yaml"
+auto-format = true
+
+# Markdown - enable soft-wrap, disable auto-format
+[[language]]
+name = "markdown"
+auto-format = false
+soft-wrap = { enable = true }

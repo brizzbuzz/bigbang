@@ -21,8 +21,8 @@ forAllSystems (system: {
       echo "🚀 BigBang Development Environment"
       echo "📦 Cache configuration active - using binary caches for faster builds"
 
-      # Verify cache configuration is working
-      if nix show-config | grep -q "substituters.*cachix"; then
+      # Verify cache configuration is working (use new command instead of deprecated alias)
+      if nix config show | grep -q "substituters.*cachix"; then
         echo "✅ Cachix substituters configured"
       else
         echo "⚠️  Cache configuration may need attention"
