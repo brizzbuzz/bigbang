@@ -7,9 +7,7 @@ $env.config = {
 $env.EDITOR = "zed"
 $env.ZELLIJ_CONFIG_DIR = ($env.HOME | path join ".config" "zellij")
 
-# Path
-$env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin') # TODO: Only if on macOS
+# Note: PATH is set up in env.nu to ensure it's available early
 
 # Helper function to get file info
 def get_file_info [path: string] {
@@ -181,26 +179,12 @@ def nrr [host?: string] {
 # Zoxide integration
 # =============================================================================
 
-# Initialize hook to add new entries to the database.
-$env.config = (
-  $env.config?
-  | default {}
-  | upsert hooks { default {} }
-  | upsert hooks.env_change { default {} }
-  | upsert hooks.env_change.PWD { default [] }
-)
-let __zoxide_hooked = (
-  $env.config.hooks.env_change.PWD | any { try { get __zoxide_hook } catch { false } }
-)
-if not $__zoxide_hooked {
-  $env.config.hooks.env_change.PWD = ($env.config.hooks.env_change.PWD | append {
-    __zoxide_hook: true,
-    code: {|_, dir| zoxide add -- $dir}
-  })
-}
-
 # Jump to a directory using only keywords.
 def --env --wrapped __zoxide_z [...rest: string] {
+  if (which zoxide | is-empty) {
+    print -e "Error: zoxide not found in PATH"
+    return
+  }
   let path = match $rest {
     [] => {'~'},
     [ '-' ] => {'-'},
@@ -214,11 +198,41 @@ def --env --wrapped __zoxide_z [...rest: string] {
 
 # Jump to a directory using interactive search.
 def --env --wrapped __zoxide_zi [...rest:string] {
+  if (which zoxide | is-empty) {
+    print -e "Error: zoxide not found in PATH"
+    return
+  }
   cd $'(zoxide query --interactive -- ...$rest | str trim -r -c "\n")'
 }
 
 alias z = __zoxide_z
 alias zi = __zoxide_zi
+
+# Initialize hook to add new entries to the database (only if zoxide exists)
+if not (which zoxide | is-empty) {
+  $env.config = (
+    $env.config?
+    | default {}
+    | upsert hooks { default {} }
+    | upsert hooks.env_change { default {} }
+    | upsert hooks.env_change.PWD { default [] }
+  )
+  let __zoxide_hooked = (
+    $env.config.hooks.env_change.PWD | any { try { get __zoxide_hook } catch { false } }
+  )
+  if not $__zoxide_hooked {
+    $env.config.hooks.env_change.PWD = ($env.config.hooks.env_change.PWD | append {
+      __zoxide_hook: true,
+      code: {|_, dir| 
+        if not (which zoxide | is-empty) {
+          zoxide add -- $dir
+        }
+      }
+    })
+  }
+} else {
+  print -e "Warning: zoxide not found in PATH - 'z' and 'zi' commands will show errors if used"
+}
 
 # =============================================================================
 # Atuin integration
@@ -352,28 +366,32 @@ $env.config = (
 # Direnv integration
 # =============================================================================
 
-$env.config = ($env.config | default {} | merge {
-    hooks: ($env.config.hooks? | default {} | merge {
-        pre_prompt: ($env.config.hooks?.pre_prompt? | default [] | append {||
-            direnv export json
-            | from json --strict
-            | default {}
-            | items {|key, value|
-                let value = do (
-                    {
-                      "PATH": {
-                        from_string: {|s| $s | split row (char esep) | path expand --no-symlink }
-                        to_string: {|v| $v | path expand --no-symlink | str join (char esep) }
+if not (which direnv | is-empty) {
+  $env.config = ($env.config | default {} | merge {
+      hooks: ($env.config.hooks? | default {} | merge {
+          pre_prompt: ($env.config.hooks?.pre_prompt? | default [] | append {||
+              direnv export json
+              | from json --strict
+              | default {}
+              | items {|key, value|
+                  let value = do (
+                      {
+                        "PATH": {
+                          from_string: {|s| $s | split row (char esep) | path expand --no-symlink }
+                          to_string: {|v| $v | path expand --no-symlink | str join (char esep) }
+                        }
                       }
-                    }
-                    | merge ($env.ENV_CONVERSIONS? | default {})
-                    | get ([[value, optional, insensitive]; [$key, true, true] [from_string, true, false]] | into cell-path)
-                    | if ($in | is-empty) { {|x| $x} } else { $in }
-                ) $value
-                return [ $key $value ]
-            }
-            | into record
-            | load-env
-        })
-    })
-})
+                      | merge ($env.ENV_CONVERSIONS? | default {})
+                      | get ([[value, optional, insensitive]; [$key, true, true] [from_string, true, false]] | into cell-path)
+                      | if ($in | is-empty) { {|x| $x} } else { $in }
+                  ) $value
+                  return [ $key $value ]
+              }
+              | into record
+              | load-env
+          })
+      })
+  })
+} else {
+  print -e "Warning: direnv not found in PATH - directory-specific environments will not be loaded"
+}

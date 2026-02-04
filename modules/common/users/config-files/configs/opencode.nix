@@ -21,8 +21,12 @@ in {
       ${opencodeConfigTemplate}
       EOFOPENCODE
 
-        # Replace placeholder with actual key (BSD sed for macOS)
-        sed -i "" "s|{{KAGI_API_KEY_PLACEHOLDER_REPLACE_AT_BUILD_TIME}}|$KAGI_KEY|g" "${homeDir}/.config/opencode/opencode.jsonc"
+        # Replace placeholder with actual key using pure shell (no sed needed)
+        temp_file="${homeDir}/.config/opencode/opencode.jsonc.tmp"
+        while IFS= read -r line; do
+          echo "''${line//\{\{KAGI_API_KEY_PLACEHOLDER_REPLACE_AT_BUILD_TIME\}\}/$KAGI_KEY}"
+        done < "${homeDir}/.config/opencode/opencode.jsonc" > "$temp_file"
+        mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"
         chmod 644 "${homeDir}/.config/opencode/opencode.jsonc"
     '';
 }

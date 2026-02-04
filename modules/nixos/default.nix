@@ -31,7 +31,6 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
-    ./netboot.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix
@@ -42,6 +41,7 @@
     ./ssh.nix
     ./system-limits.nix
     ./users.nix
+    ./ventoy-web.nix
     ./xdg.nix
   ];
 

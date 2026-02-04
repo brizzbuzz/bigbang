@@ -9,6 +9,11 @@
       "command": ["mcp-server-playwright"],
       "enabled": true,
     },
+    "browser": {
+      "type": "local",
+      "command": ["npx", "@browsermcp/mcp@latest"],
+      "enabled": true,
+    },
     "linear": {
       "type": "remote",
       "url": "https://mcp.linear.app/mcp",

@@ -28,18 +28,15 @@ in {
       # Homelab servers
       Host callisto.chateaubr.ink ganymede.chateaubr.ink
         User ryan
-        IdentitiesOnly yes
 
       # Local network shorthand
       Host callisto
         Hostname callisto.chateaubr.ink
         User ryan
-        IdentitiesOnly yes
 
       Host ganymede
         Hostname ganymede.chateaubr.ink
         User ryan
-        IdentitiesOnly yes
     '';
   in
     lib.optionalString enabled ''
