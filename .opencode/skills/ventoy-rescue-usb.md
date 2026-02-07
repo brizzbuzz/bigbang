@@ -425,6 +425,430 @@ wget -O filename.iso <url>          # Download ISO
 rm filename.iso                     # Remove ISO
 ```
 
+## End-to-End: Rescuing and Installing NixOS on a Broken Machine
+
+This section documents the complete workflow for using Ventoy USB to rescue a bricked machine and install your NixOS flake configuration on it.
+
+### Prerequisites
+
+- ✅ Ventoy USB created with NixOS installer ISO (see above)
+- ✅ Your NixOS flake repository on GitHub
+- ✅ Disko configuration for target machine in your flake
+- ✅ Physical access to broken machine
+- ✅ Network access (WiFi or Ethernet)
+
+### Phase 1: Boot from Ventoy USB
+
+1. **Plug Ventoy USB into broken machine**
+2. **Power on and enter boot menu** (usually F12, F11, ESC, or DEL during startup)
+3. **Select USB drive** from boot menu
+4. **Select NixOS ISO** from Ventoy menu
+5. **Boot into NixOS live environment**
+
+### Phase 2: Connect to Network
+
+**For WiFi:**
+```bash
+sudo systemctl start wpa_supplicant
+wpa_cli
+
+# In wpa_cli:
+> add_network
+0
+> set_network 0 ssid "YourWiFiSSID"
+> set_network 0 psk "YourWiFiPassword"
+> enable_network 0
+> quit
+
+# Verify connection
+ping nixos.org
+```
+
+**For Ethernet:**
+```bash
+# Usually works automatically via DHCP
+ping nixos.org
+```
+
+### Phase 3: Partition with Disko
+
+1. **Clone your flake:**
+   ```bash
+   nix-shell -p git
+   git clone https://github.com/YOUR_USERNAME/YOUR_REPO /tmp/bigbang
+   cd /tmp/bigbang
+   ```
+
+2. **Create LUKS encryption password:**
+   ```bash
+   # Create password file (Disko uses this for encryption)
+   echo "YOUR_STRONG_DISK_ENCRYPTION_PASSWORD" > /tmp/secret.key
+   chmod 600 /tmp/secret.key
+   ```
+
+3. **Run Disko to partition and encrypt:**
+   ```bash
+   # This will WIPE the disk and create encrypted partitions
+   sudo nix --experimental-features "nix-command flakes" run \
+     github:nix-community/disko -- \
+     --mode disko \
+     /tmp/bigbang/hosts/<hostname>/disko.nix
+   
+   # Example for a machine called "frame":
+   sudo nix --experimental-features "nix-command flakes" run \
+     github:nix-community/disko -- \
+     --mode disko \
+     /tmp/bigbang/hosts/frame/disko.nix
+   ```
+
+4. **Verify partitions are mounted:**
+   ```bash
+   lsblk
+   # Should show partitions mounted at /mnt, /mnt/boot, /mnt/home, etc.
+   ```
+
+### Phase 4: Minimal NixOS Installation (Bootstrap)
+
+The goal here is to install just enough NixOS to boot and allow remote deployment.
+
+1. **Generate basic hardware config:**
+   ```bash
+   sudo nixos-generate-config --root /mnt
+   ```
+
+2. **Edit minimal configuration:**
+   ```bash
+   sudo nano /mnt/etc/nixos/configuration.nix
+   ```
+
+   Add these essentials (keep the rest of the generated config):
+   ```nix
+   # Add to the configuration
+   {
+     networking.hostName = "hostname";  # Match your flake hostname
+     networking.networkmanager.enable = true;
+     
+     services.openssh.enable = true;
+     
+     users.users.YOUR_USERNAME = {
+       isNormalUser = true;
+       extraGroups = [ "wheel" "networkmanager" ];
+     };
+     
+     # Critical for remote deployment
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   }
+   ```
+
+3. **Install minimal system:**
+   ```bash
+   sudo nixos-install
+   # This will prompt for root password - set it
+   ```
+
+4. **Set user password:**
+   ```bash
+   sudo nixos-enter --root /mnt
+   passwd YOUR_USERNAME
+   exit
+   ```
+
+5. **Configure passwordless sudo for deployment:**
+   ```bash
+   sudo nixos-enter --root /mnt
+   
+   # Check if /etc/sudoers includes .d directory
+   grep -i "includedir" /etc/sudoers
+   
+   # If not present, add it:
+   echo "" >> /etc/sudoers
+   echo "## Read drop-in files from /etc/sudoers.d" >> /etc/sudoers
+   echo "@includedir /etc/sudoers.d" >> /etc/sudoers
+   
+   # Create user sudoers file
+   mkdir -p /etc/sudoers.d
+   echo "YOUR_USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/YOUR_USERNAME
+   chmod 440 /etc/sudoers.d/YOUR_USERNAME
+   
+   exit
+   ```
+
+6. **Reboot:**
+   ```bash
+   sudo reboot
+   # Remove USB drive when prompted
+   ```
+
+### Phase 5: Remote Deployment from Management Machine
+
+After the machine boots into the minimal NixOS install:
+
+1. **Find the machine's IP address:**
+   
+   On the target machine:
+   ```bash
+   ip addr show
+   # Look for inet address on wlan0 (WiFi) or eth0/enp* (Ethernet)
+   ```
+   
+   Or scan your network from management machine:
+   ```bash
+   nmap -sn 192.168.1.0/24  # Adjust subnet to your network
+   ```
+
+2. **Set up SSH key authentication:**
+   ```bash
+   # From your management machine
+   ssh-copy-id YOUR_USERNAME@TARGET_IP
+   
+   # Test SSH works without password
+   ssh YOUR_USERNAME@TARGET_IP
+   exit
+   ```
+
+3. **Update flake with target IP:**
+   
+   Edit `flake/nixos.nix`:
+   ```nix
+   hostname = {
+     imports = [../hosts/hostname/configuration.nix];
+     deployment = {
+       targetHost = "192.168.1.XXX";  # Use actual IP
+       targetUser = "YOUR_USERNAME";
+       allowLocalDeployment = true;
+       buildOnTarget = true;
+     };
+   };
+   ```
+
+4. **Deploy your full flake configuration:**
+   ```bash
+   # From your management machine
+   git add flake/nixos.nix
+   git commit -m "feat: add hostname deployment config"
+   git push
+   
+   # Deploy using Colmena
+   colmena apply --on hostname
+   # Or use your alias: nrr hostname
+   ```
+
+5. **Wait for deployment:**
+   - First deployment will take 5-15 minutes
+   - Machine may reboot during switch
+   - SSH connection may drop temporarily
+   - Check target machine's screen for progress
+
+6. **Verify deployment:**
+   ```bash
+   # After deployment completes, SSH back in
+   ssh YOUR_USERNAME@TARGET_IP
+   
+   # Check system info
+   nixos-version
+   hostname
+   
+   # Verify your user environment loaded
+   echo $SHELL
+   ls ~/.config/
+   ```
+
+### Phase 6: Post-Installation
+
+1. **Set up static IP or DNS entry** (optional but recommended):
+   - Configure router DHCP reservation
+   - Or set up local DNS entry (e.g., `hostname.local`)
+   - Update flake's `targetHost` to use hostname instead of IP
+
+2. **Remove manual sudo config:**
+   
+   Your flake should manage sudo via `security.sudo.wheelNeedsPassword = false`. The manual sudoers config will be replaced on next deployment, or you can manually remove it:
+   ```bash
+   ssh YOUR_USERNAME@TARGET_IP
+   sudo rm /etc/sudoers.d/YOUR_USERNAME
+   # Your flake's security config will handle this going forward
+   ```
+
+3. **Future deployments:**
+   ```bash
+   # From management machine, just run:
+   nrr hostname
+   
+   # All changes are now declarative in your flake
+   ```
+
+### Common Issues and Solutions
+
+#### Issue: Machine boots but wrong IP address
+
+**Solution:** Check both WiFi and Ethernet interfaces. Some machines may connect via unexpected interface:
+```bash
+ip addr show  # Check all interfaces
+ip route      # Check default route
+```
+
+#### Issue: SSH connection refused
+
+**Solution:** Verify sshd is running:
+```bash
+# On target machine
+systemctl status sshd
+systemctl enable --now sshd
+```
+
+#### Issue: Colmena deployment hangs on "stopping services"
+
+**Cause:** Some services may not stop cleanly, or machine is rebooting.
+
+**Solution:** 
+- Wait 5-10 minutes for potential reboot
+- Check target machine's screen for status
+- If truly stuck, manually reboot target machine
+- Re-run deployment: `nrr hostname`
+
+#### Issue: sudo still asks for password during deployment
+
+**Cause:** The `@includedir /etc/sudoers.d` line is missing from `/etc/sudoers`.
+
+**Solution:** 
+```bash
+ssh YOUR_USERNAME@TARGET_IP
+su -
+grep -i "includedir" /etc/sudoers
+# If missing, add:
+echo "" >> /etc/sudoers
+echo "@includedir /etc/sudoers.d" >> /etc/sudoers
+exit
+```
+
+#### Issue: Disko fails with "device busy"
+
+**Cause:** Existing partitions are mounted or in use.
+
+**Solution:**
+```bash
+# Unmount all partitions
+sudo umount -R /mnt
+# Or force if needed
+sudo umount -f -R /mnt
+# Rerun Disko
+```
+
+#### Issue: Can't find machine's IP after boot
+
+**Solutions:**
+1. **Check router's DHCP leases** (via router admin page)
+2. **Check ARP table** from management machine:
+   ```bash
+   arp -a | grep -i VENDOR_NAME
+   ```
+3. **Use serial console** (if available on target hardware)
+4. **Boot back into USB** and check network config
+
+### Disko Configuration Example
+
+Example encrypted btrfs layout with best practices:
+
+```nix
+{
+  # Description of target disk
+  disko.devices = {
+    disk = {
+      main = {
+        type = "disk";
+        device = "/dev/nvme0n1";  # Adjust to your disk
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              label = "boot";
+              name = "ESP";
+              size = "1G";  # Larger for multiple generations
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = ["defaults" "umask=0077"];
+              };
+            };
+            luks = {
+              size = "100%";
+              content = {
+                type = "luks";
+                name = "crypted";
+                passwordFile = "/tmp/secret.key";
+                settings = {
+                  allowDiscards = true;      # Enable TRIM for SSDs
+                  bypassWorkqueues = true;   # Better SSD performance
+                };
+                content = {
+                  type = "btrfs";
+                  extraArgs = ["-L" "nixos" "-f"];
+                  subvolumes = {
+                    "/root" = {
+                      mountpoint = "/";
+                      mountOptions = ["subvol=root" "compress=zstd" "noatime"];
+                    };
+                    "/home" = {
+                      mountpoint = "/home";
+                      mountOptions = ["subvol=home" "compress=zstd" "noatime"];
+                    };
+                    "/nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = ["subvol=nix" "compress=zstd" "noatime"];
+                    };
+                    "/persist" = {
+                      mountpoint = "/persist";
+                      mountOptions = ["subvol=persist" "compress=zstd" "noatime"];
+                    };
+                    "/log" = {
+                      mountpoint = "/var/log";
+                      mountOptions = ["subvol=log" "compress=zstd" "noatime"];
+                    };
+                    "/swap" = {
+                      mountpoint = "/.swapvol";
+                      swap.swapfile.size = "32G";  # Adjust to your RAM
+                    };
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+
+  # Needed for boot
+  fileSystems."/persist".neededForBoot = true;
+  fileSystems."/var/log".neededForBoot = true;
+}
+```
+
+### Time Estimates
+
+- **Creating Ventoy USB**: 5-10 minutes
+- **Booting from USB**: 1-2 minutes
+- **Network setup**: 1-5 minutes
+- **Disko partitioning**: 2-5 minutes
+- **Minimal install**: 5-10 minutes
+- **Remote deployment**: 5-15 minutes (first time)
+- **Total rescue operation**: 30-45 minutes
+
+### Success Checklist
+
+- ✅ Machine boots from Ventoy USB
+- ✅ NixOS installer ISO loaded
+- ✅ Network connectivity established
+- ✅ Disk encrypted and partitioned via Disko
+- ✅ Minimal NixOS boots successfully
+- ✅ SSH key authentication working
+- ✅ Colmena deployment succeeds
+- ✅ Machine boots into your full flake configuration
+- ✅ User environment loads correctly
+- ✅ Can SSH in with your user account
+
 ## Summary
 
 The Ventoy Web UI module provides:
@@ -434,5 +858,13 @@ The Ventoy Web UI module provides:
 3. **Reliable rescue solution** - Works with problematic firmware that fails PXE boot
 4. **Multi-ISO support** - One USB for multiple operating systems/tools
 5. **Declarative configuration** - Fully integrated with NixOS module system
+
+**The complete rescue workflow:**
+1. Create Ventoy USB with NixOS ISO
+2. Boot broken machine from USB
+3. Use Disko for encrypted partitioning
+4. Install minimal NixOS bootstrap
+5. Remote deploy full flake configuration via Colmena
+6. Machine is fully recovered and declaratively configured
 
 This approach proved "astonishingly easy" compared to complex netboot debugging and provides a reliable fallback for rescue operations.

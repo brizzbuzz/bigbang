@@ -3,6 +3,11 @@
   "theme": "opencode",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
+  "tui": {
+    "scroll_acceleration": {
+      "enabled": true,
+    },
+  },
   "mcp": {
     "playwright": {
       "type": "local",

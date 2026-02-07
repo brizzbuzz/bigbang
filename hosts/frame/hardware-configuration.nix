@@ -16,15 +16,8 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/6d662662-cc6f-46f6-85e5-f9ef3f666490";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/F2BC-0D1E";
-    fsType = "vfat";
-  };
+  # Filesystems configured by Disko (see disko.nix)
+  # fileSystems and swapDevices removed to avoid conflicts
 
   swapDevices = [];
 
