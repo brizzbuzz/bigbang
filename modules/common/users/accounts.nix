@@ -11,7 +11,7 @@
   mkLinuxUser = userName: userConfig: {
     isNormalUser = true;
     home = "/home/${userName}";
-    shell = lib.mkDefault pkgs.zsh;
+    shell = pkgs.nushell;
     extraGroups =
       ["wheel" "networkmanager"]
       ++ lib.optionals (userConfig.profile == "personal") ["docker" "audio" "video"];

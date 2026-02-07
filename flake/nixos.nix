@@ -27,8 +27,10 @@
   frame = {
     imports = [../hosts/frame/configuration.nix];
     deployment = {
-      allowLocalDeployment = true;
+      targetHost = "192.168.11.214";
       targetUser = "ryan";
+      allowLocalDeployment = true;
+      buildOnTarget = true;
     };
   };
 

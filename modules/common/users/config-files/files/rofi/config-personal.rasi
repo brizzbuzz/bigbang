@@ -1,0 +1,161 @@
+/**
+ * Rofi Personal Profile Configuration
+ * Theme: Synthwave
+ */
+
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: "󰀻 Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    drun-display-format: "{name}";
+    terminal: "ghostty";
+    font: "JetBrainsMono Nerd Font 12";
+}
+
+* {
+    /* Synthwave Colors */
+    synthwave-pink: #ff006e;
+    synthwave-cyan: #00f0ff;
+    synthwave-purple: #9d4edd;
+    synthwave-yellow: #ffea00;
+    synthwave-bg: #0a0e27;
+    synthwave-fg: #e0e0e0;
+    synthwave-dark: #050818;
+
+    background-color: transparent;
+    text-color: @synthwave-fg;
+}
+
+window {
+    transparency: "real";
+    background-color: @synthwave-bg;
+    border: 2px;
+    border-color: @synthwave-pink;
+    border-radius: 12px;
+    width: 600px;
+    padding: 20px;
+}
+
+mainbox {
+    border: 0;
+    padding: 0;
+}
+
+inputbar {
+    children: [prompt, textbox-prompt-colon, entry];
+    spacing: 10px;
+    padding: 10px;
+    background-color: @synthwave-dark;
+    border-radius: 8px;
+    border: 2px;
+    border-color: @synthwave-cyan;
+    margin: 0px 0px 10px 0px;
+}
+
+prompt {
+    text-color: @synthwave-cyan;
+    font: "JetBrainsMono Nerd Font Bold 13";
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: "";
+    text-color: @synthwave-pink;
+    font: "JetBrainsMono Nerd Font 13";
+}
+
+entry {
+    text-color: @synthwave-fg;
+    placeholder-color: @synthwave-purple;
+    placeholder: "Search...";
+}
+
+listview {
+    lines: 8;
+    spacing: 5px;
+    padding: 5px 0px;
+    scrollbar: true;
+}
+
+scrollbar {
+    width: 4px;
+    border: 0;
+    handle-width: 4px;
+    handle-color: @synthwave-cyan;
+    background-color: @synthwave-dark;
+    border-radius: 4px;
+}
+
+element {
+    padding: 8px 12px;
+    border-radius: 6px;
+    spacing: 10px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @synthwave-fg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @synthwave-fg;
+}
+
+element normal.active {
+    background-color: @synthwave-purple;
+    text-color: @synthwave-fg;
+}
+
+element alternate.active {
+    background-color: @synthwave-purple;
+    text-color: @synthwave-fg;
+}
+
+element selected.normal {
+    background-color: @synthwave-pink;
+    text-color: @synthwave-bg;
+    border: 1px;
+    border-color: @synthwave-cyan;
+}
+
+element alternate.selected {
+    background-color: @synthwave-pink;
+    text-color: @synthwave-bg;
+    border: 1px;
+    border-color: @synthwave-cyan;
+}
+
+element selected.active {
+    background-color: @synthwave-cyan;
+    text-color: @synthwave-bg;
+}
+
+element alternate.urgent {
+    background-color: @synthwave-purple;
+    text-color: @synthwave-fg;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+
+message {
+    padding: 10px;
+    background-color: @synthwave-dark;
+    border-radius: 6px;
+    border: 1px;
+    border-color: @synthwave-purple;
+}
+
+textbox {
+    text-color: @synthwave-fg;
+}

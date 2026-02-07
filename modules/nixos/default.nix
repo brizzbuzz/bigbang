@@ -24,6 +24,7 @@
     ./hardware.nix
 
     ./hyprland.nix
+    ./wayland-desktop.nix
     ./immich.nix
     ./jellyfin.nix
     ./portfolio.nix

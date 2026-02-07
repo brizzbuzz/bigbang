@@ -42,8 +42,8 @@
       CUDA_CACHE_PATH = "$HOME/.cache/cuda";
     };
 
-    # Configure OpenGL settings for NVIDIA
-    hardware.opengl = {
+    # Configure graphics settings for NVIDIA
+    hardware.graphics = {
       enable = true;
 
       # Use stable Mesa packages for better cache availability

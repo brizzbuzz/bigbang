@@ -100,7 +100,7 @@
   services.postgresql = {
     enable = true;
     developmentMode = true;
-    extraPlugins = with config.services.postgresql.package.pkgs; [
+    extensions = with config.services.postgresql.package.pkgs; [
       pgvector
     ];
     serviceDatabases = [

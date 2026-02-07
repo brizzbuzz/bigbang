@@ -1,0 +1,194 @@
+/* ===================================
+ * Waybar Personal Profile Stylesheet
+ * Theme: Synthwave
+ * =================================== */
+
+/* Color Palette */
+@define-color synthwave_pink #ff006e;
+@define-color synthwave_cyan #00f0ff;
+@define-color synthwave_purple #9d4edd;
+@define-color synthwave_yellow #ffea00;
+@define-color synthwave_bg #0a0e27;
+@define-color synthwave_fg #e0e0e0;
+@define-color synthwave_dark #050818;
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: alpha(@synthwave_bg, 0.9);
+  color: @synthwave_fg;
+  border-bottom: 1px solid alpha(@synthwave_purple, 0.25);
+  padding: 6px 12px;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* ===================================
+ * Workspaces
+ * =================================== */
+#workspaces {
+  margin: 3px 6px;
+  padding: 3px 0;
+}
+
+#workspaces button {
+  padding: 4px 10px;
+  margin: 0 3px;
+  color: @synthwave_fg;
+  background-color: transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 999px;
+  font-size: 16px;
+  min-height: 20px;
+}
+
+#workspaces button:hover {
+  background: alpha(@synthwave_pink, 0.14);
+  border-bottom: 2px solid @synthwave_pink;
+}
+
+#workspaces button.active {
+  background: alpha(@synthwave_pink, 0.2);
+  color: @synthwave_cyan;
+  border-bottom: 2px solid @synthwave_cyan;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: alpha(@synthwave_yellow, 0.2);
+  color: @synthwave_yellow;
+  border-bottom: 2px solid @synthwave_yellow;
+}
+
+/* ===================================
+ * Window Title
+ * =================================== */
+#window {
+  margin: 0 10px;
+  color: @synthwave_pink;
+  font-weight: 600;
+}
+
+/* ===================================
+ * Clock
+ * =================================== */
+#clock {
+  padding: 2px 14px;
+  background: alpha(@synthwave_dark, 0.45);
+  color: @synthwave_fg;
+  border-radius: 999px;
+  font-weight: 600;
+  margin: 0 6px;
+  border: 1px solid alpha(@synthwave_purple, 0.2);
+}
+
+#clock:hover {
+  background: alpha(@synthwave_purple, 0.18);
+}
+
+/* ===================================
+ * System Modules
+ * =================================== */
+#battery,
+#network,
+#pulseaudio {
+  padding: 2px 6px;
+  margin: 0 4px;
+  border-radius: 0;
+  color: @synthwave_fg;
+  background-color: transparent;
+  border: none;
+  letter-spacing: 1px;
+}
+
+#battery:hover,
+#network:hover,
+#pulseaudio:hover {
+  background-color: transparent;
+  color: @synthwave_cyan;
+  border: none;
+}
+
+/* Battery States */
+#battery {
+  background: transparent;
+}
+
+#battery.charging,
+#battery.plugged {
+  background: transparent;
+  color: @synthwave_cyan;
+}
+
+#battery.warning:not(.charging) {
+  background-color: transparent;
+  color: @synthwave_yellow;
+}
+
+#battery.critical:not(.charging) {
+  background-color: transparent;
+  color: @synthwave_pink;
+}
+
+/* Network */
+#network {
+  background: transparent;
+}
+
+#network.disconnected {
+  background-color: transparent;
+  color: @synthwave_pink;
+}
+
+/* Audio */
+#pulseaudio {
+  background: transparent;
+}
+
+#pulseaudio.muted {
+  background-color: transparent;
+  color: @synthwave_pink;
+}
+
+/* ===================================
+ * System Tray
+ * =================================== */
+#tray {
+  padding: 2px 10px;
+  margin: 0 6px;
+  background-color: alpha(@synthwave_dark, 0.45);
+  border-radius: 999px;
+  border: 1px solid alpha(@synthwave_dark, 0.3);
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: alpha(@synthwave_pink, 0.3);
+  border-radius: 8px;
+}
+
+/* ===================================
+ * Tooltips
+ * =================================== */
+tooltip {
+  background: alpha(@synthwave_bg, 0.95);
+  border: 1px solid alpha(@synthwave_pink, 0.5);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+tooltip label {
+  color: @synthwave_fg;
+}

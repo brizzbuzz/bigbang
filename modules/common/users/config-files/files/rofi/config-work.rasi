@@ -1,0 +1,162 @@
+/**
+ * Rofi Work Profile Configuration
+ * Theme: GitHub Dark
+ */
+
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: " Applications";
+    display-run: " Command";
+    display-window: " Windows";
+    drun-display-format: "{name}";
+    terminal: "ghostty";
+    font: "JetBrainsMono Nerd Font 11";
+}
+
+* {
+    /* GitHub Dark Colors */
+    github-blue: #58a6ff;
+    github-gray: #6e7681;
+    github-light-blue: #79c0ff;
+    github-green: #56d364;
+    github-bg: #0d1117;
+    github-fg: #c9d1d9;
+    github-border: #30363d;
+    github-hover: #161b22;
+
+    background-color: transparent;
+    text-color: @github-fg;
+}
+
+window {
+    transparency: "real";
+    background-color: @github-bg;
+    border: 1px;
+    border-color: @github-border;
+    border-radius: 8px;
+    width: 550px;
+    padding: 16px;
+}
+
+mainbox {
+    border: 0;
+    padding: 0;
+}
+
+inputbar {
+    children: [prompt, textbox-prompt-colon, entry];
+    spacing: 8px;
+    padding: 8px 12px;
+    background-color: @github-hover;
+    border-radius: 6px;
+    border: 1px;
+    border-color: @github-border;
+    margin: 0px 0px 8px 0px;
+}
+
+prompt {
+    text-color: @github-blue;
+    font: "JetBrainsMono Nerd Font 11";
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: "›";
+    text-color: @github-gray;
+    font: "JetBrainsMono Nerd Font 11";
+}
+
+entry {
+    text-color: @github-fg;
+    placeholder-color: @github-gray;
+    placeholder: "Type to search";
+}
+
+listview {
+    lines: 8;
+    spacing: 4px;
+    padding: 4px 0px;
+    scrollbar: true;
+}
+
+scrollbar {
+    width: 3px;
+    border: 0;
+    handle-width: 3px;
+    handle-color: @github-blue;
+    background-color: @github-border;
+    border-radius: 3px;
+}
+
+element {
+    padding: 6px 10px;
+    border-radius: 4px;
+    spacing: 8px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @github-fg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @github-fg;
+}
+
+element normal.active {
+    background-color: @github-hover;
+    text-color: @github-light-blue;
+}
+
+element alternate.active {
+    background-color: @github-hover;
+    text-color: @github-light-blue;
+}
+
+element selected.normal {
+    background-color: @github-blue;
+    text-color: @github-bg;
+    border: 1px;
+    border-color: @github-light-blue;
+}
+
+element alternate.selected {
+    background-color: @github-blue;
+    text-color: @github-bg;
+    border: 1px;
+    border-color: @github-light-blue;
+}
+
+element selected.active {
+    background-color: @github-light-blue;
+    text-color: @github-bg;
+}
+
+element alternate.urgent {
+    background-color: @github-hover;
+    text-color: @github-light-blue;
+}
+
+element-icon {
+    size: 20px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+
+message {
+    padding: 8px;
+    background-color: @github-hover;
+    border-radius: 4px;
+    border: 1px;
+    border-color: @github-border;
+}
+
+textbox {
+    text-color: @github-fg;
+}

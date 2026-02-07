@@ -25,5 +25,36 @@
     };
   };
 
+  services.fwupd.enable = true;
+
+  # Declarative WiFi configuration
+  # NetworkManager will remember these networks and connect automatically
+  networking.networkmanager = {
+    enable = true;
+    ensureProfiles.profiles = {
+      home-wifi = {
+        connection = {
+          id = "BrizzNet";
+          type = "wifi";
+          autoconnect = "true";
+        };
+        wifi = {
+          mode = "infrastructure";
+          ssid = "------";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-psk";
+          psk = "------";
+        };
+        ipv4 = {
+          method = "auto";
+        };
+        ipv6 = {
+          method = "auto";
+        };
+      };
+    };
+  };
+
   system.stateVersion = "24.05";
 }

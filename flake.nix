@@ -96,5 +96,34 @@
     darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
     colmena = import ./flake/nixos.nix {inherit inputs;};
     devShells = import ./flake/shell.nix {inherit forAllSystems pkgs inputs;};
+
+    # NixOS configurations for nixos-install
+    nixosConfigurations = {
+      frame = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          inputs.disko.nixosModules.disko
+          ./hosts/frame/configuration.nix
+        ];
+      };
+
+      callisto = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          inputs.disko.nixosModules.disko
+          ./hosts/callisto/configuration.nix
+        ];
+      };
+
+      ganymede = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/ganymede/configuration.nix
+        ];
+      };
+    };
   };
 }
