@@ -1,0 +1,105 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 38,
+  "spacing": 10,
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "network",
+    "pulseaudio",
+    "battery",
+    "tray"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "urgent": "●",
+      "active": "●",
+      "default": "•"
+    },
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  "hyprland/window": {
+    "format": "󰖯 {}",
+    "max-length": 40,
+    "separate-outputs": true
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%A, %B %d, %Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#58a6ff'><b>{}</b></span>",
+        "days": "<span color='#c9d1d9'><b>{}</b></span>",
+        "weeks": "<span color='#6e7681'><b>W{}</b></span>",
+        "weekdays": "<span color='#79c0ff'><b>{}</b></span>",
+        "today": "<span color='#56d364'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "{icon}",
+    "format-alt": "{capacity}%",
+    "format-icons": ["∙∙∙∙∙", "●∙∙∙∙", "●●∙∙∙", "●●●∙∙", "●●●●∙", "●●●●●"],
+    "tooltip-format": "{timeTo}, {capacity}%"
+  },
+
+  "network": {
+    "format-wifi": "{icon}",
+    "format-ethernet": "●●●●●",
+    "format-linked": "○○○○○",
+    "format-disconnected": "○○○○○",
+    "format-icons": ["∙∙∙∙∙", "●∙∙∙∙", "●●∙∙∙", "●●●∙∙", "●●●●∙", "●●●●●"],
+    "tooltip-format": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor"
+  },
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-bluetooth": "{icon}",
+    "format-bluetooth-muted": "○○○○○",
+    "format-muted": "○○○○○",
+    "format-icons": {
+      "headphone": "●●●●●",
+      "hands-free": "●●●●●",
+      "headset": "●●●●●",
+      "phone": "●●●●●",
+      "portable": "●●●●●",
+      "car": "●●●●●",
+      "default": ["∙∙∙∙∙", "●●∙∙∙", "●●●●∙"]
+    },
+    "on-click": "pavucontrol",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 6
+  }
+}

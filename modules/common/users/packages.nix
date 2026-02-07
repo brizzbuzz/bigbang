@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -33,6 +34,7 @@
       # Version control
       jujutsu
       jjui
+      inputs.opnix.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]
     ++ lib.optionals isLinux [
       tftp-hpa

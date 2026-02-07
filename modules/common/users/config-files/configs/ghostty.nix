@@ -4,14 +4,14 @@
     personal = {
       theme = "Synthwave";
       font-family = "JetBrainsMono Nerd Font Mono";
-      font-size = 13;
+      font-size = 14;
       background-opacity = 1.0;
       cursor-style = "block";
     };
     work = {
       theme = "Github Dark";
       font-family = "JetBrainsMono Nerd Font Mono";
-      font-size = 13;
+      font-size = 14;
       background-opacity = 1.0;
       cursor-style = "block";
     };

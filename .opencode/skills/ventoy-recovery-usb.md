@@ -1,4 +1,4 @@
-# Ventoy Web UI Rescue USB Skill
+# Ventoy Recovery USB Skill
 
 ## Overview
 
@@ -167,17 +167,17 @@ nr
 5. **Install Ventoy**
    - Select USB device from dropdown in web UI
    - Click "Install" button
-   - **Warning**: This erases all data on the USB drive!
+   - **Warning**: This erases all data on the USB drive
 
 6. **Add ISO Files**
    ```bash
    # Mount the Ventoy data partition
    ssh <hostname> 'sudo mkdir -p /mnt/ventoy && sudo mount /dev/sda1 /mnt/ventoy'
-   
+
    # Download ISO(s) - example with NixOS
    ssh <hostname> 'cd /mnt/ventoy && sudo wget -O nixos-25.11-minimal-x86_64-linux.iso \
      https://channels.nixos.org/nixos-25.11/latest-nixos-minimal-x86_64-linux.iso'
-   
+
    # Safely unmount
    ssh <hostname> 'sync && sudo umount /mnt/ventoy'
    ```
@@ -383,7 +383,7 @@ host = {
     interface = "enp100s0";
     serverIp = "192.168.11.200";
   };
-  
+
   # Ventoy Web UI (for incompatible machines or portable rescue)
   ventoy-web = {
     enable = true;
@@ -424,15 +424,3 @@ cd /mnt/ventoy && ls -lh            # List ISOs on USB
 wget -O filename.iso <url>          # Download ISO
 rm filename.iso                     # Remove ISO
 ```
-
-## Summary
-
-The Ventoy Web UI module provides:
-
-1. **Network-accessible USB management** - No need for direct server access
-2. **Simple deployment** - Single NixOS module with minimal configuration
-3. **Reliable rescue solution** - Works with problematic firmware that fails PXE boot
-4. **Multi-ISO support** - One USB for multiple operating systems/tools
-5. **Declarative configuration** - Fully integrated with NixOS module system
-
-This approach proved "astonishingly easy" compared to complex netboot debugging and provides a reliable fallback for rescue operations.

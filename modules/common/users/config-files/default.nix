@@ -19,6 +19,7 @@
   ghosttyModule = import ./configs/ghostty.nix {inherit config lib pkgs;};
   helixModule = import ./configs/helix.nix {inherit config lib pkgs;};
   direnvModule = import ./configs/direnv.nix {inherit config lib pkgs;};
+  hyprlandModule = import ./configs/hyprland.nix {inherit lib;};
 
   # Generate activation script for a single user
   mkUserConfigScript = userName: let
@@ -95,8 +96,19 @@
       enabled = configFiles.direnv.enable;
     }}
 
+    ${hyprlandModule.mkHyprlandScript {
+      inherit user homeDir;
+      enabled = !isDarwin && config.host.desktop.enable or false;
+    }}
+
     # Set ownership (ignore errors if user doesn't exist yet)
-    chown -R "${userName}:${userGroup}" "${homeDir}/.config" "${homeDir}/.ssh" 2>/dev/null || true
+    chown "${userName}:${userGroup}" "${homeDir}" 2>/dev/null || true
+    chown -R "${userName}:${userGroup}" \
+      "${homeDir}/.config" \
+      "${homeDir}/.cache" \
+      "${homeDir}/.local" \
+      "${homeDir}/.ssh" \
+      2>/dev/null || true
     ${lib.optionalString configFiles.git.enable ''
       chown "${userName}:${userGroup}" "${homeDir}/.gitconfig" 2>/dev/null || true
     ''}
