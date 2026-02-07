@@ -56,7 +56,7 @@ Welcome to BigBang, where code meets reality. This isn't just configuration - it
 ```
 ├─ Deployment Center
 ├─ Data Distribution
-├─ Netboot Services
+├─ Ventoy Rescue USB
 └─ Network Gateway
 ```
 

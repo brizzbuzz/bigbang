@@ -2,7 +2,7 @@
 theme "retro-wave"
 
 // Use nushell as the default shell in Zellij panes/tabs
-default_shell "nu"
+default_shell "/run/current-system/sw/bin/nu"
 
 // Disable startup tips and release notes
 show_startup_tips false

@@ -4,12 +4,22 @@
       inherit inputs;
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [
+            "ventoy-1.1.10"
+          ];
+        };
         overlays = import ../modules/overlays;
       };
     };
     nixpkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
+      config = {
+        permittedInsecurePackages = [
+          "ventoy-1.1.10"
+        ];
+      };
       overlays = import ../modules/overlays;
     };
   };
