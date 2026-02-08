@@ -1,9 +1,21 @@
 # Nushell Environment Config File
 
 # Set up PATH first, before anything else
+if ("/opt/homebrew/bin" | path exists) {
+  $env.PATH = ($env.PATH | split row (char esep) | prepend "/opt/homebrew/bin")
+}
+if ("/usr/local/bin" | path exists) {
+  $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
+}
 $env.PATH = ($env.PATH | split row (char esep) | prepend "/run/current-system/sw/bin")
-$env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin') # TODO: Only if on macOS
+$env.PATH = ($env.PATH | split row (char esep) | prepend "/run/wrappers/bin")
+
+let path_entries = ($env.PATH | split row (char esep))
+if ("/run/wrappers/bin" | path exists) {
+  if ($path_entries | first) != "/run/wrappers/bin" {
+    print -e "Warning: /run/wrappers/bin is not first in PATH"
+  }
+}
 
 $env.STARSHIP_SHELL = "nu"
 
