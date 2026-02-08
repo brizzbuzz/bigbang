@@ -11,6 +11,7 @@
   mkLinuxUser = userName: userConfig: {
     isNormalUser = true;
     home = "/home/${userName}";
+    group = userName;
     shell = pkgs.nushell;
     extraGroups =
       ["wheel" "networkmanager"]
@@ -23,6 +24,7 @@
 
   # Generate user configurations for Linux
   linuxUsers = lib.mapAttrs mkLinuxUser cfg.users;
+  linuxGroups = lib.genAttrs (lib.attrNames cfg.users) (_: {});
 in {
   options.host.userAccounts = {
     enable = lib.mkEnableOption "Enable user account management";
@@ -32,6 +34,7 @@ in {
   in {
     # Linux user management
     users.users = lib.mkIf isLinux linuxUsers;
+    users.groups = lib.mkIf isLinux linuxGroups;
 
     # Darwin primary user is handled by Darwin-specific configurations
     # Not set here to avoid conflicts with NixOS

@@ -116,6 +116,36 @@ exit
 sudo reboot
 ```
 
+## Alternative: Direct Flake Install (Preferred)
+
+If the target hardware matches your flake's hardware config, install directly with the flake instead of a minimal bootstrap:
+
+```bash
+sudo nixos-install --flake /tmp/bigbang#hostname
+```
+
+After install, set passwords for every user defined in the flake (and root if needed):
+
+```bash
+sudo nixos-enter --root /mnt
+passwd root
+passwd ryan
+passwd Work
+exit
+```
+
+This avoids a second deployment step and uses the flake as the definitive system configuration.
+
+## Post-Reboot Checklist
+
+- Unlock LUKS if prompted at boot.
+- Log in as `ryan` (and `Work` if needed).
+- If login fails, switch to TTY (`Ctrl+Alt+F2`) and log in there.
+- Verify sudo works: `sudo -v`.
+- Set OpNix token: `sudo opnix token set`.
+- Confirm secret file exists: `ls -la /var/lib/opnix/secrets/`.
+- Rebuild once to ensure everything is current: `sudo nixos-rebuild switch --flake /path/to/your/flake#frame`.
+
 ## Phase 5: Remote Deployment from Management Machine
 
 1. Find the IP on the target:
