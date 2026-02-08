@@ -13,7 +13,7 @@
         zsa.enable = true;
       };
       ledger.enable = true;
-      opengl = {
+      graphics = {
         enable = true;
       };
     };
