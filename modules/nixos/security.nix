@@ -15,7 +15,19 @@ in {
     yubikey-personalization
   ];
 
+  security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false;
+  
+  # Ensure sudo wrapper takes precedence in PATH
+  environment.extraInit = ''
+    export PATH="/run/wrappers/bin:$PATH"
+  '';
+  
+  # Ensure we don't accidentally add sudo to systemPackages
+  # This would bypass the setuid wrapper
+  nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-1.1.10"
+  ];
 
   services.yubikey-agent.enable = lib.mkIf isDesktop true;
   programs.yubikey-touch-detector.enable = true;
