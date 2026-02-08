@@ -19,6 +19,11 @@
       "command": ["npx", "@browsermcp/mcp@latest"],
       "enabled": true,
     },
+    "gitbutler": {
+      "type": "local",
+      "command": ["but", "mcp"],
+      "enabled": true,
+    },
     "linear": {
       "type": "remote",
       "url": "https://mcp.linear.app/mcp",
