@@ -51,7 +51,6 @@
       # LSP servers
       gopls
       rust-analyzer
-      zls
       nodePackages.typescript-language-server
       pyright
       nil
