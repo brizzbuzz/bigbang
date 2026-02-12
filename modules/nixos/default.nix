@@ -41,8 +41,10 @@
 
     ./ssh.nix
     ./system-limits.nix
+    ./sunshine.nix
     ./users.nix
     ./ventoy-web.nix
+    ./vpn.nix
     ./xdg.nix
   ];
 

@@ -70,6 +70,15 @@
         };
       };
 
+      sunshine = {
+        enable = mkEnableOption "Enable Sunshine game streaming";
+        user = mkOption {
+          type = types.str;
+          default = "ryan";
+          description = "User that runs the Sunshine service";
+        };
+      };
+
       portfolio = {
         enable = mkEnableOption "Enable Hyperbaric portfolio service";
         port = mkOption {
@@ -214,6 +223,11 @@
 
       audiobookshelf = {
         enable = lib.mkDefault false;
+      };
+
+      sunshine = {
+        enable = lib.mkDefault false;
+        user = lib.mkDefault "ryan";
       };
 
       portfolio = {
