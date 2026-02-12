@@ -3,6 +3,9 @@
   "theme": "opencode",
   "model": "opencode/gpt-5.2-codex",
   "autoupdate": true,
+  "permission": {
+    "websearch": "deny",
+  },
   "tui": {
     "scroll_acceleration": {
       "enabled": true,
