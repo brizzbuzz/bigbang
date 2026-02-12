@@ -34,6 +34,10 @@ in {
 
   security.pam = {
     services = {
+      greetd.fprintAuth = true;
+      hyprlock.fprintAuth = true;
+      login.fprintAuth = true;
+      sudo.fprintAuth = true;
       login.u2fAuth = true;
       sudo.u2fAuth = true;
     };

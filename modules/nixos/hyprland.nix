@@ -33,5 +33,20 @@
 
     # Security - polkit for privilege escalation
     security.polkit.enable = true;
+
+    # Wayland-native polkit agent for Hyprland
+    environment.systemPackages = with pkgs; [
+      hyprpolkitagent
+    ];
+
+    systemd.user.services.hyprpolkitagent = {
+      description = "Hyprland polkit agent";
+      wantedBy = ["default.target"];
+      serviceConfig = {
+        ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+    };
   };
 }
