@@ -201,7 +201,13 @@ in {
           i=$((i + 1))
         done
 
+        ${lib.concatStringsSep "\n" (map (uid: ''"$ip" rule add uidrange ${uid}-${uid} table main priority 50 2>/dev/null || true'') userUids)}
+        ${lib.concatStringsSep "\n" (map (cidr: lib.concatStringsSep "\n" (map (uid: ''"$ip" rule add uidrange ${uid}-${uid} to ${cidr} table main priority 50 2>/dev/null || true'') userUids)) allowV4)}
         ${lib.concatStringsSep "\n" (map (uid: ''"$ip" rule add uidrange ${uid}-${uid} table "$table" priority 100 2>/dev/null || true'') userUids)}
+        ${lib.optionalString (allowV6 != [] && userUids != []) ''
+          ip6="${pkgs.iproute2}/bin/ip"
+          ${lib.concatStringsSep "\n" (map (cidr: lib.concatStringsSep "\n" (map (uid: ''"$ip6" -6 rule add uidrange ${uid}-${uid} to ${cidr} table main priority 50 2>/dev/null || true'') userUids)) allowV6)}
+        ''}
         "$ip" route replace default dev "$dev" table "$table" 2>/dev/null || true
       '';
       preStop = ''
@@ -209,7 +215,13 @@ in {
         table="${toString cfg.routing.table}"
         dev="${interfaceName}"
 
+        ${lib.concatStringsSep "\n" (map (uid: ''"$ip" rule del uidrange ${uid}-${uid} table main priority 50 2>/dev/null || true'') userUids)}
+        ${lib.concatStringsSep "\n" (map (cidr: lib.concatStringsSep "\n" (map (uid: ''"$ip" rule del uidrange ${uid}-${uid} to ${cidr} table main priority 50 2>/dev/null || true'') userUids)) allowV4)}
         ${lib.concatStringsSep "\n" (map (uid: ''"$ip" rule del uidrange ${uid}-${uid} table "$table" priority 100 2>/dev/null || true'') userUids)}
+        ${lib.optionalString (allowV6 != [] && userUids != []) ''
+          ip6="${pkgs.iproute2}/bin/ip"
+          ${lib.concatStringsSep "\n" (map (cidr: lib.concatStringsSep "\n" (map (uid: ''"$ip6" -6 rule del uidrange ${uid}-${uid} to ${cidr} table main priority 50 2>/dev/null || true'') userUids)) allowV6)}
+        ''}
         "$ip" route del default dev "$dev" table "$table" 2>/dev/null || true
       '';
     };

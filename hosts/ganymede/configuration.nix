@@ -18,20 +18,6 @@
     users = ["ryan"];
 
     secrets = {
-      protonOpenvpnConfig = {
-        reference = "op://Homelab/ProtonVPN OpenVPN Ganymede/notesPlain";
-        path = "/etc/openvpn/proton.ovpn";
-        owner = "root";
-        group = "root";
-        mode = "0600";
-      };
-      protonOpenvpnAuth = {
-        reference = "op://Homelab/ProtonVPN OpenVPN Ganymede Auth/notesPlain";
-        path = "/etc/openvpn/proton.auth";
-        owner = "root";
-        group = "root";
-        mode = "0600";
-      };
       portfolioEnv = {
         reference = "op://Homelab/Portfolio Secrets/notesPlain";
         path = "/var/lib/opnix/secrets/hyperbaric-portfolio.env";
@@ -72,64 +58,18 @@
     enable = false;
   };
 
-  # qBittorrent configuration
-  services.qbittorrent = {
+  host.torrents = {
     enable = true;
-    webuiPort = 8080;
-    torrentingPort = 6881;
-    openFirewall = true;
-    extraArgs = ["--confirm-legal-notice"];
-    serverConfig = {
-      LegalNotice.Accepted = true;
-      Preferences = {
-        WebUI = {
-          LocalHostAuth = true;
-          AuthSubnetWhitelistEnabled = true;
-          AuthSubnetWhitelist = "127.0.0.1, ::1, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
-        };
-        Downloads = {
-          SavePath = "/srv/torrents/complete";
-          TempPathEnabled = true;
-          TempPath = "/srv/torrents/incomplete";
-        };
-        Connection = {
-          PortRangeMin = 6881;
-          PortRangeMax = 6881;
-          UPnP = false;
-          RandomPort = false;
-        };
-        BitTorrent = {
-          Encryption = 1;
-          AnonymousMode = true;
-        };
-      };
+    qbittorrent = {
+      webuiUsernameSecretRef = "op://Homelab/Bittorrent Admin Password/username";
+      webuiPasswordSecretRef = "op://Homelab/Bittorrent Admin Password/password";
     };
-  };
-
-  users.users.qbittorrent.uid = 985;
-  users.groups.qbittorrent.gid = 980;
-
-  services.vpn = {
-    enable = true;
-    backend = "openvpn";
-    instanceName = "proton";
-    interfaceName = "proton0";
-    configPath = "/etc/openvpn/proton.ovpn";
-    authPath = "/etc/openvpn/proton.auth";
-    routing = {
+    vpn = {
       enable = true;
-      users = ["qbittorrent"];
+      openvpnConfigSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede/notesPlain";
+      openvpnAuthSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede Auth/notesPlain";
     };
-    killswitch.enable = true;
   };
-
-  # Create torrent directories
-  systemd.tmpfiles.rules = [
-    "d /etc/openvpn 0700 root root -"
-    "d /srv/torrents 0755 qbittorrent qbittorrent -"
-    "d /srv/torrents/complete 0755 qbittorrent qbittorrent -"
-    "d /srv/torrents/incomplete 0755 qbittorrent qbittorrent -"
-  ];
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {

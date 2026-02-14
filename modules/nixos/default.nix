@@ -42,6 +42,7 @@
     ./ssh.nix
     ./system-limits.nix
     ./sunshine.nix
+    ./torrents.nix
     ./users.nix
     ./ventoy-web.nix
     ./vpn.nix
