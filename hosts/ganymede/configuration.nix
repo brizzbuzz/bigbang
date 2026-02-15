@@ -38,7 +38,6 @@
   };
 
   host = {
-    audiobookshelf.enable = true;
     name = "ganymede";
 
     gpu.nvidia.enable = true;
@@ -74,6 +73,10 @@
   };
 
   services.jellyfinHost = {
+    enable = true;
+  };
+
+  services.audiobookshelfHost = {
     enable = true;
   };
 

@@ -2,11 +2,23 @@
   config,
   lib,
   ...
-}: {
-  config = lib.mkIf config.host.audiobookshelf.enable {
+}:
+let
+  cfg = config.services.audiobookshelfHost;
+in {
+  options.services.audiobookshelfHost = {
+    enable = lib.mkEnableOption "Enable AudioBookshelf server";
+    port = lib.mkOption {
+      type = lib.types.int;
+      default = 13378;
+      description = "Port for AudioBookshelf web interface";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     services.audiobookshelf = {
       enable = true;
-      port = config.host.audiobookshelf.port;
+      port = cfg.port;
       host = "0.0.0.0";
       dataDir = "audiobookshelf";
     };
@@ -19,6 +31,6 @@
     ];
 
     # Open firewall port
-    networking.firewall.allowedTCPPorts = [config.host.audiobookshelf.port];
+    networking.firewall.allowedTCPPorts = [cfg.port];
   };
 }

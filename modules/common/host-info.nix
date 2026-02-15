@@ -50,14 +50,6 @@
 
 
 
-      audiobookshelf = {
-        enable = mkEnableOption "Enable AudioBookshelf server";
-        port = mkOption {
-          type = types.int;
-          default = 13378;
-          description = "Port for AudioBookshelf web interface";
-        };
-      };
 
 
 
@@ -177,9 +169,6 @@
 
 
 
-      audiobookshelf = {
-        enable = lib.mkDefault false;
-      };
 
 
 
