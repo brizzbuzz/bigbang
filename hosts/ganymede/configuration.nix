@@ -45,10 +45,6 @@
     immich.enable = true;
     jellyfin.server.enable = true;
     keyboard = "moonlander";
-    portfolio = {
-      enable = true;
-      environmentFileSecrets = ["portfolioEnv"];
-    };
     remote.enable = true;
     sunshine.enable = true;
     userManagement.enable = true;
@@ -69,6 +65,11 @@
       openvpnConfigSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede/notesPlain";
       openvpnAuthSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede Auth/notesPlain";
     };
+  };
+
+  services.portfolio = {
+    enable = true;
+    environmentFileSecrets = ["portfolioEnv"];
   };
 
   # Enable PostgreSQL for home lab services and development

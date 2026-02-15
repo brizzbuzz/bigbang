@@ -80,26 +80,6 @@
       };
 
 
-      portfolio = {
-        enable = mkEnableOption "Enable Hyperbaric portfolio service";
-        port = mkOption {
-          type = types.int;
-          default = 7878;
-          description = "Port for the portfolio service";
-        };
-        listenAddress = mkOption {
-          type = types.str;
-          default = "0.0.0.0";
-          description = "Bind address for the portfolio service";
-        };
-        environmentFileSecrets = mkOption {
-          type = types.listOf types.str;
-          default = [];
-          description = ''
-            OpNix secret names that resolve to environment files (KEY=VALUE) to include for the portfolio service.
-          '';
-        };
-      };
 
       users = mkOption {
         type = types.attrsOf (types.submodule {
@@ -232,9 +212,6 @@
       };
 
 
-      portfolio = {
-        enable = lib.mkDefault false;
-      };
 
       users = lib.mkDefault {
         ryan = {
