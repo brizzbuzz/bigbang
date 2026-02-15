@@ -58,7 +58,7 @@
     enable = false;
   };
 
-  host.torrents = {
+  services.torrents = {
     enable = true;
     qbittorrent = {
       webuiUsernameSecretRef = "op://Homelab/Bittorrent Admin Password/username";

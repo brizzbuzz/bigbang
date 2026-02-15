@@ -79,91 +79,6 @@
         };
       };
 
-      torrents = {
-        enable = mkEnableOption "Enable torrenting services";
-
-        qbittorrent = {
-          webuiPort = mkOption {
-            type = types.int;
-            default = 8080;
-            description = "qBittorrent WebUI port";
-          };
-          torrentingPort = mkOption {
-            type = types.int;
-            default = 6881;
-            description = "qBittorrent torrenting port";
-          };
-          openFirewall = mkOption {
-            type = types.bool;
-            default = true;
-            description = "Open firewall ports for qBittorrent";
-          };
-          savePath = mkOption {
-            type = types.str;
-            default = "/srv/torrents/complete";
-            description = "Download destination for completed torrents";
-          };
-          tempPath = mkOption {
-            type = types.str;
-            default = "/srv/torrents/incomplete";
-            description = "Temporary download location";
-          };
-          authSubnetWhitelist = mkOption {
-            type = types.str;
-            default = "127.0.0.1, ::1, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
-            description = "WebUI auth subnet whitelist";
-          };
-          userUid = mkOption {
-            type = types.int;
-            default = 985;
-            description = "qBittorrent user UID";
-          };
-          groupGid = mkOption {
-            type = types.int;
-            default = 980;
-            description = "qBittorrent group GID";
-          };
-          webuiUsernameSecretRef = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "1Password reference for the WebUI username";
-          };
-          webuiPasswordSecretRef = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "1Password reference for the WebUI password";
-          };
-        };
-
-        vpn = {
-          enable = mkEnableOption "Enable VPN routing for torrents";
-          instanceName = mkOption {
-            type = types.str;
-            default = "proton";
-            description = "VPN instance name";
-          };
-          interfaceName = mkOption {
-            type = types.str;
-            default = "proton0";
-            description = "VPN interface name";
-          };
-          openvpnConfigSecretRef = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "1Password reference for OpenVPN config";
-          };
-          openvpnAuthSecretRef = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "1Password reference for OpenVPN auth";
-          };
-          killswitchEnable = mkOption {
-            type = types.bool;
-            default = true;
-            description = "Enable VPN killswitch for torrent user";
-          };
-        };
-      };
 
       portfolio = {
         enable = mkEnableOption "Enable Hyperbaric portfolio service";
@@ -316,9 +231,6 @@
         user = lib.mkDefault "ryan";
       };
 
-      torrents = {
-        enable = lib.mkDefault false;
-      };
 
       portfolio = {
         enable = lib.mkDefault false;

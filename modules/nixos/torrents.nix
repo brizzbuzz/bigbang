@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.host.torrents;
+  cfg = config.services.torrents;
   qb = cfg.qbittorrent;
   vpn = cfg.vpn;
   qbPasswordPath = "/var/lib/opnix/secrets/qbittorrent-webui-password";
@@ -13,15 +13,101 @@ let
   vpnConfigPath = "/etc/openvpn/proton.ovpn";
   vpnAuthPath = "/etc/openvpn/proton.auth";
 in {
+  options.services.torrents = {
+    enable = lib.mkEnableOption "Enable torrenting services";
+
+    qbittorrent = {
+      webuiPort = lib.mkOption {
+        type = lib.types.int;
+        default = 8080;
+        description = "qBittorrent WebUI port";
+      };
+      torrentingPort = lib.mkOption {
+        type = lib.types.int;
+        default = 6881;
+        description = "qBittorrent torrenting port";
+      };
+      openFirewall = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Open firewall ports for qBittorrent";
+      };
+      savePath = lib.mkOption {
+        type = lib.types.str;
+        default = "/srv/torrents/complete";
+        description = "Download destination for completed torrents";
+      };
+      tempPath = lib.mkOption {
+        type = lib.types.str;
+        default = "/srv/torrents/incomplete";
+        description = "Temporary download location";
+      };
+      authSubnetWhitelist = lib.mkOption {
+        type = lib.types.str;
+        default = "127.0.0.1, ::1, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8";
+        description = "WebUI auth subnet whitelist";
+      };
+      userUid = lib.mkOption {
+        type = lib.types.int;
+        default = 985;
+        description = "qBittorrent user UID";
+      };
+      groupGid = lib.mkOption {
+        type = lib.types.int;
+        default = 980;
+        description = "qBittorrent group GID";
+      };
+      webuiUsernameSecretRef = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "1Password reference for the WebUI username";
+      };
+      webuiPasswordSecretRef = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "1Password reference for the WebUI password";
+      };
+    };
+
+    vpn = {
+      enable = lib.mkEnableOption "Enable VPN routing for torrents";
+      instanceName = lib.mkOption {
+        type = lib.types.str;
+        default = "proton";
+        description = "VPN instance name";
+      };
+      interfaceName = lib.mkOption {
+        type = lib.types.str;
+        default = "proton0";
+        description = "VPN interface name";
+      };
+      openvpnConfigSecretRef = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "1Password reference for OpenVPN config";
+      };
+      openvpnAuthSecretRef = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "1Password reference for OpenVPN auth";
+      };
+      killswitchEnable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable VPN killswitch for torrent user";
+      };
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     assertions = [
       {
         assertion = qb.webuiPasswordSecretRef != null;
-        message = "host.torrents.qbittorrent.webuiPasswordSecretRef must be set.";
+        message = "services.torrents.qbittorrent.webuiPasswordSecretRef must be set.";
       }
       {
-        assertion = vpn.enable -> (vpn.openvpnConfigSecretRef != null && vpn.openvpnAuthSecretRef != null);
-        message = "host.torrents.vpn.openvpnConfigSecretRef and openvpnAuthSecretRef must be set when VPN is enabled.";
+        assertion = (!vpn.enable) || (vpn.openvpnConfigSecretRef != null && vpn.openvpnAuthSecretRef != null);
+        message = "services.torrents.vpn.openvpnConfigSecretRef and openvpnAuthSecretRef must be set when VPN is enabled.";
       }
     ];
 
