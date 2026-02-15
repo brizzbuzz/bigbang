@@ -17,12 +17,12 @@ in {
 
   security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false;
-  
+
   # Ensure sudo wrapper takes precedence in PATH
   environment.extraInit = ''
     export PATH="/run/wrappers/bin:$PATH"
   '';
-  
+
   # Ensure we don't accidentally add sudo to systemPackages
   # This would bypass the setuid wrapper
   nixpkgs.config.permittedInsecurePackages = [

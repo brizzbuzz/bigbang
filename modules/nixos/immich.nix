@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.services.media.immich;
 in {
   options.services.media.immich = {

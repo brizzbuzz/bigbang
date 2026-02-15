@@ -4,8 +4,7 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   cfg = config.services.portfolio;
   portfolioPkg = inputs.hyperbaric.packages.${pkgs.stdenv.hostPlatform.system}.portfolio;
   hasEnvFiles = cfg.environmentFileSecrets != [];

@@ -55,6 +55,8 @@
     qbittorrent = {
       webuiUsernameSecretRef = "op://Homelab/Bittorrent Admin Password/username";
       webuiPasswordSecretRef = "op://Homelab/Bittorrent Admin Password/password";
+      savePath = "/data/torrents/complete";
+      tempPath = "/data/torrents/incomplete";
     };
     vpn = {
       enable = true;
@@ -66,6 +68,7 @@
   services.portfolio = {
     enable = true;
     environmentFileSecrets = ["portfolioEnv"];
+    port = 7877;
   };
 
   services.media.immich = {
@@ -74,6 +77,18 @@
 
   services.media.jellyfin = {
     enable = true;
+  };
+
+  services.media.arr = {
+    enable = true;
+    services = {
+      prowlarr.enable = true;
+      sonarr.enable = true;
+      radarr.enable = true;
+      lidarr.enable = true;
+      bazarr.enable = true;
+      jellyseerr.enable = true;
+    };
   };
 
   services.media.audiobookshelf = {

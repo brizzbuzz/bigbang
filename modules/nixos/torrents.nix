@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.torrents;
   qb = cfg.qbittorrent;
   vpn = cfg.vpn;
@@ -147,11 +146,14 @@ in {
     users.users.qbittorrent.uid = qb.userUid;
     users.groups.qbittorrent.gid = qb.groupGid;
 
-    systemd.tmpfiles.rules = [
-      "d /srv/torrents 0755 qbittorrent qbittorrent -"
-      "d ${qb.savePath} 0755 qbittorrent qbittorrent -"
-      "d ${qb.tempPath} 0755 qbittorrent qbittorrent -"
-    ] ++ lib.optional vpn.enable "d /etc/openvpn 0700 root root -";
+    systemd.tmpfiles.rules =
+      [
+        "d ${lib.dirOf qb.savePath} 0755 qbittorrent qbittorrent -"
+        "d ${lib.dirOf qb.tempPath} 0755 qbittorrent qbittorrent -"
+        "d ${qb.savePath} 0755 qbittorrent qbittorrent -"
+        "d ${qb.tempPath} 0755 qbittorrent qbittorrent -"
+      ]
+      ++ lib.optional vpn.enable "d /etc/openvpn 0700 root root -";
 
     services.onepassword-secrets.secrets = lib.mkMerge [
       {
@@ -205,55 +207,55 @@ in {
         User = "root";
       };
       script = ''
-        set -euo pipefail
+                set -euo pipefail
 
-        password_file="${qbPasswordPath}"
-        username_file="${qbUsernamePath}"
-        config_path="/var/lib/qBittorrent/config/qBittorrent/qBittorrent.conf"
+                password_file="${qbPasswordPath}"
+                username_file="${qbUsernamePath}"
+                config_path="/var/lib/qBittorrent/config/qBittorrent/qBittorrent.conf"
 
-        if [ ! -f "$password_file" ]; then
-          exit 1
-        fi
+                if [ ! -f "$password_file" ]; then
+                  exit 1
+                fi
 
-        ${pkgs.coreutils}/bin/install -d -m 0750 "$(dirname "$config_path")"
-        ${pkgs.python3}/bin/python3 - <<'PY'
-import base64
-import configparser
-import hashlib
-import os
+                ${pkgs.coreutils}/bin/install -d -m 0750 "$(dirname "$config_path")"
+                ${pkgs.python3}/bin/python3 - <<'PY'
+        import base64
+        import configparser
+        import hashlib
+        import os
 
-password_path = "${qbPasswordPath}"
-username_path = "${qbUsernamePath}"
-config_path = "/var/lib/qBittorrent/config/qBittorrent/qBittorrent.conf"
+        password_path = "${qbPasswordPath}"
+        username_path = "${qbUsernamePath}"
+        config_path = "/var/lib/qBittorrent/config/qBittorrent/qBittorrent.conf"
 
-with open(password_path, "r", encoding="utf-8") as handle:
-    password = handle.read().strip()
+        with open(password_path, "r", encoding="utf-8") as handle:
+            password = handle.read().strip()
 
-username = "admin"
-if os.path.exists(username_path):
-    with open(username_path, "r", encoding="utf-8") as handle:
-        value = handle.read().strip()
-        if value:
-            username = value
+        username = "admin"
+        if os.path.exists(username_path):
+            with open(username_path, "r", encoding="utf-8") as handle:
+                value = handle.read().strip()
+                if value:
+                    username = value
 
-salt = os.urandom(16)
-dk = hashlib.pbkdf2_hmac("sha512", password.encode(), salt, 100000)
-encoded = f"@ByteArray({base64.b64encode(salt).decode()}:{base64.b64encode(dk).decode()})"
+        salt = os.urandom(16)
+        dk = hashlib.pbkdf2_hmac("sha512", password.encode(), salt, 100000)
+        encoded = f"@ByteArray({base64.b64encode(salt).decode()}:{base64.b64encode(dk).decode()})"
 
-config = configparser.ConfigParser(interpolation=None)
-config.optionxform = str
-config.read(config_path)
+        config = configparser.ConfigParser(interpolation=None)
+        config.optionxform = str
+        config.read(config_path)
 
-if "Preferences" not in config:
-    config["Preferences"] = {}
+        if "Preferences" not in config:
+            config["Preferences"] = {}
 
-prefs = config["Preferences"]
-prefs["WebUI\\Username"] = username
-prefs["WebUI\\Password_PBKDF2"] = encoded
+        prefs = config["Preferences"]
+        prefs["WebUI\\Username"] = username
+        prefs["WebUI\\Password_PBKDF2"] = encoded
 
-with open(config_path, "w", encoding="utf-8") as handle:
-    config.write(handle)
-PY
+        with open(config_path, "w", encoding="utf-8") as handle:
+            config.write(handle)
+        PY
       '';
     };
 

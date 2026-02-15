@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.media.jellyfin;
 in {
   options.services.media.jellyfin = {

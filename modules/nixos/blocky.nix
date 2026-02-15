@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.services.dns.blocky;
 in {
   options.services.dns.blocky = {

@@ -9,6 +9,7 @@
     ./storage
     ./audio.nix
     ./audiobookshelf.nix
+    ./arr.nix
     ./blocky.nix
     ./boot.nix
     ./caddy.nix
@@ -51,9 +52,9 @@
 
   password-manager = {
     enable = lib.mkDefault true;
-      gui = {
-        enable = lib.mkDefault config.host.roles.desktop;
-        polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
-      };
+    gui = {
+      enable = lib.mkDefault config.host.roles.desktop;
+      polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
+    };
   };
 }

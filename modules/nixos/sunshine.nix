@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.services.stream.sunshine;
 in {
   options.services.stream.sunshine = {

@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.vpn;
   vpnEnabled = cfg.enable && cfg.backend == "openvpn";
   instanceName = cfg.instanceName;
@@ -17,7 +16,10 @@ let
   allowV4Set = lib.concatStringsSep ", " allowV4;
   allowV6Set = lib.concatStringsSep ", " allowV6;
   runConfigPath = "/run/vpn/${instanceName}.ovpn";
-  authPathValue = if cfg.authPath == null then "" else cfg.authPath;
+  authPathValue =
+    if cfg.authPath == null
+    then ""
+    else cfg.authPath;
   openvpnConfig = lib.concatStringsSep "\n" [
     "config ${runConfigPath}"
   ];

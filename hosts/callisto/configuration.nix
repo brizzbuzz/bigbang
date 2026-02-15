@@ -122,7 +122,7 @@
         portfolio = {
           enable = true;
           domain = "ryanbr.ink";
-          target = "ganymede.chateaubr.ink:7878";
+          target = "ganymede.chateaubr.ink:7877";
           tlsCertSecret = "sslRyanbrCert";
           tlsKeySecret = "sslRyanbrKey";
           logLevel = "INFO";

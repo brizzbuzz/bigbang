@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.services.web.caddy;
 
   # TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates

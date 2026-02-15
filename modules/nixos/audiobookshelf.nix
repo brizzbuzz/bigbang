@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.services.media.audiobookshelf;
 in {
   options.services.media.audiobookshelf = {
