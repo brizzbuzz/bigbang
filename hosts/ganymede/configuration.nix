@@ -40,9 +40,9 @@
   host = {
     name = "ganymede";
 
-    gpu.nvidia.enable = true;
+    hardware.gpu.nvidia.enable = true;
     keyboard = "moonlander";
-    remote.enable = true;
+    roles.remote = true;
     userManagement.enable = true;
   };
 

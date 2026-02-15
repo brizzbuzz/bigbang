@@ -14,7 +14,7 @@
 
   host = {
     name = "frame";
-    desktop.enable = true;
+    roles.desktop = true;
     userManagement.enable = true;
     users = {
       ryan = {

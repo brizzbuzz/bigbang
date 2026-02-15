@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.host.ventoy-web;
+  cfg = config.services.tools."ventoy-web";
 in {
-  options.host.ventoy-web = {
+  options.services.tools."ventoy-web" = {
     enable = mkEnableOption "Ventoy Web UI service for USB drive management";
 
     port = mkOption {

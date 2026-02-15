@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  isDesktop = config.host.desktop.enable;
+  isDesktop = config.host.roles.desktop;
 in {
   environment.systemPackages = with pkgs; [
     pam_u2f

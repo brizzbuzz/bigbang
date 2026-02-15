@@ -3,5 +3,5 @@
   lib,
   ...
 }: {
-  programs.steam.enable = lib.mkIf config.host.desktop.enable true;
+  programs.steam.enable = lib.mkIf config.host.roles.desktop true;
 }

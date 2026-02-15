@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  config = lib.mkIf config.host.desktop.enable {
+  config = lib.mkIf config.host.roles.desktop {
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {

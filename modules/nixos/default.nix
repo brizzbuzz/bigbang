@@ -51,9 +51,9 @@
 
   password-manager = {
     enable = lib.mkDefault true;
-    gui = {
-      enable = lib.mkDefault config.host.desktop.enable;
-      polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
-    };
+      gui = {
+        enable = lib.mkDefault config.host.roles.desktop;
+        polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
+      };
   };
 }

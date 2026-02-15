@@ -30,22 +30,16 @@
         };
       };
 
-      desktop = {
-        enable = mkEnableOption "Enable Desktop Environment";
+      roles = {
+        desktop = mkEnableOption "Enable desktop role";
+        remote = mkEnableOption "Enable remote server role";
       };
 
-      gpu = {
-        nvidia.enable = mkEnableOption "Enable Nvidia GPU Drivers";
+      hardware = {
+        gpu = {
+          nvidia.enable = mkEnableOption "Enable Nvidia GPU Drivers";
+        };
       };
-
-      remote.enable = mkEnableOption "Enable Remote Server";
-
-
-
-
-
-
-
       users = mkOption {
         type = types.attrsOf (types.submodule {
           options = {
@@ -144,24 +138,14 @@
       admin.name = lib.mkDefault "ryan";
 
 
-      desktop = {
-        enable = lib.mkDefault false;
+      roles = {
+        desktop = lib.mkDefault false;
+        remote = lib.mkDefault false;
       };
 
-      gpu.nvidia = {
+      hardware.gpu.nvidia = {
         enable = lib.mkDefault false;
       };
-
-      remote = {
-        enable = lib.mkDefault false;
-      };
-
-
-
-
-
-
-
       users = lib.mkDefault {
         ryan = {
           name = "ryan";

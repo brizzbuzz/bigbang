@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf config.host.gpu.nvidia.enable {
+  config = lib.mkIf config.host.hardware.gpu.nvidia.enable {
     services.xserver.videoDrivers = ["nvidia"];
 
     hardware.nvidia = {

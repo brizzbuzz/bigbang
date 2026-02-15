@@ -72,13 +72,8 @@
 
   host = {
     name = "callisto";
-    remote.enable = true;
+    roles.remote = true;
     userManagement.enable = true;
-    ventoy-web = {
-      enable = true;
-      port = 24680;
-      bindAddress = "0.0.0.0";
-    };
   };
 
   services.web.caddy = {
@@ -153,6 +148,12 @@
       prefetching = true;
     };
     logLevel = "info";
+  };
+
+  services.tools."ventoy-web" = {
+    enable = true;
+    port = 24680;
+    bindAddress = "0.0.0.0";
   };
 
   system.stateVersion = "24.05";
