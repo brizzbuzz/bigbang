@@ -2,8 +2,9 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.host.caddy;
+}:
+let
+  cfg = config.services.web.caddy;
 
   # TLS configuration using OpNix 0.7.0 managed Cloudflare Origin certificates
   # Moved to inline usage to avoid early evaluation issues
@@ -140,8 +141,13 @@
   in
     rootSite // proxySites // standaloneSites;
 in {
-  options.host.caddy = {
-    # The enable and domain options are already defined in modules/common/host-info.nix
+  options.services.web.caddy = {
+    enable = lib.mkEnableOption "Enable Caddy reverse proxy";
+    domain = lib.mkOption {
+      type = lib.types.str;
+      default = "rgbr.ink";
+      description = "The primary domain name";
+    };
 
     sites = {
       root = {
@@ -217,10 +223,10 @@ in {
     '';
 
     # Default configuration values
-    host.caddy.sites.root.enable = lib.mkDefault true;
+    services.web.caddy.sites.root.enable = lib.mkDefault true;
 
     # Default proxy configurations
-    host.caddy.sites.proxies = lib.mkDefault {
+    services.web.caddy.sites.proxies = lib.mkDefault {
       media = {
         enable = false;
         subdomain = "media";
@@ -230,7 +236,7 @@ in {
     };
 
     # Default standalone configurations
-    host.caddy.sites.standalone = lib.mkDefault {};
+    services.web.caddy.sites.standalone = lib.mkDefault {};
 
     services.caddy = {
       enable = true;

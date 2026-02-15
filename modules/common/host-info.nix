@@ -3,14 +3,6 @@
     ports = {
     };
     host = {
-      caddy = {
-        enable = mkEnableOption "Enable Caddy reverse proxy";
-        domain = mkOption {
-          type = types.str;
-          default = "rgbr.ink";
-          description = "The primary domain name";
-        };
-      };
 
       gitSigningKey = mkOption {
         type = types.str;
@@ -151,9 +143,6 @@
     host = {
       admin.name = lib.mkDefault "ryan";
 
-      caddy = {
-        enable = lib.mkDefault false;
-      };
 
       desktop = {
         enable = lib.mkDefault false;

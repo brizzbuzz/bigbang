@@ -74,66 +74,65 @@
     name = "callisto";
     remote.enable = true;
     userManagement.enable = true;
-
-    caddy = {
-      enable = true;
-      domain = "rgbr.ink";
-      sites = {
-        root = {
-          enable = true;
-          content = "Hello from callisto!";
-        };
-        proxies = {
-          media = {
-            enable = true;
-            subdomain = "media";
-            target = "ganymede.chateaubr.ink:8096";
-            logLevel = "DEBUG";
-          };
-
-          # torrents = {
-          #   enable = true;
-          #   subdomain = "torrents";
-          #   target = "ganymede.chateaubr.ink:8080";
-          #   logLevel = "INFO";
-          # };
-          blocky = {
-            enable = true;
-            subdomain = "dns";
-            target = "localhost:4000";
-            logLevel = "INFO";
-          };
-          photos = {
-            enable = true;
-            subdomain = "photos";
-            target = "ganymede.chateaubr.ink:2283";
-            logLevel = "INFO";
-          };
-          books = {
-            enable = true;
-            subdomain = "books";
-            target = "ganymede.chateaubr.ink:13378";
-            logLevel = "INFO";
-          };
-        };
-        # Portfolio now served via standalone ryanbr.ink domain
-        standalone = {
-          portfolio = {
-            enable = true;
-            domain = "ryanbr.ink";
-            target = "ganymede.chateaubr.ink:7878";
-            tlsCertSecret = "sslRyanbrCert";
-            tlsKeySecret = "sslRyanbrKey";
-            logLevel = "INFO";
-          };
-        };
-      };
-    };
-
     ventoy-web = {
       enable = true;
       port = 24680;
       bindAddress = "0.0.0.0";
+    };
+  };
+
+  services.web.caddy = {
+    enable = true;
+    domain = "rgbr.ink";
+    sites = {
+      root = {
+        enable = true;
+        content = "Hello from callisto!";
+      };
+      proxies = {
+        media = {
+          enable = true;
+          subdomain = "media";
+          target = "ganymede.chateaubr.ink:8096";
+          logLevel = "DEBUG";
+        };
+
+        # torrents = {
+        #   enable = true;
+        #   subdomain = "torrents";
+        #   target = "ganymede.chateaubr.ink:8080";
+        #   logLevel = "INFO";
+        # };
+        blocky = {
+          enable = true;
+          subdomain = "dns";
+          target = "localhost:4000";
+          logLevel = "INFO";
+        };
+        photos = {
+          enable = true;
+          subdomain = "photos";
+          target = "ganymede.chateaubr.ink:2283";
+          logLevel = "INFO";
+        };
+        books = {
+          enable = true;
+          subdomain = "books";
+          target = "ganymede.chateaubr.ink:13378";
+          logLevel = "INFO";
+        };
+      };
+      # Portfolio now served via standalone ryanbr.ink domain
+      standalone = {
+        portfolio = {
+          enable = true;
+          domain = "ryanbr.ink";
+          target = "ganymede.chateaubr.ink:7878";
+          tlsCertSecret = "sslRyanbrCert";
+          tlsKeySecret = "sslRyanbrKey";
+          logLevel = "INFO";
+        };
+      };
     };
   };
 
