@@ -2,9 +2,19 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.host.sunshine;
+}:
+let
+  cfg = config.services.sunshineHost;
 in {
+  options.services.sunshineHost = {
+    enable = lib.mkEnableOption "Enable Sunshine host integration";
+    user = lib.mkOption {
+      type = lib.types.str;
+      default = "ryan";
+      description = "User that runs the Sunshine service";
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     services.sunshine = {
       enable = true;

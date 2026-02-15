@@ -46,7 +46,6 @@
     jellyfin.server.enable = true;
     keyboard = "moonlander";
     remote.enable = true;
-    sunshine.enable = true;
     userManagement.enable = true;
   };
 
@@ -70,6 +69,11 @@
   services.portfolio = {
     enable = true;
     environmentFileSecrets = ["portfolioEnv"];
+  };
+
+  services.sunshineHost = {
+    enable = true;
+    user = "ryan";
   };
 
   # Enable PostgreSQL for home lab services and development
