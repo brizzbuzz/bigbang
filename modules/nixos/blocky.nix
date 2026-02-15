@@ -2,10 +2,11 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.host.blocky;
+}:
+let
+  cfg = config.services.dns.blocky;
 in {
-  options.host.blocky = {
+  options.services.dns.blocky = {
     enable = lib.mkEnableOption "Blocky DNS proxy and ad-blocker";
 
     port = lib.mkOption {

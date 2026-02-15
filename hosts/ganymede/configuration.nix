@@ -68,19 +68,19 @@
     environmentFileSecrets = ["portfolioEnv"];
   };
 
-  services.immichHost = {
+  services.media.immich = {
     enable = true;
   };
 
-  services.jellyfinHost = {
+  services.media.jellyfin = {
     enable = true;
   };
 
-  services.audiobookshelfHost = {
+  services.media.audiobookshelf = {
     enable = true;
   };
 
-  services.sunshineHost = {
+  services.stream.sunshine = {
     enable = true;
     user = "ryan";
   };

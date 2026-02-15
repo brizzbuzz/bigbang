@@ -4,9 +4,9 @@
   ...
 }:
 let
-  cfg = config.services.audiobookshelfHost;
+  cfg = config.services.media.audiobookshelf;
 in {
-  options.services.audiobookshelfHost = {
+  options.services.media.audiobookshelf = {
     enable = lib.mkEnableOption "Enable AudioBookshelf server";
     port = lib.mkOption {
       type = lib.types.int;

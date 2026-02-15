@@ -4,9 +4,9 @@
   ...
 }:
 let
-  cfg = config.services.sunshineHost;
+  cfg = config.services.stream.sunshine;
 in {
-  options.services.sunshineHost = {
+  options.services.stream.sunshine = {
     enable = lib.mkEnableOption "Enable Sunshine host integration";
     user = lib.mkOption {
       type = lib.types.str;

@@ -75,25 +75,6 @@
     remote.enable = true;
     userManagement.enable = true;
 
-    blocky = {
-      enable = true;
-      customDNS.enable = false; # UniFi handles local domain resolution
-      blocking = {
-        enable = true;
-        clientGroups = {
-          default = ["ads" "malware" "tracking"];
-          kids = ["ads" "malware" "tracking"];
-        };
-      };
-      caching = {
-        enable = true;
-        minTime = "5m";
-        maxTime = "30m";
-        prefetching = true;
-      };
-      logLevel = "info";
-    };
-
     caddy = {
       enable = true;
       domain = "rgbr.ink";
@@ -154,6 +135,25 @@
       port = 24680;
       bindAddress = "0.0.0.0";
     };
+  };
+
+  services.dns.blocky = {
+    enable = true;
+    customDNS.enable = false; # UniFi handles local domain resolution
+    blocking = {
+      enable = true;
+      clientGroups = {
+        default = ["ads" "malware" "tracking"];
+        kids = ["ads" "malware" "tracking"];
+      };
+    };
+    caching = {
+      enable = true;
+      minTime = "5m";
+      maxTime = "30m";
+      prefetching = true;
+    };
+    logLevel = "info";
   };
 
   system.stateVersion = "24.05";

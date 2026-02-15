@@ -4,9 +4,9 @@
   ...
 }:
 let
-  cfg = config.services.immichHost;
+  cfg = config.services.media.immich;
 in {
-  options.services.immichHost = {
+  options.services.media.immich = {
     enable = lib.mkEnableOption "Enable Immich photo management server";
     port = lib.mkOption {
       type = lib.types.int;

@@ -5,9 +5,9 @@
   ...
 }:
 let
-  cfg = config.services.jellyfinHost;
+  cfg = config.services.media.jellyfin;
 in {
-  options.services.jellyfinHost = {
+  options.services.media.jellyfin = {
     enable = lib.mkEnableOption "Enable Jellyfin";
   };
 
