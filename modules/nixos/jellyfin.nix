@@ -3,8 +3,15 @@
   lib,
   pkgs,
   ...
-}: {
-  config = lib.mkIf config.host.jellyfin.server.enable {
+}:
+let
+  cfg = config.services.jellyfinHost;
+in {
+  options.services.jellyfinHost = {
+    enable = lib.mkEnableOption "Enable Jellyfin";
+  };
+
+  config = lib.mkIf cfg.enable {
     services.jellyfin = {
       enable = true;
     };

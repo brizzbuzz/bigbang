@@ -48,18 +48,7 @@
 
       remote.enable = mkEnableOption "Enable Remote Server";
 
-      jellyfin.server = {
-        enable = mkEnableOption "Enable Jellyfin";
-      };
 
-      immich = {
-        enable = mkEnableOption "Enable Immich photo management server";
-        port = mkOption {
-          type = types.int;
-          default = 2283;
-          description = "Port for Immich web interface";
-        };
-      };
 
       audiobookshelf = {
         enable = mkEnableOption "Enable AudioBookshelf server";
@@ -186,13 +175,7 @@
         enable = lib.mkDefault false;
       };
 
-      jellyfin.server = {
-        enable = lib.mkDefault false;
-      };
 
-      immich = {
-        enable = lib.mkDefault false;
-      };
 
       audiobookshelf = {
         enable = lib.mkDefault false;

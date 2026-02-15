@@ -42,8 +42,6 @@
     name = "ganymede";
 
     gpu.nvidia.enable = true;
-    immich.enable = true;
-    jellyfin.server.enable = true;
     keyboard = "moonlander";
     remote.enable = true;
     userManagement.enable = true;
@@ -69,6 +67,14 @@
   services.portfolio = {
     enable = true;
     environmentFileSecrets = ["portfolioEnv"];
+  };
+
+  services.immichHost = {
+    enable = true;
+  };
+
+  services.jellyfinHost = {
+    enable = true;
   };
 
   services.sunshineHost = {

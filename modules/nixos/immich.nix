@@ -2,11 +2,23 @@
   config,
   lib,
   ...
-}: {
-  config = lib.mkIf config.host.immich.enable {
+}:
+let
+  cfg = config.services.immichHost;
+in {
+  options.services.immichHost = {
+    enable = lib.mkEnableOption "Enable Immich photo management server";
+    port = lib.mkOption {
+      type = lib.types.int;
+      default = 2283;
+      description = "Port for Immich web interface";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     services.immich = {
       enable = true;
-      port = config.host.immich.port;
+      port = cfg.port;
       host = "0.0.0.0";
       database = {
         host = "/run/postgresql";
@@ -56,6 +68,6 @@
     ];
 
     # Open firewall port for Immich
-    networking.firewall.allowedTCPPorts = [config.host.immich.port];
+    networking.firewall.allowedTCPPorts = [cfg.port];
   };
 }
