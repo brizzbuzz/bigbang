@@ -4,7 +4,7 @@
   ...
 }: {
   config = {
-    hardware = lib.mkIf config.host.desktop.enable {
+    hardware = lib.mkIf config.host.roles.desktop {
       bluetooth = {
         enable = true;
         powerOnBoot = true;

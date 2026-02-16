@@ -17,9 +17,9 @@
       "command": ["mcp-server-playwright"],
       "enabled": true,
     },
-    "browser": {
+    "chrome_devtools": {
       "type": "local",
-      "command": ["npx", "@browsermcp/mcp@latest"],
+      "command": ["npx", "chrome-devtools-mcp@latest"],
       "enabled": true,
     },
     "gitbutler": {

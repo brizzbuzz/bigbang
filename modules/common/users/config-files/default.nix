@@ -98,7 +98,7 @@
 
     ${hyprlandModule.mkHyprlandScript {
       inherit user homeDir;
-      enabled = !isDarwin && config.host.desktop.enable or false;
+      enabled = !isDarwin && config.host.roles.desktop or false;
     }}
 
     # Set ownership (ignore errors if user doesn't exist yet)

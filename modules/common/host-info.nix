@@ -3,15 +3,6 @@
     ports = {
     };
     host = {
-      caddy = {
-        enable = mkEnableOption "Enable Caddy reverse proxy";
-        domain = mkOption {
-          type = types.str;
-          default = "rgbr.ink";
-          description = "The primary domain name";
-        };
-      };
-
       gitSigningKey = mkOption {
         type = types.str;
         default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
@@ -38,59 +29,16 @@
         };
       };
 
-      desktop = {
-        enable = mkEnableOption "Enable Desktop Environment";
+      roles = {
+        desktop = mkEnableOption "Enable desktop role";
+        remote = mkEnableOption "Enable remote server role";
       };
 
-      gpu = {
-        nvidia.enable = mkEnableOption "Enable Nvidia GPU Drivers";
-      };
-
-      remote.enable = mkEnableOption "Enable Remote Server";
-
-      jellyfin.server = {
-        enable = mkEnableOption "Enable Jellyfin";
-      };
-
-      immich = {
-        enable = mkEnableOption "Enable Immich photo management server";
-        port = mkOption {
-          type = types.int;
-          default = 2283;
-          description = "Port for Immich web interface";
+      hardware = {
+        gpu = {
+          nvidia.enable = mkEnableOption "Enable Nvidia GPU Drivers";
         };
       };
-
-      audiobookshelf = {
-        enable = mkEnableOption "Enable AudioBookshelf server";
-        port = mkOption {
-          type = types.int;
-          default = 13378;
-          description = "Port for AudioBookshelf web interface";
-        };
-      };
-
-      portfolio = {
-        enable = mkEnableOption "Enable Hyperbaric portfolio service";
-        port = mkOption {
-          type = types.int;
-          default = 7878;
-          description = "Port for the portfolio service";
-        };
-        listenAddress = mkOption {
-          type = types.str;
-          default = "0.0.0.0";
-          description = "Bind address for the portfolio service";
-        };
-        environmentFileSecrets = mkOption {
-          type = types.listOf types.str;
-          default = [];
-          description = ''
-            OpNix secret names that resolve to environment files (KEY=VALUE) to include for the portfolio service.
-          '';
-        };
-      };
-
       users = mkOption {
         type = types.attrsOf (types.submodule {
           options = {
@@ -188,38 +136,14 @@
     host = {
       admin.name = lib.mkDefault "ryan";
 
-      caddy = {
-        enable = lib.mkDefault false;
+      roles = {
+        desktop = lib.mkDefault false;
+        remote = lib.mkDefault false;
       };
 
-      desktop = {
+      hardware.gpu.nvidia = {
         enable = lib.mkDefault false;
       };
-
-      gpu.nvidia = {
-        enable = lib.mkDefault false;
-      };
-
-      remote = {
-        enable = lib.mkDefault false;
-      };
-
-      jellyfin.server = {
-        enable = lib.mkDefault false;
-      };
-
-      immich = {
-        enable = lib.mkDefault false;
-      };
-
-      audiobookshelf = {
-        enable = lib.mkDefault false;
-      };
-
-      portfolio = {
-        enable = lib.mkDefault false;
-      };
-
       users = lib.mkDefault {
         ryan = {
           name = "ryan";

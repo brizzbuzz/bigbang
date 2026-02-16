@@ -9,6 +9,7 @@
     ./storage
     ./audio.nix
     ./audiobookshelf.nix
+    ./arr.nix
     ./blocky.nix
     ./boot.nix
     ./caddy.nix
@@ -41,15 +42,18 @@
 
     ./ssh.nix
     ./system-limits.nix
+    ./sunshine.nix
+    ./torrents.nix
     ./users.nix
     ./ventoy-web.nix
+    ./vpn.nix
     ./xdg.nix
   ];
 
   password-manager = {
     enable = lib.mkDefault true;
     gui = {
-      enable = lib.mkDefault config.host.desktop.enable;
+      enable = lib.mkDefault config.host.roles.desktop;
       polkitPolicyOwners = lib.mkDefault [config.host.admin.name];
     };
   };

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  isDesktop = config.host.desktop.enable;
+  isDesktop = config.host.roles.desktop;
 in {
   environment.systemPackages = with pkgs; [
     pam_u2f
@@ -17,12 +17,12 @@ in {
 
   security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false;
-  
+
   # Ensure sudo wrapper takes precedence in PATH
   environment.extraInit = ''
     export PATH="/run/wrappers/bin:$PATH"
   '';
-  
+
   # Ensure we don't accidentally add sudo to systemPackages
   # This would bypass the setuid wrapper
   nixpkgs.config.permittedInsecurePackages = [

@@ -72,88 +72,88 @@
 
   host = {
     name = "callisto";
-    remote.enable = true;
+    roles.remote = true;
     userManagement.enable = true;
+  };
 
-    blocky = {
-      enable = true;
-      customDNS.enable = false; # UniFi handles local domain resolution
-      blocking = {
+  services.web.caddy = {
+    enable = true;
+    domain = "rgbr.ink";
+    sites = {
+      root = {
         enable = true;
-        clientGroups = {
-          default = ["ads" "malware" "tracking"];
-          kids = ["ads" "malware" "tracking"];
-        };
+        content = "Hello from callisto!";
       };
-      caching = {
-        enable = true;
-        minTime = "5m";
-        maxTime = "30m";
-        prefetching = true;
-      };
-      logLevel = "info";
-    };
-
-    caddy = {
-      enable = true;
-      domain = "rgbr.ink";
-      sites = {
-        root = {
+      proxies = {
+        media = {
           enable = true;
-          content = "Hello from callisto!";
+          subdomain = "media";
+          target = "ganymede.chateaubr.ink:8096";
+          logLevel = "DEBUG";
         };
-        proxies = {
-          media = {
-            enable = true;
-            subdomain = "media";
-            target = "ganymede.chateaubr.ink:8096";
-            logLevel = "DEBUG";
-          };
 
-          # torrents = {
-          #   enable = true;
-          #   subdomain = "torrents";
-          #   target = "ganymede.chateaubr.ink:8080";
-          #   logLevel = "INFO";
-          # };
-          blocky = {
-            enable = true;
-            subdomain = "dns";
-            target = "localhost:4000";
-            logLevel = "INFO";
-          };
-          photos = {
-            enable = true;
-            subdomain = "photos";
-            target = "ganymede.chateaubr.ink:2283";
-            logLevel = "INFO";
-          };
-          books = {
-            enable = true;
-            subdomain = "books";
-            target = "ganymede.chateaubr.ink:13378";
-            logLevel = "INFO";
-          };
+        # torrents = {
+        #   enable = true;
+        #   subdomain = "torrents";
+        #   target = "ganymede.chateaubr.ink:8080";
+        #   logLevel = "INFO";
+        # };
+        blocky = {
+          enable = true;
+          subdomain = "dns";
+          target = "localhost:4000";
+          logLevel = "INFO";
         };
-        # Portfolio now served via standalone ryanbr.ink domain
-        standalone = {
-          portfolio = {
-            enable = true;
-            domain = "ryanbr.ink";
-            target = "ganymede.chateaubr.ink:7878";
-            tlsCertSecret = "sslRyanbrCert";
-            tlsKeySecret = "sslRyanbrKey";
-            logLevel = "INFO";
-          };
+        photos = {
+          enable = true;
+          subdomain = "photos";
+          target = "ganymede.chateaubr.ink:2283";
+          logLevel = "INFO";
+        };
+        books = {
+          enable = true;
+          subdomain = "books";
+          target = "ganymede.chateaubr.ink:13378";
+          logLevel = "INFO";
+        };
+      };
+      # Portfolio now served via standalone ryanbr.ink domain
+      standalone = {
+        portfolio = {
+          enable = true;
+          domain = "ryanbr.ink";
+          target = "ganymede.chateaubr.ink:7877";
+          tlsCertSecret = "sslRyanbrCert";
+          tlsKeySecret = "sslRyanbrKey";
+          logLevel = "INFO";
         };
       };
     };
+  };
 
-    ventoy-web = {
+  services.dns.blocky = {
+    enable = true;
+    customDNS.enable = false; # UniFi handles local domain resolution
+    blocking = {
       enable = true;
-      port = 24680;
-      bindAddress = "0.0.0.0";
+      clientGroups = {
+        default = ["ads" "malware" "tracking"];
+        kids = ["ads" "malware" "tracking"];
+      };
     };
+    caching = {
+      enable = true;
+      minTime = "5m";
+      maxTime = "30m";
+      prefetching = true;
+    };
+    logLevel = "info";
+  };
+
+  services.tools."ventoy-web" = {
+    enable = true;
+    port = 24680;
+    bindAddress = "0.0.0.0";
   };
 
   system.stateVersion = "24.05";

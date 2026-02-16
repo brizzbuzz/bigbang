@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf config.host.desktop.enable {
+  config = lib.mkIf config.host.roles.desktop {
     # Enable Hyprland
     programs.hyprland = {
       enable = true;

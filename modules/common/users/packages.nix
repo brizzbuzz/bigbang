@@ -29,6 +29,7 @@
       bottom
       direnv
       zellij
+      erdtree
       nushell
       colmena
       # Version control

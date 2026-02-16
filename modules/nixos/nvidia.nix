@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf config.host.gpu.nvidia.enable {
+  config = lib.mkIf config.host.hardware.gpu.nvidia.enable {
     services.xserver.videoDrivers = ["nvidia"];
 
     hardware.nvidia = {
@@ -53,6 +53,8 @@
         libvdpau-va-gl
       ];
     };
+
+    hardware.opengl.driSupport32Bit = true;
 
     # Optimize for server workloads (since ganymede is a server)
     boot.kernelParams = [

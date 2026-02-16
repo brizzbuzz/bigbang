@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  cfg = config.host.portfolio;
+  cfg = config.services.portfolio;
   portfolioPkg = inputs.hyperbaric.packages.${pkgs.stdenv.hostPlatform.system}.portfolio;
   hasEnvFiles = cfg.environmentFileSecrets != [];
   environmentFiles =
@@ -17,6 +17,27 @@
       config)
     cfg.environmentFileSecrets;
 in {
+  options.services.portfolio = {
+    enable = lib.mkEnableOption "Enable Hyperbaric portfolio service";
+    port = lib.mkOption {
+      type = lib.types.int;
+      default = 7878;
+      description = "Port for the portfolio service";
+    };
+    listenAddress = lib.mkOption {
+      type = lib.types.str;
+      default = "0.0.0.0";
+      description = "Bind address for the portfolio service";
+    };
+    environmentFileSecrets = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = ''
+        OpNix secret names that resolve to environment files (KEY=VALUE) to include for the portfolio service.
+      '';
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     systemd.services.hyperbaric-portfolio = {
       description = "Hyperbaric Portfolio";
