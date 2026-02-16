@@ -16,6 +16,11 @@
   allowV4Set = lib.concatStringsSep ", " allowV4;
   allowV6Set = lib.concatStringsSep ", " allowV6;
   runConfigPath = "/run/vpn/${instanceName}.ovpn";
+  openvpnExtraArgs =
+    cfg.extraOpenvpnArgs
+    ++ lib.optionals cfg.routing.enable [
+      "pull-filter ignore \"redirect-gateway\""
+    ];
   authPathValue =
     if cfg.authPath == null
     then ""
@@ -167,7 +172,7 @@ in {
         printf '%s\n' "dev ${interfaceName}" >> "${runConfigPath}"
         printf '%s\n' "dev-type tun" >> "${runConfigPath}"
 
-        ${lib.concatStringsSep "\n" (map (line: "printf '%s\\n' \"${line}\" >> \"${runConfigPath}\"") cfg.extraOpenvpnArgs)}
+        ${lib.concatStringsSep "\n" (map (line: "printf '%s\\n' \"${line}\" >> \"${runConfigPath}\"") openvpnExtraArgs)}
 
         ${pkgs.coreutils}/bin/chmod 0600 "${runConfigPath}"
       '';

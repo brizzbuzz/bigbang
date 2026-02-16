@@ -54,6 +54,8 @@
       ];
     };
 
+    hardware.opengl.driSupport32Bit = true;
+
     # Optimize for server workloads (since ganymede is a server)
     boot.kernelParams = [
       # Enable NVIDIA persistence mode for server workloads

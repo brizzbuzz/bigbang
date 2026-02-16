@@ -1,0 +1,40 @@
+{
+  "env": {
+    "PATH": "/run/current-system/sw/bin"
+  },
+  "apps": [
+    {
+      "name": "Desktop",
+      "image-path": "desktop.png",
+      "prep-cmd": [
+        {
+          "do": "/run/current-system/sw/bin/xrandr --output HDMI-0 --mode 2560x1600",
+          "undo": "/run/current-system/sw/bin/xrandr --output HDMI-0 --mode 1920x1080"
+        }
+      ]
+    },
+    {
+      "name": "Low Res Desktop",
+      "image-path": "desktop.png",
+      "prep-cmd": [
+        {
+          "do": "/run/current-system/sw/bin/xrandr --output HDMI-0 --mode 1920x1080",
+          "undo": "/run/current-system/sw/bin/xrandr --output HDMI-0 --mode 1920x1200"
+        }
+      ]
+    },
+    {
+      "name": "Steam Big Picture",
+      "detached": [
+        "/run/current-system/sw/bin/setsid /run/current-system/sw/bin/steam -tenfoot -fulldesktopres"
+      ],
+      "prep-cmd": [
+        {
+          "do": "/run/current-system/sw/bin/xrandr --output HDMI-0 --mode 2560x1600",
+          "undo": "/run/current-system/sw/bin/setsid /run/current-system/sw/bin/steam steam://close/bigpicture"
+        }
+      ],
+      "image-path": "steam.png"
+    }
+  ]
+}

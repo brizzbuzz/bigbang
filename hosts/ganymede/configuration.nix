@@ -97,7 +97,11 @@
 
   services.stream.sunshine = {
     enable = true;
-    user = "ryan";
+    user = "sunshine";
+    createUser = true;
+    dataDir = "/var/lib/sunshine";
+    headlessXorg.enable = true;
+    appsJson = ./sunshine-apps.json;
   };
 
   # Enable PostgreSQL for home lab services and development
