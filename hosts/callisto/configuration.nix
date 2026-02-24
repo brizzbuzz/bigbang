@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
@@ -129,6 +133,80 @@
         };
       };
     };
+  };
+
+  # Spacebar reverse proxy: multi-backend routing (API, CDN, Gateway)
+  # configured directly via services.caddy.virtualHosts since it needs
+  # path/protocol-based routing across multiple backend ports
+  services.caddy.virtualHosts."chat.rgbr.ink" = {
+    extraConfig = let
+      certPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;
+      keyPath = config.services.onepassword-secrets.secretPaths.sslCloudflareKey;
+    in ''
+      tls ${certPath} ${keyPath}
+
+      log {
+        output file /var/log/caddy/chat.log
+        format console
+        level INFO
+      }
+
+      # WebSocket connections -> Gateway
+      @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+      }
+      handle @websockets {
+        reverse_proxy ganymede.chateaubr.ink:3003 {
+          transport http {
+            keepalive 2m
+            versions 1.1
+          }
+          header_up Host {host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          header_up Connection "Upgrade"
+          header_up Upgrade "websocket"
+          health_timeout 5s
+        }
+      }
+
+      # API requests -> API server
+      @api {
+        path /api/* /.well-known/*
+      }
+      handle @api {
+        reverse_proxy ganymede.chateaubr.ink:3001 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
+      # Everything else (attachments, avatars, etc.) -> CDN
+      handle {
+        reverse_proxy ganymede.chateaubr.ink:3002 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+    '';
   };
 
   services.dns.blocky = {
