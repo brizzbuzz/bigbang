@@ -7,6 +7,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
+    inputs.spacebarchat.nixosModules.default
     ./hardware-configuration.nix
     ./disko.nix
     ../../modules/nixos
@@ -26,12 +27,23 @@
         mode = "0600";
         services = ["hyperbaric-portfolio"];
       };
+      spacebarRequestSignature = {
+        reference = "op://Homelab/Spacebar Request Signature/notesPlain";
+        path = "/var/lib/opnix/secrets/spacebar-request-signature";
+        owner = "spacebarchat";
+        group = "spacebarchat";
+        mode = "0600";
+        services = ["spacebar-api" "spacebar-gateway" "spacebar-cdn"];
+      };
     };
 
     systemdIntegration = {
       enable = true;
       services = [
         "hyperbaric-portfolio"
+        "spacebar-api"
+        "spacebar-gateway"
+        "spacebar-cdn"
       ];
       restartOnChange = true;
     };
@@ -95,6 +107,55 @@
     enable = true;
   };
 
+  # Spacebar: self-hosted Discord-compatible chat platform
+  services.spacebarchat-server = {
+    enable = true;
+    serverName = "chat.rgbr.ink";
+
+    apiEndpoint = {
+      host = "chat.rgbr.ink";
+      localPort = 3001;
+      publicPort = 443;
+      useSsl = true;
+    };
+    gatewayEndpoint = {
+      host = "chat.rgbr.ink";
+      localPort = 3003;
+      publicPort = 443;
+      useSsl = true;
+    };
+    cdnEndpoint = {
+      host = "chat.rgbr.ink";
+      localPort = 3002;
+      publicPort = 443;
+      useSsl = true;
+    };
+
+    cdnPath = "/var/lib/spacebar/files";
+    requestSignaturePath = "/var/lib/opnix/secrets/spacebar-request-signature";
+
+    extraEnvironment = {
+      THREADS = 1;
+      DATABASE = "postgres:///spacebarchat?host=/run/postgresql";
+    };
+
+    settings = {
+      security.forwardedFor = "X-Forwarded-For";
+      register = {
+        requireInvite = true;
+        defaultRights = "875069521771520"; # default Discord-like rights minus CREATE_GUILDS
+      };
+    };
+  };
+
+  # Ensure CDN storage directory exists
+  systemd.tmpfiles.rules = [
+    "d /var/lib/spacebar/files 0750 spacebarchat spacebarchat -"
+  ];
+
+  # Allow callisto to reach Spacebar service ports
+  networking.firewall.allowedTCPPorts = [3001 3002 3003];
+
   services.stream.sunshine = {
     enable = true;
     user = "sunshine";
@@ -114,6 +175,7 @@
     serviceDatabases = [
       "immich"
       "jellyfin"
+      "spacebarchat"
     ];
     serviceUsers = [
       {
@@ -123,6 +185,10 @@
       {
         name = "jellyfin";
         database = "jellyfin";
+      }
+      {
+        name = "spacebarchat";
+        database = "spacebarchat";
       }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''
