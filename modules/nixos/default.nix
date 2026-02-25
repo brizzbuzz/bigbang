@@ -28,7 +28,6 @@
     ./wayland-desktop.nix
     ./immich.nix
     ./jellyfin.nix
-    ./portfolio.nix
 
     ./locale.nix
     ./networking.nix
@@ -42,7 +41,6 @@
 
     ./ssh.nix
     ./system-limits.nix
-    ./sunshine.nix
     ./torrents.nix
     ./users.nix
     ./ventoy-web.nix

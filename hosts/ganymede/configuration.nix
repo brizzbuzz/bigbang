@@ -6,6 +6,7 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.hyperbaric.nixosModules.default
     inputs.opnix.nixosModules.default
     inputs.spacebarchat.nixosModules.default
     ./hardware-configuration.nix
@@ -25,7 +26,7 @@
         owner = "root";
         group = "root";
         mode = "0600";
-        services = ["hyperbaric-portfolio"];
+        services = ["portfolio"];
       };
       spacebarRequestSignature = {
         reference = "op://Homelab/Spacebar Request Signature/notesPlain";
@@ -40,7 +41,7 @@
     systemdIntegration = {
       enable = true;
       services = [
-        "hyperbaric-portfolio"
+        "portfolio"
         "spacebar-api"
         "spacebar-gateway"
         "spacebar-cdn"
@@ -79,8 +80,10 @@
 
   services.portfolio = {
     enable = true;
-    environmentFileSecrets = ["portfolioEnv"];
     port = 7877;
+    environmentFiles = [
+      config.services.onepassword-secrets.secretPaths.portfolioEnv
+    ];
   };
 
   services.media.immich = {
@@ -155,15 +158,6 @@
 
   # Allow callisto to reach Spacebar service ports
   networking.firewall.allowedTCPPorts = [3001 3002 3003];
-
-  services.stream.sunshine = {
-    enable = true;
-    user = "sunshine";
-    createUser = true;
-    dataDir = "/var/lib/sunshine";
-    headlessXorg.enable = true;
-    appsJson = ./sunshine-apps.json;
-  };
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
