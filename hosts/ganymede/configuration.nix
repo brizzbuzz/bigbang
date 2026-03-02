@@ -115,10 +115,6 @@
     passwordSha256SecretRef = "op://Homelab/Clickhouse Admin/password_sha_256";
   };
 
-  services.stream.sunshine = {
-    enable = true;
-  };
-
   # Spacebar: self-hosted Discord-compatible chat platform
   services.spacebarchat-server = {
     enable = true;
