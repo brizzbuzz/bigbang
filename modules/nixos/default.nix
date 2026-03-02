@@ -13,6 +13,7 @@
     ./blocky.nix
     ./boot.nix
     ./caddy.nix
+    ./clickhouse.nix
     ./display-manager.nix
     ./docker.nix
     ./environment.nix
