@@ -28,6 +28,14 @@
         mode = "0600";
         services = ["portfolio"];
       };
+      spacebarJwtSecret = {
+        reference = "op://Homelab/Spacebar JWT Secret/notesPlain";
+        path = "/var/lib/opnix/secrets/spacebar-jwt-secret";
+        owner = "spacebarchat";
+        group = "spacebarchat";
+        mode = "0600";
+        services = ["spacebar-api" "spacebar-gateway" "spacebar-cdn"];
+      };
       spacebarRequestSignature = {
         reference = "op://Homelab/Spacebar Request Signature/notesPlain";
         path = "/var/lib/opnix/secrets/spacebar-request-signature";
@@ -119,6 +127,7 @@
   services.spacebarchat-server = {
     enable = true;
     serverName = "chat.rgbr.ink";
+    legacyJwtSecretPath = "/var/lib/opnix/secrets/spacebar-jwt-secret";
 
     apiEndpoint = {
       host = "chat.rgbr.ink";
@@ -148,10 +157,44 @@
     };
 
     settings = {
+      cdn.imagorServerUrl = "https://chat.rgbr.ink/imageproxy";
+      general = {
+        instanceName = "Waystone Inn";
+        instanceDescription = "Name's Kvothe. I keep a quiet inn, and tell the loudest stories to friends who know how to listen.";
+      };
+      limits.rate = {
+        enabled = true;
+        ip = {
+          count = 500;
+          window = 5;
+        };
+        global = {
+          count = 250;
+          window = 5;
+        };
+        error = {
+          count = 10;
+          window = 5;
+        };
+        routes.auth.login = {
+          count = 5;
+          window = 60;
+        };
+        routes.auth.register = {
+          count = 2;
+          window = 43200;
+        };
+      };
       security.forwardedFor = "X-Forwarded-For";
       register = {
         requireInvite = true;
         defaultRights = "875069521771520"; # default Discord-like rights minus CREATE_GUILDS
+        password = {
+          required = true;
+          minLength = 8;
+          minNumbers = 1;
+          minUpperCase = 1;
+        };
       };
     };
   };
@@ -159,7 +202,48 @@
   # Ensure CDN storage directory exists
   systemd.tmpfiles.rules = [
     "d /var/lib/spacebar/files 0750 spacebarchat spacebarchat -"
+    "d /data/backups/spacebar 0750 postgres postgres -"
   ];
+
+  systemd.services.spacebar-backup = let
+    pgDump = "${config.services.postgresql.package}/bin/pg_dump";
+    date = "${pkgs.coreutils}/bin/date";
+    install = "${pkgs.coreutils}/bin/install";
+    find = "${pkgs.findutils}/bin/find";
+    tar = "${pkgs.gnutar}/bin/tar";
+  in {
+    description = "Spacebar weekly backups";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "postgres";
+      Group = "postgres";
+    };
+    script = ''
+      set -euo pipefail
+
+      backupDir=/data/backups/spacebar
+      timestamp="$(${date} -u +%Y%m%d-%H%M%S)"
+      dbDump="$backupDir/spacebar-$timestamp.dump"
+      cdnArchive="$backupDir/spacebar-cdn-$timestamp.tar.gz"
+
+      ${install} -d -m 0750 -o postgres -g postgres "$backupDir"
+      ${pgDump} -Fc spacebarchat > "$dbDump"
+      ${tar} -czf "$cdnArchive" -C /var/lib/spacebar files
+
+      ${find} "$backupDir" -type f -name "spacebar-*.dump" -mtime +56 -delete
+      ${find} "$backupDir" -type f -name "spacebar-cdn-*.tar.gz" -mtime +56 -delete
+    '';
+  };
+
+  systemd.timers.spacebar-backup = {
+    description = "Weekly Spacebar backups";
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "Sat *-*-* 03:00:00";
+      Persistent = true;
+      RandomizedDelaySec = "30m";
+    };
+  };
 
   # Allow callisto to reach Spacebar service ports
   networking.firewall.allowedTCPPorts = [3001 3002 3003];

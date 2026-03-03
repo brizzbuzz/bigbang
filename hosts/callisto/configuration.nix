@@ -191,6 +191,25 @@
         }
       }
 
+      # Image proxy -> API server
+      @imageproxy {
+        path /imageproxy/*
+      }
+      handle @imageproxy {
+        reverse_proxy ganymede.chateaubr.ink:3001 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
       # Everything else (attachments, avatars, etc.) -> CDN
       handle {
         reverse_proxy ganymede.chateaubr.ink:3002 {
