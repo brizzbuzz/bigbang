@@ -27,6 +27,12 @@
       "command": ["but", "mcp"],
       "enabled": true,
     },
+    "datadog": {
+      "type": "local",
+      "command": ["{{DATADOG_MCP_CLI_PATH}}"],
+      "enabled": {{DATADOG_MCP_ENABLED}},
+      "environment": {},
+    },
     "linear": {
       "type": "remote",
       "url": "https://mcp.linear.app/mcp",
