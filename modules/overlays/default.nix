@@ -5,4 +5,7 @@
       doCheck = false;
     });
   })
+  (final: _prev: {
+    datadog-mcp-cli = final.callPackage ./datadog-mcp-cli.nix {};
+  })
 ]

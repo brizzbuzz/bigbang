@@ -103,45 +103,45 @@ in {
         RemainAfterExit = true;
       };
       script = ''
-        set -euo pipefail
+                set -euo pipefail
 
-        secret_file="${secretPath}"
-        users_file="${usersFile}"
+                secret_file="${secretPath}"
+                users_file="${usersFile}"
 
-        if [ ! -f "$secret_file" ]; then
-          exit 1
-        fi
+                if [ ! -f "$secret_file" ]; then
+                  exit 1
+                fi
 
-        ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g clickhouse /etc/clickhouse-server/users.d
+                ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g clickhouse /etc/clickhouse-server/users.d
 
-        password_sha256_hex="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$secret_file" | ${pkgs.coreutils}/bin/cut -d ' ' -f1)"
+                password_sha256_hex="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$secret_file" | ${pkgs.coreutils}/bin/cut -d ' ' -f1)"
 
-      ${pkgs.coreutils}/bin/printf '%s\n' \
-        "profiles:" \
-        "  default: {}" \
-        "" \
-        "users:" \
-        "  ${cfg.adminUser}:" \
-        "    profile: default" \
-        "    password_sha256_hex: \"$password_sha256_hex\"" \
-        > "$users_file"
+              ${pkgs.coreutils}/bin/printf '%s\n' \
+                "profiles:" \
+                "  default: {}" \
+                "" \
+                "users:" \
+                "  ${cfg.adminUser}:" \
+                "    profile: default" \
+                "    password_sha256_hex: \"$password_sha256_hex\"" \
+                > "$users_file"
 
-        if ${lib.boolToString cfg.disableDefaultUser}; then
-          ${pkgs.coreutils}/bin/cat > "${defaultDisableFile}" <<'EOF'
-<clickhouse>
-  <users>
-    <default remove="true" />
-  </users>
-</clickhouse>
-EOF
-          ${pkgs.coreutils}/bin/chown root:clickhouse "${defaultDisableFile}"
-          ${pkgs.coreutils}/bin/chmod 0640 "${defaultDisableFile}"
-        else
-          ${pkgs.coreutils}/bin/rm -f "${defaultDisableFile}"
-        fi
+                if ${lib.boolToString cfg.disableDefaultUser}; then
+                  ${pkgs.coreutils}/bin/cat > "${defaultDisableFile}" <<'EOF'
+        <clickhouse>
+          <users>
+            <default remove="true" />
+          </users>
+        </clickhouse>
+        EOF
+                  ${pkgs.coreutils}/bin/chown root:clickhouse "${defaultDisableFile}"
+                  ${pkgs.coreutils}/bin/chmod 0640 "${defaultDisableFile}"
+                else
+                  ${pkgs.coreutils}/bin/rm -f "${defaultDisableFile}"
+                fi
 
-        ${pkgs.coreutils}/bin/chown root:clickhouse "$users_file"
-        ${pkgs.coreutils}/bin/chmod 0640 "$users_file"
+                ${pkgs.coreutils}/bin/chown root:clickhouse "$users_file"
+                ${pkgs.coreutils}/bin/chmod 0640 "$users_file"
       '';
     };
 
