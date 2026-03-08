@@ -104,6 +104,7 @@
 
   services.media.arr = {
     enable = true;
+    mediaRoot = "/data/media";
     services = {
       prowlarr.enable = true;
       sonarr.enable = true;
