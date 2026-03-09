@@ -120,6 +120,12 @@
           target = "ganymede.chateaubr.ink:13378";
           logLevel = "INFO";
         };
+        wiki = {
+          enable = true;
+          subdomain = "wiki";
+          target = "ganymede.chateaubr.ink:3004";
+          logLevel = "INFO";
+        };
       };
       # Portfolio now served via standalone ryanbr.ink domain
       standalone = {

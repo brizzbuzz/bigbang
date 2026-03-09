@@ -119,6 +119,26 @@
     enable = true;
   };
 
+  services.wiki-js = {
+    enable = true;
+    settings = {
+      port = 3004;
+      bindIP = "0.0.0.0";
+      db = {
+        type = "postgres";
+        host = "/run/postgresql";
+        user = "wiki-js";
+        db = "wiki-js";
+      };
+      logLevel = "info";
+    };
+  };
+
+  systemd.services.wiki-js = {
+    after = ["postgresql.target"];
+    requires = ["postgresql.target"];
+  };
+
   services.clickhouse = {
     enable = true;
     passwordSha256SecretRef = "op://Homelab/Clickhouse Admin/password_sha_256";
@@ -247,7 +267,7 @@
   };
 
   # Allow callisto to reach Spacebar service ports
-  networking.firewall.allowedTCPPorts = [3001 3002 3003];
+  networking.firewall.allowedTCPPorts = [3001 3002 3003 3004];
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
@@ -260,6 +280,7 @@
       "immich"
       "jellyfin"
       "spacebarchat"
+      "wiki-js"
     ];
     serviceUsers = [
       {
@@ -273,6 +294,10 @@
       {
         name = "spacebarchat";
         database = "spacebarchat";
+      }
+      {
+        name = "wiki-js";
+        database = "wiki-js";
       }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''
