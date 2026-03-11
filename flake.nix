@@ -91,11 +91,6 @@
       url = "github:zhaofengli/nix-homebrew";
     };
 
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     opnix = {
       url = "github:brizzbuzz/opnix";
       inputs.flake-utils.follows = "flake-utils";
