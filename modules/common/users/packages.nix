@@ -13,6 +13,7 @@
     [
       curl
       git
+      lazygit
       jq
       wget
       zip
@@ -36,6 +37,13 @@
       jujutsu
       jjui
       inputs.opnix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      (
+        if pkgs ? ghostty-bin
+        then pkgs.ghostty-bin
+        else pkgs.ghostty
+      )
     ]
     ++ lib.optionals isLinux [
       tftp-hpa
@@ -71,6 +79,10 @@
       opencode
       # Package Managers
       uv
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      bruno
+      opencode-desktop
     ]
     ++ lib.optionals isLinux [
       docker

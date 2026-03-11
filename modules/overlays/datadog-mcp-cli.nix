@@ -4,11 +4,13 @@
   stdenvNoCC,
 }: let
   system = stdenvNoCC.hostPlatform.system;
+  upstreamVersion = "0.2.8";
+  upstreamRevision = "de12b76";
   platform =
     {
       aarch64-darwin = {
         suffix = "macos-arm64";
-        sha256 = "08d39vnjzq9p9b1s32nvj15l4y91x83ad10n2p3xwhjss96m0fzc";
+        sha256 = "sha256-LspK1fIHtNfs3HJM1T6qNhm53h732MW/WdAlSlqMRB8=";
       };
       x86_64-darwin = {
         suffix = "macos-amd64";
@@ -29,7 +31,7 @@
 in
   stdenvNoCC.mkDerivation {
     pname = "datadog-mcp-cli";
-    version = "latest";
+    version = upstreamVersion;
 
     src = fetchurl {
       inherit url;
@@ -46,7 +48,7 @@ in
     '';
 
     meta = with lib; {
-      description = "Datadog MCP CLI server";
+      description = "Datadog MCP CLI server (${upstreamVersion} ${upstreamRevision})";
       homepage = "https://coterm.datadoghq.com/mcp-cli";
       license = licenses.unfreeRedistributable;
       platforms = platforms.darwin ++ platforms.linux;

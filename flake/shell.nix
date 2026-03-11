@@ -11,6 +11,7 @@ forAllSystems (system: {
       colmena # NixOS deployment tool
       deadnix # Dead code scanner for Nix files
       git-cliff # Changelog generator
+      lazygit # Terminal Git UI
       nurl # Nix Fetcher Generator
       tokei # Code statistics
       inputs.opnix.packages.${system}.default # OpNix CLI

@@ -95,11 +95,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772867152,
-        "narHash": "sha256-RIFgZ4O6Eg+5ysZ8Tqb3YvcqiRaNy440GEY22ltjRrs=",
+        "lastModified": 1773025010,
+        "narHash": "sha256-khlHllTsovXgT2GZ0WxT4+RvuMjNeR5OW0UYeEHPYQo=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "eaafb89b56e948661d618eefd4757d9ea8d77514",
+        "rev": "7b9f7f88ab3b339f8142dc246445abb3c370d3d3",
         "type": "github"
       },
       "original": {
@@ -200,11 +200,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1773008905,
-        "narHash": "sha256-hVRL5aX0Ltg7yQkvqeLWSa13nn22c0ck1gmMT2+Dk/w=",
+        "lastModified": 1773184319,
+        "narHash": "sha256-cBqUsc4+DkBLACTWSnb99lA+h4ZlBRg3hg0nNNRXWaw=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "2b41e7086dbbda369013d632063b5d1dd8cec804",
+        "rev": "c6ddf741449640097371ef63893145e5681a4fba",
         "type": "github"
       },
       "original": {
@@ -216,11 +216,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1773005381,
-        "narHash": "sha256-7mHo00sPAMvvgQpZMt7yUv71DNjtkX5Ve9qqv+pSgZI=",
+        "lastModified": 1773188646,
+        "narHash": "sha256-D0qiwNrizj5aJq9stg9fUCADhw8syXEeTrCq/AEEEDw=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "424e6913c5fa7a1056e3dd9b95707cfcdcb34d23",
+        "rev": "3e11e43b18c7ece5d7df30aff8c770b244cb2d78",
         "type": "github"
       },
       "original": {
@@ -322,11 +322,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1772773019,
-        "narHash": "sha256-E1bxHxNKfDoQUuvriG71+f+s/NT0qWkImXsYZNFFfCs=",
+        "lastModified": 1772963539,
+        "narHash": "sha256-9jVDGZnvCckTGdYT53d/EfznygLskyLQXYwJLKMPsZs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+        "rev": "9dcb002ca1690658be4a04645215baea8b95f31d",
         "type": "github"
       },
       "original": {
@@ -500,11 +500,11 @@
         "pion-webrtc": "pion-webrtc"
       },
       "locked": {
-        "lastModified": 1772845772,
-        "narHash": "sha256-vW4DS+pnZH1Jh6zp0D4HQxTfz0cs5UgC7MS6e9YXaqM=",
+        "lastModified": 1773187093,
+        "narHash": "sha256-crjC2e2vhb6ohy+iUKtym7VPcoMXgQEnt6NnspbVJX4=",
         "owner": "spacebarchat",
         "repo": "server",
-        "rev": "47b2460dce762133d20ad08d93c9bdef22e25ec1",
+        "rev": "b40b5234f4cb3681bd9531d76c38111057f71733",
         "type": "github"
       },
       "original": {

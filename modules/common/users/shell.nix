@@ -98,6 +98,7 @@ in {
       bat
       bottom
       direnv
+      lazygit
       nushell
     ];
   };

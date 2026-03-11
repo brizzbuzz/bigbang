@@ -19,17 +19,13 @@
       "discord"
       "spotify"
       "steam"
-      "iina"
     ];
   };
 
   developmentApps = {
     casks = [
       "jetbrains-toolbox"
-      "gitbutler"
-      "bruno"
       "proxyman"
-      "zed"
     ];
   };
 
@@ -38,7 +34,6 @@
       "notion"
       "zoom"
       "google-chrome"
-      "zed"
     ];
   };
 
@@ -47,12 +42,9 @@
       "1password"
       "fantastical"
       "figma"
-      "ghostty"
       "hammerspoon"
-      "keymapp"
       "orion"
       "sf-symbols"
-      "the-unarchiver"
     ];
   };
 
