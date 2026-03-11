@@ -162,7 +162,9 @@ def "repo dump" [
 
 # Aliases
 alias nr = sudo darwin-rebuild switch --flake .#
+alias oc = opencode
 alias rd = repo dump
+alias lg = lazygit
 alias zj = zellij
 
 # Remote rebuild function - builds remote hosts if no host specified

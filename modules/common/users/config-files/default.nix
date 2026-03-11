@@ -212,6 +212,7 @@ in {
       [
         git
         gh
+        lazygit
       ]
       ++ lib.optionals configFiles.opencode.enable [
         playwright-mcp

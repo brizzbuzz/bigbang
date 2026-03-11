@@ -13,6 +13,7 @@
     [
       curl
       git
+      lazygit
       jq
       wget
       zip
@@ -71,6 +72,9 @@
       opencode
       # Package Managers
       uv
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      opencode-desktop
     ]
     ++ lib.optionals isLinux [
       docker
