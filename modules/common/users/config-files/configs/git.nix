@@ -48,7 +48,7 @@
     [gpg]
       format = ssh
     [core]
-      editor = nano
+      editor = hx
   '';
 in {
   mkGitScript = {
