@@ -5,6 +5,9 @@
   "autoupdate": true,
   "permission": {
     "websearch": "deny",
+    "skill": {
+      "*": "allow"
+    },
   },
   "tui": {
     "scroll_acceleration": {
@@ -30,11 +33,6 @@
     "nushell": {
       "type": "local",
       "command": ["nu", "--mcp"],
-      "enabled": true,
-    },
-    "gitbutler": {
-      "type": "local",
-      "command": ["but", "mcp"],
       "enabled": true,
     },
     "datadog": {

@@ -25,24 +25,12 @@
 - For deployment rehearsal, run `nr` locally; use `nrr <host>` for targeted remote verification.
 - Keep profiles and host inputs minimal to avoid impurity surprises; prefer deterministic options and pinned inputs.
 
-## Version Control with GitButler (but)
+## Version Control
 
-This repository uses GitButler (`but`) for version control. GitButler is Git-compatible and supports virtual branches, stacks, and a CLI/GUI workflow.
-
-### Agent Permissions
-- ✅ **Allowed**: Use `but` freely for local version control (status, branch, stage, commit, amend, undo, etc.)
-- ❌ **Forbidden**: Push to remote (`but push`) or create PRs (`but pr`) without explicit user permission
-- ⚠️ **Always Ask**: Before any operation that modifies remote repositories
-
-### Workflow Guidelines
-- Use `but branch new` to start a new logical unit of work (use `-a` for stacked branches)
-- Use `but stage` to assign changes to the correct branch
-- Use `but commit -m "..."` to create descriptive commit messages following conventional commit format
-- Run `alejandra .` before finalizing changes
-- Use `but oplog` and `but undo` if mistakes are made - all operations are reversible
-- Use `but gui` if a GUI view is helpful for the current task
-
-See `.opencode/skills/gitbutler-workflow.md` for detailed GitButler usage patterns and best practices.
+- Use standard `git` workflows for local work in this repository.
+- Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) when creating commits.
+- Run `alejandra .` before finalizing Nix-heavy changes.
+- Ask before any operation that modifies remote repositories.
 
 ## Commit & Pull Requests
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) as seen in history; include scope when useful.

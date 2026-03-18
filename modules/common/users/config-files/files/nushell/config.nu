@@ -4,7 +4,7 @@ $env.config = {
 }
 
 # Environment variables
-$env.EDITOR = "zed"
+$env.EDITOR = "hx"
 $env.ZELLIJ_CONFIG_DIR = ($env.HOME | path join ".config" "zellij")
 
 # Note: PATH is set up in env.nu to ensure it's available early
