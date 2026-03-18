@@ -30,8 +30,9 @@ This skill is strictly read-only with respect to the PR itself.
 3. Use `gh pr diff` or `git diff <base>...<head>` to inspect the exact changes under review.
 4. Read the touched files and enough nearby code to understand intent and impact.
 5. Check commit history to understand how the branch evolved.
-6. If useful, inspect existing review comments with `gh` so you do not duplicate already-known concerns, but do not reply to them.
-7. Summarize findings for the user in priority order.
+6. Check whether the PR branch is behind the latest `main` and call that out if it makes the review stale or harder to trust.
+7. If useful, inspect existing review comments with `gh` so you do not duplicate already-known concerns, but do not reply to them.
+8. Summarize findings for the user in priority order.
 
 ## What to look for
 
@@ -44,6 +45,7 @@ This skill is strictly read-only with respect to the PR itself.
 - Overly large or hard-to-review changes that should be split
 - Naming or structure problems that obscure intent
 - Divergence from established repo conventions
+- A stale branch that should be rebased onto the latest `main` before review or merge
 
 ## Reporting format
 

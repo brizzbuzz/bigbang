@@ -32,6 +32,13 @@
 - Run `alejandra .` before finalizing Nix-heavy changes.
 - Ask before any operation that modifies remote repositories.
 
+## OpenCode Skills
+
+- Global reusable skills are defined under `modules/common/users/config-files/files/opencode/skills/` and deployed to `~/.config/opencode/skills/`.
+- Repo-specific skills live under `.opencode/skills/` and should complement global skills rather than duplicate them.
+- Prefer a base-skill plus repo-companion pattern with distinct names such as `product-manager` plus `product-manager-bigbang`.
+- Companion skills should add repo goals, constraints, relevant docs, and anti-patterns; keep durable best practices in the global skill.
+
 ## Commit & Pull Requests
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) as seen in history; include scope when useful.
 - PRs should describe the intent, list affected hosts/modules, and note any deployment steps (`nr`, `nrr <host>`). Include output snippets for `nix flake check` when changes are wide-reaching.
