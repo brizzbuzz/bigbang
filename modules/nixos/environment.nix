@@ -5,7 +5,7 @@
 
   environment = {
     variables = {
-      EDITOR = "nvim";
+      EDITOR = "hx";
     };
     sessionVariables = {
       WLR_NO_HARDWARE_CURSORS = "1";

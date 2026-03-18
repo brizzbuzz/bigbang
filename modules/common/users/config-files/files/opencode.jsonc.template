@@ -5,6 +5,9 @@
   "autoupdate": true,
   "permission": {
     "websearch": "deny",
+    "skill": {
+      "*": "allow"
+    },
   },
   "tui": {
     "scroll_acceleration": {

@@ -5,6 +5,8 @@
 }: let
   opencodeConfigTemplate = builtins.readFile ../files/opencode.jsonc.template;
   isDarwin = pkgs.stdenv.isDarwin;
+  opencodeCommandsPath = ../files/opencode/commands;
+  opencodeSkillsPath = ../files/opencode/skills;
 in {
   mkOpencodeScript = {
     user,
@@ -19,6 +21,8 @@ in {
     lib.optionalString enabled ''
         # OpenCode configuration with Kagi API key injection
         [ -L "${homeDir}/.config/opencode/opencode.jsonc" ] && rm "${homeDir}/.config/opencode/opencode.jsonc"
+        rm -rf "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills"
+        mkdir -p "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills"
 
         # Substitute Kagi API key from opnix secret
         KAGI_KEY_PATH="/var/lib/opnix/secrets/kagi-api-key"
@@ -54,5 +58,8 @@ in {
         done < "${homeDir}/.config/opencode/opencode.jsonc" > "$temp_file"
         mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"
         chmod 644 "${homeDir}/.config/opencode/opencode.jsonc"
+
+        cp -R ${opencodeCommandsPath}/. "${homeDir}/.config/opencode/commands"
+        cp -R ${opencodeSkillsPath}/. "${homeDir}/.config/opencode/skills"
     '';
 }
