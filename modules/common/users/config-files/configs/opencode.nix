@@ -17,6 +17,10 @@ in {
       if isDarwin && user.name == "ryan" && user.profile != "work"
       then "true"
       else "false";
+    defaultModel =
+      if user.profile == "work"
+      then "anthropic/claude-sonnet-4-6"
+      else "openai/gpt-5.4";
   in
     lib.optionalString enabled ''
         # OpenCode configuration with Kagi API key injection
@@ -54,6 +58,7 @@ in {
           line="''${line//\{\{DATADOG_MCP_CLI_PATH\}\}/$DATADOG_MCP_CLI_PATH}"
           line="''${line//\{\{DATADOG_MCP_ENABLED\}\}/$DATADOG_MCP_ENABLED}"
           line="''${line//\{\{PENCIL_MCP_ENABLED\}\}/$PENCIL_MCP_ENABLED}"
+          line="''${line//\{\{DEFAULT_MODEL\}\}/$defaultModel}"
           echo "$line"
         done < "${homeDir}/.config/opencode/opencode.jsonc" > "$temp_file"
         mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"
