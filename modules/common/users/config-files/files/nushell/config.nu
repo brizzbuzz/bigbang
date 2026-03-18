@@ -190,28 +190,40 @@ def --env gwt [name?: string] {
     }
 
     let chooser = if (which fzf | is-empty) { "input" } else { "fzf" }
-
-    let target = if ($name | is-empty) {
+    let choose_path = {|candidates, prompt|
         if $chooser == "fzf" {
             let selected = (
-                $rows
+                $candidates
                 | each {|row| $"($row.name)\t($row.path)"}
                 | str join "\n"
-                | ^fzf --delimiter="\t" --with-nth=1 --prompt="worktree> "
+                | ^fzf --delimiter="\t" --with-nth=1 --prompt $prompt
+                | str trim
             )
 
             if ($selected | is-empty) {
                 null
             } else {
-                $selected | split row "\t" | get 1
+                let parsed = ($selected | parse "{name}\t{path}")
+
+                if ($parsed | is-empty) {
+                    null
+                } else {
+                    $parsed | first | get path
+                }
             }
         } else {
-            $rows | each {|row| $row.name } | input list "Choose worktree" | default null | if ($in == null) {
+            let selected = ($candidates | each {|row| $row.name } | input list $prompt | default null)
+
+            if ($selected == null) {
                 null
             } else {
-                $rows | where name == $in | first | get path
+                $candidates | where name == $selected | first | get path
             }
         }
+    }
+
+    let target = if ($name | is-empty) {
+        do $choose_path $rows "worktree> "
     } else {
         let matches = (
             $rows
@@ -222,25 +234,8 @@ def --env gwt [name?: string] {
             error make { msg: $"No worktree matches '($name)'" }
         } else if ($matches | length) == 1 {
             $matches | first | get path
-        } else if $chooser == "fzf" {
-            let selected = (
-                $matches
-                | each {|row| $"($row.name)\t($row.path)"}
-                | str join "\n"
-                | ^fzf --delimiter="\t" --with-nth=1 --prompt="multiple> "
-            )
-
-            if ($selected | is-empty) {
-                null
-            } else {
-                $selected | split row "\t" | get 1
-            }
         } else {
-            $matches | each {|row| $row.name } | input list $"Choose worktree matching '($name)'" | default null | if ($in == null) {
-                null
-            } else {
-                $matches | where name == $in | first | get path
-            }
+            do $choose_path $matches "multiple> "
         }
     }
 
