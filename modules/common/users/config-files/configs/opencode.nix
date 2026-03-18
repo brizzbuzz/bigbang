@@ -4,6 +4,7 @@
   ...
 }: let
   opencodeConfigTemplate = builtins.readFile ../files/opencode.jsonc.template;
+  isDarwin = pkgs.stdenv.isDarwin;
   opencodeCommandsPath = ../files/opencode/commands;
   opencodeSkillsPath = ../files/opencode/skills;
 in {
@@ -11,7 +12,12 @@ in {
     user,
     homeDir,
     enabled,
-  }:
+  }: let
+    pencilMcpEnabled =
+      if isDarwin && user.name == "ryan" && user.profile != "work"
+      then "true"
+      else "false";
+  in
     lib.optionalString enabled ''
         # OpenCode configuration with Kagi API key injection
         [ -L "${homeDir}/.config/opencode/opencode.jsonc" ] && rm "${homeDir}/.config/opencode/opencode.jsonc"
@@ -35,6 +41,8 @@ in {
           DATADOG_MCP_CLI_PATH="/usr/bin/false"
         fi
 
+        PENCIL_MCP_ENABLED="${pencilMcpEnabled}"
+
         cat > "${homeDir}/.config/opencode/opencode.jsonc" << 'EOFOPENCODE'
       ${opencodeConfigTemplate}
       EOFOPENCODE
@@ -45,6 +53,7 @@ in {
           line="''${line//\{\{KAGI_API_KEY_PLACEHOLDER_REPLACE_AT_BUILD_TIME\}\}/$KAGI_KEY}"
           line="''${line//\{\{DATADOG_MCP_CLI_PATH\}\}/$DATADOG_MCP_CLI_PATH}"
           line="''${line//\{\{DATADOG_MCP_ENABLED\}\}/$DATADOG_MCP_ENABLED}"
+          line="''${line//\{\{PENCIL_MCP_ENABLED\}\}/$PENCIL_MCP_ENABLED}"
           echo "$line"
         done < "${homeDir}/.config/opencode/opencode.jsonc" > "$temp_file"
         mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"

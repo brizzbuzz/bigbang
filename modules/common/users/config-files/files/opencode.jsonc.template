@@ -41,6 +41,15 @@
       "enabled": {{DATADOG_MCP_ENABLED}},
       "environment": {},
     },
+    "pencil": {
+      "type": "local",
+      "command": [
+        "/Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64",
+        "--app",
+        "desktop"
+      ],
+      "enabled": {{PENCIL_MCP_ENABLED}},
+    },
     "linear": {
       "type": "remote",
       "url": "https://mcp.linear.app/mcp",
