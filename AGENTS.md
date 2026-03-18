@@ -7,11 +7,12 @@
 
 ## Build, Test, and Development
 - `nix develop` — enter the dev shell with formatting, linting, and deployment tools preloaded.
+- Prefer `nix develop -c <command>` for one-off project commands provided by the flake instead of assuming host-global installs.
 - `nr` — rebuild the local system (darwin-rebuild switch or colmena apply-local).
 - `nrr <host>` — deploy to a remote host via Colmena.
 - `nix flake check --show-trace` — validate the flake, options, and evaluations.
-- `alejandra .` — format all Nix files.
-- `deadnix .` — detect unused Nix definitions.
+- `nix develop -c alejandra .` — format all Nix files.
+- `nix develop -c deadnix .` — detect unused Nix definitions.
 - `git-cliff -p` — generate changelog updates; keep `CHANGELOG.md` in sync when releasing.
 
 ## Coding Style & Naming
@@ -21,7 +22,7 @@
 - Preserve overlay and module boundaries: place reusable packages or tweaks in `modules/overlays/` rather than hosts.
 
 ## Testing & Validation
-- Primary checks: `nix flake check`, `alejandra --check .`, and `deadnix --fail .` (mirrors CI). Run these before pushing.
+- Primary checks: `nix flake check`, `nix develop -c alejandra --check .`, and `nix develop -c deadnix --fail .` (mirrors CI). Run these before pushing.
 - For deployment rehearsal, run `nr` locally; use `nrr <host>` for targeted remote verification.
 - Keep profiles and host inputs minimal to avoid impurity surprises; prefer deterministic options and pinned inputs.
 
@@ -29,7 +30,7 @@
 
 - Use standard `git` workflows for local work in this repository.
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) when creating commits.
-- Run `alejandra .` before finalizing Nix-heavy changes.
+- Run `nix develop -c alejandra .` before finalizing Nix-heavy changes.
 - Ask before any operation that modifies remote repositories.
 
 ## OpenCode Skills

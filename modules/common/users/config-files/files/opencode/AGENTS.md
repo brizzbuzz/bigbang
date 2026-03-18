@@ -20,3 +20,11 @@
 - Prefer loading only the skills and docs that are relevant to the current task.
 - If both a base skill and a companion skill exist, use them together.
 - If a companion skill references repo docs, read those docs before making a plan.
+
+## Project Command Execution
+
+- When a repository provides tooling through `flake.nix`, prefer running project commands via `nix develop` so they use the repo's pinned environment.
+- For one-off execution, prefer `nix develop -c <command>` over assuming the tool is installed globally.
+- This applies to project-specific tools such as `pnpm`, `deadnix`, `alejandra`, and similar commands exposed by the dev shell.
+- If already inside an active `nix develop` shell, running the command directly is fine.
+- Prefer host-global commands only when the command is clearly not provided by the project's flake or dev shell.
