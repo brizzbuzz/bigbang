@@ -3,6 +3,7 @@
   pkgs,
   ...
 }: let
+  opencodeAgentsPath = ../files/opencode/AGENTS.md;
   opencodeConfigTemplate = builtins.readFile ../files/opencode.jsonc.template;
   isDarwin = pkgs.stdenv.isDarwin;
   opencodeCommandsPath = ../files/opencode/commands;
@@ -59,6 +60,7 @@ in {
         mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"
         chmod 644 "${homeDir}/.config/opencode/opencode.jsonc"
 
+        cp ${opencodeAgentsPath} "${homeDir}/.config/opencode/AGENTS.md"
         cp -R ${opencodeCommandsPath}/. "${homeDir}/.config/opencode/commands"
         cp -R ${opencodeSkillsPath}/. "${homeDir}/.config/opencode/skills"
     '';
