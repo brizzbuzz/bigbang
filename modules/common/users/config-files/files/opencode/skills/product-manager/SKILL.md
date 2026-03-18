@@ -5,6 +5,8 @@ description: Act as a technical product manager across repositories by using Lin
 
 Use this skill to turn ideas, requests, and engineering work into clean Linear artifacts that follow Linear's opinionated workflow.
 
+If the current repository provides a repo-local companion skill such as `product-manager-<repo>`, load that too and apply its repo-specific guidance alongside this base skill.
+
 ## Linear-first principles
 
 1. Protect maker time. Optimize for clarity and momentum, not process theater.
