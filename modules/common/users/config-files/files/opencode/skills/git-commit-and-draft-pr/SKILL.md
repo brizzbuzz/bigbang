@@ -10,6 +10,7 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 - Preserve the user's conventional commit workflow
 - Keep commit signing enabled
 - Discover and use the active 1Password SSH agent for signing when needed
+- Start feature work from the latest `main` whenever possible
 - Push with standard `git`
 - Open a draft PR with `gh`
 
@@ -24,10 +25,22 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 ## Commit workflow
 
 1. Inspect the current branch, staged state, and diff.
-2. Summarize the changes in terms of intent, not just files touched.
-3. Draft a conventional commit message that matches the repo's history.
-4. Stage the relevant changes.
-5. Create a signed commit without disabling signing.
+2. Check whether the branch is based on the latest `origin/main`.
+3. If the work has not started yet, prefer creating a fresh branch from the latest `main`.
+4. If the branch already exists and is stale relative to `main`, prefer rebasing it onto the latest `origin/main` before opening a PR.
+5. Summarize the changes in terms of intent, not just files touched.
+6. Draft a conventional commit message that matches the repo's history.
+7. Stage the relevant changes.
+8. Create a signed commit without disabling signing.
+
+## Branching rule
+
+For GitHub workflows in this environment, prioritize working from the latest `main`.
+
+- Before creating a new branch, fetch `origin/main` and branch from that tip.
+- Before opening a PR from an existing branch, check whether it has drifted behind `origin/main`.
+- If it is behind, prefer rebasing onto `origin/main` so the PR diff is as current and reviewable as possible.
+- Do not leave a feature branch intentionally based on an old feature branch unless the user explicitly wants a stacked PR.
 
 ### Commit message guidance
 
@@ -60,13 +73,14 @@ Do not hardcode one machine's socket path into the workflow if it can be discove
 Only do this when the user has explicitly asked to create a PR.
 
 1. Confirm the branch state with `git status`, `git log`, and `git diff origin/main...HEAD`.
-2. Push the current branch with `git push -u origin <branch>`.
-3. Use `gh pr create --draft`.
-4. Write a concise PR body with:
+2. Confirm the branch is based on the latest practical `origin/main`; if not, prefer rebasing before pushing.
+3. Push the current branch with `git push -u origin <branch>`.
+4. Use `gh pr create --draft`.
+5. Write a concise PR body with:
    - Summary
    - Validation steps
    - Deployment notes when relevant
-5. Return the PR URL.
+6. Return the PR URL.
 
 ## PR body template
 
