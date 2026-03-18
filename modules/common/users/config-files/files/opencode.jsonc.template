@@ -11,9 +11,6 @@
     "external_directory": {
       "~/Workspace/**": "allow"
     },
-    "edit": {
-      "~/Workspace/**": "deny"
-    },
   },
   "tui": {
     "scroll_acceleration": {
