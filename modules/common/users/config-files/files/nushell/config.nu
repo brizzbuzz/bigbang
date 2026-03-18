@@ -167,6 +167,88 @@ alias rd = repo dump
 alias lg = lazygit
 alias zj = zellij
 
+# Jump to a git worktree by name.
+def --env gwt [name?: string] {
+    let rows = (
+        git worktree list --porcelain
+        | lines
+        | where {|line| $line | str starts-with "worktree "}
+        | each {|line|
+            let path = ($line | str replace "worktree " "")
+            let worktree = (^git -C $path branch --show-current | str trim)
+            {
+                name: $worktree,
+                path: $path,
+            }
+        }
+        | where name != ""
+    )
+
+    if ($rows | is-empty) {
+        print -e "No git worktrees found"
+        return
+    }
+
+    let chooser = if (which fzf | is-empty) { "input" } else { "fzf" }
+
+    let target = if ($name | is-empty) {
+        if $chooser == "fzf" {
+            let selected = (
+                $rows
+                | each {|row| $"($row.name)\t($row.path)"}
+                | str join "\n"
+                | ^fzf --delimiter="\t" --with-nth=1 --prompt="worktree> "
+            )
+
+            if ($selected | is-empty) {
+                null
+            } else {
+                $selected | split row "\t" | get 1
+            }
+        } else {
+            $rows | each {|row| $row.name } | input list "Choose worktree" | default null | if ($in == null) {
+                null
+            } else {
+                $rows | where name == $in | first | get path
+            }
+        }
+    } else {
+        let matches = (
+            $rows
+            | where {|row| $row.name == $name or ($row.name | str contains $name)}
+        )
+
+        if ($matches | is-empty) {
+            error make { msg: $"No worktree matches '($name)'" }
+        } else if ($matches | length) == 1 {
+            $matches | first | get path
+        } else if $chooser == "fzf" {
+            let selected = (
+                $matches
+                | each {|row| $"($row.name)\t($row.path)"}
+                | str join "\n"
+                | ^fzf --delimiter="\t" --with-nth=1 --prompt="multiple> "
+            )
+
+            if ($selected | is-empty) {
+                null
+            } else {
+                $selected | split row "\t" | get 1
+            }
+        } else {
+            $matches | each {|row| $row.name } | input list $"Choose worktree matching '($name)'" | default null | if ($in == null) {
+                null
+            } else {
+                $matches | where name == $in | first | get path
+            }
+        }
+    }
+
+    if $target != null {
+        cd $target
+    }
+}
+
 # Remote rebuild function - builds remote hosts if no host specified
 def nrr [host?: string] {
   let existing_nix_config = ($env.NIX_CONFIG | default "" | str trim -r -c "\n")
