@@ -1,4 +1,10 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  isDarwin = pkgs.stdenv.isDarwin;
+
   # Git configuration with profile-based defaults
   profileDefaults = {
     personal = {
@@ -32,7 +38,12 @@
   };
 
   # Generate git config content
-  mkGitConfig = gitSettings: ''
+  mkGitConfig = gitSettings: let
+    onePasswordSignerPath =
+      if isDarwin
+      then ''"/Applications/1Password.app/Contents/MacOS/op-ssh-sign"''
+      else "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+  in ''
     [user]
       name = ${gitSettings.name}
       email = ${gitSettings.email}
@@ -47,6 +58,8 @@
       gpgSign = true
     [gpg]
       format = ssh
+    [gpg "ssh"]
+      program = ${onePasswordSignerPath}
     [core]
       editor = hx
   '';

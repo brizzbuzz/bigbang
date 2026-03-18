@@ -38,22 +38,27 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 
 ## 1Password signing workflow
 
-If `git commit` fails because SSH signing is enabled but the default agent has no identities:
+Prefer a no-probing happy path for commit signing:
 
-1. Inspect the local environment instead of assuming a fixed path.
-2. Check `~/.ssh/config` for `IdentityAgent` entries.
-3. If needed, inspect the current `SSH_AUTH_SOCK` and compare it with the configured agent socket.
-4. Verify identities are visible with `ssh-add -L` against the candidate socket before retrying the commit.
-5. Run the relevant `git` or `gh` command with `SSH_AUTH_SOCK` pointed at the working socket.
-6. Do not disable signing unless the user explicitly asks for it.
+1. Inspect the effective Git configuration first with `git config --get gpg.format`, `git config --get gpg.ssh.program`, and `git config --get user.signingkey`.
+2. If `gpg.ssh.program` points at the 1Password signer, let `git commit` use it directly instead of trying to discover an SSH agent first.
+3. Only diagnose `SSH_AUTH_SOCK` when an SSH transport operation needs it (`git push`, `gh`, `ssh`) or when signing still fails after confirming the Git config.
+4. Do not disable signing unless the user explicitly asks for it.
+
+If an SSH transport command fails because the default agent has no identities:
+
+1. Inspect the current `SSH_AUTH_SOCK`.
+2. Verify identities are visible with `ssh-add -L` against the current socket.
+3. If that still fails, then inspect `~/.ssh/config` for `IdentityAgent` entries.
+4. Retry the relevant `git`, `gh`, or `ssh` command with `SSH_AUTH_SOCK` pointed at the working socket.
 
 Prefer discovery in this order:
 
-1. `IdentityAgent` from `~/.ssh/config`
+1. Effective Git signing configuration
 2. The current `SSH_AUTH_SOCK`
-3. A direct check that the candidate socket exposes the expected signing identity
+3. `IdentityAgent` from `~/.ssh/config` as a last-resort diagnostic
 
-Do not hardcode one machine's socket path into the workflow if it can be discovered at runtime.
+Do not read files outside the workspace during the happy path when Git is already configured to use the 1Password signer directly.
 
 ## Draft PR workflow
 
