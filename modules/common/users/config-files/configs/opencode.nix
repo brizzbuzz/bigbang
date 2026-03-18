@@ -35,9 +35,11 @@ in {
 
         USER_PROFILE="${user.profile}"
         if [ "$USER_PROFILE" = "work" ]; then
+          DEFAULT_MODEL="anthropic/claude-sonnet-4-6"
           DATADOG_MCP_ENABLED="true"
           DATADOG_MCP_CLI_PATH="${pkgs.datadog-mcp-cli}/bin/datadog_mcp_cli"
         else
+          DEFAULT_MODEL="openai/gpt-5.4"
           DATADOG_MCP_ENABLED="false"
           DATADOG_MCP_CLI_PATH="/usr/bin/false"
         fi
@@ -55,6 +57,7 @@ in {
           line="''${line//\{\{DATADOG_MCP_CLI_PATH\}\}/$DATADOG_MCP_CLI_PATH}"
           line="''${line//\{\{DATADOG_MCP_ENABLED\}\}/$DATADOG_MCP_ENABLED}"
           line="''${line//\{\{PENCIL_MCP_ENABLED\}\}/$PENCIL_MCP_ENABLED}"
+          line="''${line//\{\{DEFAULT_MODEL\}\}/$DEFAULT_MODEL}"
           echo "$line"
         done < "${homeDir}/.config/opencode/opencode.jsonc" > "$temp_file"
         mv "$temp_file" "${homeDir}/.config/opencode/opencode.jsonc"
