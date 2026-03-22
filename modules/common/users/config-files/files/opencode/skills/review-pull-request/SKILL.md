@@ -1,51 +1,66 @@
 ---
 name: review-pull-request
-description: Review a GitHub pull request with gh, inspect the real diff and surrounding code, and report findings to the user without ever commenting on the PR.
+description: Review GitHub pull requests with a principal-developer lens using gh and local branch inspection. Use when evaluating a PR for correctness, maintainability, architecture, testing, or feedback, and when private review or user-approved GitHub comments may be needed.
 ---
 
-Use this skill when the user wants a context-aware PR review delivered privately in chat.
+Use this skill when the user wants a high-signal PR review delivered in a soft, constructive tone.
 
-## Core rules
+## Core goals
 
-1. Use `gh` to gather PR metadata, commits, changed files, and review context.
-2. Read the actual diff and surrounding repository code before forming conclusions.
-3. Optimize for high-signal findings: correctness, regressions, missing tests, unclear ownership, security, migration risk, and maintainability.
-4. Report findings only to the user.
-5. Never post comments, reviews, approvals, or status changes to the PR.
+1. Review the PR as a principal developer: protect correctness, maintainability, architecture, operational safety, and future changeability.
+2. Use `gh` to gather PR metadata, commits, changed files, checks, and review context.
+3. Inspect the real diff and surrounding code before forming conclusions.
+4. Prefer high-signal findings over line-by-line nitpicks.
+5. Default to reporting findings privately in chat unless the user explicitly asks to post feedback to GitHub.
 
-## Hard safety rule
+## Permission model
 
-Under no circumstance should you run commands like:
+- Read-only actions are allowed without extra permission.
+- Read-only actions include `gh pr view`, `gh pr diff`, `gh pr checks`, `gh api` reads, `git fetch`, `git diff`, `git log`, and checking out the PR branch locally for inspection.
+- Any write action to GitHub requires explicit user confirmation.
+- Write actions include `gh pr comment`, `gh pr review`, `gh api` mutations for comments or reviews, approvals, change requests, or replies.
+- Before any GitHub write, draft the exact proposed comment or review in chat.
 
-- `gh pr review`
-- `gh pr comment`
-- `gh api` mutations against pull request comments or reviews
+## Collaboration rule for posted feedback
 
-This skill is strictly read-only with respect to the PR itself.
+- If a comment or review is posted, coauthor it with Ryan.
+- The posted text must explicitly say it was written in collaboration between Ryan and the agent.
+- Do not present posted review feedback as agent-only authorship.
 
 ## Review workflow
 
-1. Identify the PR from the user's request, current branch, or explicit URL/number.
-2. Use `gh pr view` to collect title, body, base branch, head branch, author, and changed file list.
-3. Use `gh pr diff` or `git diff <base>...<head>` to inspect the exact changes under review.
-4. Read the touched files and enough nearby code to understand intent and impact.
-5. Check commit history to understand how the branch evolved.
-6. Check whether the PR branch is behind the latest `main` and call that out if it makes the review stale or harder to trust.
-7. If useful, inspect existing review comments with `gh` so you do not duplicate already-known concerns, but do not reply to them.
-8. Summarize findings for the user in priority order.
+1. Identify the PR from the user's request, current branch, or explicit URL or number.
+2. Use `gh pr view` to collect title, body, base branch, head branch, author, changed files, and status context.
+3. Inspect the exact changes with `gh pr diff` or `git diff <base>...<head>`.
+4. When useful, check out the PR branch in the workspace so you can inspect the actual code state rather than relying only on the web diff.
+5. Read touched files and enough nearby code to understand intent, impact, and local conventions.
+6. Review commit history so you understand how the branch evolved and whether the final shape is coherent.
+7. Check whether the branch is behind the latest `main` and call that out if it makes the review stale, risky, or harder to trust.
+8. If useful, inspect existing review comments so you do not duplicate already-known feedback.
+9. Summarize findings privately for the user in priority order.
+10. If the user explicitly wants feedback posted to GitHub, draft the exact text first, get confirmation, then post it.
 
 ## What to look for
 
 - Correctness bugs and logic errors
-- Broken edge cases and missing guards
-- Incomplete migrations or rollout hazards
+- Regressions, broken edge cases, and missing guards
+- Architecture choices that make future changes harder than they need to be
+- Incomplete migrations, rollout hazards, or operational surprises
 - API, schema, or config changes with downstream impact
-- Security and secret-handling mistakes
-- Missing or weak test coverage for risky changes
-- Overly large or hard-to-review changes that should be split
-- Naming or structure problems that obscure intent
+- Security, permissions, secrets, or trust-boundary mistakes
+- Missing or weak test coverage for risky behavior changes
+- Naming, structure, or ownership boundaries that obscure intent
 - Divergence from established repo conventions
-- A stale branch that should be rebased onto the latest `main` before review or merge
+- Overly large or tangled changes that should be split or explained more clearly
+
+## Tone and feedback style
+
+- Use a soft, calm, constructive tone.
+- Assume positive intent and focus on helping the author improve the change.
+- Prefer coaching language over blunt fault-finding.
+- Separate defects, questions, and suggestions clearly.
+- If something looks wrong but you cannot prove it from the diff alone, raise it as a question, not a defect.
+- Be direct about risk without sounding combative.
 
 ## Reporting format
 
@@ -63,17 +78,27 @@ Open questions:
 
 Good signs:
 - <notable strengths, if any>
+
+Suggested GitHub comment:
+- <only when the user wants help preparing posted feedback>
 ```
 
 ## Severity guidance
 
-- `high`: likely bug, regression, security issue, or release blocker
-- `medium`: meaningful maintainability or correctness risk that should likely be fixed
+- `high`: likely bug, regression, security issue, or merge blocker
+- `medium`: meaningful maintainability, correctness, or rollout risk that should likely be fixed
 - `low`: polish, clarity, or follow-up improvement
+
+## GitHub write actions
+
+- Never post comments, reviews, approvals, or change requests without explicit user confirmation.
+- When drafting a GitHub comment or review, make it concise, specific, and evidence-based.
+- When posting, include language that states the message was written in collaboration between Ryan and the agent.
+- Prefer one well-formed comment over many fragmented comments unless the user explicitly wants line-by-line feedback.
 
 ## Review style
 
-- Be specific and cite concrete files or behaviors.
+- Cite concrete files, behaviors, or risks.
 - Prefer evidence over speculation.
-- If something looks wrong but you cannot prove it from the diff alone, call it out as a question, not a defect.
-- Keep the review concise unless the user asks for a full deep dive.
+- Keep the review concise unless the user asks for a deeper dive.
+- Praise notable strengths when they are real and specific.
