@@ -91,7 +91,6 @@
   # Personal packages
   personalPackages = with pkgs;
     [
-      obsidian
       ffmpeg
       yt-dlp
       bind
@@ -120,7 +119,10 @@
 
   # Business packages
   businessPackages = with pkgs;
-    lib.optionals isLinux [
+    lib.optionals pkgs.stdenv.isDarwin [
+      zoom-us
+    ]
+    ++ lib.optionals isLinux [
       zoom-us
       libreoffice-qt
     ];
