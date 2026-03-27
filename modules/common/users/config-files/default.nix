@@ -215,7 +215,6 @@ in {
         lazygit
       ]
       ++ lib.optionals configFiles.opencode.enable [
-        playwright-mcp
         uv
         nodejs_22 # Provides npx for browser MCP
       ]
