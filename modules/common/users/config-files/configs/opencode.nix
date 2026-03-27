@@ -34,11 +34,6 @@
       };
     };
     mcp = {
-      playwright = {
-        type = "local";
-        command = ["mcp-server-playwright"];
-        enabled = true;
-      };
       chrome_devtools = {
         type = "local";
         command = ["npx" "chrome-devtools-mcp@latest"];

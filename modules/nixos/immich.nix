@@ -24,7 +24,6 @@ in {
         name = "immich";
         user = "immich";
         createDB = true;
-        enableVectors = false;
       };
       mediaLocation = "/data/immich";
       # Disable machine learning to avoid resource-intensive video processing

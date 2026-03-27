@@ -45,6 +45,7 @@
     # Configure graphics settings for NVIDIA
     hardware.graphics = {
       enable = true;
+      enable32Bit = true;
 
       # Use stable Mesa packages for better cache availability
       extraPackages = with pkgs; [
@@ -53,8 +54,6 @@
         libvdpau-va-gl
       ];
     };
-
-    hardware.opengl.driSupport32Bit = true;
 
     # Optimize for server workloads (since ganymede is a server)
     boot.kernelParams = [
