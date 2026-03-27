@@ -9,30 +9,24 @@
 
   personalApps = {
     casks = [
-      "spacedrive"
       "protonvpn"
     ];
   };
 
   entertainmentApps = {
     casks = [
-      "discord"
       "spotify"
-      "steam"
     ];
   };
 
   developmentApps = {
     casks = [
-      "jetbrains-toolbox"
       "proxyman"
     ];
   };
 
   businessApps = {
     casks = [
-      "notion"
-      "zoom"
       "google-chrome"
     ];
   };
@@ -40,10 +34,6 @@
   commonApps = {
     casks = [
       "1password"
-      "fantastical"
-      "figma"
-      "hammerspoon"
-      "orion"
       "sf-symbols"
     ];
   };
