@@ -55,22 +55,22 @@ Prefer a no-probing happy path for commit signing and transport:
 
 1. Inspect the effective Git configuration first with `git config --get gpg.format`, `git config --get gpg.ssh.program`, and `git config --get user.signingkey`.
 2. Let `git commit` use the configured signer directly instead of trying to outsmart the existing Git setup.
-3. For `git push`, `git fetch`, `gh`, or `ssh`, assume the environment's default SSH credentials should work first.
+3. For `git push`, `git fetch`, `gh`, or `ssh`, assume the environment's default SSH credentials should work first, whether they come from an agent-backed interactive setup or a headless `~/.ssh/config` plus key files.
 4. Do not disable signing unless the user explicitly asks for it.
 
 If an SSH transport command fails:
 
 1. Verify that the default SSH path works with a direct command like `ssh -T git@github.com` or `git ls-remote origin`.
-2. If the default path fails, inspect `SSH_AUTH_SOCK` and verify identities with `ssh-add -L`.
-3. If that still fails, inspect `~/.ssh/config` for `IdentityAgent`, `IdentityFile`, or host-specific overrides.
+2. If the default path fails in an interactive environment, inspect `SSH_AUTH_SOCK` and verify identities with `ssh-add -L`.
+3. If the default path fails in a headless environment, inspect `~/.ssh/config`, `IdentityFile`, and the expected key files before assuming an agent exists.
 4. Retry the relevant `git`, `gh`, or `ssh` command with the minimal override needed, such as `git -c core.sshCommand='ssh -F ~/.ssh/config' ...`.
 
 Prefer discovery in this order:
 
 1. Effective Git signing configuration
 2. Default SSH connectivity with no overrides
-3. The current `SSH_AUTH_SOCK`
-4. `~/.ssh/config` as a last-resort diagnostic
+3. The current `SSH_AUTH_SOCK` when an interactive agent is expected
+4. `~/.ssh/config` and default key files when a headless or file-based setup is expected
 
 Do not read files outside the workspace during the happy path when Git and SSH already work with their default configuration.
 

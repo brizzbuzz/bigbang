@@ -133,9 +133,13 @@
     enableKagi = true;
     gitName = "Ryan Brink";
     gitEmail = "dev@ryanbr.ink";
-    serverPasswordSecretRef = "op://Homelab/Opencode Ganymede/password";
-    sshPrivateKeySecretRef = "op://Homelab/Opencode Ganymede/private key";
-    sshPublicKeySecretRef = "op://Homelab/Opencode Ganymede/public key";
+    gitSignCommits = true;
+    serverPasswordSecretRef = "op://Homelab/Opencode Server/password";
+    sshPrivateKeySecretRef = "op://Homelab/Ganymede Auth Key/private key";
+    sshPublicKeySecretRef = "op://Homelab/Ganymede Auth Key/public key";
+    sshSigningPrivateKeySecretRef = "op://Homelab/Ganymede Signing Key/private key";
+    sshSigningPublicKeySecretRef = "op://Homelab/Ganymede Signing Key/public key";
+    workspaceNamespaces = ["github"];
     sshKnownHosts = [
       "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
       "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg="
@@ -226,6 +230,7 @@
 
   # Ensure CDN storage directory exists
   systemd.tmpfiles.rules = [
+    "d /data/backups/opencode 0750 root root -"
     "d /var/lib/spacebar/files 0750 spacebarchat spacebarchat -"
     "d /data/backups/spacebar 0750 postgres postgres -"
   ];
