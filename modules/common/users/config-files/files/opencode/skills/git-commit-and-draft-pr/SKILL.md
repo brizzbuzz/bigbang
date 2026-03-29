@@ -1,6 +1,6 @@
 ---
 name: git-commit-and-draft-pr
-description: Create signed conventional commits, discover the active 1Password SSH agent when needed, then push the branch and open a draft GitHub PR with gh.
+description: Create signed conventional commits, rely on the default SSH credentials when transport is needed, then push the branch and open a draft GitHub PR with gh.
 ---
 
 Use this skill when the user wants to wrap up a branch for review with a clean conventional commit and optionally a draft PR.
@@ -9,7 +9,7 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 
 - Preserve the user's conventional commit workflow
 - Keep commit signing enabled
-- Discover and use the active 1Password SSH agent for signing when needed
+- Prefer the default SSH credentials already configured for the environment
 - Start feature work from the latest `main` whenever possible
 - Push with standard `git`
 - Open a draft PR with `gh`
@@ -19,7 +19,7 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 - Reviews the current branch state and summarizes what changed
 - Proposes a conventional commit message that matches the repository style
 - Creates a signed commit without weakening the user's signing rules
-- Diagnoses SSH signing failures by discovering the right 1Password agent socket from the local environment
+- Diagnoses SSH transport failures with minimal probing and no parallel auth workflow
 - Pushes the branch and creates a draft PR when the user explicitly asks for a PR
 
 ## Commit workflow
@@ -49,29 +49,30 @@ For GitHub workflows in this environment, prioritize working from the latest `ma
 - Focus on why the change exists
 - Keep the subject concise and in imperative mood
 
-## 1Password signing workflow
+## SSH and signing workflow
 
-Prefer a no-probing happy path for commit signing:
+Prefer a no-probing happy path for commit signing and transport:
 
 1. Inspect the effective Git configuration first with `git config --get gpg.format`, `git config --get gpg.ssh.program`, and `git config --get user.signingkey`.
-2. If `gpg.ssh.program` points at the 1Password signer, let `git commit` use it directly instead of trying to discover an SSH agent first.
-3. Only diagnose `SSH_AUTH_SOCK` when an SSH transport operation needs it (`git push`, `gh`, `ssh`) or when signing still fails after confirming the Git config.
+2. Let `git commit` use the configured signer directly instead of trying to outsmart the existing Git setup.
+3. For `git push`, `git fetch`, `gh`, or `ssh`, assume the environment's default SSH credentials should work first.
 4. Do not disable signing unless the user explicitly asks for it.
 
-If an SSH transport command fails because the default agent has no identities:
+If an SSH transport command fails:
 
-1. Inspect the current `SSH_AUTH_SOCK`.
-2. Verify identities are visible with `ssh-add -L` against the current socket.
-3. If that still fails, then inspect `~/.ssh/config` for `IdentityAgent` entries.
-4. Retry the relevant `git`, `gh`, or `ssh` command with `SSH_AUTH_SOCK` pointed at the working socket.
+1. Verify that the default SSH path works with a direct command like `ssh -T git@github.com` or `git ls-remote origin`.
+2. If the default path fails, inspect `SSH_AUTH_SOCK` and verify identities with `ssh-add -L`.
+3. If that still fails, inspect `~/.ssh/config` for `IdentityAgent`, `IdentityFile`, or host-specific overrides.
+4. Retry the relevant `git`, `gh`, or `ssh` command with the minimal override needed, such as `git -c core.sshCommand='ssh -F ~/.ssh/config' ...`.
 
 Prefer discovery in this order:
 
 1. Effective Git signing configuration
-2. The current `SSH_AUTH_SOCK`
-3. `IdentityAgent` from `~/.ssh/config` as a last-resort diagnostic
+2. Default SSH connectivity with no overrides
+3. The current `SSH_AUTH_SOCK`
+4. `~/.ssh/config` as a last-resort diagnostic
 
-Do not read files outside the workspace during the happy path when Git is already configured to use the 1Password signer directly.
+Do not read files outside the workspace during the happy path when Git and SSH already work with their default configuration.
 
 ## Draft PR workflow
 
@@ -107,4 +108,4 @@ Only do this when the user has explicitly asked to create a PR.
 - Never use `--no-gpg-sign` or similar bypass flags unless the user explicitly requests it.
 - Never force-push unless the user explicitly requests it.
 - Prefer standard `git` workflows; do not assume GitButler or any alternate VCS tooling.
-- If signing fails, diagnose the agent socket first rather than weakening the workflow.
+- If signing or transport fails, prefer small SSH config diagnostics over inventing a parallel auth workflow.
