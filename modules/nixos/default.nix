@@ -33,6 +33,7 @@
     ./locale.nix
     ./networking.nix
     ./nvidia.nix
+    ./opencode.nix
     ./password-manager.nix
     ./polkit.nix
     ./postgres.nix

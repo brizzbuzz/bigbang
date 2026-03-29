@@ -97,7 +97,7 @@ in {
         default = {
           "chateaubr.ink" = "192.168.11.1";
           "callisto.chateaubr.ink" = "192.168.11.10";
-          "ganymede.chateaubr.ink" = "192.168.11.11";
+          "ganymede.chateaubr.ink" = "192.168.11.39";
         };
         description = "Custom DNS mappings for local domains";
       };
