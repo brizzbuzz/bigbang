@@ -131,10 +131,10 @@
     bindAddress = "192.168.11.39";
     openFirewall = true;
     enableKagi = true;
+    enableServerAuth = false;
     gitName = "Ryan Brink";
     gitEmail = "dev@ryanbr.ink";
     gitSignCommits = true;
-    serverPasswordSecretRef = "op://Homelab/Opencode Server/password";
     sshPrivateKeySecretRef = "op://Homelab/Ganymede Auth Key/private key";
     sshPublicKeySecretRef = "op://Homelab/Ganymede Auth Key/public key";
     sshSigningPrivateKeySecretRef = "op://Homelab/Ganymede Signing Key/private key";
@@ -234,6 +234,17 @@
     "d /var/lib/spacebar/files 0750 spacebarchat spacebarchat -"
     "d /data/backups/spacebar 0750 postgres postgres -"
   ];
+
+  systemd.services.opnix-secrets = {
+    after = [
+      "network-online.target"
+      "nss-lookup.target"
+    ];
+    wants = [
+      "network-online.target"
+      "nss-lookup.target"
+    ];
+  };
 
   systemd.services.spacebar-backup = let
     pgDump = "${config.services.postgresql.package}/bin/pg_dump";
