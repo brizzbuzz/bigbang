@@ -258,10 +258,14 @@
     ''}
   '';
 
+  serverAuthEnabled = cfg.enableServerAuth;
+
   startScript = pkgs.writeShellScript "opencode-start" ''
     set -euo pipefail
 
-    export OPENCODE_SERVER_PASSWORD="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$CREDENTIALS_DIRECTORY/server-password")"
+    ${lib.optionalString serverAuthEnabled ''
+      export OPENCODE_SERVER_PASSWORD="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$CREDENTIALS_DIRECTORY/server-password")"
+    ''}
 
     exec ${lib.getExe cfg.package} web --hostname ${lib.escapeShellArg cfg.bindAddress} --port ${toString cfg.port}
   '';
@@ -324,6 +328,12 @@ in {
       type = lib.types.str;
       default = "opencode";
       description = "HTTP basic auth username for the OpenCode web service.";
+    };
+
+    enableServerAuth = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable OpenCode HTTP basic auth using serverUsername and serverPasswordSecretRef.";
     };
 
     serverPasswordSecretRef = lib.mkOption {
@@ -417,8 +427,8 @@ in {
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = cfg.serverPasswordSecretRef != null;
-        message = "services.opencode.serverPasswordSecretRef must be set.";
+        assertion = (!cfg.enableServerAuth) || cfg.serverPasswordSecretRef != null;
+        message = "services.opencode.serverPasswordSecretRef must be set when services.opencode.enableServerAuth is true.";
       }
       {
         assertion = cfg.sshPrivateKeySecretRef != null;
@@ -443,7 +453,7 @@ in {
     services.onepassword-secrets.users = lib.mkAfter [cfg.user];
 
     services.onepassword-secrets.secrets =
-      {
+      lib.optionalAttrs cfg.enableServerAuth {
         opencodeServerPassword = {
           reference = cfg.serverPasswordSecretRef;
           path = serverPasswordPath;
@@ -515,6 +525,7 @@ in {
       after = ["opnix-secrets.service"];
       requires = ["opnix-secrets.service"];
       before = ["opencode.service"];
+      wantedBy = ["opnix-secrets.service"];
       serviceConfig = {
         Type = "oneshot";
         User = "root";
@@ -528,7 +539,10 @@ in {
 
     systemd.services.opencode = {
       description = "OpenCode web service";
-      wantedBy = ["multi-user.target"];
+      wantedBy = [
+        "multi-user.target"
+        "opnix-secrets.service"
+      ];
       after = [
         "network-online.target"
         "opnix-secrets.service"
@@ -548,8 +562,10 @@ in {
           XDG_STATE_HOME = stateHome;
           OPENCODE_DISABLE_AUTOUPDATE = "true";
           OPENCODE_DISABLE_CLAUDE_CODE = "true";
-          OPENCODE_SERVER_USERNAME = cfg.serverUsername;
           GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -F ${sshConfigFile}";
+        }
+        // lib.optionalAttrs cfg.enableServerAuth {
+          OPENCODE_SERVER_USERNAME = cfg.serverUsername;
         }
         // cfg.extraEnvironment;
       path = [
@@ -567,7 +583,7 @@ in {
         ExecStart = startScript;
         Restart = "on-failure";
         RestartSec = "5s";
-        LoadCredential = ["server-password:${serverPasswordPath}"];
+        LoadCredential = lib.optional cfg.enableServerAuth "server-password:${serverPasswordPath}";
         UMask = "0077";
         NoNewPrivileges = true;
         PrivateTmp = true;
