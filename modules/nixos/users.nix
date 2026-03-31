@@ -25,5 +25,5 @@
     shell = pkgs.nushell;
   };
 
-  nix.settings.trusted-users = [config.host.admin.name "root" "@wheel"];
+  nix.settings.trusted-users = [config.host.admin.name "root" "@wheel" "opencode"];
 }
