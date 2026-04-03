@@ -7,7 +7,7 @@
   cfg = config.host;
   configFiles = cfg.configFiles;
   isDarwin = pkgs.stdenv.isDarwin;
-  hasWorkUser = lib.any (user: user.profile == "work") (lib.attrValues cfg.users);
+  hasCompanyUser = lib.any (user: builtins.elem user.profile ["work" "company"]) (lib.attrValues cfg.users);
 
   # Import config modules
   gitModule = import ./configs/git.nix {inherit config lib pkgs;};
@@ -218,7 +218,7 @@ in {
         uv
         nodejs_22 # Provides npx for browser MCP
       ]
-      ++ lib.optionals (configFiles.opencode.enable && hasWorkUser) [
+      ++ lib.optionals (configFiles.opencode.enable && hasCompanyUser) [
         datadog-mcp-cli
       ]
       ++ lib.optionals configFiles.ghostty.enable [

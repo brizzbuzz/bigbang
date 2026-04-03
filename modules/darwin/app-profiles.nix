@@ -4,8 +4,10 @@
   ...
 }: let
   cfg = config.host;
+  isCompanyProfile = user: builtins.elem user.profile ["work" "company"];
 
   getUsersByProfile = profile: lib.filterAttrs (_: user: user.profile == profile) cfg.users;
+  companyUsers = lib.filterAttrs (_: user: isCompanyProfile user) cfg.users;
 
   personalApps = {
     casks = [
@@ -40,10 +42,10 @@
 
   generateAppList = appType: let
     personalProfile = cfg.profiles.personal;
-    workProfile = cfg.profiles.work;
+    companyProfile = cfg.profiles.company;
 
     personalUsers = getUsersByProfile "personal";
-    workUsers = getUsersByProfile "work";
+    workUsers = companyUsers;
 
     commonList = commonApps.${appType} or [];
 
@@ -53,8 +55,8 @@
       ++ lib.optionals (personalUsers != {} && personalProfile.developmentApps) (developmentApps.${appType} or []);
 
     workList =
-      lib.optionals (workUsers != {} && workProfile.businessApps) (businessApps.${appType} or [])
-      ++ lib.optionals (workUsers != {} && workProfile.developmentApps) (developmentApps.${appType} or []);
+      lib.optionals (workUsers != {} && companyProfile.businessApps) (businessApps.${appType} or [])
+      ++ lib.optionals (workUsers != {} && companyProfile.developmentApps) (developmentApps.${appType} or []);
   in
     lib.unique (commonList ++ personalList ++ workList);
 in {

@@ -7,6 +7,9 @@
     work = {
       theme = "github_dark"; # Professional theme matching Github Dark terminal
     };
+    company = {
+      theme = "github_dark"; # Professional theme matching Github Dark terminal
+    };
   };
 
   # Resolve helix theme for a user (profile defaults + per-user overrides)

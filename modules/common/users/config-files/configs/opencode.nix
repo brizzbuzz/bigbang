@@ -12,11 +12,11 @@
     user,
     homeDir,
   }: let
-    isWorkProfile = user.profile == "work";
+    isCompanyProfile = builtins.elem user.profile ["work" "company"];
     isRyan = user.name == "ryan";
-    pencilEnabled = isDarwin && isRyan && !isWorkProfile;
+    pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
     datadogCommand =
-      if isWorkProfile
+      if isCompanyProfile
       then ["${pkgs.datadog-mcp-cli}/bin/datadog_mcp_cli"]
       else ["/usr/bin/false"];
   in {
@@ -52,7 +52,7 @@
       datadog = {
         type = "local";
         command = datadogCommand;
-        enabled = isWorkProfile;
+        enabled = isCompanyProfile;
         environment = {};
       };
       pencil = {
@@ -71,7 +71,7 @@
       notion = {
         type = "remote";
         url = "https://mcp.notion.com/mcp";
-        enabled = isWorkProfile;
+        enabled = isCompanyProfile;
       };
       kagi = {
         type = "local";

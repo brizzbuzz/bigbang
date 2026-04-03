@@ -48,11 +48,6 @@ in {
         profile = "personal";
         isPrimary = true;
       };
-      Work = {
-        name = "Work";
-        profile = "work";
-        isPrimary = false;
-      };
     };
   };
 
@@ -64,11 +59,6 @@ in {
         profile = "personal";
         isPrimary = true;
       };
-      Work = {
-        name = "Work";
-        profile = "work";
-        isPrimary = false;
-      };
     };
   };
 
@@ -79,11 +69,6 @@ in {
         name = "ryan";
         profile = "personal";
         isPrimary = true;
-      };
-      Work = {
-        name = "Work";
-        profile = "work";
-        isPrimary = false;
       };
     };
   };

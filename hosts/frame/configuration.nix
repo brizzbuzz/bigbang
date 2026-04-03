@@ -22,11 +22,6 @@
         profile = "personal";
         isPrimary = true;
       };
-      Work = {
-        name = "Work";
-        profile = "work";
-        isPrimary = false;
-      };
     };
   };
 
@@ -35,7 +30,7 @@
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";
-    users = ["ryan" "Work"];
+    users = ["ryan"];
     secrets = {
       kagiApiKey = {
         reference = "op://Homelab/Kagi Api Key/notesPlain";

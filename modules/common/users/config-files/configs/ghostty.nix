@@ -15,6 +15,13 @@
       background-opacity = 1.0;
       cursor-style = "block";
     };
+    company = {
+      theme = "Github Dark";
+      font-family = "JetBrainsMono Nerd Font Mono";
+      font-size = 14;
+      background-opacity = 1.0;
+      cursor-style = "block";
+    };
   };
 
   # Resolve ghostty config for a user (profile defaults + per-user overrides)

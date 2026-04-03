@@ -17,6 +17,11 @@
       email = "ryan@withodyssey.com";
       signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl";
     };
+    company = {
+      name = "Ryan Brink";
+      email = "ryan@withodyssey.com";
+      signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl";
+    };
   };
 
   # Resolve git config for a user (profile defaults + per-user overrides)
