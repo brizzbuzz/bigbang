@@ -14,79 +14,79 @@
     portfolio = {
       enable = true;
       subdomain = "portfolio";
-      target = "${backendHost}:7877";
+      target = "${backendIp}:7877";
       logLevel = "INFO";
     };
     media = {
       enable = true;
       subdomain = "media";
-      target = "${backendHost}:8096";
+      target = "${backendIp}:8096";
       logLevel = "INFO";
     };
     photos = {
       enable = true;
       subdomain = "photos";
-      target = "${backendHost}:2283";
+      target = "${backendIp}:2283";
       logLevel = "INFO";
     };
     books = {
       enable = true;
       subdomain = "books";
-      target = "${backendHost}:13378";
+      target = "${backendIp}:13378";
       logLevel = "INFO";
     };
     prowlarr = {
       enable = true;
       subdomain = "prowlarr";
-      target = "${backendHost}:9696";
+      target = "${backendIp}:9696";
       logLevel = "INFO";
     };
     sonarr = {
       enable = true;
       subdomain = "sonarr";
-      target = "${backendHost}:8989";
+      target = "${backendIp}:8989";
       logLevel = "INFO";
     };
     radarr = {
       enable = true;
       subdomain = "radarr";
-      target = "${backendHost}:7878";
+      target = "${backendIp}:7878";
       logLevel = "INFO";
     };
     lidarr = {
       enable = true;
       subdomain = "lidarr";
-      target = "${backendHost}:8686";
+      target = "${backendIp}:8686";
       logLevel = "INFO";
     };
     bazarr = {
       enable = true;
       subdomain = "bazarr";
-      target = "${backendHost}:6767";
+      target = "${backendIp}:6767";
       logLevel = "INFO";
     };
     jellyseerr = {
       enable = true;
       subdomain = "jellyseerr";
-      target = "${backendHost}:5055";
+      target = "${backendIp}:5055";
       logLevel = "INFO";
     };
     torrents = {
       enable = true;
       subdomain = "torrents";
-      target = "${backendHost}:8080";
+      target = "${backendIp}:8080";
       logLevel = "INFO";
     };
     opencodeRyan = {
       enable = true;
       subdomain = "opencode-ryan";
-      target = "${backendHost}:4096";
+      target = "${backendIp}:4096";
       logLevel = "INFO";
     };
     opencodeOdyssey = {
       enable = true;
       subdomain = "opencode-odyssey";
-      target = "${backendHost}:4097";
+      target = "${backendIp}:4097";
       logLevel = "INFO";
     };
     dns = {
@@ -104,7 +104,7 @@
     clickhouse = {
       enable = true;
       subdomain = "clickhouse";
-      target = "${backendHost}:8123";
+      target = "${backendIp}:8123";
       logLevel = "INFO";
     };
   };
@@ -226,7 +226,7 @@ in {
         media = {
           enable = true;
           subdomain = "media";
-          target = "${backendHost}:8096";
+          target = "${backendIp}:8096";
           logLevel = "DEBUG";
         };
 
@@ -245,13 +245,13 @@ in {
         photos = {
           enable = true;
           subdomain = "photos";
-          target = "${backendHost}:2283";
+          target = "${backendIp}:2283";
           logLevel = "INFO";
         };
         books = {
           enable = true;
           subdomain = "books";
-          target = "${backendHost}:13378";
+          target = "${backendIp}:13378";
           logLevel = "INFO";
         };
       };
@@ -260,7 +260,7 @@ in {
         portfolio = {
           enable = true;
           domain = "ryanbr.ink";
-          target = "${backendHost}:7877";
+          target = "${backendIp}:7877";
           tlsCertSecret = "sslRyanbrCert";
           tlsKeySecret = "sslRyanbrKey";
           logLevel = "INFO";
@@ -307,7 +307,7 @@ in {
         header Upgrade websocket
       }
       handle @websockets {
-        reverse_proxy ${backendHost}:3003 {
+        reverse_proxy ${backendIp}:3003 {
           transport http {
             keepalive 2m
             versions 1.1
@@ -327,7 +327,7 @@ in {
         path /api/* /.well-known/*
       }
       handle @api {
-        reverse_proxy ${backendHost}:3001 {
+        reverse_proxy ${backendIp}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -346,7 +346,7 @@ in {
         path /imageproxy/*
       }
       handle @imageproxy {
-        reverse_proxy ${backendHost}:3001 {
+        reverse_proxy ${backendIp}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -362,7 +362,7 @@ in {
 
       # Everything else (attachments, avatars, etc.) -> CDN
       handle {
-        reverse_proxy ${backendHost}:3002 {
+        reverse_proxy ${backendIp}:3002 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -396,7 +396,7 @@ in {
         header Upgrade websocket
       }
       handle @websockets {
-        reverse_proxy ${backendHost}:3003 {
+        reverse_proxy ${backendIp}:3003 {
           transport http {
             keepalive 2m
             versions 1.1
@@ -415,7 +415,7 @@ in {
         path /api/* /.well-known/*
       }
       handle @api {
-        reverse_proxy ${backendHost}:3001 {
+        reverse_proxy ${backendIp}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -433,7 +433,7 @@ in {
         path /imageproxy/*
       }
       handle @imageproxy {
-        reverse_proxy ${backendHost}:3001 {
+        reverse_proxy ${backendIp}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -448,7 +448,7 @@ in {
       }
 
       handle {
-        reverse_proxy ${backendHost}:3002 {
+        reverse_proxy ${backendIp}:3002 {
           transport http {
             keepalive 2m
             versions 1.1 2

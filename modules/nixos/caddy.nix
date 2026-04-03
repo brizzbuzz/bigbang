@@ -77,6 +77,11 @@
         lb_policy first
       }
     }
+
+    handle_errors {
+      @upstreamUnavailable expression `{http.error.status_code} == 502 || {http.error.status_code} == 503 || {http.error.status_code} == 504`
+      respond @upstreamUnavailable "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Service waking up</title><style>body{margin:0;font-family:ui-sans-serif,system-ui,sans-serif;background:#0b1220;color:#e5edf7;display:grid;place-items:center;min-height:100vh}main{max-width:38rem;padding:2rem}.box{background:#121b2d;border:1px solid #27324a;border-radius:16px;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.35)}h1{margin:0 0 .75rem;font-size:2rem}p{margin:.5rem 0;line-height:1.5;color:#b7c4d6}code{background:#0f1726;padding:.15rem .4rem;border-radius:6px;color:#fff}</style></head><body><main class=\"box\"><h1>That service is not reachable right now.</h1><p>The app behind <code>{host}</code> did not answer in time.</p><p>This usually means the service is restarting, sleeping, or temporarily unhealthy. Wait a few seconds and reload.</p></main></body></html>" 503
+    }
   '';
 
   mkStaticTlsConfig = certPath: keyPath: ''

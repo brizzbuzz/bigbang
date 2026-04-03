@@ -137,17 +137,17 @@ in {
 
   services.media.immich = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
   };
 
   services.media.jellyfin = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
   };
 
   services.media.arr = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
     mediaRoot = "/data/media";
     services = {
       prowlarr.enable = true;
@@ -161,7 +161,7 @@ in {
 
   services.media.audiobookshelf = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
   };
 
   services.opencode.instances = {
@@ -171,7 +171,7 @@ in {
       group = "ryan";
       bindAddress = "192.168.11.39";
       port = 4096;
-      openFirewall = false;
+      openFirewall = true;
       enableKagi = true;
       enableServerAuth = false;
       stateRoot = "/var/lib/opencode-ryan";
@@ -192,7 +192,7 @@ in {
       group = "odyssey";
       bindAddress = "192.168.11.39";
       port = 4097;
-      openFirewall = false;
+      openFirewall = true;
       enableKagi = false;
       enableServerAuth = false;
       stateRoot = "/var/lib/opencode-odyssey";
@@ -225,7 +225,7 @@ in {
 
   services.clickhouse = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
     passwordSha256SecretRef = "op://Homelab/Clickhouse Admin/password_sha_256";
   };
 
@@ -363,10 +363,8 @@ in {
     };
   };
 
-  # Only allow callisto to reach proxied service ports directly.
-  networking.firewall.extraInputRules = ''
-    ip saddr 192.168.11.200 tcp dport { 2283, 3001, 3002, 3003, 4096, 4097, 5055, 6767, 7877, 7878, 8096, 8123, 8686, 8989, 9696, 13378 } accept
-  '';
+  # Keep Spacebar backend ports reachable for the public and internal chat proxies.
+  networking.firewall.allowedTCPPorts = [3001 3002 3003 7877];
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
