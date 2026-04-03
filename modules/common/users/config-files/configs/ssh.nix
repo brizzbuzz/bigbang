@@ -26,16 +26,16 @@ in {
         User git
 
       # Homelab servers
-      Host callisto.chateaubr.ink ganymede.chateaubr.ink
+      Host callisto.lan.rgbr.ink ganymede.lan.rgbr.ink
         User ryan
 
       # Local network shorthand
       Host callisto
-        Hostname callisto.chateaubr.ink
+        Hostname callisto.lan.rgbr.ink
         User ryan
 
       Host ganymede
-        Hostname ganymede.chateaubr.ink
+        Hostname ganymede.lan.rgbr.ink
         User ryan
     '';
   in

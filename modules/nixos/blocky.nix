@@ -95,9 +95,8 @@ in {
       mapping = lib.mkOption {
         type = lib.types.attrsOf lib.types.str;
         default = {
-          "chateaubr.ink" = "192.168.11.1";
-          "callisto.chateaubr.ink" = "192.168.11.10";
-          "ganymede.chateaubr.ink" = "192.168.11.39";
+          "callisto.lan.rgbr.ink" = "192.168.11.200";
+          "ganymede.lan.rgbr.ink" = "192.168.11.39";
         };
         description = "Custom DNS mappings for local domains";
       };
@@ -145,7 +144,7 @@ in {
         # Conditional upstream for local network
         conditional = {
           mapping = {
-            "chateaubr.ink" = "192.168.11.1"; # Use UniFi router for local domains
+            "lan.rgbr.ink" = "192.168.11.1"; # Use UniFi router for local domains when not answered locally
           };
         };
 

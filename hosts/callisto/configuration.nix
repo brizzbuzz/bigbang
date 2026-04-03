@@ -1,8 +1,133 @@
 {
   config,
   inputs,
+  lib,
   ...
-}: {
+}: let
+  ingressIp = "192.168.11.200";
+  backendIp = "192.168.11.39";
+  lanDomain = "lan.rgbr.ink";
+  ingressHost = "callisto.${lanDomain}";
+  backendHost = "ganymede.${lanDomain}";
+
+  internalSites = {
+    portfolio = {
+      enable = true;
+      subdomain = "portfolio";
+      target = "${backendHost}:7877";
+      logLevel = "INFO";
+    };
+    media = {
+      enable = true;
+      subdomain = "media";
+      target = "${backendHost}:8096";
+      logLevel = "INFO";
+    };
+    photos = {
+      enable = true;
+      subdomain = "photos";
+      target = "${backendHost}:2283";
+      logLevel = "INFO";
+    };
+    books = {
+      enable = true;
+      subdomain = "books";
+      target = "${backendHost}:13378";
+      logLevel = "INFO";
+    };
+    prowlarr = {
+      enable = true;
+      subdomain = "prowlarr";
+      target = "${backendHost}:9696";
+      logLevel = "INFO";
+    };
+    sonarr = {
+      enable = true;
+      subdomain = "sonarr";
+      target = "${backendHost}:8989";
+      logLevel = "INFO";
+    };
+    radarr = {
+      enable = true;
+      subdomain = "radarr";
+      target = "${backendHost}:7878";
+      logLevel = "INFO";
+    };
+    lidarr = {
+      enable = true;
+      subdomain = "lidarr";
+      target = "${backendHost}:8686";
+      logLevel = "INFO";
+    };
+    bazarr = {
+      enable = true;
+      subdomain = "bazarr";
+      target = "${backendHost}:6767";
+      logLevel = "INFO";
+    };
+    jellyseerr = {
+      enable = true;
+      subdomain = "jellyseerr";
+      target = "${backendHost}:5055";
+      logLevel = "INFO";
+    };
+    torrents = {
+      enable = true;
+      subdomain = "torrents";
+      target = "${backendHost}:8080";
+      logLevel = "INFO";
+    };
+    opencodeRyan = {
+      enable = true;
+      subdomain = "opencode-ryan";
+      target = "${backendHost}:4096";
+      logLevel = "INFO";
+    };
+    opencodeOdyssey = {
+      enable = true;
+      subdomain = "opencode-odyssey";
+      target = "${backendHost}:4097";
+      logLevel = "INFO";
+    };
+    dns = {
+      enable = true;
+      subdomain = "dns";
+      target = "localhost:4000";
+      logLevel = "INFO";
+    };
+    ventoy = {
+      enable = true;
+      subdomain = "ventoy";
+      target = "localhost:24680";
+      logLevel = "INFO";
+    };
+    clickhouse = {
+      enable = true;
+      subdomain = "clickhouse";
+      target = "${backendHost}:8123";
+      logLevel = "INFO";
+    };
+  };
+
+  internalDnsMappings =
+    lib.mapAttrs'
+    (
+      _: site:
+        lib.nameValuePair
+        (
+          if site.subdomain == ""
+          then lanDomain
+          else "${site.subdomain}.${lanDomain}"
+        )
+        ingressIp
+    )
+    internalSites
+    // {
+      "${ingressHost}" = ingressIp;
+      "${backendHost}" = backendIp;
+      "chat.${lanDomain}" = ingressIp;
+    };
+in {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.opnix.nixosModules.default
@@ -55,6 +180,15 @@
         mode = "0600";
         services = ["caddy"];
       };
+
+      cloudflareDnsApiTokenEnv = {
+        reference = "op://Homelab/Cloudflare Caddy DNS Token/notesPlain";
+        path = "/var/lib/caddy/cloudflare-dns.env";
+        owner = "caddy";
+        group = "caddy";
+        mode = "0600";
+        services = ["caddy"];
+      };
     };
 
     # Enable systemd integration for reliable service management
@@ -92,14 +226,14 @@
         media = {
           enable = true;
           subdomain = "media";
-          target = "ganymede.chateaubr.ink:8096";
+          target = "${backendHost}:8096";
           logLevel = "DEBUG";
         };
 
         # torrents = {
         #   enable = true;
         #   subdomain = "torrents";
-        #   target = "ganymede.chateaubr.ink:8080";
+        #   target = "${backendHost}:8080";
         #   logLevel = "INFO";
         # };
         blocky = {
@@ -111,13 +245,13 @@
         photos = {
           enable = true;
           subdomain = "photos";
-          target = "ganymede.chateaubr.ink:2283";
+          target = "${backendHost}:2283";
           logLevel = "INFO";
         };
         books = {
           enable = true;
           subdomain = "books";
-          target = "ganymede.chateaubr.ink:13378";
+          target = "${backendHost}:13378";
           logLevel = "INFO";
         };
       };
@@ -126,12 +260,18 @@
         portfolio = {
           enable = true;
           domain = "ryanbr.ink";
-          target = "ganymede.chateaubr.ink:7877";
+          target = "${backendHost}:7877";
           tlsCertSecret = "sslRyanbrCert";
           tlsKeySecret = "sslRyanbrKey";
           logLevel = "INFO";
         };
       };
+    };
+
+    internal = {
+      enable = true;
+      domain = lanDomain;
+      sites = internalSites;
     };
   };
 
@@ -157,7 +297,7 @@
         header Upgrade websocket
       }
       handle @websockets {
-        reverse_proxy ganymede.chateaubr.ink:3003 {
+        reverse_proxy ${backendHost}:3003 {
           transport http {
             keepalive 2m
             versions 1.1
@@ -177,7 +317,7 @@
         path /api/* /.well-known/*
       }
       handle @api {
-        reverse_proxy ganymede.chateaubr.ink:3001 {
+        reverse_proxy ${backendHost}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -196,7 +336,7 @@
         path /imageproxy/*
       }
       handle @imageproxy {
-        reverse_proxy ganymede.chateaubr.ink:3001 {
+        reverse_proxy ${backendHost}:3001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -212,7 +352,93 @@
 
       # Everything else (attachments, avatars, etc.) -> CDN
       handle {
-        reverse_proxy ganymede.chateaubr.ink:3002 {
+        reverse_proxy ${backendHost}:3002 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+    '';
+  };
+
+  services.caddy.virtualHosts."chat.lan.rgbr.ink" = {
+    extraConfig = ''
+      tls {
+        dns cloudflare {$CLOUDFLARE_API_TOKEN}
+        resolvers 1.1.1.1 1.0.0.1
+      }
+
+      log {
+        output file /var/log/caddy/chat-lan.log
+        format console
+        level INFO
+      }
+
+      @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+      }
+      handle @websockets {
+        reverse_proxy ${backendHost}:3003 {
+          transport http {
+            keepalive 2m
+            versions 1.1
+          }
+          header_up Host {host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          header_up Connection "Upgrade"
+          header_up Upgrade "websocket"
+          health_timeout 5s
+        }
+      }
+
+      @api {
+        path /api/* /.well-known/*
+      }
+      handle @api {
+        reverse_proxy ${backendHost}:3001 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
+      @imageproxy {
+        path /imageproxy/*
+      }
+      handle @imageproxy {
+        reverse_proxy ${backendHost}:3001 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
+      handle {
+        reverse_proxy ${backendHost}:3002 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -230,7 +456,10 @@
 
   services.dns.blocky = {
     enable = true;
-    customDNS.enable = false; # UniFi handles local domain resolution
+    customDNS = {
+      enable = true;
+      mapping = internalDnsMappings;
+    };
     blocking = {
       enable = true;
       clientGroups = {
