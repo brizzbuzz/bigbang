@@ -49,11 +49,6 @@
         profile = "personal";
         isPrimary = true;
       };
-      Work = {
-        name = "Work";
-        profile = "work";
-        isPrimary = false;
-      };
     };
 
     profiles = {
@@ -61,11 +56,6 @@
         entertainmentApps = true;
         developmentApps = true;
         personalApps = true;
-      };
-      work = {
-        businessApps = true;
-        restrictedApps = false;
-        developmentApps = false;
       };
     };
 
@@ -102,7 +92,7 @@
     '';
     settings = {
       download-buffer-size = 268435456; # 256MB
-      trusted-users = ["root" "ryan" "Work" "@admin" "@wheel"];
+      trusted-users = ["root" "ryan" "@admin" "@wheel"];
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"

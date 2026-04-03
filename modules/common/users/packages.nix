@@ -7,6 +7,7 @@
 }: let
   cfg = config.host;
   isLinux = pkgs.stdenv.isLinux;
+  isCompanyProfile = profile: builtins.elem profile ["work" "company"];
 
   # Base packages for all users
   basePackages = with pkgs;
@@ -130,14 +131,14 @@
   # Get packages for a specific profile
   getPackagesForProfile = profile: let
     personalProfile = cfg.profiles.personal;
-    workProfile = cfg.profiles.work;
+    companyProfile = cfg.profiles.company;
   in
     basePackages
     ++ lib.optionals (profile == "personal" && personalProfile.developmentApps) devPackages
     ++ lib.optionals (profile == "personal" && personalProfile.personalApps) personalPackages
     ++ lib.optionals (profile == "personal" && personalProfile.entertainmentApps) entertainmentPackages
-    ++ lib.optionals (profile == "work" && workProfile.developmentApps) devPackages
-    ++ lib.optionals (profile == "work" && workProfile.businessApps) (workPackages ++ businessPackages);
+    ++ lib.optionals (isCompanyProfile profile && companyProfile.developmentApps) devPackages
+    ++ lib.optionals (isCompanyProfile profile && companyProfile.businessApps) (workPackages ++ businessPackages);
 
   # Generate system packages from all user profiles
   allUserPackages = lib.flatten (

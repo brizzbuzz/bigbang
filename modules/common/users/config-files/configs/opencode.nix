@@ -12,13 +12,9 @@
     user,
     homeDir,
   }: let
-    isWorkProfile = user.profile == "work";
+    isCompanyProfile = builtins.elem user.profile ["work" "company"];
     isRyan = user.name == "ryan";
-    pencilEnabled = isDarwin && isRyan && !isWorkProfile;
-    datadogCommand =
-      if isWorkProfile
-      then ["${pkgs.datadog-mcp-cli}/bin/datadog_mcp_cli"]
-      else ["/usr/bin/false"];
+    pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
   in {
     "$schema" = "https://opencode.ai/config.json";
     model = "openai/gpt-5.4";
@@ -50,10 +46,9 @@
         enabled = true;
       };
       datadog = {
-        type = "local";
-        command = datadogCommand;
-        enabled = isWorkProfile;
-        environment = {};
+        type = "remote";
+        url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp?toolsets=all";
+        enabled = isCompanyProfile;
       };
       pencil = {
         type = "local";
@@ -71,7 +66,7 @@
       notion = {
         type = "remote";
         url = "https://mcp.notion.com/mcp";
-        enabled = isWorkProfile;
+        enabled = isCompanyProfile;
       };
       kagi = {
         type = "local";
