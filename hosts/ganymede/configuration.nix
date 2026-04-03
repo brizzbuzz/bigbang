@@ -1,7 +1,6 @@
 {
   config,
   inputs,
-  lib,
   pkgs,
   ...
 }: let
@@ -204,10 +203,9 @@ in {
       extraConfig = {
         mcp = {
           datadog = {
-            type = "local";
-            command = ["${lib.getExe pkgs."datadog-mcp-cli"}"];
+            type = "remote";
+            url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp?toolsets=all";
             enabled = true;
-            environment = {};
           };
           notion = {
             type = "remote";

@@ -15,10 +15,6 @@
     isCompanyProfile = builtins.elem user.profile ["work" "company"];
     isRyan = user.name == "ryan";
     pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
-    datadogCommand =
-      if isCompanyProfile
-      then ["${lib.getExe pkgs."datadog-mcp-cli"}"]
-      else ["/usr/bin/false"];
   in {
     "$schema" = "https://opencode.ai/config.json";
     model = "openai/gpt-5.4";
@@ -50,10 +46,9 @@
         enabled = true;
       };
       datadog = {
-        type = "local";
-        command = datadogCommand;
+        type = "remote";
+        url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp?toolsets=all";
         enabled = isCompanyProfile;
-        environment = {};
       };
       pencil = {
         type = "local";
