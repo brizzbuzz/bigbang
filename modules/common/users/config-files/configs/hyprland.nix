@@ -1,43 +1,18 @@
 {lib, ...}: let
-  # Profile-based Hyprland configurations
-  profileConfigs = {
-    personal = {
-      configFile = "hyprland-personal.conf";
-      hyprlock = "hyprlock-personal.conf";
-      theme = "synthwave";
-      wallpaperPalette = {
-        background = "#0a0e27";
-        accents = ["#ff006e" "#00f0ff" "#9d4edd" "#ffea00"];
-      };
+  desktopConfig = {
+    configFile = "hyprland-personal.conf";
+    hyprlock = "hyprlock-personal.conf";
+    wallpaperPalette = {
+      background = "#0a0e27";
+      accents = ["#ff006e" "#00f0ff" "#9d4edd" "#ffea00"];
     };
-    work = {
-      configFile = "hyprland-work.conf";
-      hyprlock = "hyprlock-work.conf";
-      theme = "github-dark";
-      wallpaperPalette = {
-        background = "#0d1117";
-        accents = ["#58a6ff" "#79c0ff" "#56d364" "#f85149" "#6e7681"];
-      };
-    };
-  };
-
-  # Get config for specific user profile
-  getHyprlandConfig = user: let
-    profile = profileConfigs.${user.profile};
-  in {
-    configFile = profile.configFile;
-    hyprlock = profile.hyprlock;
-    theme = profile.theme;
-    wallpaperPalette = profile.wallpaperPalette;
   };
 
   # Generate deployment script
   mkHyprlandScript = {
-    user,
     homeDir,
     enabled,
   }: let
-    config = getHyprlandConfig user;
     hyprDir = "${homeDir}/.config/hypr";
   in
     lib.optionalString enabled ''
@@ -58,12 +33,12 @@
 
       # Deploy profile-specific Hyprland config
       [ -L "${hyprDir}/hyprland-profile.conf" ] && rm "${hyprDir}/hyprland-profile.conf"
-      cp "${../files/hypr}/${config.configFile}" "${hyprDir}/hyprland-profile.conf"
+      cp "${../files/hypr}/${desktopConfig.configFile}" "${hyprDir}/hyprland-profile.conf"
       chmod 644 "${hyprDir}/hyprland-profile.conf"
 
       # Deploy Hyprlock config
       [ -L "${hyprDir}/hyprlock.conf" ] && rm "${hyprDir}/hyprlock.conf"
-      cp "${../files/hypr}/${config.hyprlock}" "${hyprDir}/hyprlock.conf"
+      cp "${../files/hypr}/${desktopConfig.hyprlock}" "${hyprDir}/hyprlock.conf"
       chmod 644 "${hyprDir}/hyprlock.conf"
 
       # Deploy Hypridle config (shared)
@@ -73,7 +48,7 @@
 
       # Deploy wallpaper palette
       cat > "${hyprDir}/wallpaper-colors.json" << 'EOF'
-      ${builtins.toJSON config.wallpaperPalette}
+      ${builtins.toJSON desktopConfig.wallpaperPalette}
       EOF
       chmod 644 "${hyprDir}/wallpaper-colors.json"
 
@@ -86,8 +61,8 @@
       done
 
       # Deploy Waybar config
-      cp "${../files/waybar}/config-${user.profile}.json" "${homeDir}/.config/waybar/config"
-      cp "${../files/waybar}/style-${user.profile}.css" "${homeDir}/.config/waybar/style.css"
+      cp "${../files/waybar}/config-personal.json" "${homeDir}/.config/waybar/config"
+      cp "${../files/waybar}/style-personal.css" "${homeDir}/.config/waybar/style.css"
       chmod 644 "${homeDir}/.config/waybar/config"
       chmod 644 "${homeDir}/.config/waybar/style.css"
 
@@ -98,16 +73,16 @@
       chmod 644 "${homeDir}/.config/gtk-4.0/settings.ini"
 
       # Deploy Rofi config
-      cp "${../files/rofi}/config-${user.profile}.rasi" "${homeDir}/.config/rofi/config.rasi"
+      cp "${../files/rofi}/config-personal.rasi" "${homeDir}/.config/rofi/config.rasi"
       chmod 644 "${homeDir}/.config/rofi/config.rasi"
 
       # Deploy Dunst config
-      cp "${../files/dunst}/dunstrc-${user.profile}" "${homeDir}/.config/dunst/dunstrc"
+      cp "${../files/dunst}/dunstrc-personal" "${homeDir}/.config/dunst/dunstrc"
       chmod 644 "${homeDir}/.config/dunst/dunstrc"
 
       # Deploy wallpapers
-      ${lib.optionalString (builtins.pathExists ../files/wallpapers/${user.profile}) ''
-        for wallpaper in ${../files/wallpapers/${user.profile}}/*; do
+      ${lib.optionalString (builtins.pathExists ../files/wallpapers/personal) ''
+        for wallpaper in ${../files/wallpapers/personal}/*; do
           if [ -f "$wallpaper" ]; then
             cp "$wallpaper" "${hyprDir}/wallpapers/"
             chmod 644 "${hyprDir}/wallpapers/$(basename "$wallpaper")"

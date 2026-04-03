@@ -4,7 +4,7 @@
   ...
 }: let
   cfg = config.host;
-  isCompanyProfile = user: builtins.elem user.profile ["work" "company"];
+  isCompanyProfile = user: user.profile == "company";
 
   getUsersByProfile = profile: lib.filterAttrs (_: user: user.profile == profile) cfg.users;
   companyUsers = lib.filterAttrs (_: user: isCompanyProfile user) cfg.users;
@@ -45,7 +45,7 @@
     companyProfile = cfg.profiles.company;
 
     personalUsers = getUsersByProfile "personal";
-    workUsers = companyUsers;
+    companyUsersByProfile = companyUsers;
 
     commonList = commonApps.${appType} or [];
 
@@ -54,11 +54,11 @@
       ++ lib.optionals (personalUsers != {} && personalProfile.entertainmentApps) (entertainmentApps.${appType} or [])
       ++ lib.optionals (personalUsers != {} && personalProfile.developmentApps) (developmentApps.${appType} or []);
 
-    workList =
-      lib.optionals (workUsers != {} && companyProfile.businessApps) (businessApps.${appType} or [])
-      ++ lib.optionals (workUsers != {} && companyProfile.developmentApps) (developmentApps.${appType} or []);
+    companyList =
+      lib.optionals (companyUsersByProfile != {} && companyProfile.businessApps) (businessApps.${appType} or [])
+      ++ lib.optionals (companyUsersByProfile != {} && companyProfile.developmentApps) (developmentApps.${appType} or []);
   in
-    lib.unique (commonList ++ personalList ++ workList);
+    lib.unique (commonList ++ personalList ++ companyList);
 in {
   config = lib.mkIf (cfg.users != {}) {
     homebrew = {

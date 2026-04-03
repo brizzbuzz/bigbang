@@ -1,24 +1,11 @@
 {lib, ...}: let
-  # Profile-based defaults for Helix configuration
-  profileDefaults = {
-    personal = {
-      theme = "dark-synthwave"; # Vibrant neon theme matching Synthwave terminal
-    };
-    work = {
-      theme = "github_dark"; # Professional theme matching Github Dark terminal
-    };
-    company = {
-      theme = "github_dark"; # Professional theme matching Github Dark terminal
-    };
-  };
+  defaultTheme = "dark-synthwave";
 
-  # Resolve helix theme for a user (profile defaults + per-user overrides)
-  getHelixTheme = user: let
-    defaults = profileDefaults.${user.profile};
-  in
+  # Resolve helix theme for a user (defaults + per-user overrides)
+  getHelixTheme = user:
     if user.helix.theme or null != null
     then user.helix.theme
-    else defaults.theme;
+    else defaultTheme;
 
   # Generate helix config content
   mkHelixConfig = theme: ''
