@@ -20,6 +20,12 @@ in {
   options.services.media.arr = {
     enable = lib.mkEnableOption "Enable *arr stack services";
 
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open *arr web ports in the firewall.";
+    };
+
     mediaRoot = lib.mkOption {
       type = lib.types.str;
       default = "/data/media";
@@ -131,12 +137,13 @@ in {
       (lib.mkIf config.services.torrents.enable (mkServiceUser "qbittorrent"))
     ];
 
-    networking.firewall.allowedTCPPorts =
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall (
       mkPort cfg.services.prowlarr.enable cfg.ports.prowlarr
       ++ mkPort cfg.services.sonarr.enable cfg.ports.sonarr
       ++ mkPort cfg.services.radarr.enable cfg.ports.radarr
       ++ mkPort cfg.services.lidarr.enable cfg.ports.lidarr
       ++ mkPort cfg.services.bazarr.enable cfg.ports.bazarr
-      ++ mkPort cfg.services.jellyseerr.enable cfg.ports.jellyseerr;
+      ++ mkPort cfg.services.jellyseerr.enable cfg.ports.jellyseerr
+    );
   };
 }

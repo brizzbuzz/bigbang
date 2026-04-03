@@ -8,6 +8,12 @@
 in {
   options.services.media.jellyfin = {
     enable = lib.mkEnableOption "Enable Jellyfin";
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the Jellyfin port in the firewall.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,6 +27,6 @@ in {
       jellyfin-ffmpeg
     ];
 
-    networking.firewall.allowedTCPPorts = [8096];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [8096];
   };
 }

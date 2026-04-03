@@ -7,6 +7,13 @@
 in {
   options.services.media.immich = {
     enable = lib.mkEnableOption "Enable Immich photo management server";
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the Immich port in the firewall.";
+    };
+
     port = lib.mkOption {
       type = lib.types.int;
       default = 2283;
@@ -66,6 +73,6 @@ in {
     ];
 
     # Open firewall port for Immich
-    networking.firewall.allowedTCPPorts = [cfg.port];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
   };
 }

@@ -219,7 +219,7 @@ in {
     domain = "rgbr.ink";
     sites = {
       root = {
-        enable = true;
+        enable = false;
         content = "Hello from callisto!";
       };
       proxies = {
@@ -278,6 +278,16 @@ in {
   # Spacebar reverse proxy: multi-backend routing (API, CDN, Gateway)
   # configured directly via services.caddy.virtualHosts since it needs
   # path/protocol-based routing across multiple backend ports
+  services.caddy.virtualHosts."rgbr.ink" = {
+    extraConfig = let
+      certPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;
+      keyPath = config.services.onepassword-secrets.secretPaths.sslCloudflareKey;
+    in ''
+      tls ${certPath} ${keyPath}
+      redir https://ryanbr.ink{uri} permanent
+    '';
+  };
+
   services.caddy.virtualHosts."chat.rgbr.ink" = {
     extraConfig = let
       certPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;

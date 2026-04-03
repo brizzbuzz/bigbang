@@ -7,6 +7,13 @@
 in {
   options.services.media.audiobookshelf = {
     enable = lib.mkEnableOption "Enable AudioBookshelf server";
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to open the AudioBookshelf port in the firewall.";
+    };
+
     port = lib.mkOption {
       type = lib.types.int;
       default = 13378;
@@ -30,6 +37,6 @@ in {
     ];
 
     # Open firewall port
-    networking.firewall.allowedTCPPorts = [cfg.port];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [cfg.port];
   };
 }
