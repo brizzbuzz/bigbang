@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }: let
@@ -204,7 +205,7 @@ in {
         mcp = {
           datadog = {
             type = "local";
-            command = ["${pkgs.datadog-mcp-cli}/bin/datadog_mcp_cli"];
+            command = ["${lib.getExe pkgs."datadog-mcp-cli"}"];
             enabled = true;
             environment = {};
           };

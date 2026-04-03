@@ -17,7 +17,7 @@
     pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
     datadogCommand =
       if isCompanyProfile
-      then ["${pkgs.datadog-mcp-cli}/bin/datadog_mcp_cli"]
+      then ["${lib.getExe pkgs."datadog-mcp-cli"}"]
       else ["/usr/bin/false"];
   in {
     "$schema" = "https://opencode.ai/config.json";
