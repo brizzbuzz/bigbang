@@ -7,7 +7,7 @@
 }: let
   cfg = config.host;
   isLinux = pkgs.stdenv.isLinux;
-  isCompanyProfile = profile: builtins.elem profile ["work" "company"];
+  isCompanyProfile = profile: profile == "company";
 
   # Base packages for all users
   basePackages = with pkgs;
@@ -35,8 +35,6 @@
       nushell
       colmena
       # Version control
-      jujutsu
-      jjui
       inputs.opnix.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
@@ -69,14 +67,10 @@
       helix
       gh
       git-cliff
-      tokei
-      docker-compose
-      kubectl
       alejandra # Nix formatter for Helix
       gotools # Go tools including goimports for Helix
       delve # Go debugger for Helix
       # AI
-      codex
       opencode
       # Package Managers
       uv
@@ -92,9 +86,6 @@
   # Personal packages
   personalPackages = with pkgs;
     [
-      ffmpeg
-      yt-dlp
-      bind
     ]
     ++ lib.optionals isLinux [
       discord

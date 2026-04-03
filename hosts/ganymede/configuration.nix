@@ -174,8 +174,8 @@ in {
       openFirewall = true;
       enableKagi = true;
       enableServerAuth = false;
-      stateRoot = "/var/lib/opencode-ryan";
-      workspaceRoot = "/home/ryan/workspace";
+      stateRoot = "/home/ryan";
+      workspaceRoot = "/home/ryan/Workspace";
       workspaceNamespaces = ["github"];
       gitName = "Ryan Brink";
       gitEmail = "dev@ryanbr.ink";
@@ -195,8 +195,8 @@ in {
       openFirewall = true;
       enableKagi = false;
       enableServerAuth = false;
-      stateRoot = "/var/lib/opencode-odyssey";
-      workspaceRoot = "/home/odyssey/workspace";
+      stateRoot = "/home/odyssey";
+      workspaceRoot = "/home/odyssey/Workspace";
       workspaceNamespaces = ["github"];
       gitName = "Ryan Brink";
       gitEmail = "ryan@withodyssey.com";

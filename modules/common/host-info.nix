@@ -47,7 +47,7 @@
               description = "The username for this user";
             };
             profile = mkOption {
-              type = types.enum ["personal" "work" "company"];
+              type = types.enum ["personal" "company"];
               default = "personal";
               description = "The profile type for this user";
             };
@@ -124,11 +124,6 @@
           developmentApps = mkEnableOption "Enable development apps" // {default = true;};
           personalApps = mkEnableOption "Enable personal productivity apps" // {default = true;};
         };
-        work = {
-          businessApps = mkEnableOption "Enable business apps" // {default = true;};
-          restrictedApps = mkEnableOption "Enable restricted work apps" // {default = false;};
-          developmentApps = mkEnableOption "Enable development apps" // {default = false;};
-        };
         company = {
           businessApps = mkEnableOption "Enable business apps" // {default = true;};
           restrictedApps = mkEnableOption "Enable restricted company apps" // {default = false;};
@@ -162,11 +157,6 @@
           entertainmentApps = lib.mkDefault true;
           developmentApps = lib.mkDefault true;
           personalApps = lib.mkDefault true;
-        };
-        work = {
-          businessApps = lib.mkDefault true;
-          restrictedApps = lib.mkDefault false;
-          developmentApps = lib.mkDefault false;
         };
         company = {
           businessApps = lib.mkDefault true;

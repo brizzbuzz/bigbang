@@ -47,7 +47,7 @@
     mkdir -p "${homeDir}/.ssh"
 
     ${onePasswordModule.mkOnePasswordScript {
-      inherit user homeDir;
+      inherit homeDir;
       enabled = configFiles.onePassword.enable;
     }}
 
@@ -97,7 +97,7 @@
     }}
 
     ${hyprlandModule.mkHyprlandScript {
-      inherit user homeDir;
+      inherit homeDir;
       enabled = !isDarwin && config.host.roles.desktop or false;
     }}
 

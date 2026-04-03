@@ -12,7 +12,7 @@
     user,
     homeDir,
   }: let
-    isCompanyProfile = builtins.elem user.profile ["work" "company"];
+    isCompanyProfile = user.profile == "company";
     isRyan = user.name == "ryan";
     pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
   in {

@@ -37,6 +37,7 @@ in {
       Host ganymede
         Hostname ganymede.lan.rgbr.ink
         User ryan
+
     '';
   in
     lib.optionalString enabled ''

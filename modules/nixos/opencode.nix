@@ -318,6 +318,7 @@
           OPENCODE_DISABLE_AUTOUPDATE = "true";
           OPENCODE_DISABLE_CLAUDE_CODE = "true";
           GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -F ${sshConfigFile}";
+          SHELL = lib.getExe pkgs.nushell;
         }
         // lib.optionalAttrs instance.enableServerAuth {
           OPENCODE_SERVER_USERNAME = instance.serverUsername;
@@ -326,6 +327,7 @@
       path = [
         pkgs.gh
         pkgs.git
+        pkgs.nix
         pkgs.nushell
         pkgs.openssh
         pkgs.uv
