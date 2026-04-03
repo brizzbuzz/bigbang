@@ -9,8 +9,10 @@
     "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg="
     "github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk="
   ];
-  ganymedeAuthKey = "op://Homelab/Ganymede Auth Key";
-  ganymedeSigningKey = "op://Homelab/Ganymede Signing Key";
+  ryanAuthKey = "op://Homelab/Ganymede Ryan Auth Key";
+  ryanSigningKey = "op://Homelab/Ganymede Ryan Signing Key";
+  odysseyAuthKey = "op://Homelab/Ganymede Odyssey Auth Key";
+  odysseySigningKey = "op://Homelab/Ganymede Odyssey Signing Key";
 in {
   imports = [
     inputs.disko.nixosModules.disko
@@ -135,14 +137,17 @@ in {
 
   services.media.immich = {
     enable = true;
+    openFirewall = true;
   };
 
   services.media.jellyfin = {
     enable = true;
+    openFirewall = true;
   };
 
   services.media.arr = {
     enable = true;
+    openFirewall = true;
     mediaRoot = "/data/media";
     services = {
       prowlarr.enable = true;
@@ -156,6 +161,7 @@ in {
 
   services.media.audiobookshelf = {
     enable = true;
+    openFirewall = true;
   };
 
   services.opencode.instances = {
@@ -174,10 +180,10 @@ in {
       gitName = "Ryan Brink";
       gitEmail = "dev@ryanbr.ink";
       gitSignCommits = true;
-      sshPrivateKeySecretRef = "${ganymedeAuthKey}/private key";
-      sshPublicKeySecretRef = "${ganymedeAuthKey}/public key";
-      sshSigningPrivateKeySecretRef = "${ganymedeSigningKey}/private key";
-      sshSigningPublicKeySecretRef = "${ganymedeSigningKey}/public key";
+      sshPrivateKeySecretRef = "${ryanAuthKey}/private key";
+      sshPublicKeySecretRef = "${ryanAuthKey}/public key";
+      sshSigningPrivateKeySecretRef = "${ryanSigningKey}/private key";
+      sshSigningPublicKeySecretRef = "${ryanSigningKey}/public key";
       sshKnownHosts = githubKnownHosts;
     };
     odyssey = {
@@ -195,10 +201,10 @@ in {
       gitName = "Ryan Brink";
       gitEmail = "ryan@withodyssey.com";
       gitSignCommits = true;
-      sshPrivateKeySecretRef = "${ganymedeAuthKey}/private key";
-      sshPublicKeySecretRef = "${ganymedeAuthKey}/public key";
-      sshSigningPrivateKeySecretRef = "${ganymedeSigningKey}/private key";
-      sshSigningPublicKeySecretRef = "${ganymedeSigningKey}/public key";
+      sshPrivateKeySecretRef = "${odysseyAuthKey}/private key";
+      sshPublicKeySecretRef = "${odysseyAuthKey}/public key";
+      sshSigningPrivateKeySecretRef = "${odysseySigningKey}/private key";
+      sshSigningPublicKeySecretRef = "${odysseySigningKey}/public key";
       sshKnownHosts = githubKnownHosts;
       extraConfig = {
         mcp = {
@@ -219,6 +225,7 @@ in {
 
   services.clickhouse = {
     enable = true;
+    openFirewall = true;
     passwordSha256SecretRef = "op://Homelab/Clickhouse Admin/password_sha_256";
   };
 
@@ -356,8 +363,8 @@ in {
     };
   };
 
-  # Allow callisto to reach Spacebar service ports
-  networking.firewall.allowedTCPPorts = [3001 3002 3003];
+  # Keep Spacebar backend ports reachable for the public and internal chat proxies.
+  networking.firewall.allowedTCPPorts = [3001 3002 3003 7877];
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
