@@ -1,18 +1,19 @@
 # Nushell Environment Config File
 
+use std/util "path add"
+
 # Set up PATH first, before anything else
 if ("/opt/homebrew/bin" | path exists) {
-  $env.PATH = ($env.PATH | split row (char esep) | prepend "/opt/homebrew/bin")
+  path add "/opt/homebrew/bin"
 }
 if ("/usr/local/bin" | path exists) {
-  $env.PATH = ($env.PATH | split row (char esep) | prepend "/usr/local/bin")
+  path add "/usr/local/bin"
 }
-$env.PATH = ($env.PATH | split row (char esep) | prepend "/run/current-system/sw/bin")
-$env.PATH = ($env.PATH | split row (char esep) | prepend "/run/wrappers/bin")
+path add "/run/current-system/sw/bin"
+path add "/run/wrappers/bin"
 
-let path_entries = ($env.PATH | split row (char esep))
 if ("/run/wrappers/bin" | path exists) {
-  if ($path_entries | first) != "/run/wrappers/bin" {
+  if ($env.PATH | first) != "/run/wrappers/bin" {
     print -e "Warning: /run/wrappers/bin is not first in PATH"
   }
 }
@@ -20,7 +21,13 @@ if ("/run/wrappers/bin" | path exists) {
 $env.STARSHIP_SHELL = "nu"
 
 # 1Password SSH Agent
-$env.SSH_AUTH_SOCK = $"($env.HOME)/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+if $nu.os-info.name == "macos" {
+  let onepassword_ssh_sock = ($env.HOME | path join "Library" "Group Containers" "2BUA8C4S2C.com.1password" "t" "agent.sock")
+
+  if ($onepassword_ssh_sock | path exists) {
+    $env.SSH_AUTH_SOCK = $onepassword_ssh_sock
+  }
+}
 
 def create_left_prompt [] {
   if (which starship | is-empty) {
