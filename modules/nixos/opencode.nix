@@ -15,6 +15,7 @@
   opencodeSkillsPath = "${opencodeAssets}/skills";
 
   mkInstanceData = name: instance: let
+    capitalizedName = lib.toUpper (builtins.substring 0 1 name) + builtins.substring 1 ((builtins.stringLength name) - 1) name;
     serviceName = "opencode-${name}";
     prepareServiceName = "opencode-prepare-${name}";
     serviceUnit = "${serviceName}.service";
@@ -364,7 +365,7 @@
       ++ map (namespace: "d ${namespace} 0750 ${instance.user} ${instance.group} -") workspaceNamespaces;
     onepasswordSecrets =
       lib.optionalAttrs instance.enableServerAuth {
-        "opencodeServerPassword-${name}" = {
+        "opencode${capitalizedName}ServerPassword" = {
           reference = instance.serverPasswordSecretRef;
           path = serverPasswordPath;
           owner = "root";
@@ -373,7 +374,7 @@
         };
       }
       // {
-        "opencodeSshPrivateKey-${name}" = {
+        "opencode${capitalizedName}SshPrivateKey" = {
           reference = instance.sshPrivateKeySecretRef;
           path = sshPrivateKeyPath;
           owner = "root";
@@ -382,7 +383,7 @@
         };
       }
       // lib.optionalAttrs (instance.sshPublicKeySecretRef != null) {
-        "opencodeSshPublicKey-${name}" = {
+        "opencode${capitalizedName}SshPublicKey" = {
           reference = instance.sshPublicKeySecretRef;
           path = sshPublicKeyPath;
           owner = "root";
@@ -391,7 +392,7 @@
         };
       }
       // lib.optionalAttrs (instance.sshSigningPrivateKeySecretRef != null) {
-        "opencodeSigningSshPrivateKey-${name}" = {
+        "opencode${capitalizedName}SigningSshPrivateKey" = {
           reference = instance.sshSigningPrivateKeySecretRef;
           path = sshSigningPrivateKeyPath;
           owner = "root";
@@ -400,7 +401,7 @@
         };
       }
       // lib.optionalAttrs (instance.sshSigningPublicKeySecretRef != null) {
-        "opencodeSigningSshPublicKey-${name}" = {
+        "opencode${capitalizedName}SigningSshPublicKey" = {
           reference = instance.sshSigningPublicKeySecretRef;
           path = sshSigningPublicKeyPath;
           owner = "root";
