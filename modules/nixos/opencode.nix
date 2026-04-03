@@ -59,51 +59,53 @@
       + lib.optionalString (instance.sshKnownHosts != []) "\n"
     );
 
-    opencodeConfig = lib.recursiveUpdate {
-      "$schema" = "https://opencode.ai/config.json";
-      model = instance.model;
-      small_model = instance.smallModel;
-      autoupdate = false;
-      server = {
-        port = instance.port;
-        hostname = instance.bindAddress;
-      };
-      permission = {
-        skill = {
-          "*" = "allow";
+    opencodeConfig =
+      lib.recursiveUpdate {
+        "$schema" = "https://opencode.ai/config.json";
+        model = instance.model;
+        small_model = instance.smallModel;
+        autoupdate = false;
+        server = {
+          port = instance.port;
+          hostname = instance.bindAddress;
         };
-        external_directory = {
-          "${instance.workspaceRoot}/**" = "allow";
+        permission = {
+          skill = {
+            "*" = "allow";
+          };
+          external_directory = {
+            "${instance.workspaceRoot}/**" = "allow";
+          };
         };
-      };
-      mcp =
-        {
-          linear = {
-            type = "remote";
-            url = "https://mcp.linear.app/mcp";
-          };
-          nixos = {
-            type = "local";
-            command = ["${pkgs.uv}/bin/uvx" "mcp-nixos"];
-            enabled = true;
-          };
-          nushell = {
-            type = "local";
-            command = ["${lib.getExe pkgs.nushell}" "--mcp"];
-            enabled = true;
-          };
-        }
-        // lib.optionalAttrs instance.enableKagi {
-          kagi = {
-            type = "local";
-            command = ["${pkgs.uv}/bin/uvx" "kagimcp"];
-            environment = {
-              KAGI_API_KEY = "{file:${opencodeSecretsDir}/kagi-api-key}";
+        mcp =
+          {
+            linear = {
+              type = "remote";
+              url = "https://mcp.linear.app/mcp";
             };
-            enabled = true;
+            nixos = {
+              type = "local";
+              command = ["${pkgs.uv}/bin/uvx" "mcp-nixos"];
+              enabled = true;
+            };
+            nushell = {
+              type = "local";
+              command = ["${lib.getExe pkgs.nushell}" "--mcp"];
+              enabled = true;
+            };
+          }
+          // lib.optionalAttrs instance.enableKagi {
+            kagi = {
+              type = "local";
+              command = ["${pkgs.uv}/bin/uvx" "kagimcp"];
+              environment = {
+                KAGI_API_KEY = "{file:${opencodeSecretsDir}/kagi-api-key}";
+              };
+              enabled = true;
+            };
           };
-        };
-    } instance.extraConfig;
+      }
+      instance.extraConfig;
 
     opencodeTuiConfig = {
       "$schema" = "https://opencode.ai/tui.json";
@@ -180,7 +182,8 @@
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg instance.workspaceRoot}
       ${lib.concatMapStringsSep "\n" (namespace: ''
           "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg namespace}
-        '') workspaceNamespaces}
+        '')
+        workspaceNamespaces}
       "$install_bin" -d -m 0700 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg sshDir}
 
       "$cp_bin" ${lib.escapeShellArg opencodeConfigFile} ${lib.escapeShellArg "${opencodeConfigDir}/opencode.json"}
