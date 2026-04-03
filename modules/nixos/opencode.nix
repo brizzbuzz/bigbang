@@ -82,6 +82,7 @@
             linear = {
               type = "remote";
               url = "https://mcp.linear.app/mcp";
+              enabled = true;
             };
             nixos = {
               type = "local";

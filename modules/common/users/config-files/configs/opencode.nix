@@ -62,6 +62,7 @@
       linear = {
         type = "remote";
         url = "https://mcp.linear.app/mcp";
+        enabled = true;
       };
       notion = {
         type = "remote";
@@ -74,6 +75,7 @@
         environment = {
           KAGI_API_KEY = "{file:${homeDir}/.config/opencode/secrets/kagi-api-key}";
         };
+        enabled = true;
       };
     };
   };

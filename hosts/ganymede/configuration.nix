@@ -193,7 +193,7 @@ in {
       bindAddress = "192.168.11.39";
       port = 4097;
       openFirewall = true;
-      enableKagi = false;
+      enableKagi = true;
       enableServerAuth = false;
       stateRoot = "/home/odyssey";
       workspaceRoot = "/home/odyssey/Workspace";
