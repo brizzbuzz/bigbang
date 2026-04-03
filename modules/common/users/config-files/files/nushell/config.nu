@@ -161,7 +161,16 @@ def "repo dump" [
 }
 
 # Aliases
-alias nr = sudo darwin-rebuild switch --flake .#
+def nr [] {
+  if $nu.os-info.name == "macos" {
+    ^sudo darwin-rebuild switch --flake .#
+  } else if $nu.os-info.name == "linux" {
+    ^sudo colmena apply-local --impure
+  } else {
+    error make { msg: $"Unsupported OS for nr: ($nu.os-info.name)" }
+  }
+}
+
 alias oc = opencode
 alias rd = repo dump
 alias lg = lazygit
