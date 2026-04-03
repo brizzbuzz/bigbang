@@ -61,7 +61,7 @@
       # LSP servers
       gopls
       rust-analyzer
-      nodePackages.typescript-language-server
+      typescript-language-server
       pyright
       nil
       nixd
