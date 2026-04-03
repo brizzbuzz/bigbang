@@ -1,15 +1,7 @@
 {lib, ...}: let
-  onePasswordPersonal = builtins.readFile ../files/1password-agent-personal.toml;
-  onePasswordWork = builtins.readFile ../files/1password-agent-work.toml;
-
-  # Get 1Password config based on profile
-  get1PasswordConfig = user:
-    if user.profile == "personal"
-    then onePasswordPersonal
-    else onePasswordWork;
+  onePasswordAgent = builtins.readFile ../files/1password-agent.toml;
 in {
   mkOnePasswordScript = {
-    user,
     homeDir,
     enabled,
   }:
@@ -17,7 +9,7 @@ in {
         # 1Password SSH agent configuration
         [ -L "${homeDir}/.config/1Password/ssh/agent.toml" ] && rm "${homeDir}/.config/1Password/ssh/agent.toml"
         cat > "${homeDir}/.config/1Password/ssh/agent.toml" << 'EOFONEPASSWORD'
-      ${get1PasswordConfig user}
+      ${onePasswordAgent}
       EOFONEPASSWORD
         chmod 600 "${homeDir}/.config/1Password/ssh/agent.toml"
     '';

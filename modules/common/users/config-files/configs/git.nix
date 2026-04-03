@@ -12,11 +12,6 @@
       email = "dev@ryanbr.ink";
       signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1";
     };
-    work = {
-      name = "Ryan Brink";
-      email = "ryan@withodyssey.com";
-      signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvZU9QjyJpanD7LGnSn4e5gcOdLqL8nkUYfowWyrFvl";
-    };
     company = {
       name = "Ryan Brink";
       email = "ryan@withodyssey.com";

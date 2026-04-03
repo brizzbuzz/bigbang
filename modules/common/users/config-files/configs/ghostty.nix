@@ -1,53 +1,34 @@
 {lib, ...}: let
-  # Profile-based defaults for Ghostty configuration
-  profileDefaults = {
-    personal = {
-      theme = "Synthwave";
-      font-family = "JetBrainsMono Nerd Font Mono";
-      font-size = 14;
-      background-opacity = 1.0;
-      cursor-style = "block";
-    };
-    work = {
-      theme = "Github Dark";
-      font-family = "JetBrainsMono Nerd Font Mono";
-      font-size = 14;
-      background-opacity = 1.0;
-      cursor-style = "block";
-    };
-    company = {
-      theme = "Github Dark";
-      font-family = "JetBrainsMono Nerd Font Mono";
-      font-size = 14;
-      background-opacity = 1.0;
-      cursor-style = "block";
-    };
+  defaultConfig = {
+    theme = "Synthwave";
+    font-family = "JetBrainsMono Nerd Font Mono";
+    font-size = 14;
+    background-opacity = 1.0;
+    cursor-style = "block";
   };
 
-  # Resolve ghostty config for a user (profile defaults + per-user overrides)
-  getGhosttyConfig = user: let
-    defaults = profileDefaults.${user.profile};
-  in {
+  # Resolve ghostty config for a user (defaults + per-user overrides)
+  getGhosttyConfig = user: {
     theme =
       if user.ghostty.theme != null
       then user.ghostty.theme
-      else defaults.theme;
+      else defaultConfig.theme;
     font-family =
       if user.ghostty.font-family != null
       then user.ghostty.font-family
-      else defaults.font-family;
+      else defaultConfig.font-family;
     font-size =
       if user.ghostty.font-size != null
       then user.ghostty.font-size
-      else defaults.font-size;
+      else defaultConfig.font-size;
     background-opacity =
       if user.ghostty.background-opacity != null
       then user.ghostty.background-opacity
-      else defaults.background-opacity;
+      else defaultConfig.background-opacity;
     cursor-style =
       if user.ghostty.cursor-style != null
       then user.ghostty.cursor-style
-      else defaults.cursor-style;
+      else defaultConfig.cursor-style;
     extraConfig = user.ghostty.extraConfig;
   };
 
