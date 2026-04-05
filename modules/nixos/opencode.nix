@@ -22,10 +22,11 @@
     prepareServiceUnit = "${prepareServiceName}.service";
 
     stateRoot = instance.stateRoot;
-    configHome = "${stateRoot}/.config";
-    dataHome = "${stateRoot}/.local/share";
-    cacheHome = "${stateRoot}/.cache";
-    stateHome = "${stateRoot}/.local/state";
+    runtimeRoot = "${stateRoot}/.local/share/opencode-service-${name}";
+    configHome = "${runtimeRoot}/config";
+    dataHome = "${runtimeRoot}/data";
+    cacheHome = "${runtimeRoot}/cache";
+    stateHome = "${runtimeRoot}/state";
     opencodeConfigDir = "${configHome}/opencode";
     opencodeDataDir = "${dataHome}/opencode";
     opencodeCacheDir = "${cacheHome}/opencode";
@@ -82,10 +83,14 @@
             linear = {
               type = "remote";
               url = "https://mcp.linear.app/mcp";
+              enabled = true;
             };
             nixos = {
               type = "local";
-              command = ["${pkgs.uv}/bin/uvx" "mcp-nixos"];
+              command = ["${pkgs.uv}/bin/uvx" "--python" "${lib.getExe pkgs.python3}" "mcp-nixos"];
+              environment = {
+                UV_PYTHON_DOWNLOADS = "never";
+              };
               enabled = true;
             };
             nushell = {
@@ -97,8 +102,9 @@
           // lib.optionalAttrs instance.enableKagi {
             kagi = {
               type = "local";
-              command = ["${pkgs.uv}/bin/uvx" "kagimcp"];
+              command = ["${pkgs.uv}/bin/uvx" "--python" "${lib.getExe pkgs.python3}" "kagimcp"];
               environment = {
+                UV_PYTHON_DOWNLOADS = "never";
                 KAGI_API_KEY = "{file:${opencodeSecretsDir}/kagi-api-key}";
               };
               enabled = true;
@@ -170,10 +176,10 @@
       chown_bin=${pkgs.coreutils}/bin/chown
 
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg stateRoot}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg runtimeRoot}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg configHome}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeConfigDir}
       "$install_bin" -d -m 0700 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeSecretsDir}
-      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${stateRoot}/.local"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg dataHome}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeDataDir}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg stateHome}
@@ -253,7 +259,7 @@
 
       "$chown_bin" -R ${instance.user}:${instance.group} \
         ${lib.escapeShellArg configHome} \
-        ${lib.escapeShellArg "${stateRoot}/.local"} \
+        ${lib.escapeShellArg runtimeRoot} \
         ${lib.escapeShellArg dataHome} \
         ${lib.escapeShellArg stateHome} \
         ${lib.escapeShellArg cacheHome} \
@@ -277,6 +283,12 @@
       ''}
 
       exec ${lib.getExe instance.package} web --hostname ${lib.escapeShellArg instance.bindAddress} --port ${toString instance.port}
+    '';
+
+    interactiveShell = pkgs.writeShellScript "opencode-shell-${name}" ''
+      # Keep OpenCode's own config isolated while letting Nu load the user's normal shell config.
+      export XDG_CONFIG_HOME=${lib.escapeShellArg "${stateRoot}/.config"}
+      exec ${lib.getExe pkgs.nushell} "$@"
     '';
 
     assertionPrefix = "services.opencode.instances.${name}";
@@ -318,7 +330,7 @@
           OPENCODE_DISABLE_AUTOUPDATE = "true";
           OPENCODE_DISABLE_CLAUDE_CODE = "true";
           GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -F ${sshConfigFile}";
-          SHELL = lib.getExe pkgs.nushell;
+          SHELL = interactiveShell;
         }
         // lib.optionalAttrs instance.enableServerAuth {
           OPENCODE_SERVER_USERNAME = instance.serverUsername;
@@ -355,10 +367,10 @@
     tmpfilesRules =
       [
         "d ${stateRoot} 0750 ${instance.user} ${instance.group} -"
+        "d ${runtimeRoot} 0750 ${instance.user} ${instance.group} -"
         "d ${configHome} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeConfigDir} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeSecretsDir} 0700 ${instance.user} ${instance.group} -"
-        "d ${stateRoot}/.local 0750 ${instance.user} ${instance.group} -"
         "d ${dataHome} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeDataDir} 0750 ${instance.user} ${instance.group} -"
         "d ${stateHome} 0750 ${instance.user} ${instance.group} -"

@@ -37,7 +37,10 @@
       };
       nixos = {
         type = "local";
-        command = ["uvx" "mcp-nixos"];
+        command = ["${pkgs.uv}/bin/uvx" "--python" "${lib.getExe pkgs.python3}" "mcp-nixos"];
+        environment = {
+          UV_PYTHON_DOWNLOADS = "never";
+        };
         enabled = true;
       };
       nushell = {
@@ -62,6 +65,7 @@
       linear = {
         type = "remote";
         url = "https://mcp.linear.app/mcp";
+        enabled = true;
       };
       notion = {
         type = "remote";
@@ -70,10 +74,12 @@
       };
       kagi = {
         type = "local";
-        command = ["uvx" "kagimcp"];
+        command = ["${pkgs.uv}/bin/uvx" "--python" "${lib.getExe pkgs.python3}" "kagimcp"];
         environment = {
+          UV_PYTHON_DOWNLOADS = "never";
           KAGI_API_KEY = "{file:${homeDir}/.config/opencode/secrets/kagi-api-key}";
         };
+        enabled = true;
       };
     };
   };
