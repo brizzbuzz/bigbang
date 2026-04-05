@@ -38,16 +38,26 @@
   };
 
   # Generate git config content
-  mkGitConfig = gitSettings: let
-    onePasswordSignerPath =
+  mkGitConfig = {
+    gitSettings,
+    homeDir,
+  }: let
+    signingKey =
+      if isDarwin
+      then gitSettings.signingKey
+      else "${homeDir}/.ssh/id_ed25519_signing.pub";
+
+    signerProgram =
       if isDarwin
       then ''"/Applications/1Password.app/Contents/MacOS/op-ssh-sign"''
-      else "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+      else "${pkgs.openssh}/bin/ssh-keygen";
+
+    allowedSignersFile = "${homeDir}/.ssh/allowed_signers";
   in ''
     [user]
       name = ${gitSettings.name}
       email = ${gitSettings.email}
-      signingKey = ${gitSettings.signingKey}
+      signingKey = ${signingKey}
     [init]
       defaultBranch = main
     [pull]
@@ -59,7 +69,8 @@
     [gpg]
       format = ssh
     [gpg "ssh"]
-      program = ${onePasswordSignerPath}
+      program = ${signerProgram}
+      allowedSignersFile = ${allowedSignersFile}
     [core]
       editor = hx
   '';
@@ -75,7 +86,9 @@ in {
         # Git configuration
         [ -L "${homeDir}/.gitconfig" ] && rm "${homeDir}/.gitconfig"
         cat > "${homeDir}/.gitconfig" << 'EOFGIT'
-      ${mkGitConfig gitConfig}
+      ${mkGitConfig {
+        inherit gitConfig homeDir;
+      }}
       EOFGIT
         chmod 644 "${homeDir}/.gitconfig"
     '';
