@@ -285,6 +285,12 @@
       exec ${lib.getExe instance.package} web --hostname ${lib.escapeShellArg instance.bindAddress} --port ${toString instance.port}
     '';
 
+    interactiveShell = pkgs.writeShellScript "opencode-shell-${name}" ''
+      # Keep OpenCode's own config isolated while letting Nu load the user's normal shell config.
+      export XDG_CONFIG_HOME=${lib.escapeShellArg "${stateRoot}/.config"}
+      exec ${lib.getExe pkgs.nushell} "$@"
+    '';
+
     assertionPrefix = "services.opencode.instances.${name}";
     prepareService = lib.nameValuePair prepareServiceName {
       description = "Prepare OpenCode runtime files for ${name}";
@@ -324,7 +330,7 @@
           OPENCODE_DISABLE_AUTOUPDATE = "true";
           OPENCODE_DISABLE_CLAUDE_CODE = "true";
           GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -F ${sshConfigFile}";
-          SHELL = lib.getExe pkgs.nushell;
+          SHELL = interactiveShell;
         }
         // lib.optionalAttrs instance.enableServerAuth {
           OPENCODE_SERVER_USERNAME = instance.serverUsername;
