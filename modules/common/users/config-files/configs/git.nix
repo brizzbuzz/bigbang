@@ -1,9 +1,11 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }: let
   isDarwin = pkgs.stdenv.isDarwin;
+  isHeadlessRemoteHost = config.host.roles.remote && !config.host.roles.desktop;
 
   # Git configuration with profile-based defaults
   profileDefaults = {
@@ -38,16 +40,28 @@
   };
 
   # Generate git config content
-  mkGitConfig = gitSettings: let
-    onePasswordSignerPath =
-      if isDarwin
+  mkGitConfig = {
+    gitSettings,
+    homeDir,
+  }: let
+    signingKey =
+      if isHeadlessRemoteHost
+      then "${homeDir}/.ssh/id_ed25519_signing.pub"
+      else gitSettings.signingKey;
+
+    signerProgram =
+      if isHeadlessRemoteHost
+      then "${pkgs.openssh}/bin/ssh-keygen"
+      else if isDarwin
       then ''"/Applications/1Password.app/Contents/MacOS/op-ssh-sign"''
       else "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+
+    allowedSignersFile = "${homeDir}/.ssh/allowed_signers";
   in ''
     [user]
       name = ${gitSettings.name}
       email = ${gitSettings.email}
-      signingKey = ${gitSettings.signingKey}
+      signingKey = ${signingKey}
     [init]
       defaultBranch = main
     [pull]
@@ -59,7 +73,8 @@
     [gpg]
       format = ssh
     [gpg "ssh"]
-      program = ${onePasswordSignerPath}
+      program = ${signerProgram}
+      allowedSignersFile = ${allowedSignersFile}
     [core]
       editor = hx
   '';
@@ -75,7 +90,9 @@ in {
         # Git configuration
         [ -L "${homeDir}/.gitconfig" ] && rm "${homeDir}/.gitconfig"
         cat > "${homeDir}/.gitconfig" << 'EOFGIT'
-      ${mkGitConfig gitConfig}
+      ${mkGitConfig {
+        inherit gitConfig homeDir;
+      }}
       EOFGIT
         chmod 644 "${homeDir}/.gitconfig"
     '';

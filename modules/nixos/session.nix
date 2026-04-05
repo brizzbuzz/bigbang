@@ -5,13 +5,25 @@
   ...
 }: {
   config = lib.mkIf config.host.roles.desktop {
-    # Enable Hyprland
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
     };
 
-    # XDG Portal for screen sharing, file picking, etc.
+    services.displayManager.sddm.enable = false;
+
+    services.greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%Y-%m-%d %H:%M' --remember --remember-session --asterisks --greet-align left --container-padding 1 --prompt-padding 1 --greeting 'access node // frame' --theme 'bg=black;fg=brightgreen;prompt=green;input=brightgreen;action=brightblack;button=brightblack;container=black;time=green;greet=brightgreen' --cmd start-hyprland";
+          user = "greeter";
+        };
+      };
+    };
+
+    services.displayManager.sessionPackages = [pkgs.hyprland];
+
     xdg.portal = {
       enable = true;
       extraPortals = [
@@ -27,14 +39,10 @@
       };
     };
 
-    # Enable required services
     services.dbus.enable = true;
     services.gnome.gnome-keyring.enable = true;
-
-    # Security - polkit for privilege escalation
     security.polkit.enable = true;
 
-    # Wayland-native polkit agent for Hyprland
     environment.systemPackages = with pkgs; [
       hyprpolkitagent
     ];
