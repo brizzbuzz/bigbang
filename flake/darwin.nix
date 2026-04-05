@@ -51,17 +51,6 @@ in {
     };
   };
 
-  # 16" MacBook Pro
-  ember = mkDarwinSystem {
-    users = {
-      ryan = {
-        name = "ryan";
-        profile = "personal";
-        isPrimary = true;
-      };
-    };
-  };
-
   # Mac Mini
   dot = mkDarwinSystem {
     users = {

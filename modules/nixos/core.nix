@@ -1,6 +1,7 @@
 {
-  lib,
   config,
+  lib,
+  pkgs,
   ...
 }: {
   options = {
@@ -15,12 +16,14 @@
 
   config = lib.mkIf config.host.nix.enableOptimalCaching {
     nix = {
+      package = pkgs.nixVersions.stable;
+      extraOptions = ''
+        experimental-features = nix-command flakes
+      '';
       settings = {
-        # Experimental features
         experimental-features = ["nix-command" "flakes"];
 
-        # Cache configuration
-        download-buffer-size = 268435456; # 256MB
+        download-buffer-size = 268435456;
         substituters = [
           "https://cache.nixos.org"
           "https://nix-community.cachix.org"
@@ -38,28 +41,12 @@
           "nixos-rocm.cachix.org-1:uuM0K2U1XGQYcv4VdGpHyxqjgJl9DzLlqsj/Y3iQNXc="
         ];
 
-        # Performance optimizations
         builders-use-substitutes = true;
         max-jobs = "auto";
         cores = 0;
         http-connections = 25;
         keep-failed = false;
-
-        # Allow importing from derivation for better cache usage
         allow-import-from-derivation = true;
-      };
-
-      # Garbage collection
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 30d";
-      };
-
-      # Optimization
-      optimise = {
-        automatic = true;
-        dates = ["weekly"];
       };
     };
   };

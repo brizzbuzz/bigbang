@@ -6,7 +6,6 @@
   imports = [
     ../common
 
-    ./storage
     ./audio.nix
     ./audiobookshelf.nix
     ./arr.nix
@@ -14,19 +13,16 @@
     ./boot.nix
     ./caddy.nix
     ./clickhouse.nix
-    ./display-manager.nix
+    ./core.nix
     ./docker.nix
     ./environment.nix
     ./fingerprint-reader.nix
-    ./flake-support.nix
     ./fonts.nix
     ./gaming.nix
-    ./garbage-collection.nix
+    ./maintenance.nix
 
     ./hardware.nix
 
-    ./hyprland.nix
-    ./wayland-desktop.nix
     ./immich.nix
     ./jellyfin.nix
 
@@ -35,19 +31,19 @@
     ./nvidia.nix
     ./opencode.nix
     ./password-manager.nix
-    ./polkit.nix
     ./postgres.nix
     ./printer.nix
     ./pueue.nix
     ./security.nix
+    ./session.nix
 
     ./ssh.nix
     ./system-limits.nix
     ./torrents.nix
     ./users.nix
+    ./userland.nix
     ./ventoy-web.nix
     ./vpn.nix
-    ./xdg.nix
   ];
 
   password-manager = {
