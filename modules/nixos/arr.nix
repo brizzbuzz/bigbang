@@ -44,7 +44,7 @@ in {
       radarr.enable = lib.mkEnableOption "Enable Radarr";
       lidarr.enable = lib.mkEnableOption "Enable Lidarr";
       bazarr.enable = lib.mkEnableOption "Enable Bazarr";
-      jellyseerr.enable = lib.mkEnableOption "Enable Jellyseerr";
+      seerr.enable = lib.mkEnableOption "Enable Seerr";
     };
 
     ports = {
@@ -73,10 +73,10 @@ in {
         default = 6767;
         description = "Bazarr web port";
       };
-      jellyseerr = lib.mkOption {
+      seerr = lib.mkOption {
         type = lib.types.int;
         default = 5055;
-        description = "Jellyseerr web port";
+        description = "Seerr web port";
       };
     };
   };
@@ -91,7 +91,6 @@ in {
       (lib.mkIf cfg.services.radarr.enable (mkServiceGroup "radarr"))
       (lib.mkIf cfg.services.lidarr.enable (mkServiceGroup "lidarr"))
       (lib.mkIf cfg.services.bazarr.enable (mkServiceGroup "bazarr"))
-      (lib.mkIf cfg.services.jellyseerr.enable (mkServiceGroup "jellyseerr"))
       (lib.mkIf config.services.media.jellyfin.enable (mkServiceGroup "jellyfin"))
       (lib.mkIf config.services.torrents.enable (mkServiceGroup "qbittorrent"))
     ];
@@ -122,7 +121,7 @@ in {
       enable = true;
     };
 
-    services.jellyseerr = lib.mkIf cfg.services.jellyseerr.enable {
+    services.seerr = lib.mkIf cfg.services.seerr.enable {
       enable = true;
     };
 
@@ -132,7 +131,6 @@ in {
       (lib.mkIf cfg.services.radarr.enable (mkServiceUser "radarr"))
       (lib.mkIf cfg.services.lidarr.enable (mkServiceUser "lidarr"))
       (lib.mkIf cfg.services.bazarr.enable (mkServiceUser "bazarr"))
-      (lib.mkIf cfg.services.jellyseerr.enable (mkServiceUser "jellyseerr"))
       (lib.mkIf config.services.media.jellyfin.enable (mkServiceUser "jellyfin"))
       (lib.mkIf config.services.torrents.enable (mkServiceUser "qbittorrent"))
     ];
@@ -143,7 +141,7 @@ in {
       ++ mkPort cfg.services.radarr.enable cfg.ports.radarr
       ++ mkPort cfg.services.lidarr.enable cfg.ports.lidarr
       ++ mkPort cfg.services.bazarr.enable cfg.ports.bazarr
-      ++ mkPort cfg.services.jellyseerr.enable cfg.ports.jellyseerr
+      ++ mkPort cfg.services.seerr.enable cfg.ports.seerr
     );
   };
 }

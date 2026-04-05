@@ -155,7 +155,7 @@ in {
       radarr.enable = true;
       lidarr.enable = true;
       bazarr.enable = true;
-      jellyseerr.enable = true;
+      seerr.enable = true;
     };
   };
 

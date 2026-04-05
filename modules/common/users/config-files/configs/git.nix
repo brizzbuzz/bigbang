@@ -1,9 +1,11 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }: let
   isDarwin = pkgs.stdenv.isDarwin;
+  isHeadlessRemoteHost = config.host.roles.remote && !config.host.roles.desktop;
 
   # Git configuration with profile-based defaults
   profileDefaults = {
@@ -43,14 +45,16 @@
     homeDir,
   }: let
     signingKey =
-      if isDarwin
-      then gitSettings.signingKey
-      else "${homeDir}/.ssh/id_ed25519_signing.pub";
+      if isHeadlessRemoteHost
+      then "${homeDir}/.ssh/id_ed25519_signing.pub"
+      else gitSettings.signingKey;
 
     signerProgram =
-      if isDarwin
+      if isHeadlessRemoteHost
+      then "${pkgs.openssh}/bin/ssh-keygen"
+      else if isDarwin
       then ''"/Applications/1Password.app/Contents/MacOS/op-ssh-sign"''
-      else "${pkgs.openssh}/bin/ssh-keygen";
+      else "${pkgs._1password-gui}/share/1password/op-ssh-sign";
 
     allowedSignersFile = "${homeDir}/.ssh/allowed_signers";
   in ''
