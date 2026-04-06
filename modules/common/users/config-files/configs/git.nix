@@ -91,7 +91,8 @@ in {
         [ -L "${homeDir}/.gitconfig" ] && rm "${homeDir}/.gitconfig"
         cat > "${homeDir}/.gitconfig" << 'EOFGIT'
       ${mkGitConfig {
-        inherit gitConfig homeDir;
+        gitSettings = gitConfig;
+        inherit homeDir;
       }}
       EOFGIT
         chmod 644 "${homeDir}/.gitconfig"
