@@ -309,7 +309,10 @@
     };
     service = lib.nameValuePair serviceName {
       description = "OpenCode web service for ${name}";
-      wantedBy = ["multi-user.target"];
+      wantedBy = [
+        "multi-user.target"
+        "opnix-secrets.service"
+      ];
       after = [
         "network-online.target"
         "opnix-secrets.service"
