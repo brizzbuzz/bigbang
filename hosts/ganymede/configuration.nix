@@ -228,6 +228,7 @@ in {
   services.clickhouse = {
     enable = true;
     openFirewall = true;
+    tcpPort = 19000;
     passwordSha256SecretRef = "op://Homelab/Clickhouse Admin/password_sha_256";
   };
 
