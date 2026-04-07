@@ -56,6 +56,9 @@
               default = false;
               description = "Whether this is the primary system user";
             };
+            containerRuntime = {
+              docker.enable = mkEnableOption "Enable Docker access for this user";
+            };
             git = {
               name = mkOption {
                 type = types.nullOr types.str;
@@ -149,6 +152,7 @@
           name = "ryan";
           profile = "personal";
           isPrimary = true;
+          containerRuntime.docker.enable = false;
         };
       };
 
