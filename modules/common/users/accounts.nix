@@ -15,7 +15,8 @@
     shell = pkgs.nushell;
     extraGroups =
       ["wheel" "networkmanager"]
-      ++ lib.optionals (userConfig.profile == "personal") ["docker" "audio" "video"];
+      ++ lib.optionals userConfig.containerRuntime.docker.enable ["docker"]
+      ++ lib.optionals (userConfig.profile == "personal") ["audio" "video"];
     openssh.authorizedKeys.keys = [
       # Personal SSH key
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP+4LZpJ9+QmvjLKMzmHX1aUdsnoOlrrcTjwKhcwnCN1"

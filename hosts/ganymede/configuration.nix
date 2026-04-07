@@ -92,6 +92,7 @@ in {
         name = "odyssey";
         profile = "company";
         isPrimary = false;
+        containerRuntime.docker.enable = true;
       };
     };
     profiles = {
