@@ -116,6 +116,7 @@ in {
   services.torrents = {
     enable = true;
     qbittorrent = {
+      webuiPort = 18080;
       webuiUsernameSecretRef = "op://Homelab/Bittorrent Admin Password/username";
       webuiPasswordSecretRef = "op://Homelab/Bittorrent Admin Password/password";
       savePath = "/data/torrents/complete";

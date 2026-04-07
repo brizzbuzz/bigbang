@@ -74,7 +74,7 @@
     torrents = {
       enable = true;
       subdomain = "torrents";
-      target = "${backendIp}:8080";
+      target = "${backendIp}:18080";
       logLevel = "INFO";
     };
     opencodeRyan = {
@@ -233,7 +233,7 @@ in {
         # torrents = {
         #   enable = true;
         #   subdomain = "torrents";
-        #   target = "${backendHost}:8080";
+        #   target = "${backendHost}:18080";
         #   logLevel = "INFO";
         # };
         blocky = {
