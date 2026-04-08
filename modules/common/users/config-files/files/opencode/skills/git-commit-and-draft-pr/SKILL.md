@@ -81,16 +81,20 @@ Only do this when the user has explicitly asked to create a PR.
 1. Confirm the branch state with `git status`, `git log`, and `git diff origin/main...HEAD`.
 2. Confirm the branch is based on the latest practical `origin/main`; if not, prefer rebasing before pushing.
 3. Push the current branch with `git push -u origin <branch>`.
-4. Use `gh pr create --draft`.
-5. Write a concise PR body with:
-   - Summary
-   - Validation steps
-   - Deployment notes when relevant
-6. Return the PR URL.
+4. Use `gh pr create --draft`; draft mode is the default for this skill and should only be omitted if the user explicitly asks for a ready-for-review PR.
+5. Pass the PR body as rendered Markdown, not as shell source code.
+6. If you use a heredoc or temporary file to construct the body, ensure only the rendered Markdown is passed to `gh`; never include shell wrappers like `$(cat <<'EOF'`, `EOF`, or `)` in the PR text.
+7. Use the PR body template below unless the user asks for a different structure.
+8. Return the PR URL.
 
 ## PR body template
 
 ```md
+# Personal Notes
+
+<!-- Intentionally left blank for a human to fill in after the PR is opened. -->
+
+# AI Notes
 ## Summary
 - <high-value change>
 - <high-value change>
@@ -98,9 +102,6 @@ Only do this when the user has explicitly asked to create a PR.
 ## Validation
 - `<command>`
 - `<command>`
-
-## Deployment Notes
-- <note, or say none>
 ```
 
 ## Safety rules
@@ -109,3 +110,4 @@ Only do this when the user has explicitly asked to create a PR.
 - Never force-push unless the user explicitly requests it.
 - Prefer standard `git` workflows; do not assume GitButler or any alternate VCS tooling.
 - If signing or transport fails, prefer small SSH config diagnostics over inventing a parallel auth workflow.
+- Never paste shell construction syntax into a PR body; the PR body must be clean Markdown.
