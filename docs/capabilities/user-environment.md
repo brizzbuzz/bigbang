@@ -56,7 +56,7 @@ On desktop hosts, the Hyprland files are now deployed as a fragment set rather t
 That deployment currently includes:
 
 - a small `hyprland.conf` entrypoint
-- sourced Hyprland fragments for monitors, input, appearance, theme, binds, submaps, rules, startup, and profile overrides
+- sourced Hyprland fragments for monitors, input, appearance, theme, binds, submaps, workspaces, rules, startup, and profile overrides
 - companion configs for `hyprlock`, `hypridle`, Waybar, Rofi, Dunst, GTK, wallpapers, and Hyprland helper scripts
 
 ## Shell Model

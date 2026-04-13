@@ -58,6 +58,7 @@ The current config is modular rather than monolithic.
 - `theme.conf` contains the shared synthwave palette and visual color assignments
 - `binds.conf` contains the global key layer
 - `submaps.conf` contains grouped modal bindings for less-frequent actions
+- `workspaces.conf` contains the static workspace model
 - `rules.conf` contains window rules
 - `autostart.conf` contains session startup programs
 - `profile.conf` contains personal overrides like spacing and wallpaper generation
@@ -90,3 +91,30 @@ Less-common actions now live in submaps instead of occupying prime global shortc
 - `SUPER+W` enters window mode for pseudo and pin actions
 
 This removes several previous keybind conflicts and makes the keyboard layer easier to reason about.
+
+## Current Workspace Model
+
+Waybar now shows explicit workspace labels instead of decorative dots.
+
+- `1 web`
+- `2 code`
+- `3 term`
+- `4 chat`
+- `5 docs`
+- `6 media`
+- `7 admin`
+- `8 scratch`
+- `9 remote`
+- `10 temp`
+
+The current routing is intentionally conservative and only covers tools that have been verified in this repository and in the running session.
+
+- browsers like Google Chrome, Firefox, Brave, and Chromium route to `1 web`
+- VS Code routes to `2 code`
+- Ghostty and Foot route to `3 term`
+- Slack and Discord route to `4 chat`
+- Zathura routes to `5 docs`
+- Spotify and mpv route to `6 media`
+- 1Password routes to `7 admin`
+
+Other applications stay on the workspace they were launched from until a more specific rule is added.

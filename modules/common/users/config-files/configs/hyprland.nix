@@ -11,6 +11,7 @@
       "rules.conf"
       "submaps.conf"
       "theme.conf"
+      "workspaces.conf"
     ];
     hyprlockFile = "hyprlock-personal.conf";
     wallpaperPalette = {

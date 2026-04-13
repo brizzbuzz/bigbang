@@ -29,7 +29,7 @@ The plan is intentionally iterative. Each phase ends at a clean stopping point s
 - [x] Hyprland config is split into focused fragments with a small top-level entrypoint.
 - [x] Global keybinds are compact and conflict-free.
 - [x] Submaps handle grouped actions like resize, media, and session control.
-- [ ] Workspaces `1` through `10` have named task roles.
+- [x] Workspaces `1` through `10` have named task roles.
 - [ ] `walker` handles launching.
 - [ ] `swaync` handles notifications and history.
 - [ ] `waybar` reflects workspace roles and workflow state.
@@ -127,37 +127,37 @@ Purpose: make the workspace model intentional instead of generic.
 
 Target workspace roles:
 
-- [ ] `1` web
-- [ ] `2` code
-- [ ] `3` term
-- [ ] `4` chat
-- [ ] `5` docs
-- [ ] `6` media
-- [ ] `7` admin
-- [ ] `8` scratch
-- [ ] `9` remote
-- [ ] `10` temp
+- [x] `1` web
+- [x] `2` code
+- [x] `3` term
+- [x] `4` chat
+- [x] `5` docs
+- [x] `6` media
+- [x] `7` admin
+- [x] `8` scratch
+- [x] `9` remote
+- [x] `10` temp
 
 Implementation checklist:
 
-- [ ] Encode the static workspace model in Hyprland config.
-- [ ] Align application rules with the target roles.
-- [ ] Start with conservative assignments for browser, editor, chat, and media apps.
-- [ ] Avoid over-automating edge-case applications initially.
-- [ ] Update Waybar to show all 10 workspaces consistently.
-- [ ] Make workspace names or icons reflect the role model.
+- [x] Encode the static workspace model in Hyprland config.
+- [x] Align application rules with the target roles.
+- [x] Start with conservative assignments for browser, editor, chat, and media apps.
+- [x] Avoid over-automating edge-case applications initially.
+- [x] Update Waybar to show all 10 workspaces consistently.
+- [x] Make workspace names or icons reflect the role model.
 
 Validation checklist after rebuild:
 
-- [ ] Common apps land in the expected workspaces.
-- [ ] Workspace switching still feels fast and predictable.
-- [ ] All 10 workspaces are visible or meaningfully represented.
-- [ ] Multi-monitor behavior remains acceptable.
-- [ ] The static model feels better than the current ad hoc setup.
+- [x] Common apps land in the expected workspaces.
+- [x] Workspace switching still feels fast and predictable.
+- [x] All 10 workspaces are visible or meaningfully represented.
+- [x] Multi-monitor behavior remains acceptable.
+- [x] The static model feels better than the current ad hoc setup.
 
 Stop point:
 
-- [ ] Workspaces now match actual task flow.
+- [x] Workspaces now match actual task flow.
 
 ### Phase 4: Replace Launcher And Notifications
 
@@ -285,7 +285,7 @@ Use this loop for every phase:
 
 - [x] Phase 1: Modularize the Hyprland config.
 - [x] Phase 2: Replace the keybinding model.
-- [ ] Phase 3: Introduce static task workspaces.
+- [x] Phase 3: Introduce static task workspaces.
 - [ ] Phase 4: Replace launcher and notifications.
 - [ ] Phase 5: Redesign Waybar around workflow.
 - [ ] Phase 6: Simplify wallpaper, visuals, and idle.
