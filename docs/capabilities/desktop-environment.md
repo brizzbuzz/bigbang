@@ -67,7 +67,7 @@ This keeps workflow, appearance, startup behavior, and host-specific tuning easi
 
 ## Current Interaction Model
 
-The desktop is currently based on Hyprland, Waybar, Walker, SwayNotificationCenter, Hypridle, Hyprlock, `swww`, and Elephant as the launcher provider backend.
+The desktop is currently based on Hyprland, Quickshell, Walker, SwayNotificationCenter, Hypridle, Hyprlock, `swww`, and Elephant as the launcher provider backend.
 
 The global layer is reserved for common actions:
 
@@ -103,11 +103,32 @@ The launcher now supports:
 - reordering pinned apps with `Ctrl+N` and `Ctrl+M`
 - clipboard and power-menu usage through Walker dmenu mode
 
-Notifications are handled by SwayNC and surfaced both as popups and through the Waybar notification module.
+Notifications are handled by SwayNC and surfaced through both popups and the shell controls.
+
+## Current Bar Model
+
+The active shell bar is now Quickshell-based rather than Waybar-based.
+
+Its layout is organized by role:
+
+- left cluster: notifications, audio, power, and clock controls with shell popups
+- center rail: static workspaces with submap state when active
+- right cluster: Wi-Fi and Bluetooth controls
+
+The current Quickshell controls are intentionally explicit rather than icon-heavy.
+
+- `notify` opens or controls the notification surface through `swaync`
+- `audio` opens a custom volume popup and keeps `pavucontrol` on the deeper path
+- `power` opens a custom battery and power popup with profile actions
+- the clock opens a date and time popup
+- `wifi` opens a shell popup with Wi-Fi state and quick actions
+- `bt on` or `bt off` controls the default Bluetooth adapter and opens `blueman-manager` on right click
+
+This replaced the earlier Waybar approach because Quickshell provided a better foundation for richer shell-style controls without continuing to fight bar-layout constraints.
 
 ## Current Workspace Model
 
-Waybar now shows explicit workspace labels instead of decorative dots.
+The current bar shows explicit workspace labels instead of decorative dots.
 
 - `1 web`
 - `2 code`

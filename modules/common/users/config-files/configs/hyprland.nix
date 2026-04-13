@@ -29,7 +29,7 @@
   in
     lib.optionalString enabled ''
       # Create Hyprland config directories
-      mkdir -p "${homeDir}/.config/waybar"
+      mkdir -p "${homeDir}/.config/quickshell"
       mkdir -p "${homeDir}/.config/walker/themes/synthwave"
       mkdir -p "${homeDir}/.config/swaync"
       mkdir -p "${homeDir}/.config/gtk-3.0"
@@ -68,11 +68,13 @@
         fi
       done
 
-      # Deploy Waybar config
-      cp "${../files/waybar}/config-personal.json" "${homeDir}/.config/waybar/config"
-      cp "${../files/waybar}/style-personal.css" "${homeDir}/.config/waybar/style.css"
-      chmod 644 "${homeDir}/.config/waybar/config"
-      chmod 644 "${homeDir}/.config/waybar/style.css"
+      # Deploy Quickshell config
+      cp "${../files/quickshell}/shell.qml" "${homeDir}/.config/quickshell/shell.qml"
+      cp "${../files/quickshell}/Bar.qml" "${homeDir}/.config/quickshell/Bar.qml"
+      cp "${../files/quickshell}/Theme.qml" "${homeDir}/.config/quickshell/Theme.qml"
+      chmod 644 "${homeDir}/.config/quickshell/shell.qml"
+      chmod 644 "${homeDir}/.config/quickshell/Bar.qml"
+      chmod 644 "${homeDir}/.config/quickshell/Theme.qml"
 
       # Deploy GTK settings
       cp "${../files/gtk/settings.ini}" "${homeDir}/.config/gtk-3.0/settings.ini"

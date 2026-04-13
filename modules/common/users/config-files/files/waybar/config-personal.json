@@ -1,17 +1,18 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 38,
-  "spacing": 10,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["clock"],
-  "modules-right": [
+  "height": 42,
+  "spacing": 8,
+  "modules-left": [
     "custom/notification",
-    "network",
     "pulseaudio",
     "battery",
-    "tray"
+    "clock",
+    "hyprland/submap",
+    "hyprland/workspaces"
   ],
+  "modules-center": [],
+  "modules-right": ["hyprland/window", "tray"],
 
   "custom/notification": {
     "tooltip": false,
@@ -35,21 +36,21 @@
   },
 
   "hyprland/workspaces": {
-    "format": "{id} {icon}",
+    "format": "{icon}",
     "on-click": "activate",
     "sort-by-number": true,
     "disable-scroll": true,
     "format-icons": {
-      "1": "web",
-      "2": "code",
-      "3": "term",
-      "4": "chat",
-      "5": "docs",
-      "6": "media",
-      "7": "admin",
-      "8": "scratch",
-      "9": "remote",
-      "10": "temp"
+      "1": "1 web",
+      "2": "2 code",
+      "3": "3 term",
+      "4": "4 chat",
+      "5": "5 docs",
+      "6": "6 media",
+      "7": "7 admin",
+      "8": "8 scratch",
+      "9": "9 remote",
+      "10": "10 temp"
     },
     "persistent-workspaces": {
       "1": 1,
@@ -65,16 +66,26 @@
     }
   },
 
+  "hyprland/submap": {
+    "format": "mode {}",
+    "max-length": 24,
+    "tooltip": false
+  },
+
   "hyprland/window": {
-    "format": "󰖯 {}",
-    "max-length": 40,
+    "format": "{}",
+    "max-length": 72,
+    "rewrite": {
+      "": "desktop"
+    },
     "separate-outputs": true
   },
 
   "clock": {
-    "format": " {:%I:%M %p}",
-    "format-alt": " {:%A, %B %d, %Y}",
+    "format": "󱑆  {:%I:%M %p}",
+    "format-alt": "󰃭  {:%A, %B %d, %Y}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "on-click": "mode",
     "calendar": {
       "mode": "month",
       "mode-mon-col": 3,
@@ -101,39 +112,33 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon}",
-    "format-charging": "{icon}",
-    "format-plugged": "{icon}",
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
     "format-alt": "{capacity}%",
-    "format-icons": ["∙∙∙∙∙", "●∙∙∙∙", "●●∙∙∙", "●●●∙∙", "●●●●∙", "●●●●●"],
-    "tooltip-format": "{timeTo}, {capacity}%"
-  },
-
-  "network": {
-    "format-wifi": "{icon}",
-    "format-ethernet": "●●●●●",
-    "format-linked": "○○○○○",
-    "format-disconnected": "○○○○○",
-    "format-icons": ["∙∙∙∙∙", "●∙∙∙∙", "●●∙∙∙", "●●●∙∙", "●●●●∙", "●●●●●"],
-    "tooltip-format": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
-    "on-click": "nm-connection-editor"
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip-format": "{timeTo}\n{capacity}%",
+    "on-click": "~/.config/hypr/scripts/power-menu.sh",
+    "on-click-right": "swaync-client -t -sw"
   },
 
   "pulseaudio": {
-    "format": "{icon}",
-    "format-bluetooth": "{icon}",
-    "format-bluetooth-muted": "○○○○○",
-    "format-muted": "○○○○○",
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "  {volume}%",
+    "format-bluetooth-muted": "  bt",
+    "format-muted": "  mute",
     "format-icons": {
-      "headphone": "●●●●●",
-      "hands-free": "●●●●●",
-      "headset": "●●●●●",
-      "phone": "●●●●●",
-      "portable": "●●●●●",
-      "car": "●●●●●",
-      "default": ["∙∙∙∙∙", "●●∙∙∙", "●●●●∙"]
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
     },
-    "on-click": "pavucontrol",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "pavucontrol",
+    "tooltip-format": "{desc}\n{volume}%",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },

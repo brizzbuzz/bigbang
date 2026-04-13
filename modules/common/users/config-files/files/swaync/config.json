@@ -26,6 +26,10 @@
   "widgets": [
     "title",
     "dnd",
+    "mpris",
+    "volume",
+    "backlight",
+    "buttons-grid",
     "notifications"
   ],
   "widget-config": {
@@ -36,6 +40,40 @@
     },
     "dnd": {
       "text": "Do Not Disturb"
+    },
+    "mpris": {
+      "blacklist": [
+        "playerctld"
+      ],
+      "autohide": true,
+      "show-album-art": "when-available",
+      "loop-carousel": false
+    },
+    "volume": {
+      "label": "Volume",
+      "show-per-app": false
+    },
+    "backlight": {
+      "label": "Brightness",
+      "device": "intel_backlight",
+      "subsystem": "backlight"
+    },
+    "buttons-grid": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "Wi-Fi",
+          "command": "nm-connection-editor"
+        },
+        {
+          "label": "Bluetooth",
+          "command": "blueman-manager"
+        },
+        {
+          "label": "Audio",
+          "command": "pavucontrol"
+        }
+      ]
     },
     "notifications": {
       "vexpand": true

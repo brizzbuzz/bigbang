@@ -190,33 +190,35 @@ Stop point:
 
 - [x] Launcher and notification ergonomics are materially improved.
 
-### Phase 5: Redesign Waybar Around Workflow
+### Phase 5: Redesign The Bar Around Workflow
 
 Purpose: make the bar support the workflow rather than just display minimal status.
 
+Note: this phase concluded with a switch from Waybar to Quickshell because the richer shell-style interactions were a better fit for the target desktop than continued Waybar iteration.
+
 Implementation checklist:
 
-- [ ] Redesign the module layout around workspace and mode awareness.
-- [ ] Keep workspaces on the left.
-- [ ] Add a mode or submap indicator if practical.
-- [ ] Keep clock centered unless testing shows a better layout.
-- [ ] Add notification state integration on the right.
-- [ ] Keep network, audio, battery, and tray available.
-- [ ] Add power profile visibility if useful.
-- [ ] Tune spacing and module hierarchy for the laptop display width.
-- [ ] Preserve the synthwave identity while improving readability.
+- [x] Redesign the module layout around workspace and mode awareness.
+- [x] Keep workspaces in a clearly separated navigation rail.
+- [x] Add a mode or submap indicator.
+- [x] Replace the old bar implementation with Quickshell when richer interaction surfaces proved necessary.
+- [x] Add notification, audio, power, clock, Wi-Fi, and Bluetooth controls in the active shell bar.
+- [x] Keep tray-like host controls available through explicit shell controls and applets where needed.
+- [x] Add power profile visibility and actions in the battery popup.
+- [x] Tune spacing and module hierarchy for the laptop display width.
+- [x] Preserve the synthwave identity while improving readability.
 
 Validation checklist after rebuild:
 
-- [ ] Workspace state is legible at a glance.
-- [ ] Mode or submap state is obvious when active.
-- [ ] Notification and audio widgets work correctly.
-- [ ] The bar remains uncluttered on smaller widths.
-- [ ] The new bar improves workflow instead of adding noise.
+- [x] Workspace state is legible at a glance.
+- [x] Mode or submap state is obvious when active.
+- [x] Notification, audio, power, and network widgets work correctly.
+- [x] The bar remains usable on the laptop display width.
+- [x] The new bar improves workflow instead of adding noise.
 
 Stop point:
 
-- [ ] The bar now communicates useful state and reduces friction.
+- [x] The bar now communicates useful state and reduces friction.
 
 ### Phase 6: Simplify Wallpaper, Visuals, And Idle
 
@@ -287,7 +289,7 @@ Use this loop for every phase:
 - [x] Phase 2: Replace the keybinding model.
 - [x] Phase 3: Introduce static task workspaces.
 - [x] Phase 4: Replace launcher and notifications.
-- [ ] Phase 5: Redesign Waybar around workflow.
+- [x] Phase 5: Redesign the bar around workflow.
 - [ ] Phase 6: Simplify wallpaper, visuals, and idle.
 - [ ] Phase 7: Host-aware polishing.
 
@@ -296,7 +298,7 @@ Use this loop for every phase:
 - [ ] `pyprland`
 - [ ] dashboard-heavy widgets
 - [ ] major lock-screen redesign
-- [ ] replacing Waybar entirely
+- [x] replacing Waybar entirely
 - [ ] broad theming experiments before core workflow is stable
 
 ## Notes

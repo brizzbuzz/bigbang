@@ -6,11 +6,13 @@
 }: {
   config = lib.mkIf config.host.roles.desktop {
     environment.systemPackages = with pkgs; [
-      waybar
+      quickshell
       walker
       elephant
       foot
       swaynotificationcenter
+      networkmanagerapplet
+      blueman
       libnotify
       hyprlock
       hypridle
@@ -44,6 +46,7 @@
     ];
 
     services.power-profiles-daemon.enable = true;
+    services.upower.enable = true;
 
     programs.thunar = {
       enable = true;

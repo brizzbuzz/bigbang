@@ -78,7 +78,11 @@ button:hover {
 }
 
 .widget-title,
-.widget-dnd {
+.widget-dnd,
+.widget-mpris,
+.widget-volume,
+.widget-backlight,
+.widget-buttons {
   color: @synthwave_fg;
   margin-bottom: 10px;
 }
@@ -89,9 +93,63 @@ button:hover {
   padding: 4px 10px;
 }
 
+.widget-mpris,
+.widget-volume,
+.widget-backlight,
+.widget-buttons {
+  background: alpha(@synthwave_dark, 0.58);
+  border: 1px solid alpha(@synthwave_purple, 0.24);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.widget-mpris-player {
+  background: alpha(@synthwave_purple, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.widget-mpris-title {
+  color: @synthwave_cyan;
+  font-weight: 700;
+}
+
+.widget-mpris-subtitle {
+  color: alpha(@synthwave_fg, 0.78);
+}
+
+.widget-volume label,
+.widget-backlight label {
+  color: @synthwave_fg;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.widget-buttons > flowbox > flowboxchild > button {
+  padding: 10px 12px;
+  min-width: 92px;
+}
+
+.widget-buttons > flowbox > flowboxchild > button label {
+  font-weight: 700;
+}
+
 .widget-dnd > switch:checked slider,
 switch:checked slider {
   background: @synthwave_pink;
+}
+
+scale slider {
+  background: @synthwave_fg;
+  border-radius: 999px;
+  min-height: 16px;
+  min-width: 16px;
+}
+
+scale trough {
+  background: alpha(@synthwave_fg, 0.12);
+  border-radius: 999px;
+  min-height: 10px;
 }
 
 scale trough highlight {
