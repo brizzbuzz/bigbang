@@ -26,9 +26,9 @@ The plan is intentionally iterative. Each phase ends at a clean stopping point s
 
 ## Target End State
 
-- [ ] Hyprland config is split into focused fragments with a small top-level entrypoint.
-- [ ] Global keybinds are compact and conflict-free.
-- [ ] Submaps handle grouped actions like resize, media, and session control.
+- [x] Hyprland config is split into focused fragments with a small top-level entrypoint.
+- [x] Global keybinds are compact and conflict-free.
+- [x] Submaps handle grouped actions like resize, media, and session control.
 - [ ] Workspaces `1` through `10` have named task roles.
 - [ ] `walker` handles launching.
 - [ ] `swaync` handles notifications and history.
@@ -95,31 +95,31 @@ Purpose: fix the largest day-to-day ergonomic problems first.
 
 Implementation checklist:
 
-- [ ] Remove all conflicting binds.
-- [ ] Define a compact global key layer for core actions.
-- [ ] Keep `SUPER+Return` for terminal.
-- [ ] Move launcher access to `SUPER+Space`.
-- [ ] Standardize window actions like close, float, and fullscreen.
-- [ ] Keep workspace jump on `SUPER+1..0`.
-- [ ] Keep send-to-workspace on `SUPER+Shift+1..0`.
-- [ ] Reserve `SUPER+S` for scratchpad behavior.
-- [ ] Introduce a resize submap.
-- [ ] Introduce a session or power submap.
-- [ ] Introduce a media submap.
-- [ ] Introduce a window-management submap if still needed after simplification.
-- [ ] Keep the binds mnemonic and learnable.
+- [x] Remove all conflicting binds.
+- [x] Define a compact global key layer for core actions.
+- [x] Keep `SUPER+Return` for terminal.
+- [x] Move launcher access to `SUPER+Space`.
+- [x] Standardize window actions like close, float, and fullscreen.
+- [x] Keep workspace jump on `SUPER+1..0`.
+- [x] Keep send-to-workspace on `SUPER+Shift+1..0`.
+- [x] Reserve `SUPER+S` for scratchpad behavior.
+- [x] Introduce a resize submap.
+- [x] Introduce a session or power submap.
+- [x] Introduce a media submap.
+- [x] Introduce a window-management submap if still needed after simplification.
+- [x] Keep the binds mnemonic and learnable.
 
 Validation checklist after rebuild:
 
-- [ ] No duplicate keybinds remain.
-- [ ] Core global binds feel predictable.
-- [ ] Submaps enter and exit cleanly.
-- [ ] Lock, reload, power, and recording all have unique bindings.
-- [ ] No accidental regressions appear in common daily actions.
+- [x] No duplicate keybinds remain.
+- [x] Core global binds feel predictable.
+- [x] Submaps enter and exit cleanly.
+- [x] Lock, reload, power, and recording all have unique bindings.
+- [x] No accidental regressions appear in common daily actions.
 
 Stop point:
 
-- [ ] Keyboard workflow is coherent even before swapping supporting tools.
+- [x] Keyboard workflow is coherent even before swapping supporting tools.
 
 ### Phase 3: Introduce Static Task Workspaces
 
@@ -284,7 +284,7 @@ Use this loop for every phase:
 ## Recommended Phase Order
 
 - [x] Phase 1: Modularize the Hyprland config.
-- [ ] Phase 2: Replace the keybinding model.
+- [x] Phase 2: Replace the keybinding model.
 - [ ] Phase 3: Introduce static task workspaces.
 - [ ] Phase 4: Replace launcher and notifications.
 - [ ] Phase 5: Redesign Waybar around workflow.

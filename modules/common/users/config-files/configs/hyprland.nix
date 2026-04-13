@@ -9,6 +9,7 @@
       "monitors.conf"
       "profile.conf"
       "rules.conf"
+      "submaps.conf"
       "theme.conf"
     ];
     hyprlockFile = "hyprlock-personal.conf";
