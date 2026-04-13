@@ -7,9 +7,10 @@
   config = lib.mkIf config.host.roles.desktop {
     environment.systemPackages = with pkgs; [
       waybar
-      rofi
+      walker
+      elephant
       foot
-      dunst
+      swaynotificationcenter
       libnotify
       hyprlock
       hypridle

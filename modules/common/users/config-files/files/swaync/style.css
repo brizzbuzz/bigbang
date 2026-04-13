@@ -1,0 +1,99 @@
+@define-color synthwave_pink #ff006e;
+@define-color synthwave_cyan #00f0ff;
+@define-color synthwave_purple #9d4edd;
+@define-color synthwave_yellow #ffea00;
+@define-color synthwave_bg #0a0e27;
+@define-color synthwave_fg #e0e0e0;
+@define-color synthwave_dark #050818;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+.control-center,
+.notification,
+.notification-content,
+.floating-notifications,
+.blank-window {
+  background: transparent;
+}
+
+.control-center {
+  background: alpha(@synthwave_bg, 0.96);
+  color: @synthwave_fg;
+  border: 1px solid alpha(@synthwave_purple, 0.4);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.control-center-list,
+.notification-row,
+.notification-background {
+  background: transparent;
+}
+
+.notification {
+  background: alpha(@synthwave_dark, 0.92);
+  color: @synthwave_fg;
+  border: 1px solid alpha(@synthwave_cyan, 0.25);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+.notification.critical {
+  border-color: alpha(@synthwave_pink, 0.8);
+}
+
+.notification-content {
+  padding: 4px;
+}
+
+.summary {
+  color: @synthwave_cyan;
+  font-weight: 700;
+}
+
+.time,
+.body,
+.notification-default-action,
+.notification-action {
+  color: @synthwave_fg;
+}
+
+.notification-action,
+.notification-default-action,
+button {
+  background: alpha(@synthwave_purple, 0.18);
+  border: 1px solid alpha(@synthwave_purple, 0.35);
+  border-radius: 10px;
+}
+
+.notification-action:hover,
+.notification-default-action:hover,
+button:hover {
+  background: alpha(@synthwave_pink, 0.22);
+  border-color: alpha(@synthwave_cyan, 0.4);
+}
+
+.widget-title,
+.widget-dnd {
+  color: @synthwave_fg;
+  margin-bottom: 10px;
+}
+
+.widget-title > button {
+  color: @synthwave_bg;
+  background: @synthwave_cyan;
+  padding: 4px 10px;
+}
+
+.widget-dnd > switch:checked slider,
+switch:checked slider {
+  background: @synthwave_pink;
+}
+
+scale trough highlight {
+  background: @synthwave_cyan;
+}

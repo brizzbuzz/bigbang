@@ -15,7 +15,7 @@ REBOOT="󰜉 Reboot"
 SHUTDOWN="󰐥 Shutdown"
 
 # Show menu
-CHOSEN=$(echo -e "$LOCK\n$LOGOUT\n$SUSPEND\n$REBOOT\n$SHUTDOWN" | rofi -dmenu -p "Power Menu" -theme-str 'window {width: 300px;}')
+CHOSEN=$(echo -e "$LOCK\n$LOGOUT\n$SUSPEND\n$REBOOT\n$SHUTDOWN" | walker --dmenu --prompt "Power Menu")
 
 # Execute action
 case "$CHOSEN" in
@@ -30,14 +30,14 @@ case "$CHOSEN" in
         ;;
     "$REBOOT")
         # Confirm reboot
-        CONFIRM=$(echo -e "Yes\nNo" | rofi -dmenu -p "Reboot?" -theme-str 'window {width: 200px;}')
+        CONFIRM=$(echo -e "Yes\nNo" | walker --dmenu --prompt "Reboot?")
         if [ "$CONFIRM" = "Yes" ]; then
             systemctl reboot
         fi
         ;;
     "$SHUTDOWN")
         # Confirm shutdown
-        CONFIRM=$(echo -e "Yes\nNo" | rofi -dmenu -p "Shutdown?" -theme-str 'window {width: 200px;}')
+        CONFIRM=$(echo -e "Yes\nNo" | walker --dmenu --prompt "Shutdown?")
         if [ "$CONFIRM" = "Yes" ]; then
             systemctl poweroff
         fi

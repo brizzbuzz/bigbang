@@ -30,8 +30,8 @@
     lib.optionalString enabled ''
       # Create Hyprland config directories
       mkdir -p "${homeDir}/.config/waybar"
-      mkdir -p "${homeDir}/.config/rofi"
-      mkdir -p "${homeDir}/.config/dunst"
+      mkdir -p "${homeDir}/.config/walker/themes/synthwave"
+      mkdir -p "${homeDir}/.config/swaync"
       mkdir -p "${homeDir}/.config/gtk-3.0"
       mkdir -p "${homeDir}/.config/gtk-4.0"
       mkdir -p "${hyprDir}/scripts"
@@ -80,13 +80,17 @@
       chmod 644 "${homeDir}/.config/gtk-3.0/settings.ini"
       chmod 644 "${homeDir}/.config/gtk-4.0/settings.ini"
 
-      # Deploy Rofi config
-      cp "${../files/rofi}/config-personal.rasi" "${homeDir}/.config/rofi/config.rasi"
-      chmod 644 "${homeDir}/.config/rofi/config.rasi"
+      # Deploy Walker config
+      cp "${../files/walker}/config.toml" "${homeDir}/.config/walker/config.toml"
+      cp "${../files/walker}/themes/synthwave/style.css" "${homeDir}/.config/walker/themes/synthwave/style.css"
+      chmod 644 "${homeDir}/.config/walker/config.toml"
+      chmod 644 "${homeDir}/.config/walker/themes/synthwave/style.css"
 
-      # Deploy Dunst config
-      cp "${../files/dunst}/dunstrc-personal" "${homeDir}/.config/dunst/dunstrc"
-      chmod 644 "${homeDir}/.config/dunst/dunstrc"
+      # Deploy SwayNC config
+      cp "${../files/swaync}/config.json" "${homeDir}/.config/swaync/config.json"
+      cp "${../files/swaync}/style.css" "${homeDir}/.config/swaync/style.css"
+      chmod 644 "${homeDir}/.config/swaync/config.json"
+      chmod 644 "${homeDir}/.config/swaync/style.css"
 
       # Deploy wallpapers
       ${lib.optionalString (builtins.pathExists ../files/wallpapers/personal) ''

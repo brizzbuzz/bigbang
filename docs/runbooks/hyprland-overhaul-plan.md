@@ -30,8 +30,8 @@ The plan is intentionally iterative. Each phase ends at a clean stopping point s
 - [x] Global keybinds are compact and conflict-free.
 - [x] Submaps handle grouped actions like resize, media, and session control.
 - [x] Workspaces `1` through `10` have named task roles.
-- [ ] `walker` handles launching.
-- [ ] `swaync` handles notifications and history.
+- [x] `walker` handles launching.
+- [x] `swaync` handles notifications and history.
 - [ ] `waybar` reflects workspace roles and workflow state.
 - [ ] Wallpaper and idle logic are simpler and more deterministic.
 - [ ] Host-specific monitor and hardware behavior is isolated from shared workflow config.
@@ -165,30 +165,30 @@ Purpose: modernize the two interaction surfaces used constantly throughout the d
 
 Implementation checklist:
 
-- [ ] Add `walker` to the package set.
-- [ ] Remove `rofi` from the active Hyprland workflow.
-- [ ] Add `swaynotificationcenter` to the package set.
-- [ ] Remove `dunst` from the active Hyprland workflow.
-- [ ] Add Walker config deployment.
-- [ ] Add SwayNC config deployment.
-- [ ] Update autostart to launch `swaync` instead of `dunst`.
-- [ ] Update keybinds to open Walker with `SUPER+Space`.
-- [ ] Add a keybind to toggle the notification center.
-- [ ] Optionally add a keybind for do-not-disturb if it proves useful.
-- [ ] Remove unused Rofi and Dunst deployment code after the new stack works.
+- [x] Add `walker` to the package set.
+- [x] Remove `rofi` from the active Hyprland workflow.
+- [x] Add `swaynotificationcenter` to the package set.
+- [x] Remove `dunst` from the active Hyprland workflow.
+- [x] Add Walker config deployment.
+- [x] Add SwayNC config deployment.
+- [x] Update autostart to launch `swaync` instead of `dunst`.
+- [x] Update keybinds to open Walker with `SUPER+Space`.
+- [x] Add a keybind to toggle the notification center.
+- [x] Optionally add a keybind for do-not-disturb if it proves useful.
+- [x] Remove unused Rofi and Dunst deployment code after the new stack works.
 
 Validation checklist after rebuild:
 
-- [ ] Walker launches reliably.
-- [ ] App launch feels faster and cleaner than Rofi.
-- [ ] Notifications still appear.
-- [ ] Notification history is accessible.
-- [ ] Notification center toggle works.
-- [ ] No duplicate notification daemons are running.
+- [x] Walker launches reliably.
+- [x] App launch feels faster and cleaner than Rofi.
+- [x] Notifications still appear.
+- [x] Notification history is accessible.
+- [x] Notification center toggle works.
+- [x] No duplicate notification daemons are running.
 
 Stop point:
 
-- [ ] Launcher and notification ergonomics are materially improved.
+- [x] Launcher and notification ergonomics are materially improved.
 
 ### Phase 5: Redesign Waybar Around Workflow
 
@@ -286,7 +286,7 @@ Use this loop for every phase:
 - [x] Phase 1: Modularize the Hyprland config.
 - [x] Phase 2: Replace the keybinding model.
 - [x] Phase 3: Introduce static task workspaces.
-- [ ] Phase 4: Replace launcher and notifications.
+- [x] Phase 4: Replace launcher and notifications.
 - [ ] Phase 5: Redesign Waybar around workflow.
 - [ ] Phase 6: Simplify wallpaper, visuals, and idle.
 - [ ] Phase 7: Host-aware polishing.
