@@ -1,4 +1,15 @@
-{lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
+  hostMonitorFile = let
+    candidate = ../../../../hosts/${config.host.name}/hypr/monitors.conf;
+  in
+    if builtins.pathExists candidate
+    then candidate
+    else ../files/hypr/monitors.conf;
+
   desktopConfig = {
     hyprConfigFiles = [
       "appearance.conf"
@@ -40,7 +51,11 @@
       # Deploy modular Hyprland config
       for configFile in ${lib.concatStringsSep " " desktopConfig.hyprConfigFiles}; do
         [ -L "${hyprDir}/$configFile" ] && rm "${hyprDir}/$configFile"
-        cp "${../files/hypr}/$configFile" "${hyprDir}/$configFile"
+        if [ "$configFile" = "monitors.conf" ]; then
+          cp "${hostMonitorFile}" "${hyprDir}/$configFile"
+        else
+          cp "${../files/hypr}/$configFile" "${hyprDir}/$configFile"
+        fi
         chmod 644 "${hyprDir}/$configFile"
       done
 

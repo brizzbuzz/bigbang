@@ -53,6 +53,8 @@ That includes configuration for:
 
 On desktop hosts, the Hyprland files are now deployed as a fragment set rather than a single large config.
 
+That deployment can also pull host-specific monitor overrides when a host provides `hosts/<name>/hypr/monitors.conf`.
+
 That deployment currently includes:
 
 - a small `hyprland.conf` entrypoint

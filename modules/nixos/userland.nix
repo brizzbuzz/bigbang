@@ -37,10 +37,6 @@
       playerctl
       brightnessctl
       power-profiles-daemon
-      nwg-displays
-      wlr-randr
-      wl-gammactl
-      wtype
       (python3.withPackages (ps: [ps.pillow]))
     ];
 

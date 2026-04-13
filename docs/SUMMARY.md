@@ -17,5 +17,4 @@
 - [Cloudflare](external-dependencies/cloudflare.md)
 - [UniFi and LAN](external-dependencies/unifi-and-lan.md)
 - [1Password and OpNix](external-dependencies/1password-and-opnix.md)
-- [Hyprland Overhaul Plan](runbooks/hyprland-overhaul-plan.md)
 - [Remote MCP OAuth](runbooks/remote-mcp-oauth.md)

@@ -61,7 +61,9 @@ The current config is modular rather than monolithic.
 - `workspaces.conf` contains the static workspace model
 - `rules.conf` contains window rules
 - `autostart.conf` contains session startup programs
-- `profile.conf` contains personal overrides like spacing and wallpaper generation
+- `profile.conf` contains personal overrides like spacing and visual tuning
+
+Host-specific monitor behavior can override the shared monitor fallback. On `frame`, that override now lives under `hosts/frame/hypr/monitors.conf`.
 
 This keeps workflow, appearance, startup behavior, and host-specific tuning easier to change independently.
 
