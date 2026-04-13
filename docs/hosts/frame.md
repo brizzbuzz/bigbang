@@ -21,6 +21,7 @@
 - installs Google Chrome
 - pulls a Kagi API key through OpNix
 - declares a NetworkManager Wi-Fi profile for the home network
+- overrides the shared Hyprland monitor config with `hosts/frame/hypr/monitors.conf`
 
 ## Storage and Install Model
 
@@ -48,5 +49,6 @@ It exists to:
 
 - `hosts/frame/configuration.nix`
 - `hosts/frame/disko.nix`
+- `hosts/frame/hypr/monitors.conf`
 - `modules/nixos/default.nix`
 - `modules/common/`

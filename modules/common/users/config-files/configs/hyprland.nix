@@ -1,7 +1,30 @@
-{lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
+  hostMonitorFile = let
+    candidate = ../../../../hosts/${config.host.name}/hypr/monitors.conf;
+  in
+    if builtins.pathExists candidate
+    then candidate
+    else ../files/hypr/monitors.conf;
+
   desktopConfig = {
-    configFile = "hyprland-personal.conf";
-    hyprlock = "hyprlock-personal.conf";
+    hyprConfigFiles = [
+      "appearance.conf"
+      "autostart.conf"
+      "binds.conf"
+      "hyprland.conf"
+      "input.conf"
+      "monitors.conf"
+      "profile.conf"
+      "rules.conf"
+      "submaps.conf"
+      "theme.conf"
+      "workspaces.conf"
+    ];
+    hyprlockFile = "hyprlock-personal.conf";
     wallpaperPalette = {
       background = "#0a0e27";
       accents = ["#ff006e" "#00f0ff" "#9d4edd" "#ffea00"];
@@ -17,28 +40,28 @@
   in
     lib.optionalString enabled ''
       # Create Hyprland config directories
-      mkdir -p "${hyprDir}/scripts"
-      mkdir -p "${homeDir}/.config/waybar"
-      mkdir -p "${homeDir}/.config/rofi"
-      mkdir -p "${homeDir}/.config/dunst"
+      mkdir -p "${homeDir}/.config/quickshell"
+      mkdir -p "${homeDir}/.config/walker/themes/synthwave"
+      mkdir -p "${homeDir}/.config/swaync"
       mkdir -p "${homeDir}/.config/gtk-3.0"
       mkdir -p "${homeDir}/.config/gtk-4.0"
       mkdir -p "${hyprDir}/scripts"
       mkdir -p "${hyprDir}/wallpapers"
 
-      # Deploy base Hyprland config (main entrypoint)
-      [ -L "${hyprDir}/hyprland.conf" ] && rm "${hyprDir}/hyprland.conf"
-      cp "${../files/hypr/hyprland-base.conf}" "${hyprDir}/hyprland.conf"
-      chmod 644 "${hyprDir}/hyprland.conf"
-
-      # Deploy profile-specific Hyprland config
-      [ -L "${hyprDir}/hyprland-profile.conf" ] && rm "${hyprDir}/hyprland-profile.conf"
-      cp "${../files/hypr}/${desktopConfig.configFile}" "${hyprDir}/hyprland-profile.conf"
-      chmod 644 "${hyprDir}/hyprland-profile.conf"
+      # Deploy modular Hyprland config
+      for configFile in ${lib.concatStringsSep " " desktopConfig.hyprConfigFiles}; do
+        [ -L "${hyprDir}/$configFile" ] && rm "${hyprDir}/$configFile"
+        if [ "$configFile" = "monitors.conf" ]; then
+          cp "${hostMonitorFile}" "${hyprDir}/$configFile"
+        else
+          cp "${../files/hypr}/$configFile" "${hyprDir}/$configFile"
+        fi
+        chmod 644 "${hyprDir}/$configFile"
+      done
 
       # Deploy Hyprlock config
       [ -L "${hyprDir}/hyprlock.conf" ] && rm "${hyprDir}/hyprlock.conf"
-      cp "${../files/hypr}/${desktopConfig.hyprlock}" "${hyprDir}/hyprlock.conf"
+      cp "${../files/hypr}/${desktopConfig.hyprlockFile}" "${hyprDir}/hyprlock.conf"
       chmod 644 "${hyprDir}/hyprlock.conf"
 
       # Deploy Hypridle config (shared)
@@ -60,11 +83,13 @@
         fi
       done
 
-      # Deploy Waybar config
-      cp "${../files/waybar}/config-personal.json" "${homeDir}/.config/waybar/config"
-      cp "${../files/waybar}/style-personal.css" "${homeDir}/.config/waybar/style.css"
-      chmod 644 "${homeDir}/.config/waybar/config"
-      chmod 644 "${homeDir}/.config/waybar/style.css"
+      # Deploy Quickshell config
+      cp "${../files/quickshell}/shell.qml" "${homeDir}/.config/quickshell/shell.qml"
+      cp "${../files/quickshell}/Bar.qml" "${homeDir}/.config/quickshell/Bar.qml"
+      cp "${../files/quickshell}/Theme.qml" "${homeDir}/.config/quickshell/Theme.qml"
+      chmod 644 "${homeDir}/.config/quickshell/shell.qml"
+      chmod 644 "${homeDir}/.config/quickshell/Bar.qml"
+      chmod 644 "${homeDir}/.config/quickshell/Theme.qml"
 
       # Deploy GTK settings
       cp "${../files/gtk/settings.ini}" "${homeDir}/.config/gtk-3.0/settings.ini"
@@ -72,13 +97,17 @@
       chmod 644 "${homeDir}/.config/gtk-3.0/settings.ini"
       chmod 644 "${homeDir}/.config/gtk-4.0/settings.ini"
 
-      # Deploy Rofi config
-      cp "${../files/rofi}/config-personal.rasi" "${homeDir}/.config/rofi/config.rasi"
-      chmod 644 "${homeDir}/.config/rofi/config.rasi"
+      # Deploy Walker config
+      cp "${../files/walker}/config.toml" "${homeDir}/.config/walker/config.toml"
+      cp "${../files/walker}/themes/synthwave/style.css" "${homeDir}/.config/walker/themes/synthwave/style.css"
+      chmod 644 "${homeDir}/.config/walker/config.toml"
+      chmod 644 "${homeDir}/.config/walker/themes/synthwave/style.css"
 
-      # Deploy Dunst config
-      cp "${../files/dunst}/dunstrc-personal" "${homeDir}/.config/dunst/dunstrc"
-      chmod 644 "${homeDir}/.config/dunst/dunstrc"
+      # Deploy SwayNC config
+      cp "${../files/swaync}/config.json" "${homeDir}/.config/swaync/config.json"
+      cp "${../files/swaync}/style.css" "${homeDir}/.config/swaync/style.css"
+      chmod 644 "${homeDir}/.config/swaync/config.json"
+      chmod 644 "${homeDir}/.config/swaync/style.css"
 
       # Deploy wallpapers
       ${lib.optionalString (builtins.pathExists ../files/wallpapers/personal) ''
@@ -89,14 +118,6 @@
           fi
         done
       ''}
-
-      # Deploy scripts
-      for script in ${../files/hypr/scripts}/*; do
-        if [ -f "$script" ]; then
-          cp "$script" "${hyprDir}/scripts/"
-          chmod 755 "${hyprDir}/scripts/$(basename "$script")"
-        fi
-      done
     '';
 in {
   inherit mkHyprlandScript;

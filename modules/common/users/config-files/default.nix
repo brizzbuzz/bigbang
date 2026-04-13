@@ -19,7 +19,7 @@
   ghosttyModule = import ./configs/ghostty.nix {inherit config lib pkgs;};
   helixModule = import ./configs/helix.nix {inherit config lib pkgs;};
   direnvModule = import ./configs/direnv.nix {inherit config lib pkgs;};
-  hyprlandModule = import ./configs/hyprland.nix {inherit lib;};
+  hyprlandModule = import ./configs/hyprland.nix {inherit config lib;};
 
   # Generate activation script for a single user
   mkUserConfigScript = userName: let

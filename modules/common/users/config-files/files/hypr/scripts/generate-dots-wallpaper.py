@@ -102,11 +102,12 @@ def generate_wallpaper(path):
 
 
 def set_wallpaper(path):
-    if run(["swww", "query"]).returncode != 0:
+    awww = "/run/current-system/sw/bin/awww"
+    if run([awww, "query"]).returncode != 0:
         return
     run(
         [
-            "swww",
+            awww,
             "img",
             str(path),
             "--transition-type",

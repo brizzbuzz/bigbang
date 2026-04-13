@@ -51,6 +51,18 @@ That includes configuration for:
 - direnv
 - Hyprland user files on Linux desktop hosts
 
+On desktop hosts, the Hyprland files are now deployed as a fragment set rather than a single large config.
+
+That deployment can also pull host-specific monitor overrides when a host provides `hosts/<name>/hypr/monitors.conf`.
+
+That deployment currently includes:
+
+- a small `hyprland.conf` entrypoint
+- sourced Hyprland fragments for monitors, input, appearance, theme, binds, submaps, workspaces, rules, startup, and profile overrides
+- companion configs for `hyprlock`, `hypridle`, Quickshell, Walker, SwayNC, GTK, wallpapers, and Hyprland helper scripts
+
+On the current desktop path, wallpaper is driven by `awww` and helper scripts are used for safer idle dim and keyboard-backlight behavior.
+
 ## Shell Model
 
 The default shell arrangement is:

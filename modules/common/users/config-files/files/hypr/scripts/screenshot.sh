@@ -30,7 +30,7 @@ take_screenshot() {
         area)
             # Screenshot area with selection
             grim -g "$(slurp)" - | tee "$filename" | wl-copy
-            notify "Area screenshot saved and copied to clipboard"
+            notify "Saved to $filename and copied to clipboard. Swappy opened. Press Ctrl+S to save edits."
             # Open in swappy for editing
             swappy -f "$filename" -o "$filename"
             ;;
@@ -38,14 +38,14 @@ take_screenshot() {
             # Full screen screenshot
             grim "$filename"
             wl-copy < "$filename"
-            notify "Full screenshot saved and copied to clipboard"
+            notify "Saved to $filename and copied to clipboard"
             ;;
         window)
             # Active window screenshot
             local window_geometry=$(hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
             grim -g "$window_geometry" "$filename"
             wl-copy < "$filename"
-            notify "Window screenshot saved and copied to clipboard"
+            notify "Saved to $filename and copied to clipboard"
             ;;
         *)
             notify "Invalid mode: $mode\nUsage: screenshot.sh [area|full|window]" "critical"
