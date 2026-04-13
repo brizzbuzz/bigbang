@@ -59,6 +59,8 @@ That deployment currently includes:
 - sourced Hyprland fragments for monitors, input, appearance, theme, binds, submaps, workspaces, rules, startup, and profile overrides
 - companion configs for `hyprlock`, `hypridle`, Quickshell, Walker, SwayNC, GTK, wallpapers, and Hyprland helper scripts
 
+On the current desktop path, wallpaper is driven by `awww` and helper scripts are used for safer idle dim and keyboard-backlight behavior.
+
 ## Shell Model
 
 The default shell arrangement is:

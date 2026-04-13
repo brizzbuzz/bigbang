@@ -226,28 +226,28 @@ Purpose: reduce background complexity and make the session calmer and more predi
 
 Implementation checklist:
 
-- [ ] Remove unused wallpaper tooling from the active path.
-- [ ] Keep `swww` as the single wallpaper mechanism.
-- [ ] Decide whether generated wallpaper should run on login or on demand.
-- [ ] Remove the timer-based per-minute wallpaper regeneration if it is still present.
-- [ ] Reduce blur intensity.
-- [ ] Reduce shadow intensity if it still feels heavy.
-- [ ] Shorten and simplify animations.
-- [ ] Keep `misc:vfr = true` unless testing shows a problem.
-- [ ] Split laptop-specific idle behavior from shared idle defaults.
-- [ ] Keep moderate lock, DPMS, and suspend timings.
+- [x] Remove unused wallpaper tooling from the active path.
+- [x] Keep `awww` as the single wallpaper mechanism.
+- [x] Decide whether generated wallpaper should run on login or on demand.
+- [x] Remove the timer-based per-minute wallpaper regeneration if it is still present.
+- [x] Reduce blur intensity.
+- [x] Reduce shadow intensity if it still feels heavy.
+- [x] Shorten and simplify animations.
+- [x] Keep `misc:vfr = true` unless testing shows a problem.
+- [x] Split laptop-specific idle behavior from shared idle defaults.
+- [x] Keep moderate lock, DPMS, and suspend timings.
 
 Validation checklist after rebuild:
 
-- [ ] Wallpaper behavior is deterministic.
-- [ ] The session feels lighter and more responsive.
-- [ ] Idle behavior still matches expectations.
-- [ ] No hardware-specific backlight errors appear in the wrong environment.
-- [ ] Visual polish remains good without feeling overbuilt.
+- [x] Wallpaper behavior is deterministic.
+- [x] The session feels lighter and more responsive.
+- [x] Idle behavior still matches expectations.
+- [x] No hardware-specific backlight errors appear in the wrong environment.
+- [x] Visual polish remains good without feeling overbuilt.
 
 Stop point:
 
-- [ ] Wallpaper, visuals, and idle behavior are simpler and lower-friction.
+- [x] Wallpaper, visuals, and idle behavior are simpler and lower-friction.
 
 ### Phase 7: Host-Aware Polishing
 
@@ -290,7 +290,7 @@ Use this loop for every phase:
 - [x] Phase 3: Introduce static task workspaces.
 - [x] Phase 4: Replace launcher and notifications.
 - [x] Phase 5: Redesign the bar around workflow.
-- [ ] Phase 6: Simplify wallpaper, visuals, and idle.
+- [x] Phase 6: Simplify wallpaper, visuals, and idle.
 - [ ] Phase 7: Host-aware polishing.
 
 ## Deferred Until Proven Necessary

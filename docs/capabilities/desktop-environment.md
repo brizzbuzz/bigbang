@@ -67,7 +67,7 @@ This keeps workflow, appearance, startup behavior, and host-specific tuning easi
 
 ## Current Interaction Model
 
-The desktop is currently based on Hyprland, Quickshell, Walker, SwayNotificationCenter, Hypridle, Hyprlock, `swww`, and Elephant as the launcher provider backend.
+The desktop is currently based on Hyprland, Quickshell, Walker, SwayNotificationCenter, Hypridle, Hyprlock, `awww`, and Elephant as the launcher provider backend.
 
 The global layer is reserved for common actions:
 
@@ -125,6 +125,28 @@ The current Quickshell controls are intentionally explicit rather than icon-heav
 - `bt on` or `bt off` controls the default Bluetooth adapter and opens `blueman-manager` on right click
 
 This replaced the earlier Waybar approach because Quickshell provided a better foundation for richer shell-style controls without continuing to fight bar-layout constraints.
+
+## Current Wallpaper And Idle Model
+
+Wallpaper is now driven by `awww` instead of the older `swww` naming used by previous nixpkgs revisions.
+
+- `awww-daemon` is the active wallpaper daemon
+- `wallpaper-switcher.sh` sets the current wallpaper from `~/.config/hypr/wallpapers`
+- generated wallpapers remain available as an on-demand path, but they are no longer regenerated on a user timer or on every Hyprland startup
+
+Idle behavior is still managed by `hypridle`, but the device-specific actions are safer than before.
+
+- dim and keyboard-backlight actions now route through helper scripts
+- those helper scripts no-op cleanly if the expected backlight devices are not present
+- lock, display-off, and suspend timings were relaxed to a more moderate cadence
+
+Hyprland visuals were also toned down slightly.
+
+- blur is lighter
+- shadows are lighter
+- animations are shorter
+
+That keeps the synthwave character while making the shell feel calmer and less busy.
 
 ## Current Workspace Model
 

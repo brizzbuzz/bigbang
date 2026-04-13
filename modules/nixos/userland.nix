@@ -16,7 +16,6 @@
       libnotify
       hyprlock
       hypridle
-      hyprpaper
       hyprpicker
       swww
       grim
@@ -72,24 +71,6 @@
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME = "$HOME/.local/share";
       XDG_STATE_HOME = "$HOME/.local/state";
-    };
-
-    systemd.user.services.hypr-wallpaper-generator = {
-      description = "Generate dot wallpaper for Hyprland";
-      serviceConfig = {
-        Type = "oneshot";
-        Environment = "PATH=/run/current-system/sw/bin";
-        ExecStart = "${pkgs.python3.withPackages (ps: [ps.pillow])}/bin/python %h/.config/hypr/scripts/generate-dots-wallpaper.py";
-      };
-    };
-
-    systemd.user.timers.hypr-wallpaper-generator = {
-      description = "Refresh dot wallpaper every minute";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnBootSec = "30s";
-        OnUnitActiveSec = "60s";
-      };
     };
   };
 }
