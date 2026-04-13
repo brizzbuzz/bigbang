@@ -1,7 +1,17 @@
 {lib, ...}: let
   desktopConfig = {
-    configFile = "hyprland-personal.conf";
-    hyprlock = "hyprlock-personal.conf";
+    hyprConfigFiles = [
+      "appearance.conf"
+      "autostart.conf"
+      "binds.conf"
+      "hyprland.conf"
+      "input.conf"
+      "monitors.conf"
+      "profile.conf"
+      "rules.conf"
+      "theme.conf"
+    ];
+    hyprlockFile = "hyprlock-personal.conf";
     wallpaperPalette = {
       background = "#0a0e27";
       accents = ["#ff006e" "#00f0ff" "#9d4edd" "#ffea00"];
@@ -17,7 +27,6 @@
   in
     lib.optionalString enabled ''
       # Create Hyprland config directories
-      mkdir -p "${hyprDir}/scripts"
       mkdir -p "${homeDir}/.config/waybar"
       mkdir -p "${homeDir}/.config/rofi"
       mkdir -p "${homeDir}/.config/dunst"
@@ -26,19 +35,16 @@
       mkdir -p "${hyprDir}/scripts"
       mkdir -p "${hyprDir}/wallpapers"
 
-      # Deploy base Hyprland config (main entrypoint)
-      [ -L "${hyprDir}/hyprland.conf" ] && rm "${hyprDir}/hyprland.conf"
-      cp "${../files/hypr/hyprland-base.conf}" "${hyprDir}/hyprland.conf"
-      chmod 644 "${hyprDir}/hyprland.conf"
-
-      # Deploy profile-specific Hyprland config
-      [ -L "${hyprDir}/hyprland-profile.conf" ] && rm "${hyprDir}/hyprland-profile.conf"
-      cp "${../files/hypr}/${desktopConfig.configFile}" "${hyprDir}/hyprland-profile.conf"
-      chmod 644 "${hyprDir}/hyprland-profile.conf"
+      # Deploy modular Hyprland config
+      for configFile in ${lib.concatStringsSep " " desktopConfig.hyprConfigFiles}; do
+        [ -L "${hyprDir}/$configFile" ] && rm "${hyprDir}/$configFile"
+        cp "${../files/hypr}/$configFile" "${hyprDir}/$configFile"
+        chmod 644 "${hyprDir}/$configFile"
+      done
 
       # Deploy Hyprlock config
       [ -L "${hyprDir}/hyprlock.conf" ] && rm "${hyprDir}/hyprlock.conf"
-      cp "${../files/hypr}/${desktopConfig.hyprlock}" "${hyprDir}/hyprlock.conf"
+      cp "${../files/hypr}/${desktopConfig.hyprlockFile}" "${hyprDir}/hyprlock.conf"
       chmod 644 "${hyprDir}/hyprlock.conf"
 
       # Deploy Hypridle config (shared)
@@ -89,14 +95,6 @@
           fi
         done
       ''}
-
-      # Deploy scripts
-      for script in ${../files/hypr/scripts}/*; do
-        if [ -f "$script" ]; then
-          cp "$script" "${hyprDir}/scripts/"
-          chmod 755 "${hyprDir}/scripts/$(basename "$script")"
-        fi
-      done
     '';
 in {
   inherit mkHyprlandScript;
