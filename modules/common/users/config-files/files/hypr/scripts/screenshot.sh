@@ -21,6 +21,12 @@ notify() {
     notify-send -u "$urgency" "Screenshot" "$message"
 }
 
+copy_image() {
+    local file="$1"
+    wl-copy --type image/png < "$file" >/dev/null 2>&1 &
+    disown
+}
+
 # Function to take screenshot
 take_screenshot() {
     local mode="$1"
@@ -29,22 +35,24 @@ take_screenshot() {
     case "$mode" in
         area)
             # Screenshot area with selection
-            grim -g "$(slurp)" - | tee "$filename" | wl-copy
-            notify "Saved to $filename and copied to clipboard. Swappy opened. Press Ctrl+S to save edits."
-            # Open in swappy for editing
-            swappy -f "$filename" -o "$filename"
+            grim -g "$(slurp)" "$filename"
+            copy_image "$filename"
+            notify "Saved to $filename and copied to clipboard. Swappy opened in background. Press Ctrl+S to save edits."
+            # Open in swappy for editing without blocking the script
+            swappy -f "$filename" -o "$filename" >/dev/null 2>&1 &
+            disown
             ;;
         full)
             # Full screen screenshot
             grim "$filename"
-            wl-copy < "$filename"
+            copy_image "$filename"
             notify "Saved to $filename and copied to clipboard"
             ;;
         window)
             # Active window screenshot
             local window_geometry=$(hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
             grim -g "$window_geometry" "$filename"
-            wl-copy < "$filename"
+            copy_image "$filename"
             notify "Saved to $filename and copied to clipboard"
             ;;
         *)

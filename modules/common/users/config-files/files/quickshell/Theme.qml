@@ -65,8 +65,17 @@ Singleton {
     return "󰁺"
   }
 
+  function batteryPercent(value) {
+    if (!value) return 0
+    return Math.round(value <= 1 ? value * 100 : value)
+  }
+
   function formatMinutes(date) {
     return Qt.formatDateTime(date, "h:mm AP")
+  }
+
+  function formatPreciseTime(date) {
+    return Qt.formatDateTime(date, "h:mm:ss.zzz AP")
   }
 
   function formatLongDate(date) {
