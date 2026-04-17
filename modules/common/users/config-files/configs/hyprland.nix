@@ -83,13 +83,13 @@
         fi
       done
 
-      # Deploy Quickshell config
-      cp "${../files/quickshell}/shell.qml" "${homeDir}/.config/quickshell/shell.qml"
-      cp "${../files/quickshell}/Bar.qml" "${homeDir}/.config/quickshell/Bar.qml"
-      cp "${../files/quickshell}/Theme.qml" "${homeDir}/.config/quickshell/Theme.qml"
-      chmod 644 "${homeDir}/.config/quickshell/shell.qml"
-      chmod 644 "${homeDir}/.config/quickshell/Bar.qml"
-      chmod 644 "${homeDir}/.config/quickshell/Theme.qml"
+      # Deploy all Quickshell modules so component extraction works.
+      for qmlFile in ${../files/quickshell}/*.qml; do
+        if [ -f "$qmlFile" ]; then
+          cp "$qmlFile" "${homeDir}/.config/quickshell/"
+          chmod 644 "${homeDir}/.config/quickshell/$(basename "$qmlFile")"
+        fi
+      done
 
       # Deploy GTK settings
       cp "${../files/gtk/settings.ini}" "${homeDir}/.config/gtk-3.0/settings.ini"

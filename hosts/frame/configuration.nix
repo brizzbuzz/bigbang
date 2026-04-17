@@ -46,6 +46,10 @@
     google-chrome
   ];
 
+  nixpkgs.overlays = [
+    (final: prev: inputs.quickshell-upstream.overlays.default final prev)
+  ];
+
   # Declarative WiFi configuration
   # NetworkManager will remember these networks and connect automatically
   networking.networkmanager = {

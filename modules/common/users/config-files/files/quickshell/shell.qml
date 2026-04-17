@@ -4,7 +4,7 @@ Scope {
   Variants {
     model: Quickshell.screens
 
-    Bar {
+    ScreenShell {
       required property var modelData
       screen: modelData
     }
