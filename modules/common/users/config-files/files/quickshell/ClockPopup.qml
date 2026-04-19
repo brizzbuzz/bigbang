@@ -36,7 +36,7 @@ PopupWindow {
       anchors.top: parent.top
       height: 78
       radius: parent.radius
-      color: Qt.rgba(157 / 255, 78 / 255, 221 / 255, 0.08)
+      color: Qt.rgba(122 / 255, 162 / 255, 247 / 255, 0.07)
     }
 
     ColumnLayout {
@@ -71,9 +71,9 @@ PopupWindow {
         Layout.fillWidth: true
         Layout.fillHeight: true
         radius: 18
-        color: Qt.rgba(22 / 255, 30 / 255, 63 / 255, 0.72)
+        color: Qt.rgba(21 / 255, 28 / 255, 52 / 255, 0.78)
         border.width: 1
-        border.color: Qt.rgba(42 / 255, 51 / 255, 95 / 255, 0.95)
+        border.color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.42)
         implicitHeight: 98
 
         ColumnLayout {
@@ -83,7 +83,7 @@ PopupWindow {
 
           Text {
             text: Qt.formatDateTime(root.currentDate, "dddd")
-            color: Theme.yellow
+            color: Theme.cyan
             font.family: Theme.monoFont
             font.pixelSize: 20
             font.weight: 800

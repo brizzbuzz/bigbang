@@ -1,4 +1,9 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  isDarwin = pkgs.stdenv.isDarwin;
   defaultConfig = {
     theme = "Synthwave";
     font-family = "JetBrainsMono Nerd Font Mono";
@@ -54,14 +59,15 @@
     command = /run/current-system/sw/bin/zellij
     shell-integration = detect
 
-    # Unbind macOS keys so they are forwarded to Zellij
-    # This allows Zellij to handle tabs instead of Ghostty
-    keybind = cmd+t=unbind
-    keybind = cmd+n=unbind
-    keybind = cmd+c=unbind
-    keybind = cmd+w=unbind
-    keybind = cmd+opt+left=unbind
-    keybind = cmd+opt+right=unbind
+    ${lib.optionalString isDarwin ''
+      # Forward macOS tab controls to Zellij on Darwin hosts
+      keybind = cmd+t=unbind
+      keybind = cmd+n=unbind
+      keybind = cmd+c=unbind
+      keybind = cmd+w=unbind
+      keybind = cmd+opt+left=unbind
+      keybind = cmd+opt+right=unbind
+    ''}
 
     # Additional user configuration
     ${settings.extraConfig}

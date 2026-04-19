@@ -1,10 +1,18 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # Zellij terminal multiplexer configuration
   mkZellijScript = {
     homeDir,
     enabled,
   }: let
-    zellijConfig = builtins.readFile ../files/zellij.kdl;
+    copyCommand =
+      if pkgs.stdenv.isDarwin
+      then ''copy_command "pbcopy"''
+      else ''copy_command "wl-copy"'';
+    zellijConfig = lib.replaceStrings ["{{COPY_COMMAND}}"] [copyCommand] (builtins.readFile ../files/zellij.kdl);
   in
     lib.optionalString enabled ''
         # Zellij configuration

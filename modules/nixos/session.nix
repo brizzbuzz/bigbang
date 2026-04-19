@@ -16,7 +16,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%Y-%m-%d %H:%M' --remember --remember-session --asterisks --greet-align left --container-padding 1 --prompt-padding 1 --greeting 'access node // frame' --theme 'bg=black;fg=brightgreen;prompt=green;input=brightgreen;action=brightblack;button=brightblack;container=black;time=green;greet=brightgreen' --cmd start-hyprland";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%Y-%m-%d %H:%M' --remember --remember-session --asterisks --greet-align left --container-padding 1 --prompt-padding 1 --greeting 'access node // frame' --theme 'bg=#0a0e27;fg=#d9def2;prompt=#00f0ff;input=#d9def2;action=#8b93b8;button=#151c35;container=#11162f;time=#7aa2f7;greet=#ff79c6' --cmd start-hyprland";
           user = "greeter";
         };
       };

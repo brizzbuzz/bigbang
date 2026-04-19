@@ -13,6 +13,7 @@ PopupWindow {
   required property int batteryPercent
   required property int batteryHealthPercent
   required property var runCommand
+  property var openPowerMenu: null
 
   visible: false
   grabFocus: true
@@ -39,7 +40,7 @@ PopupWindow {
       anchors.top: parent.top
       height: 72
       radius: parent.radius
-      color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.07)
+      color: Qt.rgba(122 / 255, 162 / 255, 247 / 255, 0.07)
     }
 
     ColumnLayout {
@@ -78,7 +79,7 @@ PopupWindow {
 
           Rectangle {
             radius: 14
-            color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.14)
+            color: Qt.rgba(122 / 255, 162 / 255, 247 / 255, 0.12)
             implicitWidth: 48
             implicitHeight: 48
 
@@ -135,7 +136,7 @@ PopupWindow {
         AccentButton {
           text: "Power"
           accent: Theme.yellow
-          onClicked: root.runCommand("~/.config/hypr/scripts/power-menu.sh")
+          onClicked: if (root.openPowerMenu) root.openPowerMenu()
         }
 
         AccentButton {

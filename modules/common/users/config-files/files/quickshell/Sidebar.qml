@@ -25,12 +25,12 @@ PanelWindow {
     implicitHeight: compact ? 42 : 50
     radius: compact ? 16 : 18
     color: buttonMouse.containsMouse
-      ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, active ? 0.075 : 0.042)
-      : Qt.rgba(255 / 255, 255 / 255, 255 / 255, active ? 0.032 : 0.016)
+      ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, active ? 0.06 : 0.032)
+      : Qt.rgba(255 / 255, 255 / 255, 255 / 255, active ? 0.024 : 0.012)
     border.width: 1
     border.color: active
       ? Qt.tint(accent, Qt.rgba(1, 1, 1, buttonMouse.containsMouse ? 0.08 : 0.2))
-      : Qt.rgba(68 / 255, 83 / 255, 154 / 255, 0.18)
+      : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.18)
 
     Text {
       id: iconLabel
@@ -79,6 +79,7 @@ PanelWindow {
   readonly property var wifiDevice: networkDevices.find(device => device.type === DeviceType.Wifi) || null
   readonly property var wifiNetworks: wifiDevice ? wifiDevice.networks.values : []
   readonly property var activeWifiNetwork: wifiNetworks.find(network => network.connected) || null
+  property var openPowerMenu: null
 
   function run(command) {
     Hyprland.dispatch(`exec ${command}`)
@@ -87,7 +88,7 @@ PanelWindow {
   Rectangle {
     anchors.fill: parent
     radius: 0
-    color: Qt.rgba(9 / 255, 13 / 255, 30 / 255, 0.7)
+    color: Qt.rgba(8 / 255, 11 / 255, 24 / 255, 0.74)
     border.width: 0
 
     Rectangle {
@@ -95,7 +96,7 @@ PanelWindow {
       anchors.top: parent.top
       anchors.bottom: parent.bottom
       width: 1
-      color: Qt.rgba(123 / 255, 137 / 255, 208 / 255, 0.12)
+      color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.18)
     }
 
     ColumnLayout {
@@ -143,7 +144,7 @@ PanelWindow {
           icon: Theme.batteryIcon(batteryPercent, (battery?.timeToFull || 0) > 0)
           accent: Theme.yellow
           active: true
-          onClicked: root.run("~/.config/hypr/scripts/power-menu.sh")
+          onClicked: if (root.openPowerMenu) root.openPowerMenu()
           onRightClicked: root.run("powerprofilesctl set balanced")
         }
       }
@@ -151,7 +152,7 @@ PanelWindow {
       Rectangle {
         Layout.fillWidth: true
         implicitHeight: 1
-        color: Qt.rgba(68 / 255, 83 / 255, 154 / 255, 0.12)
+        color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.16)
       }
 
       Item { Layout.fillHeight: true }
@@ -166,7 +167,7 @@ PanelWindow {
           compact: false
           accent: Theme.yellow
           active: true
-          onClicked: root.run("~/.config/hypr/scripts/power-menu.sh")
+          onClicked: if (root.openPowerMenu) root.openPowerMenu()
         }
       }
     }

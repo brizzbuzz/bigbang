@@ -62,7 +62,7 @@ PanelWindow {
   }
 
   function popupBackgroundColor() {
-    return Qt.rgba(16 / 255, 22 / 255, 50 / 255, 0.98)
+    return Qt.rgba(17 / 255, 22 / 255, 47 / 255, 0.98)
   }
 
   Process {
@@ -94,14 +94,14 @@ PanelWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Qt.rgba(9 / 255, 13 / 255, 30 / 255, 0.7)
+    color: Qt.rgba(8 / 255, 11 / 255, 24 / 255, 0.74)
 
     Rectangle {
       anchors.left: parent.left
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       height: 1
-      color: Qt.rgba(123 / 255, 137 / 255, 208 / 255, 0.16)
+      color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.22)
     }
 
     Rectangle {
@@ -109,9 +109,9 @@ PanelWindow {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
       radius: height / 2
-      color: Qt.rgba(15 / 255, 20 / 255, 42 / 255, 0.82)
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
       border.width: 1
-      border.color: Qt.rgba(62 / 255, 76 / 255, 136 / 255, 0.24)
+      border.color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
       implicitHeight: 42
       implicitWidth: workspaceRow.implicitWidth + 16
 
@@ -121,7 +121,7 @@ PanelWindow {
         anchors.top: parent.top
         height: parent.height / 2
         radius: parent.radius
-        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.018)
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
       }
 
       RowLayout {
@@ -133,9 +133,9 @@ PanelWindow {
         Rectangle {
           visible: root.currentSubmap && root.currentSubmap !== "default"
           radius: 11
-          color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.18)
+          color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.12)
           border.width: 1
-          border.color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.35)
+          border.color: Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.28)
           implicitHeight: 28
           implicitWidth: submapText.implicitWidth + 16
 
@@ -160,11 +160,11 @@ PanelWindow {
             visible: shown
             radius: 12
             color: modelData.focused
-              ? Qt.rgba(255 / 255, 0 / 255, 110 / 255, 0.18)
+              ? Qt.rgba(0 / 255, 240 / 255, 255 / 255, 0.14)
               : modelData.active
-                ? Qt.rgba(0 / 255, 240 / 255, 255 / 255, 0.08)
+                ? Qt.rgba(122 / 255, 162 / 255, 247 / 255, 0.1)
                 : hover.hovered
-                  ? Qt.rgba(157 / 255, 78 / 255, 221 / 255, 0.16)
+                  ? Qt.rgba(157 / 255, 78 / 255, 221 / 255, 0.12)
                   : "transparent"
             border.width: modelData.focused ? 1 : 0
             border.color: modelData.focused ? Theme.cyan : "transparent"
@@ -199,9 +199,9 @@ PanelWindow {
       anchors.rightMargin: 10
       anchors.verticalCenter: parent.verticalCenter
       radius: 19
-      color: Qt.rgba(15 / 255, 20 / 255, 42 / 255, 0.82)
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
       border.width: 1
-      border.color: Qt.rgba(68 / 255, 83 / 255, 154 / 255, 0.24)
+      border.color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
       implicitHeight: 42
       implicitWidth: preciseClockRow.implicitWidth + 26
 
@@ -211,7 +211,7 @@ PanelWindow {
         anchors.top: parent.top
         height: parent.height / 2
         radius: parent.radius
-        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.018)
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
       }
 
       RowLayout {
