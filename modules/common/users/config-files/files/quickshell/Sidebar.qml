@@ -1,7 +1,5 @@
 import Quickshell
-import Quickshell.Bluetooth
 import Quickshell.Hyprland
-import Quickshell.Networking
 import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 import QtQuick
@@ -74,11 +72,6 @@ PanelWindow {
   readonly property var sink: Pipewire.defaultAudioSink
   readonly property var battery: UPower.displayDevice
   readonly property int batteryPercent: Theme.batteryPercent(battery?.percentage)
-  readonly property var btAdapter: Bluetooth.defaultAdapter
-  readonly property var networkDevices: Networking.devices.values
-  readonly property var wifiDevice: networkDevices.find(device => device.type === DeviceType.Wifi) || null
-  readonly property var wifiNetworks: wifiDevice ? wifiDevice.networks.values : []
-  readonly property var activeWifiNetwork: wifiNetworks.find(network => network.connected) || null
   property var openPowerMenu: null
 
   function run(command) {
@@ -114,22 +107,6 @@ PanelWindow {
           radius: 16
           color: "transparent"
           border.width: 0
-        }
-
-        RailIconButton {
-          icon: activeWifiNetwork ? "󰤨" : (Networking.wifiEnabled ? "󰤥" : "󰤮")
-          accent: Theme.cyan
-          active: Networking.wifiEnabled
-          onClicked: Networking.wifiEnabled = !Networking.wifiEnabled
-          onRightClicked: root.run("nm-connection-editor")
-        }
-
-        RailIconButton {
-          icon: btAdapter?.enabled ? "󰂯" : "󰂲"
-          accent: Theme.purple
-          active: !!btAdapter?.enabled
-          onClicked: if (btAdapter) btAdapter.enabled = !btAdapter.enabled
-          onRightClicked: root.run("blueman-manager")
         }
 
         RailIconButton {
