@@ -1,6 +1,5 @@
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Layouts
@@ -69,7 +68,6 @@ PanelWindow {
     bottom: ShellGeometry.sidebarBottom
   }
 
-  readonly property var sink: Pipewire.defaultAudioSink
   readonly property var battery: UPower.displayDevice
   readonly property int batteryPercent: Theme.batteryPercent(battery?.percentage)
   property var openPowerMenu: null
@@ -107,14 +105,6 @@ PanelWindow {
           radius: 16
           color: "transparent"
           border.width: 0
-        }
-
-        RailIconButton {
-          icon: sink?.audio?.muted ? "󰝟" : Theme.audioIcon(sink?.audio?.volume || 0, false, false)
-          accent: Theme.pink
-          active: !(sink?.audio?.muted ?? false)
-          onClicked: if (sink?.audio) sink.audio.muted = !sink.audio.muted
-          onRightClicked: root.run("pavucontrol")
         }
 
         RailIconButton {
