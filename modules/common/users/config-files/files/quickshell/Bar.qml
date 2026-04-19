@@ -35,16 +35,17 @@ PanelWindow {
 
   property string openPopup: ""
   property bool audioPopupPinned: false
+  property bool batteryPopupPinned: false
   property bool bluetoothPopupPinned: false
   property bool networkPopupPinned: false
   property string currentSubmap: "default"
   property int chipHeight: 32
   property int popupWidth: 400
   property int compactPopupHeight: 276
-  property int batteryPopupHeight: 330
   property real pendingVolume: 0
+  readonly property var battery: UPower.displayDevice
+  readonly property var healthBattery: UPower.devices.values.find(device => device.isLaptopBattery) || null
   readonly property int batteryPercent: Theme.batteryPercent(root.battery?.percentage)
-  readonly property int batteryHealthPercent: Theme.batteryPercent(root.battery?.healthPercentage)
   readonly property var activeToplevel: Hyprland.activeToplevel
   readonly property var primaryWorkspaceIds: [1, 2, 3]
   readonly property var networkDevices: Networking.devices.values
@@ -73,6 +74,10 @@ PanelWindow {
     root.audioPopupPinned = !root.audioPopupPinned
   }
 
+  function toggleBatteryPopup() {
+    root.batteryPopupPinned = !root.batteryPopupPinned
+  }
+
   function toggleBluetoothPopup() {
     root.bluetoothPopupPinned = !root.bluetoothPopupPinned
   }
@@ -87,6 +92,10 @@ PanelWindow {
 
   function dismissAudioPopup() {
     root.audioPopupPinned = false
+  }
+
+  function dismissBatteryPopup() {
+    root.batteryPopupPinned = false
   }
 
   function openBluetoothSettings() {
@@ -347,8 +356,51 @@ PanelWindow {
     }
 
     Rectangle {
-      id: audioButton
+      id: batteryButton
       anchors.right: clockButton.left
+      anchors.rightMargin: 8
+      anchors.verticalCenter: parent.verticalCenter
+      radius: 19
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
+      border.width: 1
+      border.color: batteryHover.hovered
+        ? Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.3)
+        : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
+      implicitHeight: 42
+      implicitWidth: batteryChip.implicitWidth + 24
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: parent.height / 2
+        radius: parent.radius
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
+      }
+
+      BatteryChip {
+        id: batteryChip
+        anchors.centerIn: parent
+        batteryPercent: root.batteryPercent
+        charging: (root.battery?.timeToFull || 0) > 0
+        hovered: batteryHover.hovered
+      }
+
+      HoverHandler { id: batteryHover }
+
+      MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: mouse => {
+          if (mouse.button === Qt.RightButton) root.run("powerprofilesctl set balanced")
+          else root.toggleBatteryPopup()
+        }
+      }
+    }
+
+    Rectangle {
+      id: audioButton
+      anchors.right: batteryButton.left
       anchors.rightMargin: 8
       anchors.verticalCenter: parent.verticalCenter
       radius: 19
@@ -534,6 +586,20 @@ PanelWindow {
     runCommand: root.run
     pinnedOpen: root.audioPopupPinned
     dismissPopup: root.dismissAudioPopup
+  }
+
+  BatteryPopup {
+    id: batteryPopup
+    visible: root.batteryPopupPinned || batteryHover.hovered || popupHovered
+    anchorItem: batteryButton
+    popupColor: popupBackgroundColor()
+    popupWidth: 340
+    battery: root.battery
+    healthBattery: root.healthBattery
+    batteryPercent: root.batteryPercent
+    runCommand: root.run
+    pinnedOpen: root.batteryPopupPinned
+    dismissPopup: root.dismissBatteryPopup
   }
 
   BluetoothPopup {
