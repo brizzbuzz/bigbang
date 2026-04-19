@@ -24,16 +24,23 @@ Singleton {
   readonly property string monoFont: "JetBrainsMono Nerd Font"
 
   readonly property var workspaceNames: ({
-    1: "web",
-    2: "code",
-    3: "term",
-    4: "chat",
-    5: "docs",
-    6: "media",
-    7: "admin",
-    8: "scratch",
-    9: "remote",
-    10: "temp"
+    1: "chrome",
+    2: "term",
+    3: "passwords"
+  })
+
+  readonly property var workspaceAppNames: ({
+    "1password": "1password",
+    "1password 1password": "1password",
+    "chromium": "chromium",
+    "code": "code",
+    "code url handler": "code",
+    "google chrome": "chrome",
+    "google chrome stable": "chrome",
+    "mitchellh ghostty": "ghostty",
+    "foot": "foot",
+    "spotify": "spotify",
+    "spotify premium": "spotify"
   })
 
   function workspaceLabel(id) {
