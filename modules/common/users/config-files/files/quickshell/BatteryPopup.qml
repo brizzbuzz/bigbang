@@ -8,23 +8,77 @@ PopupWindow {
   required property var anchorItem
   required property color popupColor
   required property int popupWidth
-  required property int popupHeight
   required property var battery
+  required property var healthBattery
   required property int batteryPercent
-  required property int batteryHealthPercent
   required property var runCommand
-  property var openPowerMenu: null
+  required property bool pinnedOpen
+  required property var dismissPopup
+  property bool popupHovered: popupHover.hovered
 
   visible: false
-  grabFocus: true
+  grabFocus: pinnedOpen
   color: popupColor
   implicitWidth: popupWidth
-  implicitHeight: popupHeight
+  implicitHeight: 348
+
+  function batteryAccent() {
+    if (root.battery?.timeToFull > 0) return Theme.cyan
+    if (root.batteryPercent <= 15) return Theme.pink
+    if (root.batteryPercent <= 35) return Theme.yellow
+    return Theme.blue
+  }
+
+  function batteryStateLabel() {
+    if (root.battery?.timeToFull > 0) return "plugged in"
+    if (root.battery?.timeToEmpty > 0) return "on battery"
+    return "battery"
+  }
+
+  function changeRateWatts() {
+    return Math.abs(Number(root.battery?.changeRate || root.battery?.energyRate || 0))
+  }
+
+  function healthPercent() {
+    return Theme.batteryPercent(root.healthBattery?.healthPercentage)
+  }
+
+  function hasDrawInfo() {
+    return root.changeRateWatts() > 0
+  }
+
+  function hasHealthInfo() {
+    return !!root.healthBattery?.healthSupported && root.healthPercent() > 0
+  }
+
+  function timeMetricSeconds() {
+    return root.battery?.timeToFull > 0
+      ? Number(root.battery.timeToFull || 0)
+      : Number(root.battery?.timeToEmpty || 0)
+  }
+
+  function timeMetricLabel() {
+    return root.battery?.timeToFull > 0 ? "time to full" : "remaining"
+  }
+
+  function timeMetricText() {
+    return root.timeMetricSeconds() > 0 ? Theme.formatBatteryTime(root.timeMetricSeconds()) : "steady"
+  }
+
+  function metricBarRatio(kind) {
+    if (kind === "charge") return Math.max(0, Math.min(1, root.batteryPercent / 100))
+    if (kind === "time") return Math.max(0, Math.min(1, root.timeMetricSeconds() / (6 * 60 * 60)))
+    if (kind === "draw") return Math.max(0, Math.min(1, root.changeRateWatts() / 30))
+    return 0
+  }
+
+  onVisibleChanged: {
+    if (!visible && root.pinnedOpen) root.dismissPopup()
+  }
 
   anchor.item: anchorItem
-  anchor.edges: Edges.Bottom | Edges.Left
-  anchor.gravity: Edges.Bottom | Edges.Right
-  anchor.margins.top: 12
+  anchor.rect.x: anchorItem.width / 2 - width / 2
+  anchor.rect.y: anchorItem.height + 12
   anchor.adjustment: PopupAdjustment.All
 
   Rectangle {
@@ -34,34 +88,33 @@ PopupWindow {
     border.width: 1
     border.color: Theme.borderBright
 
-    Rectangle {
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.top: parent.top
-      height: 72
-      radius: parent.radius
-      color: Qt.rgba(122 / 255, 162 / 255, 247 / 255, 0.07)
-    }
+    HoverHandler { id: popupHover }
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 18
       spacing: 12
 
-      Text {
-        text: "Power"
-        color: Theme.yellow
-        font.family: Theme.monoFont
-        font.pixelSize: 16
-        font.weight: 800
-      }
+      RowLayout {
+        Layout.fillWidth: true
 
-      Text {
-        text: `${Theme.batteryIcon(root.batteryPercent, (root.battery?.timeToFull || 0) > 0)}  ${root.batteryPercent}%`
-        color: Theme.fg
-        font.family: Theme.monoFont
-        font.pixelSize: 28
-        font.weight: 700
+        Text {
+          text: "battery"
+          color: root.batteryAccent()
+          font.family: Theme.monoFont
+          font.pixelSize: 14
+          font.weight: 800
+        }
+
+        Item { Layout.fillWidth: true }
+
+        Text {
+          text: root.batteryStateLabel()
+          color: Theme.fgMuted
+          font.family: Theme.monoFont
+          font.pixelSize: 12
+          font.weight: 700
+        }
       }
 
       Rectangle {
@@ -70,7 +123,7 @@ PopupWindow {
         color: Theme.glassSoft
         border.width: 1
         border.color: Theme.border
-        implicitHeight: 72
+        implicitHeight: 84
 
         RowLayout {
           anchors.fill: parent
@@ -86,7 +139,7 @@ PopupWindow {
             Text {
               anchors.centerIn: parent
               text: Theme.batteryIcon(root.batteryPercent, (root.battery?.timeToFull || 0) > 0)
-              color: Theme.yellow
+              color: root.batteryAccent()
               font.family: Theme.monoFont
               font.pixelSize: 24
             }
@@ -94,14 +147,14 @@ PopupWindow {
 
           ColumnLayout {
             Layout.fillWidth: true
-            spacing: 2
+            spacing: 3
 
             Text {
-              text: root.battery?.timeToFull > 0 ? "Charging" : "Battery"
+              text: `${root.batteryPercent}%`
               color: Theme.fg
               font.family: Theme.monoFont
-              font.pixelSize: 13
-              font.weight: 700
+              font.pixelSize: 18
+              font.weight: 800
             }
 
             Text {
@@ -116,39 +169,70 @@ PopupWindow {
         }
       }
 
-      Text {
-        text: root.battery?.energyRate > 0 ? `Draw ${root.battery.energyRate.toFixed(1)}W` : "Energy rate unavailable"
-        color: Theme.fgMuted
-        font.family: Theme.monoFont
-        font.pixelSize: 13
-      }
+      Rectangle {
+        Layout.fillWidth: true
+        radius: 16
+        color: Theme.glassAlt
+        border.width: 1
+        border.color: Theme.border
+        implicitHeight: 190
 
-      Text {
-        text: root.battery?.healthSupported ? `Health ${root.batteryHealthPercent}%` : "Health unavailable"
-        color: Theme.fgMuted
-        font.family: Theme.monoFont
-        font.pixelSize: 13
-      }
+        ColumnLayout {
+          anchors.fill: parent
+          anchors.margins: 12
+          spacing: 10
 
-      RowLayout {
-        spacing: 10
+          Repeater {
+            model: [
+              { label: "charge", value: `${root.batteryPercent}%`, ratio: root.metricBarRatio("charge"), color: root.batteryAccent() },
+              { label: root.timeMetricLabel(), value: root.timeMetricText(), ratio: root.metricBarRatio("time"), color: Theme.blue },
+              { label: "draw", value: root.hasDrawInfo() ? `${root.changeRateWatts().toFixed(1)}W` : "steady", ratio: root.metricBarRatio("draw"), color: Theme.yellow },
+              { label: "health", value: root.hasHealthInfo() ? `${root.healthPercent()}%` : "n/a", ratio: root.hasHealthInfo() ? Math.max(0, Math.min(1, root.healthPercent() / 100)) : 0, color: Theme.purple }
+            ]
 
-        AccentButton {
-          text: "Power"
-          accent: Theme.yellow
-          onClicked: if (root.openPowerMenu) root.openPowerMenu()
-        }
+            delegate: ColumnLayout {
+              required property var modelData
 
-        AccentButton {
-          text: "Balanced"
-          accent: Theme.purple
-          onClicked: root.runCommand("powerprofilesctl set balanced")
-        }
+              Layout.fillWidth: true
+              spacing: 4
 
-        AccentButton {
-          text: "Saver"
-          accent: Theme.cyan
-          onClicked: root.runCommand("powerprofilesctl set power-saver")
+              RowLayout {
+                Layout.fillWidth: true
+
+                Text {
+                  text: modelData.label
+                  color: Theme.fgMuted
+                  font.family: Theme.monoFont
+                  font.pixelSize: 11
+                  font.weight: 700
+                }
+
+                Item { Layout.fillWidth: true }
+
+                Text {
+                  text: modelData.value
+                  color: Theme.fg
+                  font.family: Theme.monoFont
+                  font.pixelSize: 11
+                  font.weight: 700
+                }
+              }
+
+              Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: 6
+                radius: 999
+                color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.22)
+
+                Rectangle {
+                  width: Math.max(3, parent.width * modelData.ratio)
+                  height: parent.height
+                  radius: parent.radius
+                  color: modelData.color
+                }
+              }
+            }
+          }
         }
       }
     }

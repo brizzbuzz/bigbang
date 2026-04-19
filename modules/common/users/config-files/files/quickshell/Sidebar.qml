@@ -1,6 +1,5 @@
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Layouts
 import "."
@@ -68,8 +67,6 @@ PanelWindow {
     bottom: ShellGeometry.sidebarBottom
   }
 
-  readonly property var battery: UPower.displayDevice
-  readonly property int batteryPercent: Theme.batteryPercent(battery?.percentage)
   property var openPowerMenu: null
 
   function run(command) {
@@ -94,33 +91,6 @@ PanelWindow {
       anchors.fill: parent
       anchors.margins: 8
       spacing: 8
-
-      ColumnLayout {
-        Layout.fillWidth: true
-        spacing: 6
-
-        Rectangle {
-          Layout.fillWidth: true
-          implicitHeight: 8
-          radius: 16
-          color: "transparent"
-          border.width: 0
-        }
-
-        RailIconButton {
-          icon: Theme.batteryIcon(batteryPercent, (battery?.timeToFull || 0) > 0)
-          accent: Theme.yellow
-          active: true
-          onClicked: if (root.openPowerMenu) root.openPowerMenu()
-          onRightClicked: root.run("powerprofilesctl set balanced")
-        }
-      }
-
-      Rectangle {
-        Layout.fillWidth: true
-        implicitHeight: 1
-        color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.16)
-      }
 
       Item { Layout.fillHeight: true }
 
