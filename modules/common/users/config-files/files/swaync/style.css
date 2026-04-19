@@ -2,9 +2,11 @@
 @define-color synthwave_cyan #00f0ff;
 @define-color synthwave_purple #9d4edd;
 @define-color synthwave_yellow #ffea00;
+@define-color synthwave_blue #7aa2f7;
 @define-color synthwave_bg #0a0e27;
-@define-color synthwave_fg #e0e0e0;
-@define-color synthwave_dark #050818;
+@define-color synthwave_fg #d9def2;
+@define-color synthwave_muted #8b93b8;
+@define-color synthwave_dark #10162b;
 
 * {
   font-family: "JetBrainsMono Nerd Font", monospace;
@@ -22,7 +24,7 @@
 .control-center {
   background: alpha(@synthwave_bg, 0.96);
   color: @synthwave_fg;
-  border: 1px solid alpha(@synthwave_purple, 0.4);
+  border: 1px solid alpha(@synthwave_blue, 0.32);
   border-radius: 18px;
   padding: 14px;
 }
@@ -36,7 +38,7 @@
 .notification {
   background: alpha(@synthwave_dark, 0.92);
   color: @synthwave_fg;
-  border: 1px solid alpha(@synthwave_cyan, 0.25);
+  border: 1px solid alpha(@synthwave_blue, 0.26);
   border-radius: 14px;
   padding: 12px;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
@@ -51,7 +53,7 @@
 }
 
 .summary {
-  color: @synthwave_cyan;
+  color: @synthwave_blue;
   font-weight: 700;
 }
 
@@ -65,15 +67,15 @@
 .notification-action,
 .notification-default-action,
 button {
-  background: alpha(@synthwave_purple, 0.18);
-  border: 1px solid alpha(@synthwave_purple, 0.35);
+  background: alpha(@synthwave_purple, 0.14);
+  border: 1px solid alpha(@synthwave_blue, 0.24);
   border-radius: 10px;
 }
 
 .notification-action:hover,
 .notification-default-action:hover,
 button:hover {
-  background: alpha(@synthwave_pink, 0.22);
+  background: alpha(@synthwave_pink, 0.16);
   border-color: alpha(@synthwave_cyan, 0.4);
 }
 
@@ -97,8 +99,8 @@ button:hover {
 .widget-volume,
 .widget-backlight,
 .widget-buttons {
-  background: alpha(@synthwave_dark, 0.58);
-  border: 1px solid alpha(@synthwave_purple, 0.24);
+  background: alpha(@synthwave_dark, 0.68);
+  border: 1px solid alpha(@synthwave_blue, 0.2);
   border-radius: 14px;
   padding: 12px;
 }
@@ -115,7 +117,7 @@ button:hover {
 }
 
 .widget-mpris-subtitle {
-  color: alpha(@synthwave_fg, 0.78);
+  color: @synthwave_muted;
 }
 
 .widget-volume label,

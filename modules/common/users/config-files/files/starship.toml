@@ -1,8 +1,8 @@
-# Synthwave Cyberpunk Theme - Matching Ghostty retro aesthetic
-# Inspired by 80s neon and hacker culture
+# TokyoNight-cyberpunk prompt
+# Calm indigo base with neon cyan and pink accents
 
 format = """
-[╭─](bold purple)\
+[╭─](bold #7aa2f7)\
 $username\
 $hostname\
 $directory\
@@ -15,45 +15,40 @@ $nodejs\
 $golang\
 $docker_context\
 $time
-[╰─](bold purple)$character"""
+[╰─](bold #7aa2f7)$character"""
 
-# Neon purple/pink prompt character (classic synthwave)
+# Cyan-led focus with pink used for energy and urgency
 [character]
-success_symbol = "[▶](bold bright-magenta)"
-error_symbol = "[▶](bold red)"
-vimcmd_symbol = "[◀](bold bright-cyan)"
+success_symbol = "[▶](bold #00f0ff)"
+error_symbol = "[▶](bold #ff006e)"
+vimcmd_symbol = "[◀](bold #7aa2f7)"
 
-# Bright cyan username (hacker aesthetic)
 [username]
 format = "[$user]($style)@"
-style_user = "bold bright-cyan"
+style_user = "bold #00f0ff"
 style_root = "bold red"
 show_always = false
 
-# Pink hostname for that retro vibe
 [hostname]
 format = "[$hostname]($style) "
-style = "bold bright-magenta"
+style = "bold #ff79c6"
 ssh_only = true
 
-# Directory with neon green (terminal classic)
 [directory]
 truncation_length = 3
 truncate_to_repo = false
 format = "[$path]($style) "
-style = "bold bright-green"
+style = "bold #9ece6a"
 truncation_symbol = "…/"
 
-# Git branch with purple/pink gradient feel
 [git_branch]
 symbol = " "
 format = "[$symbol$branch]($style) "
-style = "bold purple"
+style = "bold #bb9af7"
 
-# Git status with bright colors
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold bright-yellow"
+style = "bold #ffea00"
 conflicted = "≠"
 ahead = "⇡${count}"
 behind = "⇣${count}"
@@ -68,38 +63,36 @@ deleted = "✘"
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bold bright-yellow"
+style = "bold #ffea00"
 
-# Language indicators with cyberpunk colors
 [python]
 symbol = " "
 format = '[$symbol$version]($style) '
-style = "bold bright-blue"
+style = "bold #7dcfff"
 
 [rust]
 symbol = " "
 format = '[$symbol$version]($style) '
-style = "bold bright-red"
+style = "bold #f7768e"
 
 [nodejs]
 symbol = " "
 format = '[$symbol$version]($style) '
-style = "bold bright-green"
+style = "bold #9ece6a"
 
 [golang]
 symbol = " "
 format = '[$symbol$version]($style) '
-style = "bold bright-cyan"
+style = "bold #00f0ff"
 
 [docker_context]
 symbol = " "
 format = '[$symbol$context]($style) '
-style = "bold bright-blue"
+style = "bold #7aa2f7"
 
-# Optional time display with neon blue
 [time]
 disabled = false
 format = '[$time]($style) '
-style = "bold bright-blue"
+style = "bold #565f89"
 time_format = "%T"
 use_12hr = false

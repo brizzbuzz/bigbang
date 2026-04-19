@@ -1,8 +1,32 @@
-// Synthwave cyberpunk aesthetic matching Ghostty terminal
-theme "retro-wave"
+// Balanced TokyoNight-cyberpunk palette shared with the desktop
+themes {
+    tokyo-cyber {
+        fg 205 214 244
+        bg 10 14 39
+        black 26 27 38
+        red 255 0 110
+        green 158 206 106
+        yellow 255 234 0
+        blue 122 162 247
+        magenta 157 78 221
+        orange 255 159 28
+        cyan 0 240 255
+        white 224 224 224
+    }
+}
+
+theme "tokyo-cyber"
 
 // Use nushell as the default shell in Zellij panes/tabs
 default_shell "/run/current-system/sw/bin/nu"
+
+// Keep the UI calm and focused in the terminal stack
+default_layout "compact"
+{{COPY_COMMAND}}
+pane_frames true
+mouse_mode true
+styled_underlines true
+session_serialization true
 
 // Disable startup tips and release notes
 show_startup_tips false
@@ -10,19 +34,29 @@ show_release_notes false
 
 keybinds {
     normal {
-        // Vim-style pane navigation with Alt
-        bind "Alt h" { MoveFocus "Left"; }
-        bind "Alt l" { MoveFocus "Right"; }
-        bind "Alt j" { MoveFocus "Down"; }
-        bind "Alt k" { MoveFocus "Up"; }
-        
-        // macOS native keybindings (forwarded from Ghostty)
-        // These match standard macOS Terminal.app behavior
-        bind "Super c" { Copy; }                    // Cmd+C to copy
-        bind "Super Alt Left" { GoToPreviousTab; }  // Cmd+Alt+Left for prev tab
-        bind "Super Alt Right" { GoToNextTab; }     // Cmd+Alt+Right for next tab
-        bind "Super w" { CloseTab; }                // Cmd+W to close tab
-        bind "Super n" { NewTab; }                  // Cmd+N for new tab
-        bind "Super t" { NewTab; }                  // Cmd+T for new tab (alternative)
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt 6" { GoToTab 6; }
+        bind "Alt 7" { GoToTab 7; }
+        bind "Alt 8" { GoToTab 8; }
+        bind "Alt 9" { GoToTab 9; }
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
+        bind "Alt n" { NewTab; }
+        bind "Alt w" { CloseTab; }
+    }
+    shared_except "locked" {
+        // Linux-first pane navigation and movement
+        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt H" { MovePane "Left"; }
+        bind "Alt J" { MovePane "Down"; }
+        bind "Alt K" { MovePane "Up"; }
+        bind "Alt L" { MovePane "Right"; }
     }
 }

@@ -39,7 +39,7 @@ PopupWindow {
       anchors.top: parent.top
       height: 68
       radius: parent.radius
-      color: Qt.rgba(255 / 255, 0 / 255, 110 / 255, 0.08)
+      color: Qt.rgba(0 / 255, 240 / 255, 255 / 255, 0.07)
     }
 
     ColumnLayout {
@@ -123,7 +123,7 @@ PopupWindow {
           width: volumeSlider.availableWidth
           height: 10
           radius: 999
-          color: Qt.rgba(224 / 255, 224 / 255, 224 / 255, 0.12)
+          color: Qt.rgba(139 / 255, 147 / 255, 184 / 255, 0.18)
 
           Rectangle {
             width: volumeSlider.visualPosition * parent.width
