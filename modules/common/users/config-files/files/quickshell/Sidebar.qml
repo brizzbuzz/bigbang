@@ -85,10 +85,12 @@ PanelWindow {
       color: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.18)
     }
 
-    ColumnLayout {
+    MatrixSidebar {
       anchors.fill: parent
-      anchors.margins: 8
-      spacing: 8
+      anchors.leftMargin: 0
+      anchors.rightMargin: 2
+      anchors.topMargin: 4
+      anchors.bottomMargin: 4
     }
   }
 }

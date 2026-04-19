@@ -4,7 +4,7 @@ import Quickshell
 
 Singleton {
   readonly property int sidebarWidth: 78
-  readonly property int sidebarLeft: 12
+  readonly property int sidebarLeft: 0
   readonly property int sidebarBottom: 14
 
   readonly property int barHeight: 50
