@@ -43,6 +43,7 @@ PanelWindow {
   readonly property int batteryPercent: Theme.batteryPercent(root.battery?.percentage)
   readonly property int batteryHealthPercent: Theme.batteryPercent(root.battery?.healthPercentage)
   readonly property var activeToplevel: Hyprland.activeToplevel
+  readonly property var primaryWorkspaceIds: [1, 2, 3]
   property date preciseNow: new Date()
 
   function togglePopup(name) {
@@ -54,11 +55,58 @@ PanelWindow {
   }
 
   function workspaceVisible(workspace) {
-    return workspace && workspace.id > 0 && workspace.id <= 10
+    if (!workspace || workspace.id <= 0) return false
+    return root.primaryWorkspaceIds.indexOf(workspace.id) !== -1 || root.workspaceClients(workspace.id).length > 0
+  }
+
+  function formatWorkspaceToken(value) {
+    return String(value || "")
+      .replace(/^com\./, "")
+      .replace(/[-_.]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase()
+  }
+
+  function workspaceClientLabel(toplevel) {
+    const rawApp = root.formatWorkspaceToken(toplevel?.appId || toplevel?.class)
+    if (Theme.workspaceAppNames[rawApp]) return Theme.workspaceAppNames[rawApp]
+    if (rawApp) return rawApp
+
+    const rawTitle = root.formatWorkspaceToken(toplevel?.title)
+    if (Theme.workspaceAppNames[rawTitle]) return Theme.workspaceAppNames[rawTitle]
+    return rawTitle || "window"
+  }
+
+  function workspaceClients(workspaceId) {
+    const clients = Hyprland.toplevels.values || []
+    return clients.filter(client => client?.workspace?.id === workspaceId)
+  }
+
+  function workspaceClientLabels(workspace) {
+    if (!workspace) return []
+
+    const labels = []
+    const clients = root.workspaceClients(workspace.id)
+
+    for (const client of clients) {
+      const label = root.workspaceClientLabel(client)
+      if (label && labels.indexOf(label) === -1) labels.push(label)
+    }
+
+    return labels
   }
 
   function workspaceDisplay(workspace) {
-    return Theme.workspaceText(workspace.id)
+    if (root.primaryWorkspaceIds.indexOf(workspace.id) !== -1) {
+      return `${workspace.id} ${Theme.workspaceLabel(workspace.id)}`
+    }
+
+    const labels = root.workspaceClientLabels(workspace)
+    if (!labels.length) return String(workspace.id)
+
+    const text = `${workspace.id} ${labels.join(" + ")}`
+    return text.length > 32 ? `${text.slice(0, 31)}…` : text
   }
 
   function popupBackgroundColor() {
@@ -169,16 +217,21 @@ PanelWindow {
             border.width: modelData.focused ? 1 : 0
             border.color: modelData.focused ? Theme.cyan : "transparent"
             implicitHeight: 28
-            implicitWidth: wsText.implicitWidth + 20
+            implicitWidth: Math.min(260, wsText.implicitWidth + 20)
 
             Text {
               id: wsText
-              anchors.centerIn: parent
+              anchors.verticalCenter: parent.verticalCenter
+              anchors.left: parent.left
+              anchors.right: parent.right
+              anchors.margins: 10
               text: root.workspaceDisplay(modelData)
-              color: modelData.focused ? Theme.cyan : (modelData.toplevels.count > 0 ? Theme.fg : Theme.fgMuted)
+              color: modelData.focused ? Theme.cyan : (root.workspaceClients(modelData.id).length > 0 ? Theme.fg : Theme.fgMuted)
               font.family: Theme.monoFont
               font.pixelSize: 12
               font.weight: modelData.focused ? 700 : 600
+              horizontalAlignment: Text.AlignHCenter
+              elide: Text.ElideRight
             }
 
             HoverHandler { id: hover }
