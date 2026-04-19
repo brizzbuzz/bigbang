@@ -27,6 +27,24 @@
 
   services.fwupd.enable = true;
 
+  boot.initrd = {
+    # Use the modern systemd initrd path so the root LUKS volume can be
+    # unlocked with a FIDO2 security key enrolled via systemd-cryptenroll.
+    systemd = {
+      enable = true;
+      fido2.enable = true;
+    };
+
+    availableKernelModules = ["usbhid"];
+    luks = {
+      fido2Support = false;
+      devices.crypted.crypttabExtraOpts = [
+        "fido2-device=auto"
+        "token-timeout=10s"
+      ];
+    };
+  };
+
   services.onepassword-secrets = {
     enable = true;
     tokenFile = "/etc/opnix-token";

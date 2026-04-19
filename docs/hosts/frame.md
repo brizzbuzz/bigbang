@@ -27,6 +27,8 @@
 
 `frame` uses Disko and a LUKS-on-btrfs layout.
 
+The root LUKS volume is configured for systemd-initrd unlock with an enrolled FIDO2 token as an alternative to the normal passphrase.
+
 The main subvolumes are:
 
 - `/`
@@ -34,6 +36,18 @@ The main subvolumes are:
 - `/nix`
 - `/persist`
 - `/var/log`
+
+## LUKS Unlock Model
+
+- the root LUKS mapping is `crypted`
+- the current encrypted partition is `/dev/nvme0n1p2`
+- boot uses `systemd` initrd instead of the older scripted initrd path
+- boot tries `fido2-device=auto` first, then falls back to passphrase after a short timeout
+- the Disko `passwordFile` entry is only for provisioning and is not the runtime unlock mechanism
+
+If the boot UI looks noisy or slightly alarming, that is expected. The successful path is to press the YubiKey when prompted by the initrd.
+
+For rebuild, recovery, or re-enrollment steps, see `docs/runbooks/frame-luks-yubikey.md`.
 
 ## How It Fits Into The System
 
@@ -52,3 +66,4 @@ It exists to:
 - `hosts/frame/hypr/monitors.conf`
 - `modules/nixos/default.nix`
 - `modules/common/`
+- `docs/runbooks/frame-luks-yubikey.md`

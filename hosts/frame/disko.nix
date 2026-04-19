@@ -25,7 +25,8 @@
               content = {
                 type = "luks";
                 name = "crypted";
-                # Interactive password entry at boot
+                # Disko uses this during provisioning; boot-time unlock is
+                # configured separately through NixOS initrd settings.
                 passwordFile = "/tmp/secret.key";
                 settings = {
                   allowDiscards = true; # Enable TRIM for SSD
