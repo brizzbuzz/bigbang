@@ -38,6 +38,7 @@ PanelWindow {
   property bool batteryPopupPinned: false
   property bool bluetoothPopupPinned: false
   property bool networkPopupPinned: false
+  property var openPowerMenu: null
   property string currentSubmap: "default"
   property int chipHeight: 32
   property int popupWidth: 400
@@ -487,9 +488,47 @@ PanelWindow {
     }
 
     Rectangle {
-      id: clockButton
+      id: powerButton
       anchors.right: parent.right
       anchors.rightMargin: 10
+      anchors.verticalCenter: parent.verticalCenter
+      radius: 19
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
+      border.width: 1
+      border.color: powerHover.hovered ? Qt.rgba(255 / 255, 234 / 255, 0 / 255, 0.32) : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
+      implicitHeight: 42
+      implicitWidth: 60
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: parent.height / 2
+        radius: parent.radius
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
+      }
+
+      Text {
+        anchors.centerIn: parent
+        text: "󰐥"
+        color: Qt.tint(Theme.yellow, Qt.rgba(1, 1, 1, powerHover.hovered ? 0.12 : 0))
+        font.family: Theme.monoFont
+        font.pixelSize: 18
+        font.weight: 700
+      }
+
+      HoverHandler { id: powerHover }
+
+      MouseArea {
+        anchors.fill: parent
+        onClicked: if (root.openPowerMenu) root.openPowerMenu()
+      }
+    }
+
+    Rectangle {
+      id: clockButton
+      anchors.right: powerButton.left
+      anchors.rightMargin: 8
       anchors.verticalCenter: parent.verticalCenter
       radius: 19
       color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)

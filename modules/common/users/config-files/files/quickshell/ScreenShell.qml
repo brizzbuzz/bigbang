@@ -22,11 +22,11 @@ Scope {
 
   Bar {
     screen: root.screen
+    openPowerMenu: root.openPowerOverlay
   }
 
   Sidebar {
     screen: root.screen
-    openPowerMenu: root.openPowerOverlay
   }
 
   PowerOverlay {

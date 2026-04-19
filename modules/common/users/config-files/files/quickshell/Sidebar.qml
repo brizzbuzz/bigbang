@@ -67,8 +67,6 @@ PanelWindow {
     bottom: ShellGeometry.sidebarBottom
   }
 
-  property var openPowerMenu: null
-
   function run(command) {
     Hyprland.dispatch(`exec ${command}`)
   }
@@ -91,22 +89,6 @@ PanelWindow {
       anchors.fill: parent
       anchors.margins: 8
       spacing: 8
-
-      Item { Layout.fillHeight: true }
-
-      ColumnLayout {
-        Layout.fillWidth: true
-        Layout.alignment: Qt.AlignBottom
-        spacing: 0
-
-        RailIconButton {
-          icon: "󰐥"
-          compact: false
-          accent: Theme.yellow
-          active: true
-          onClicked: if (root.openPowerMenu) root.openPowerMenu()
-        }
-      }
     }
   }
 }
