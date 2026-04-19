@@ -34,6 +34,8 @@ PanelWindow {
   }
 
   property string openPopup: ""
+  property bool bluetoothPopupPinned: false
+  property bool networkPopupPinned: false
   property string currentSubmap: "default"
   property int chipHeight: 32
   property int popupWidth: 400
@@ -44,10 +46,40 @@ PanelWindow {
   readonly property int batteryHealthPercent: Theme.batteryPercent(root.battery?.healthPercentage)
   readonly property var activeToplevel: Hyprland.activeToplevel
   readonly property var primaryWorkspaceIds: [1, 2, 3]
+  readonly property var networkDevices: Networking.devices.values
+  readonly property var bluetoothAdapter: Bluetooth.defaultAdapter
+  readonly property var bluetoothDevices: Bluetooth.devices.values
+  readonly property var connectedBluetoothDevices: bluetoothDevices.filter(device => device.connected)
+  readonly property var primaryBluetoothDevice: connectedBluetoothDevices.length === 1 ? connectedBluetoothDevices[0] : null
+  readonly property var activeNetworkDevice: networkDevices.find(device => device.connected) || null
+  readonly property var wifiDevice: networkDevices.find(device => device.type === DeviceType.Wifi) || null
+  readonly property var wifiNetworks: wifiDevice ? wifiDevice.networks.values : []
+  readonly property var activeWifiNetwork: wifiNetworks.find(network => network.connected) || null
+  readonly property string activeInterfaceName: activeNetworkDevice?.name || wifiDevice?.name || ""
   property date preciseNow: new Date()
 
   function togglePopup(name) {
     openPopup = openPopup === name ? "" : name
+  }
+
+  function toggleNetworkPopup() {
+    root.networkPopupPinned = !root.networkPopupPinned
+  }
+
+  function toggleBluetoothPopup() {
+    root.bluetoothPopupPinned = !root.bluetoothPopupPinned
+  }
+
+  function dismissNetworkPopup() {
+    root.networkPopupPinned = false
+  }
+
+  function dismissBluetoothPopup() {
+    root.bluetoothPopupPinned = false
+  }
+
+  function openBluetoothSettings() {
+    root.run("blueman-manager")
   }
 
   function run(command) {
@@ -247,6 +279,94 @@ PanelWindow {
     }
 
     Rectangle {
+      id: bluetoothButton
+      anchors.right: networkButton.left
+      anchors.rightMargin: 8
+      anchors.verticalCenter: parent.verticalCenter
+      radius: 19
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
+      border.width: 1
+      border.color: bluetoothHover.hovered ? Qt.rgba(157 / 255, 78 / 255, 221 / 255, 0.34) : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
+      implicitHeight: 42
+      implicitWidth: 60
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: parent.height / 2
+        radius: parent.radius
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
+      }
+
+      BluetoothChip {
+        anchors.centerIn: parent
+        enabled: !!root.bluetoothAdapter?.enabled
+        connectedCount: root.connectedBluetoothDevices.length
+        hovered: bluetoothHover.hovered
+      }
+
+      HoverHandler { id: bluetoothHover }
+
+      MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: mouse => {
+          if (mouse.button === Qt.RightButton) root.openBluetoothSettings()
+          else root.toggleBluetoothPopup()
+        }
+      }
+    }
+
+    Rectangle {
+      id: networkButton
+      anchors.right: clockButton.left
+      anchors.rightMargin: 8
+      anchors.verticalCenter: parent.verticalCenter
+      radius: 19
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
+      border.width: 1
+      border.color: networkHover.hovered ? Qt.rgba(0 / 255, 240 / 255, 255 / 255, 0.34) : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
+      implicitHeight: 42
+      implicitWidth: 76
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: parent.height / 2
+        radius: parent.radius
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
+      }
+
+      NetworkStats {
+        id: networkStats
+        interfaceName: root.activeInterfaceName
+      }
+
+      NetworkMiniGraph {
+        anchors.centerIn: parent
+        downloadHistory: networkStats.downloadHistory
+        uploadHistory: networkStats.uploadHistory
+        maxRate: networkStats.graphMaxBps
+        downloadColor: Theme.cyan
+        uploadColor: Theme.pink
+        idleColor: Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.4)
+      }
+
+      HoverHandler { id: networkHover }
+
+      MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: mouse => {
+          if (mouse.button === Qt.RightButton) root.run("nm-connection-editor")
+          else root.toggleNetworkPopup()
+        }
+      }
+    }
+
+    Rectangle {
       id: clockButton
       anchors.right: parent.right
       anchors.rightMargin: 10
@@ -316,5 +436,35 @@ PanelWindow {
     popupWidth: root.popupWidth
     popupHeight: root.compactPopupHeight
     currentDate: root.preciseNow
+  }
+
+  NetworkPopup {
+    id: networkPopup
+    visible: root.networkPopupPinned || networkHover.hovered || popupHovered
+    anchorItem: networkButton
+    popupColor: popupBackgroundColor()
+    popupWidth: 320
+    pinnedOpen: root.networkPopupPinned
+    dismissPopup: root.dismissNetworkPopup
+    activeDevice: root.activeNetworkDevice
+    activeWifiNetwork: root.activeWifiNetwork
+    interfaceName: root.activeInterfaceName
+    downloadBps: networkStats.downloadBps
+    uploadBps: networkStats.uploadBps
+    peakDownloadBps: networkStats.peakDownloadBps
+    peakUploadBps: networkStats.peakUploadBps
+  }
+
+  BluetoothPopup {
+    id: bluetoothPopup
+    visible: root.bluetoothPopupPinned || bluetoothHover.hovered || popupHovered
+    anchorItem: bluetoothButton
+    popupColor: popupBackgroundColor()
+    popupWidth: 320
+    pinnedOpen: root.bluetoothPopupPinned
+    dismissPopup: root.dismissBluetoothPopup
+    adapter: root.bluetoothAdapter
+    connectedDevices: root.connectedBluetoothDevices
+    openSettings: root.openBluetoothSettings
   }
 }
