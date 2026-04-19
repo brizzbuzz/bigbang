@@ -34,6 +34,7 @@ PanelWindow {
   }
 
   property string openPopup: ""
+  property bool audioPopupPinned: false
   property bool bluetoothPopupPinned: false
   property bool networkPopupPinned: false
   property string currentSubmap: "default"
@@ -47,6 +48,8 @@ PanelWindow {
   readonly property var activeToplevel: Hyprland.activeToplevel
   readonly property var primaryWorkspaceIds: [1, 2, 3]
   readonly property var networkDevices: Networking.devices.values
+  readonly property var audioSinks: Pipewire.nodes.values.filter(node => node?.audio && node.isSink && !node.isStream)
+  readonly property var sink: Pipewire.defaultAudioSink
   readonly property var bluetoothAdapter: Bluetooth.defaultAdapter
   readonly property var bluetoothDevices: Bluetooth.devices.values
   readonly property var connectedBluetoothDevices: bluetoothDevices.filter(device => device.connected)
@@ -66,6 +69,10 @@ PanelWindow {
     root.networkPopupPinned = !root.networkPopupPinned
   }
 
+  function toggleAudioPopup() {
+    root.audioPopupPinned = !root.audioPopupPinned
+  }
+
   function toggleBluetoothPopup() {
     root.bluetoothPopupPinned = !root.bluetoothPopupPinned
   }
@@ -78,12 +85,29 @@ PanelWindow {
     root.bluetoothPopupPinned = false
   }
 
+  function dismissAudioPopup() {
+    root.audioPopupPinned = false
+  }
+
   function openBluetoothSettings() {
     root.run("blueman-manager")
   }
 
   function run(command) {
     Hyprland.dispatch(`exec ${command}`)
+  }
+
+  function trackedAudioObjects() {
+    const objects = []
+
+    if (root.sink) objects.push(root.sink)
+
+    for (const node of root.audioSinks) {
+      if (!node) continue
+      if (objects.indexOf(node) === -1) objects.push(node)
+    }
+
+    return objects
   }
 
   function workspaceVisible(workspace) {
@@ -170,6 +194,10 @@ PanelWindow {
     running: true
     repeat: true
     onTriggered: root.preciseNow = new Date()
+  }
+
+  PwObjectTracker {
+    objects: root.trackedAudioObjects()
   }
 
   Rectangle {
@@ -319,8 +347,48 @@ PanelWindow {
     }
 
     Rectangle {
-      id: networkButton
+      id: audioButton
       anchors.right: clockButton.left
+      anchors.rightMargin: 8
+      anchors.verticalCenter: parent.verticalCenter
+      radius: 19
+      color: Qt.rgba(17 / 255, 24 / 255, 43 / 255, 0.86)
+      border.width: 1
+      border.color: audioHover.hovered ? Qt.rgba(255 / 255, 0 / 255, 110 / 255, 0.3) : Qt.rgba(72 / 255, 83 / 255, 141 / 255, 0.3)
+      implicitHeight: 42
+      implicitWidth: 60
+
+      Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: parent.height / 2
+        radius: parent.radius
+        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.024)
+      }
+
+      AudioChip {
+        anchors.centerIn: parent
+        volume: root.sink?.audio?.volume || 0
+        muted: root.sink?.audio?.muted || false
+        hovered: audioHover.hovered
+      }
+
+      HoverHandler { id: audioHover }
+
+      MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: mouse => {
+          if (mouse.button === Qt.RightButton) root.run("pavucontrol")
+          else root.toggleAudioPopup()
+        }
+      }
+    }
+
+    Rectangle {
+      id: networkButton
+      anchors.right: audioButton.left
       anchors.rightMargin: 8
       anchors.verticalCenter: parent.verticalCenter
       radius: 19
@@ -453,6 +521,19 @@ PanelWindow {
     uploadBps: networkStats.uploadBps
     peakDownloadBps: networkStats.peakDownloadBps
     peakUploadBps: networkStats.peakUploadBps
+  }
+
+  AudioPopup {
+    id: audioPopup
+    visible: root.audioPopupPinned || audioHover.hovered || popupHovered
+    anchorItem: audioButton
+    popupColor: popupBackgroundColor()
+    popupWidth: 340
+    sink: root.sink
+    sinks: root.audioSinks
+    runCommand: root.run
+    pinnedOpen: root.audioPopupPinned
+    dismissPopup: root.dismissAudioPopup
   }
 
   BluetoothPopup {

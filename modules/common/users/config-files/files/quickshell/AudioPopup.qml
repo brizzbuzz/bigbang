@@ -1,7 +1,8 @@
 import Quickshell
+import Quickshell.Services.Pipewire
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
+import "."
 
 PopupWindow {
   id: root
@@ -9,21 +10,52 @@ PopupWindow {
   required property var anchorItem
   required property color popupColor
   required property int popupWidth
-  required property int popupHeight
   required property var sink
+  required property var sinks
   required property var runCommand
-  required property var setVolume
+  required property bool pinnedOpen
+  required property var dismissPopup
 
   visible: false
-  grabFocus: true
+  grabFocus: pinnedOpen
   color: popupColor
   implicitWidth: popupWidth
-  implicitHeight: popupHeight
+  implicitHeight: 360
+
+  property bool popupHovered: popupHover.hovered
+
+  function sinkLabel(sink) {
+    return sink?.description || sink?.nickname || sink?.name || "output"
+  }
+
+  function isCurrentSink(candidate) {
+    return candidate && root.sink && candidate.id === root.sink.id
+  }
+
+  function availableAlternateSinks() {
+    return (root.sinks || []).filter(candidate => candidate && !root.isCurrentSink(candidate))
+  }
+
+  function currentVolume() {
+    return root.sink?.audio?.volume || 0
+  }
+
+  function setVolume(nextVolume) {
+    if (!root.sink?.audio) return
+    root.sink.audio.volume = Math.max(0, Math.min(1.0, nextVolume))
+  }
+
+  function nudgeVolume(delta) {
+    root.setVolume(root.currentVolume() + delta)
+  }
+
+  onVisibleChanged: {
+    if (!visible && root.pinnedOpen) root.dismissPopup()
+  }
 
   anchor.item: anchorItem
-  anchor.edges: Edges.Bottom | Edges.Left
-  anchor.gravity: Edges.Bottom | Edges.Right
-  anchor.margins.top: 12
+  anchor.rect.x: anchorItem.width / 2 - width / 2
+  anchor.rect.y: anchorItem.height + 12
   anchor.adjustment: PopupAdjustment.All
 
   Rectangle {
@@ -33,33 +65,25 @@ PopupWindow {
     border.width: 1
     border.color: Theme.borderBright
 
-    Rectangle {
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.top: parent.top
-      height: 68
-      radius: parent.radius
-      color: Qt.rgba(0 / 255, 240 / 255, 255 / 255, 0.07)
-    }
+    HoverHandler { id: popupHover }
 
     ColumnLayout {
       anchors.fill: parent
       anchors.margins: 18
-      spacing: 16
+      spacing: 12
 
-      Text {
-        text: "Audio"
-        color: Theme.cyan
-        font.family: Theme.monoFont
-        font.pixelSize: 16
-        font.weight: 800
-      }
+      RowLayout {
+        Layout.fillWidth: true
 
-      Text {
-        text: root.sink?.audio?.muted ? "Muted" : `Output level ${Theme.percent(volumeSlider.pressed ? volumeSlider.value : root.sink?.audio?.volume)}%`
-        color: Theme.fg
-        font.family: Theme.monoFont
-        font.pixelSize: 14
+        Text {
+          text: "audio"
+          color: Theme.pink
+          font.family: Theme.monoFont
+          font.pixelSize: 14
+          font.weight: 800
+        }
+
+        Item { Layout.fillWidth: true }
       }
 
       Rectangle {
@@ -68,7 +92,7 @@ PopupWindow {
         color: Theme.glassSoft
         border.width: 1
         border.color: Theme.border
-        implicitHeight: 56
+        implicitHeight: 64
 
         RowLayout {
           anchors.fill: parent
@@ -87,7 +111,7 @@ PopupWindow {
             spacing: 2
 
             Text {
-              text: root.sink?.description || "Default output"
+              text: root.sinkLabel(root.sink)
               color: Theme.fg
               elide: Text.ElideRight
               font.family: Theme.monoFont
@@ -96,7 +120,7 @@ PopupWindow {
             }
 
             Text {
-              text: root.sink?.audio?.muted ? "Muted" : `${Theme.percent(volumeSlider.pressed ? volumeSlider.value : root.sink?.audio?.volume)}% volume`
+              text: root.sink?.audio?.muted ? "Muted" : "Default output"
               color: Theme.fgMuted
               font.family: Theme.monoFont
               font.pixelSize: 12
@@ -105,43 +129,135 @@ PopupWindow {
         }
       }
 
-      Slider {
-        id: volumeSlider
-        from: 0
-        to: 1.5
-        live: true
-        value: 0
+      ColumnLayout {
         Layout.fillWidth: true
+        spacing: 10
 
-        onPressedChanged: {
-          if (!pressed) root.setVolume(value)
-        }
-
-        background: Rectangle {
-          x: volumeSlider.leftPadding
-          y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-          width: volumeSlider.availableWidth
-          height: 10
+        Rectangle {
+          Layout.fillWidth: true
+          implicitHeight: 10
           radius: 999
           color: Qt.rgba(139 / 255, 147 / 255, 184 / 255, 0.18)
 
           Rectangle {
-            width: volumeSlider.visualPosition * parent.width
+            width: parent.width * Math.min(1, Math.max(0, root.currentVolume()))
             height: parent.height
             radius: 999
             color: Theme.cyan
           }
         }
 
-        handle: Rectangle {
-          x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-          y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-          width: 18
-          height: 18
-          radius: 999
-          color: Theme.fg
-          border.width: 2
-          border.color: Theme.cyan
+        RowLayout {
+          Layout.fillWidth: true
+          spacing: 10
+
+          AccentButton {
+            text: "−"
+            accent: Theme.purple
+            onClicked: root.nudgeVolume(-0.05)
+          }
+
+          Item { Layout.fillWidth: true }
+
+          Text {
+            text: root.sink?.audio?.muted ? "muted" : `${Theme.percent(root.currentVolume())}`
+            color: Theme.fg
+            font.family: Theme.monoFont
+            font.pixelSize: 12
+            font.weight: 700
+            Layout.alignment: Qt.AlignVCenter
+          }
+
+          Item { Layout.fillWidth: true }
+
+          AccentButton {
+            text: "+"
+            accent: Theme.cyan
+            onClicked: root.nudgeVolume(0.05)
+          }
+        }
+      }
+
+      ColumnLayout {
+        Layout.fillWidth: true
+        spacing: 8
+
+        Text {
+          text: root.availableAlternateSinks().length > 0 ? "outputs" : "no other outputs"
+          color: Theme.fgMuted
+          font.family: Theme.monoFont
+          font.pixelSize: 11
+          font.weight: 700
+        }
+
+        Repeater {
+          model: root.availableAlternateSinks()
+
+          delegate: Rectangle {
+            required property var modelData
+
+            Layout.fillWidth: true
+            radius: 14
+            color: root.isCurrentSink(modelData)
+              ? Qt.rgba(255 / 255, 0 / 255, 110 / 255, 0.1)
+              : rowHover.hovered
+                ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.05)
+                : Theme.glassAlt
+            border.width: 1
+            border.color: root.isCurrentSink(modelData)
+              ? Qt.rgba(255 / 255, 0 / 255, 110 / 255, 0.3)
+              : Theme.border
+            implicitHeight: 48
+
+            RowLayout {
+              anchors.fill: parent
+              anchors.margins: 12
+              spacing: 10
+
+              Text {
+                text: "󰕾"
+                color: Theme.fgMuted
+                font.family: Theme.monoFont
+                font.pixelSize: 15
+              }
+
+              Text {
+                Layout.fillWidth: true
+                text: root.sinkLabel(modelData)
+                color: Theme.fg
+                elide: Text.ElideRight
+                font.family: Theme.monoFont
+                font.pixelSize: 12
+                font.weight: 600
+              }
+            }
+
+            HoverHandler { id: rowHover }
+
+            MouseArea {
+              anchors.fill: parent
+              onClicked: Pipewire.preferredDefaultAudioSink = parent.modelData
+            }
+          }
+        }
+
+        Rectangle {
+          visible: root.availableAlternateSinks().length === 0
+          Layout.fillWidth: true
+          radius: 14
+          color: Theme.glassAlt
+          border.width: 1
+          border.color: Theme.border
+          implicitHeight: 44
+
+          Text {
+            anchors.centerIn: parent
+            text: "current output only"
+            color: Theme.fgMuted
+            font.family: Theme.monoFont
+            font.pixelSize: 12
+            font.weight: 700
+          }
         }
       }
 
@@ -164,12 +280,10 @@ PopupWindow {
       Connections {
         target: root.sink?.audio || null
 
-        function onVolumeChanged() {
-          if (!volumeSlider.pressed) volumeSlider.value = root.sink.audio.volume
+        function onMutedChanged() {
+          // Keep bindings reactive when mute state changes.
         }
       }
-
-      Component.onCompleted: volumeSlider.value = root.sink?.audio?.volume || 0
     }
   }
 }
