@@ -21,6 +21,14 @@
 - If both a base skill and a companion skill exist, use them together.
 - If a companion skill references repo docs, read those docs before making a plan.
 
+## Pull Requests
+
+- Any request to create or open a pull request must load and follow the `git-commit-and-draft-pr` skill.
+- Default to draft pull requests unless the user explicitly asks for ready-for-review.
+- Pass pull request bodies to `gh` as clean rendered Markdown only.
+- Never pass shell construction text such as `$(cat <<'EOF'`, `EOF`, or trailing `)` into a pull request title, body, or comment.
+- Never post the pull request body template as a GitHub comment unless the user explicitly asks for that comment.
+
 ## Project Command Execution
 
 - When a repository provides tooling through `flake.nix`, prefer running project commands via `nix develop` so they use the repo's pinned environment.
