@@ -82,10 +82,12 @@ Only do this when the user has explicitly asked to create a PR.
 2. Confirm the branch is based on the latest practical `origin/main`; if not, prefer rebasing before pushing.
 3. Push the current branch with `git push -u origin <branch>`.
 4. Use `gh pr create --draft`; draft mode is the default for this skill and should only be omitted if the user explicitly asks for a ready-for-review PR.
-5. Pass the PR body as rendered Markdown, not as shell source code.
-6. If you use a heredoc or temporary file to construct the body, ensure only the rendered Markdown is passed to `gh`; never include shell wrappers like `$(cat <<'EOF'`, `EOF`, or `)` in the PR text.
-7. Use the PR body template below unless the user asks for a different structure.
-8. Return the PR URL.
+5. Build the PR body as a plain Markdown string or write the Markdown to a temporary file and pass that rendered content to `gh`.
+6. If you use a heredoc or temporary file, treat it as an implementation detail only; never include shell wrappers like `$(cat <<'EOF'`, `EOF`, or `)` in the PR text.
+7. Before calling `gh pr create`, do a final sanity check that the title and body contain only the intended rendered Markdown and no shell syntax.
+8. Never post the PR body template as a GitHub comment unless the user explicitly asks for that comment.
+9. Use the PR body template below unless the user asks for a different structure.
+10. Return the PR URL.
 
 ## PR body template
 
@@ -111,3 +113,4 @@ Only do this when the user has explicitly asked to create a PR.
 - Prefer standard `git` workflows; do not assume GitButler or any alternate VCS tooling.
 - If signing or transport fails, prefer small SSH config diagnostics over inventing a parallel auth workflow.
 - Never paste shell construction syntax into a PR body; the PR body must be clean Markdown.
+- Never post the PR body template as a GitHub comment unless the user explicitly requests that exact comment.
