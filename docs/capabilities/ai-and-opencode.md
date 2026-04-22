@@ -110,6 +110,6 @@ After changing the OpenCode config in this repo and deploying `ganymede`, verify
 Check at minimum:
 
 - `AGENTS.md` contains the global PR safety rules
-- `commands/` contains both `draft-pr.md` and `create-pr.md`
+- `commands/` contains `create-pr.md` as the single PR command entrypoint
 - `skills/git-commit-and-draft-pr/SKILL.md` contains the PR body sanity-check guidance
 - `opencode.json` still reflects the expected MCP set for `ryan` and `odyssey`

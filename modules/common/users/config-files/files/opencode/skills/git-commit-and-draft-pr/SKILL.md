@@ -100,10 +100,6 @@ Only do this when the user has explicitly asked to create a PR.
 ## Summary
 - <high-value change>
 - <high-value change>
-
-## Validation
-- `<command>`
-- `<command>`
 ```
 
 ## Safety rules
