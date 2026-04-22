@@ -53,9 +53,9 @@ That includes:
 
 Instead of a simple one-port reverse proxy, `callisto` routes:
 
-- WebSocket traffic to the Spacebar gateway on `ganymede:3003`
-- API traffic to the Spacebar API on `ganymede:3001`
-- everything else to the Spacebar CDN on `ganymede:3002`
+- WebSocket traffic to the Spacebar gateway on `ganymede:13003`
+- API traffic to the Spacebar API on `ganymede:13001`
+- everything else to the Spacebar CDN on `ganymede:13002`
 
 ## How It Fits Into The System
 

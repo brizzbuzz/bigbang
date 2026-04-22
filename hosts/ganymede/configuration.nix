@@ -240,19 +240,19 @@ in {
 
     apiEndpoint = {
       host = "chat.rgbr.ink";
-      localPort = 3001;
+      localPort = 13001;
       publicPort = 443;
       useSsl = true;
     };
     gatewayEndpoint = {
       host = "chat.rgbr.ink";
-      localPort = 3003;
+      localPort = 13003;
       publicPort = 443;
       useSsl = true;
     };
     cdnEndpoint = {
       host = "chat.rgbr.ink";
-      localPort = 3002;
+      localPort = 13002;
       publicPort = 443;
       useSsl = true;
     };
@@ -367,7 +367,7 @@ in {
   };
 
   # Keep Spacebar backend ports reachable for the public and internal chat proxies.
-  networking.firewall.allowedTCPPorts = [3001 3002 3003 7877];
+  networking.firewall.allowedTCPPorts = [7877 13001 13002 13003];
 
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
