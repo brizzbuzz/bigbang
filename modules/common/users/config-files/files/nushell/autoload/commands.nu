@@ -94,6 +94,30 @@ def "port using" [port: int  # Port number to inspect
     }
 }
 
+# Full Ithaca development port set used on odyssey@ganymede.
+def ithaca-dev-ports [] {
+    [3000 3001 3002 3003 3334 5433 6006 7700 8025 8080 9000 4567 4983 1026]
+}
+
+# Forward all Ithaca development ports to odyssey@ganymede.
+def "ithaca forward" [
+    --target: string = "odyssey@ganymede"  # SSH target to forward to
+    --print(-p)                             # Print the ssh command instead of running it
+] {
+    let ports = (ithaca-dev-ports)
+    let forwards = ($ports | each {|port| ["-L" $"($port):127.0.0.1:($port)"] } | flatten)
+    let ssh_args = (["-N" "-T" "-o" "ExitOnForwardFailure=yes"] ++ $forwards ++ [$target])
+
+    if $print {
+        print (["ssh"] ++ $ssh_args | str join " ")
+        return
+    }
+
+    print $"Forwarding Ithaca dev ports to ($target)"
+    print $"Ports: ($ports | each {|port| $port | into string } | str join ', ')"
+    ^ssh ...$ssh_args
+}
+
 # Upload an audiobook to the media library on ganymede.
 def upload-audiobook [
     local_file: string  # Local audiobook file to upload

@@ -307,7 +307,7 @@ in {
         header Upgrade websocket
       }
       handle @websockets {
-        reverse_proxy ${backendIp}:3003 {
+        reverse_proxy ${backendIp}:13003 {
           transport http {
             keepalive 2m
             versions 1.1
@@ -327,7 +327,7 @@ in {
         path /api/* /.well-known/*
       }
       handle @api {
-        reverse_proxy ${backendIp}:3001 {
+        reverse_proxy ${backendIp}:13001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -346,7 +346,7 @@ in {
         path /imageproxy/*
       }
       handle @imageproxy {
-        reverse_proxy ${backendIp}:3001 {
+        reverse_proxy ${backendIp}:13001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -362,7 +362,7 @@ in {
 
       # Everything else (attachments, avatars, etc.) -> CDN
       handle {
-        reverse_proxy ${backendIp}:3002 {
+        reverse_proxy ${backendIp}:13002 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -396,7 +396,7 @@ in {
         header Upgrade websocket
       }
       handle @websockets {
-        reverse_proxy ${backendIp}:3003 {
+        reverse_proxy ${backendIp}:13003 {
           transport http {
             keepalive 2m
             versions 1.1
@@ -415,7 +415,7 @@ in {
         path /api/* /.well-known/*
       }
       handle @api {
-        reverse_proxy ${backendIp}:3001 {
+        reverse_proxy ${backendIp}:13001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -433,7 +433,7 @@ in {
         path /imageproxy/*
       }
       handle @imageproxy {
-        reverse_proxy ${backendIp}:3001 {
+        reverse_proxy ${backendIp}:13001 {
           transport http {
             keepalive 2m
             versions 1.1 2
@@ -448,7 +448,7 @@ in {
       }
 
       handle {
-        reverse_proxy ${backendIp}:3002 {
+        reverse_proxy ${backendIp}:13002 {
           transport http {
             keepalive 2m
             versions 1.1 2
