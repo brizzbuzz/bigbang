@@ -1,9 +1,9 @@
 // Balanced TokyoNight-cyberpunk palette shared with the desktop
 themes {
     tokyo-cyber {
-        fg 205 214 244
-        bg 10 14 39
-        black 26 27 38
+        fg 217 222 242
+        bg 26 33 64
+        black 32 40 74
         red 255 0 110
         green 158 206 106
         yellow 255 234 0
@@ -11,7 +11,7 @@ themes {
         magenta 157 78 221
         orange 255 159 28
         cyan 0 240 255
-        white 224 224 224
+        white 217 222 242
     }
 }
 
