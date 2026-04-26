@@ -7,6 +7,7 @@
   isDarwin = pkgs.stdenv.isDarwin;
   opencodeCommandsPath = ../files/opencode/commands;
   opencodeSkillsPath = ../files/opencode/skills;
+  opencodeThemesPath = ../files/opencode/themes;
 
   mkOpencodeConfig = {
     user,
@@ -86,7 +87,7 @@
 
   mkOpencodeTuiConfig = {
     "$schema" = "https://opencode.ai/tui.json";
-    theme = "opencode";
+    theme = "tokyo-cyber";
     scroll_acceleration = {
       enabled = true;
     };
@@ -110,8 +111,8 @@ in {
       [ -L "${homeDir}/.config/opencode/tui.json" ] && rm "${homeDir}/.config/opencode/tui.json"
       [ -L "${homeDir}/.config/opencode/tui.jsonc" ] && rm "${homeDir}/.config/opencode/tui.jsonc"
       rm -rf "${homeDir}/.config/opencode/secrets"
-      rm -rf "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills"
-      mkdir -p "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills" "${homeDir}/.config/opencode/secrets"
+      rm -rf "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills" "${homeDir}/.config/opencode/themes"
+      mkdir -p "${homeDir}/.config/opencode/commands" "${homeDir}/.config/opencode/skills" "${homeDir}/.config/opencode/themes" "${homeDir}/.config/opencode/secrets"
 
       if [ -f "/var/lib/opnix/secrets/kagi-api-key" ]; then
         cp "/var/lib/opnix/secrets/kagi-api-key" "${homeDir}/.config/opencode/secrets/kagi-api-key"
@@ -134,5 +135,6 @@ in {
       cp ${opencodeAgentsPath} "${homeDir}/.config/opencode/AGENTS.md"
       cp -R ${opencodeCommandsPath}/. "${homeDir}/.config/opencode/commands"
       cp -R ${opencodeSkillsPath}/. "${homeDir}/.config/opencode/skills"
+      cp -R ${opencodeThemesPath}/. "${homeDir}/.config/opencode/themes"
     '';
 }

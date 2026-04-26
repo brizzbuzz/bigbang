@@ -5,7 +5,7 @@
 }: let
   isDarwin = pkgs.stdenv.isDarwin;
   defaultConfig = {
-    theme = "Synthwave";
+    theme = "tokyo-cyber";
     font-family = "JetBrainsMono Nerd Font Mono";
     font-size = 14;
     background-opacity = 1.0;

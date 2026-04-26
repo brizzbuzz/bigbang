@@ -13,6 +13,7 @@
   opencodeAgentsPath = "${opencodeAssets}/AGENTS.md";
   opencodeCommandsPath = "${opencodeAssets}/commands";
   opencodeSkillsPath = "${opencodeAssets}/skills";
+  opencodeThemesPath = "${opencodeAssets}/themes";
 
   mkInstanceData = name: instance: let
     capitalizedName = lib.toUpper (builtins.substring 0 1 name) + builtins.substring 1 ((builtins.stringLength name) - 1) name;
@@ -115,7 +116,7 @@
 
     opencodeTuiConfig = {
       "$schema" = "https://opencode.ai/tui.json";
-      theme = "opencode";
+      theme = "tokyo-cyber";
       scroll_acceleration = {
         enabled = true;
       };
@@ -198,11 +199,13 @@
       "$cp_bin" ${lib.escapeShellArg gitConfigFile} ${lib.escapeShellArg "${stateRoot}/.gitconfig"}
       "$cp_bin" ${lib.escapeShellArg sshConfig} ${lib.escapeShellArg sshConfigFile}
 
-      "$rm_bin" -rf ${lib.escapeShellArg "${opencodeConfigDir}/commands"} ${lib.escapeShellArg "${opencodeConfigDir}/skills"}
+      "$rm_bin" -rf ${lib.escapeShellArg "${opencodeConfigDir}/commands"} ${lib.escapeShellArg "${opencodeConfigDir}/skills"} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/commands"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/skills"}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
       "$cp_bin" -R ${lib.escapeShellArg "${opencodeCommandsPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/commands"}
       "$cp_bin" -R ${lib.escapeShellArg "${opencodeSkillsPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/skills"}
+      "$cp_bin" -R ${lib.escapeShellArg "${opencodeThemesPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
 
       ${lib.optionalString instance.enableServerAuth ''
         if [ -f ${lib.escapeShellArg serverPasswordPath} ]; then
