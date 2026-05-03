@@ -30,6 +30,7 @@
 
     ./locale.nix
     ./networking.nix
+    ./netbird-combined.nix
     ./nvidia.nix
     ./opencode.nix
     ./password-manager.nix
