@@ -3,6 +3,8 @@
   lib,
   ...
 }: {
+  nixpkgs.overlays = import ../overlays;
+
   imports = [
     ../common
 
