@@ -275,6 +275,13 @@ in {
     };
   };
 
+  services.netbird-combined = {
+    enable = true;
+    domain = "netbird.rgbr.ink";
+    authSecretRef = "op://Homelab/NetBird Auth Secret/password";
+    storeEncryptionKeySecretRef = "op://Homelab/NetBird Store Encryption Key/password";
+  };
+
   # Spacebar reverse proxy: multi-backend routing (API, CDN, Gateway)
   # configured directly via services.caddy.virtualHosts since it needs
   # path/protocol-based routing across multiple backend ports
