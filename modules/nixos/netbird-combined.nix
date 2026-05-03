@@ -12,10 +12,40 @@
   listenAddress = "${cfg.listenAddress}:${toString cfg.port}";
   exposedAddress = "https://${cfg.domain}:443";
   authIssuer = "https://${cfg.domain}/oauth2";
+  dashboard = cfg.dashboard;
+  dashboardOrigin = "https://${cfg.domain}";
   stunPortsYaml =
     if cfg.stun.enable
     then "stunPorts:\n    - ${toString cfg.stun.port}"
     else "stunPorts: []";
+  configuredDashboard = pkgs.runCommand "netbird-dashboard-configured" {nativeBuildInputs = [pkgs.gettext];} ''
+    cp -R ${dashboard.package} $out
+    chmod -R u+w $out
+    cp $out/OidcTrustedDomains.js.tmpl $out/OidcTrustedDomains.js
+
+    export USE_AUTH0=${lib.escapeShellArg (lib.boolToString dashboard.useAuth0)}
+    export AUTH_AUTHORITY=${lib.escapeShellArg dashboard.authAuthority}
+    export AUTH_CLIENT_ID=${lib.escapeShellArg dashboard.authClientId}
+    export AUTH_CLIENT_SECRET=${lib.escapeShellArg dashboard.authClientSecret}
+    export AUTH_SUPPORTED_SCOPES=${lib.escapeShellArg dashboard.authSupportedScopes}
+    export AUTH_AUDIENCE=${lib.escapeShellArg dashboard.authAudience}
+    export AUTH_REDIRECT_URI=${lib.escapeShellArg dashboard.authRedirectUri}
+    export AUTH_SILENT_REDIRECT_URI=${lib.escapeShellArg dashboard.authSilentRedirectUri}
+    export NETBIRD_MGMT_API_ENDPOINT=${lib.escapeShellArg dashboard.apiEndpoint}
+    export NETBIRD_MGMT_GRPC_API_ENDPOINT=${lib.escapeShellArg dashboard.grpcApiEndpoint}
+    export NETBIRD_TOKEN_SOURCE=${lib.escapeShellArg dashboard.tokenSource}
+    export NETBIRD_DRAG_QUERY_PARAMS=${lib.escapeShellArg (lib.boolToString dashboard.dragQueryParams)}
+    export NETBIRD_HOTJAR_TRACK_ID=
+    export NETBIRD_GOOGLE_ANALYTICS_ID=
+    export NETBIRD_GOOGLE_TAG_MANAGER_ID=
+    export NETBIRD_WASM_PATH=
+
+    env_format='$USE_AUTH0 $AUTH_AUTHORITY $AUTH_CLIENT_ID $AUTH_CLIENT_SECRET $AUTH_SUPPORTED_SCOPES $AUTH_AUDIENCE $AUTH_REDIRECT_URI $AUTH_SILENT_REDIRECT_URI $NETBIRD_MGMT_API_ENDPOINT $NETBIRD_MGMT_GRPC_API_ENDPOINT $NETBIRD_TOKEN_SOURCE $NETBIRD_DRAG_QUERY_PARAMS $NETBIRD_HOTJAR_TRACK_ID $NETBIRD_GOOGLE_ANALYTICS_ID $NETBIRD_GOOGLE_TAG_MANAGER_ID $NETBIRD_WASM_PATH'
+    while IFS= read -r file; do
+      envsubst "$env_format" < "$file" > "$file.tmp"
+      mv "$file.tmp" "$file"
+    done < <(grep -R -l -E '\$(USE_AUTH0|AUTH_|NETBIRD_)' "$out")
+  '';
 in {
   options.services.netbird-combined = {
     enable = lib.mkEnableOption "combined NetBird self-hosted server";
@@ -83,6 +113,99 @@ in {
         type = lib.types.port;
         default = 3478;
         description = "UDP port for the local NetBird STUN listener.";
+      };
+    };
+
+    dashboard = {
+      enable = lib.mkEnableOption "the NetBird dashboard";
+
+      package = lib.mkPackageOption pkgs "netbird-dashboard" {};
+
+      listenAddress = lib.mkOption {
+        type = lib.types.str;
+        default = "127.0.0.1";
+        description = "Address for the local dashboard HTTP listener.";
+      };
+
+      port = lib.mkOption {
+        type = lib.types.port;
+        default = 8080;
+        description = "Port for the local dashboard HTTP listener.";
+      };
+
+      apiEndpoint = lib.mkOption {
+        type = lib.types.str;
+        default = dashboardOrigin;
+        defaultText = lib.literalExpression ''"https://$${config.services.netbird-combined.domain}"'';
+        description = "Public management API endpoint used by the dashboard.";
+      };
+
+      grpcApiEndpoint = lib.mkOption {
+        type = lib.types.str;
+        default = dashboardOrigin;
+        defaultText = lib.literalExpression ''"https://$${config.services.netbird-combined.domain}"'';
+        description = "Public management gRPC endpoint used by the dashboard.";
+      };
+
+      authAuthority = lib.mkOption {
+        type = lib.types.str;
+        default = authIssuer;
+        defaultText = lib.literalExpression ''"https://$${config.services.netbird-combined.domain}/oauth2"'';
+        description = "OIDC issuer URL used by the dashboard.";
+      };
+
+      authClientId = lib.mkOption {
+        type = lib.types.str;
+        default = "netbird-dashboard";
+        description = "OIDC client ID for the dashboard.";
+      };
+
+      authClientSecret = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "OIDC client secret for the dashboard; empty for the embedded public client.";
+      };
+
+      authAudience = lib.mkOption {
+        type = lib.types.str;
+        default = "netbird-dashboard";
+        description = "OIDC audience expected by the dashboard.";
+      };
+
+      authSupportedScopes = lib.mkOption {
+        type = lib.types.str;
+        default = "openid profile email groups";
+        description = "OAuth scopes requested by the dashboard.";
+      };
+
+      authRedirectUri = lib.mkOption {
+        type = lib.types.str;
+        default = "/nb-auth";
+        description = "Dashboard OAuth redirect path.";
+      };
+
+      authSilentRedirectUri = lib.mkOption {
+        type = lib.types.str;
+        default = "/nb-silent-auth";
+        description = "Dashboard OAuth silent-refresh redirect path.";
+      };
+
+      tokenSource = lib.mkOption {
+        type = lib.types.enum ["accessToken" "idToken"];
+        default = "accessToken";
+        description = "Token source used by the dashboard.";
+      };
+
+      useAuth0 = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether dashboard authentication uses Auth0-specific behavior.";
+      };
+
+      dragQueryParams = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether the dashboard drags query parameters across auth redirects.";
       };
     };
 
@@ -194,9 +317,10 @@ in {
             storage:
               type: sqlite3
             dashboardRedirectURIs:
-              - https://${cfg.domain}
+              - ${dashboardOrigin}${dashboard.authRedirectUri}
+              - ${dashboardOrigin}${dashboard.authSilentRedirectUri}
             cliRedirectURIs:
-              - http://localhost:53000
+              - http://localhost:53000/
         EOF
       '';
       serviceConfig = {
@@ -219,6 +343,15 @@ in {
           "/run/netbird"
         ];
       };
+    };
+
+    services.caddy.virtualHosts."http://${dashboard.listenAddress}:${toString dashboard.port}" = lib.mkIf dashboard.enable {
+      extraConfig = ''
+        bind ${dashboard.listenAddress}
+        root * ${configuredDashboard}
+        try_files {path} /index.html
+        file_server
+      '';
     };
   };
 }

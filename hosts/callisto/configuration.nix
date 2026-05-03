@@ -278,6 +278,7 @@ in {
   services.netbird-combined = {
     enable = true;
     domain = "netbird.rgbr.ink";
+    dashboard.enable = true;
     authSecretRef = "op://Homelab/NetBird Auth Secret/password";
     storeEncryptionKeySecretRef = "op://Homelab/NetBird Store Encryption Key/password";
   };
