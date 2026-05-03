@@ -15,6 +15,13 @@
   };
 
   config = lib.mkIf config.host.nix.enableOptimalCaching {
+    services.dbus.implementation = lib.mkDefault "dbus";
+
+    systemd.user.services.dbus = {
+      startLimitBurst = 5;
+      startLimitIntervalSec = 30;
+    };
+
     nix = {
       package = pkgs.nixVersions.stable;
       extraOptions = ''

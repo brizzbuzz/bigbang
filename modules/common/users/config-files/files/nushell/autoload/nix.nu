@@ -15,7 +15,7 @@ def nr [] {
 def nrr [host?: string  # Optional remote host name
 ] {
     let existing_nix_config = ($env.NIX_CONFIG | default "" | str trim -r -c "\n")
-    let nrr_nix_config = ($existing_nix_config + "\nallow-dirty = true\nallow-dirty-locks = true\nwarn-dirty = false\nwrite-lock-file = false\n")
+    let nrr_nix_config = ($existing_nix_config + "\nallow-dirty = true\nallow-dirty-locks = true\nwarn-dirty = false\n")
 
     if ($host == null) {
         print "No host specified, building remote hosts (ganymede, callisto)..."

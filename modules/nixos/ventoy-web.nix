@@ -26,7 +26,7 @@ in {
   config = mkIf cfg.enable {
     # Allow insecure Ventoy package (marked as insecure in nixpkgs)
     nixpkgs.config.permittedInsecurePackages = [
-      "ventoy-1.1.10"
+      "ventoy-1.1.12"
     ];
 
     # Ensure Ventoy package is available
