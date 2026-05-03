@@ -585,7 +585,7 @@ in {
 
           model = lib.mkOption {
             type = lib.types.str;
-            default = "openai/gpt-5.4";
+            default = "openai/gpt-5.5";
             description = "Primary model for this OpenCode instance.";
           };
 

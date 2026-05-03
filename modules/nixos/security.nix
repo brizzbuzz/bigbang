@@ -26,11 +26,11 @@ in {
   # Ensure we don't accidentally add sudo to systemPackages
   # This would bypass the setuid wrapper
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.10"
+    "ventoy-1.1.12"
   ];
 
   services.yubikey-agent.enable = lib.mkIf isDesktop true;
-  programs.yubikey-touch-detector.enable = true;
+  programs.yubikey-touch-detector.enable = lib.mkIf isDesktop true;
 
   security.pam = {
     services = {

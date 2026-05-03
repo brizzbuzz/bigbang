@@ -50,6 +50,8 @@
     systemd.user.services.hyprpolkitagent = {
       description = "Hyprland polkit agent";
       wantedBy = ["default.target"];
+      startLimitBurst = 5;
+      startLimitIntervalSec = 30;
       serviceConfig = {
         ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
         Restart = "on-failure";
