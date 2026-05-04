@@ -43,6 +43,7 @@
 - ClickHouse
 - PostgreSQL
 - Spacebar
+- NetBird personal client with setup-key enrollment
 
 ## Data Responsibilities
 
@@ -64,6 +65,14 @@ Instead:
 - `callisto` terminates and routes public or LAN traffic
 - `ganymede` serves the backend applications behind that ingress layer
 
+`ganymede` is also a NetBird peer for private overlay access. Browser-facing services still primarily flow through `callisto` rather than direct peer access.
+
+## NetBird
+
+`ganymede` uses the `personal` NetBird client instance with setup-key enrollment.
+
+NetBird SSH and SFTP are enabled for this peer.
+
 ## GPU Role
 
 `ganymede` enables the NVIDIA module and is the only host in the repo currently configured with NVIDIA support.
@@ -80,3 +89,4 @@ Instead:
 - `modules/nixos/opencode.nix`
 - `modules/nixos/clickhouse.nix`
 - `modules/nixos/postgres.nix`
+- `modules/nixos/netbird-personal-client.nix`

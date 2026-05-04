@@ -8,6 +8,7 @@ Cloudflare is a first-class external dependency for the ingress stack.
 - DNS-01 validation for internal ACME certificates
 - origin certificate material used by Caddy
 - API token access for DNS automation
+- public DNS and TLS routing for the self-hosted NetBird endpoint
 
 ## Where It Appears In Code
 
@@ -22,6 +23,7 @@ Cloudflare currently supports:
 - `rgbr.ink`
 - `ryanbr.ink`
 - `lan.rgbr.ink` certificate issuance flows
+- `netbird.rgbr.ink`
 
 ## Operational Importance
 
@@ -30,3 +32,4 @@ If Cloudflare DNS or token delivery is broken:
 - public ingress can degrade
 - internal ACME certificate issuance can fail
 - Caddy reloads that depend on certificate material can fail
+- NetBird dashboard, management, signal, and relay access can degrade

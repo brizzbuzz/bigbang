@@ -47,12 +47,37 @@ Important names include:
 - `dns.lan.rgbr.ink`
 - `ventoy.lan.rgbr.ink`
 
+## Overlay Network
+
+The repo now uses a self-hosted NetBird overlay at `netbird.rgbr.ink`.
+
+`callisto` hosts the NetBird control plane, dashboard, and public Caddy routing for the domain.
+
+Current enrolled or rollout-included peers are:
+
+- `callisto`
+- `ganymede`
+- `frame`
+- `dot`
+- `pip`
+
+NixOS peers use the `personal` NetBird client instance.
+
+Enrollment differs by host type:
+
+- `callisto` and `ganymede` use headless setup-key enrollment
+- `frame` uses interactive SSO/browser enrollment
+- `dot` and `pip` use manually installed macOS clients and manual enrollment
+
+For details, see `docs/capabilities/netbird-overlay.md`.
+
 ## Public Domains
 
 The current public domain surface is:
 
 - `rgbr.ink`
 - `chat.rgbr.ink`
+- `netbird.rgbr.ink`
 - `ryanbr.ink`
 
 `rgbr.ink` currently redirects to `ryanbr.ink` at the Caddy layer.

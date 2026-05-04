@@ -20,6 +20,8 @@
 - Caddy via `services.web.caddy`
 - Blocky via `services.dns.blocky`
 - Ventoy Web via `services.tools."ventoy-web"`
+- NetBird combined server and dashboard via `services.netbird-combined`
+- NetBird personal client with setup-key enrollment
 - OpNix-managed TLS material and Cloudflare token files
 
 ## What It Proxies
@@ -46,6 +48,15 @@ That includes:
 - `ryanbr.ink`
 - `chat.rgbr.ink`
 - `*.lan.rgbr.ink`
+- `netbird.rgbr.ink`
+
+## NetBird
+
+`callisto` is both the NetBird control-plane host and a NetBird peer.
+
+The control plane is exposed at `netbird.rgbr.ink` through a direct Caddy virtual host. That route handles dashboard traffic plus NetBird API, OAuth, relay, WebSocket, and gRPC paths.
+
+The local peer uses setup-key enrollment and has NetBird SSH/SFTP enabled.
 
 ## Spacebar Routing
 
@@ -69,3 +80,5 @@ It is intentionally not the main application box. That split keeps edge responsi
 - `modules/nixos/caddy.nix`
 - `modules/nixos/blocky.nix`
 - `modules/nixos/ventoy-web.nix`
+- `modules/nixos/netbird-combined.nix`
+- `modules/nixos/netbird-personal-client.nix`

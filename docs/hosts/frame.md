@@ -22,6 +22,7 @@
 - pulls a Kagi API key through OpNix
 - declares a NetworkManager Wi-Fi profile for the home network
 - overrides the shared Hyprland monitor config with `hosts/frame/hypr/monitors.conf`
+- runs the `personal` NetBird client with interactive enrollment
 
 ## Storage and Install Model
 
@@ -59,11 +60,26 @@ It exists to:
 - act as an endpoint into the homelab
 - perform edits, local rebuilds, and deployments
 
+## NetBird
+
+`frame` is an interactive NetBird peer.
+
+It uses `services.netbird-personal-client.enrollment = "interactive"`, so it should not consume the reusable headless setup key.
+
+Expected behavior:
+
+- `netbird-personal.service` runs the client daemon
+- `netbird-personal-login.service` is masked or disabled
+- enrollment is completed with `sudo netbird-personal up --no-browser`
+
+For enrollment and recovery steps, see `docs/runbooks/netbird-enrollment.md`.
+
 ## Main Code Paths
 
 - `hosts/frame/configuration.nix`
 - `hosts/frame/disko.nix`
 - `hosts/frame/hypr/monitors.conf`
 - `modules/nixos/default.nix`
+- `modules/nixos/netbird-personal-client.nix`
 - `modules/common/`
 - `docs/runbooks/frame-luks-yubikey.md`

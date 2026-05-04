@@ -6,6 +6,7 @@
 }: let
   cfg = config.services.netbird-personal-client;
   setupKeyPath = "/var/lib/opnix/secrets/netbird-homelab-headless-setup-key";
+  usesSetupKey = cfg.enrollment == "setup-key";
 
   netbirdUrl = {
     Scheme = "https";
@@ -25,6 +26,15 @@ in {
       type = lib.types.str;
       default = "op://Homelab/Netbird Homelab Headless Setup Key/password";
       description = "1Password reference for the reusable personal NetBird setup key.";
+    };
+
+    enrollment = lib.mkOption {
+      type = lib.types.enum ["setup-key" "interactive"];
+      default = "setup-key";
+      description = ''
+        Enrollment flow for the client. Use setup-key for headless hosts and
+        interactive for laptops or desktops that should authenticate through SSO.
+      '';
     };
 
     port = lib.mkOption {
@@ -77,12 +87,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    services.onepassword-secrets.secrets.netbirdHomelabHeadlessSetupKey = {
-      reference = cfg.setupKeySecretRef;
-      path = setupKeyPath;
-      owner = "root";
-      group = "root";
-      mode = "0400";
+    services.onepassword-secrets.secrets = lib.optionalAttrs usesSetupKey {
+      netbirdHomelabHeadlessSetupKey = {
+        reference = cfg.setupKeySecretRef;
+        path = setupKeyPath;
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     services.netbird.package = pkgs.netbird-client;
@@ -90,7 +102,7 @@ in {
       port = cfg.port;
       autoStart = true;
       openFirewall = true;
-      login = {
+      login = lib.optionalAttrs usesSetupKey {
         enable = true;
         setupKeyFile = setupKeyPath;
         systemdDependencies = ["opnix-secrets.service"];
@@ -114,6 +126,10 @@ in {
         // lib.optionalAttrs (cfg.sshJwtCacheTtl != null) {
           SSHJWTCacheTTL = cfg.sshJwtCacheTtl;
         };
+    };
+
+    systemd.services.netbird-personal-login = lib.mkIf (!usesSetupKey) {
+      enable = false;
     };
   };
 }
