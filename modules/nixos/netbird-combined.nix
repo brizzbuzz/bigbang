@@ -14,10 +14,11 @@
   authIssuer = "https://${cfg.domain}/oauth2";
   dashboard = cfg.dashboard;
   dashboardOrigin = "https://${cfg.domain}";
-  stunPortsYaml =
-    if cfg.stun.enable
-    then "stunPorts:\n    - ${toString cfg.stun.port}"
-    else "stunPorts: []";
+  stunPortsYaml = "stunPorts: []";
+  stunsYaml =
+    if cfg.stun.enable && cfg.stun.uris != []
+    then "stuns:\n${lib.concatMapStringsSep "\n" (uri: "    - uri: ${uri}\n      proto: udp") cfg.stun.uris}"
+    else "stuns: []";
   configuredDashboard = pkgs.runCommand "netbird-dashboard-configured" {nativeBuildInputs = [pkgs.gettext];} ''
     cp -R ${dashboard.package} $out
     chmod -R u+w $out
@@ -107,12 +108,12 @@ in {
     };
 
     stun = {
-      enable = lib.mkEnableOption "the local NetBird STUN listener" // {default = true;};
+      enable = lib.mkEnableOption "external NetBird STUN discovery" // {default = true;};
 
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 3478;
-        description = "UDP port for the local NetBird STUN listener.";
+      uris = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = ["stun:stun.cloudflare.com:3478"];
+        description = "External STUN URIs advertised to NetBird clients.";
       };
     };
 
@@ -262,8 +263,6 @@ in {
       "d ${toString cfg.dataDir} 0750 netbird netbird -"
     ];
 
-    networking.firewall.allowedUDPPorts = lib.optional cfg.stun.enable cfg.stun.port;
-
     systemd.services.netbird-combined = {
       description = "Combined NetBird self-hosted server";
       wantedBy = ["multi-user.target"];
@@ -307,6 +306,7 @@ in {
           dataDir: ${toString cfg.dataDir}
           authSecret: $auth_secret
           ${stunPortsYaml}
+          ${stunsYaml}
           disableAnonymousMetrics: ${lib.boolToString cfg.disableAnonymousMetrics}
           disableGeoliteUpdate: ${lib.boolToString cfg.disableGeoliteUpdate}
           store:
