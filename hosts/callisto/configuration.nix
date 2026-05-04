@@ -283,6 +283,12 @@ in {
     storeEncryptionKeySecretRef = "op://Homelab/NetBird Store Encryption Key/password";
   };
 
+  services.netbird-personal-client = {
+    enable = true;
+    enableSshServer = true;
+    enableSftp = true;
+  };
+
   services.caddy.virtualHosts."netbird.rgbr.ink" = {
     extraConfig = let
       certPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;
