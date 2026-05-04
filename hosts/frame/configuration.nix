@@ -60,6 +60,11 @@
     };
   };
 
+  services.netbird-personal-client = {
+    enable = true;
+    sshJwtCacheTtl = 600;
+  };
+
   environment.systemPackages = with pkgs; [
     google-chrome
   ];
