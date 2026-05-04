@@ -61,6 +61,13 @@ in {
         group = "root";
         mode = "0600";
       };
+      netbirdHomelabHeadlessSetupKey = {
+        reference = "op://Homelab/Netbird Homelab Headless Setup Key/password";
+        path = "/var/lib/opnix/secrets/netbird-homelab-headless-setup-key";
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     systemdIntegration = {
@@ -126,6 +133,32 @@ in {
       enable = true;
       openvpnConfigSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede/notesPlain";
       openvpnAuthSecretRef = "op://Homelab/ProtonVPN OpenVPN Ganymede Auth/notesPlain";
+    };
+  };
+
+  services.netbird.package = pkgs.netbird-client;
+  services.netbird.clients.personal = {
+    port = 51820;
+    autoStart = true;
+    openFirewall = true;
+    login = {
+      enable = true;
+      setupKeyFile = "/var/lib/opnix/secrets/netbird-homelab-headless-setup-key";
+      systemdDependencies = ["opnix-secrets.service"];
+    };
+    environment = {
+      NB_ADMIN_URL = "https://netbird.rgbr.ink";
+      NB_MANAGEMENT_URL = "https://netbird.rgbr.ink";
+    };
+    config = {
+      AdminURL = {
+        Scheme = "https";
+        Host = "netbird.rgbr.ink:443";
+      };
+      ManagementURL = {
+        Scheme = "https";
+        Host = "netbird.rgbr.ink:443";
+      };
     };
   };
 
