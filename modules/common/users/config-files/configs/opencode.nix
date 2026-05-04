@@ -31,11 +31,6 @@
       };
     };
     mcp = {
-      chrome_devtools = {
-        type = "local";
-        command = ["npx" "chrome-devtools-mcp@latest"];
-        enabled = true;
-      };
       nixos = {
         type = "local";
         command = ["${pkgs.uv}/bin/uvx" "--python" "${lib.getExe pkgs.python3}" "mcp-nixos"];
@@ -48,11 +43,6 @@
         type = "local";
         command = ["nu" "--mcp"];
         enabled = true;
-      };
-      datadog = {
-        type = "remote";
-        url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp?toolsets=all";
-        enabled = isCompanyProfile;
       };
       pencil = {
         type = "local";
@@ -67,11 +57,6 @@
         type = "remote";
         url = "https://mcp.linear.app/mcp";
         enabled = true;
-      };
-      notion = {
-        type = "remote";
-        url = "https://mcp.notion.com/mcp";
-        enabled = isCompanyProfile;
       };
       kagi = {
         type = "local";
