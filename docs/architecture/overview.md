@@ -62,6 +62,7 @@ The live capability areas in the repo are:
 - user environment
 - deployment and flake outputs
 - AI and OpenCode
+- NetBird overlay networking
 
 Those map more cleanly to the codebase than a module-by-module document set.
 
@@ -73,5 +74,6 @@ These are real properties of the repo today and are worth documenting rather tha
 - Desktop behavior is now cleaner, but still intentionally split between `modules/nixos/session.nix` and `modules/nixos/userland.nix`, with related device support still living in modules like `audio.nix`, `hardware.nix`, and `fingerprint-reader.nix`.
 - `macme` is a shared Darwin base, but the concrete flake outputs are thin wrappers with almost no per-machine differentiation.
 - Some high-level abstractions are intentionally thin. For example, host topology is mostly expressed directly in host configs rather than in a separate service graph.
+- NetBird is declarative on NixOS hosts, but macOS client installation is intentionally manual for now.
 
 Those rough edges are not necessarily bugs, but they are important context for anyone changing the repo.

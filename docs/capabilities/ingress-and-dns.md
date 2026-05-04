@@ -31,6 +31,7 @@ Current public domains include:
 - `rgbr.ink`
 - `ryanbr.ink`
 - `chat.rgbr.ink`
+- `netbird.rgbr.ink`
 
 Current internal surface includes `*.lan.rgbr.ink`.
 
@@ -65,4 +66,5 @@ In practice, `callisto` uses it to publish the internal service names that point
 ## Current Notes
 
 - `chat.rgbr.ink` is not handled by the generic Caddy abstraction alone; `hosts/callisto/configuration.nix` adds direct `services.caddy.virtualHosts` entries for multi-backend Spacebar routing.
+- `netbird.rgbr.ink` is also handled by a direct Caddy virtual host because NetBird needs gRPC, API, OAuth, relay, WebSocket, well-known, and dashboard routing.
 - Internal DNS names are currently declared directly in the host config rather than generated from a separate inventory file.

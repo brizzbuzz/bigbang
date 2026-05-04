@@ -62,6 +62,7 @@
 
   services.netbird-personal-client = {
     enable = true;
+    enrollment = "interactive";
     sshJwtCacheTtl = 600;
   };
 

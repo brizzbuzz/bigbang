@@ -7,6 +7,7 @@ The repo assumes a specific LAN environment.
 - stable private addressing for the Colmena targets
 - a local DNS resolver expectation in shared networking config
 - workstation and server connectivity inside the homelab
+- the base network underneath the NetBird overlay
 
 ## Where It Appears In Code
 
@@ -19,6 +20,7 @@ The repo assumes a specific LAN environment.
 - the homelab LAN lives on `192.168.11.0/24`
 - `192.168.11.1` is the default resolver that the repo expects
 - `callisto`, `ganymede`, and `frame` have stable private addresses used directly by deployment and proxy config
+- NetBird does not replace these LAN assumptions yet
 
 ## Operational Importance
 
@@ -28,3 +30,4 @@ If the LAN addressing or upstream resolver changes, the repo will need updates i
 - reverse-proxy target definitions
 - internal DNS mappings
 - base networking defaults
+- NetBird activation and enrollment workflows that depend on working DNS

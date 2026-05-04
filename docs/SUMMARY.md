@@ -8,6 +8,7 @@
 - [Ganymede](hosts/ganymede.md)
 - [Macme](hosts/macme.md)
 - [Ingress and DNS](capabilities/ingress-and-dns.md)
+- [NetBird Overlay](capabilities/netbird-overlay.md)
 - [Media and Downloads](capabilities/media-and-downloads.md)
 - [Data Services](capabilities/data-services.md)
 - [Desktop Environment](capabilities/desktop-environment.md)
@@ -18,4 +19,5 @@
 - [UniFi and LAN](external-dependencies/unifi-and-lan.md)
 - [1Password and OpNix](external-dependencies/1password-and-opnix.md)
 - [Frame LUKS and YubiKey](runbooks/frame-luks-yubikey.md)
+- [NetBird Enrollment](runbooks/netbird-enrollment.md)
 - [Remote MCP OAuth](runbooks/remote-mcp-oauth.md)
