@@ -1,5 +1,6 @@
 [
   (_final: prev: {
+    netbird-client = prev.callPackage ./packages/netbird-client.nix {};
     netbird-server = prev.callPackage ./packages/netbird-server.nix {};
   })
 
