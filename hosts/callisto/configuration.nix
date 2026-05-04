@@ -283,6 +283,70 @@ in {
     storeEncryptionKeySecretRef = "op://Homelab/NetBird Store Encryption Key/password";
   };
 
+  services.caddy.virtualHosts."netbird.rgbr.ink" = {
+    extraConfig = let
+      certPath = config.services.onepassword-secrets.secretPaths.sslCloudflareCert;
+      keyPath = config.services.onepassword-secrets.secretPaths.sslCloudflareKey;
+    in ''
+      tls ${certPath} ${keyPath}
+
+      log {
+        output file /var/log/caddy/netbird.log
+        format console
+        level INFO
+      }
+
+      header /OidcTrustedDomains.js Cache-Control "no-store"
+
+      @grpc {
+        protocol grpc
+      }
+      handle @grpc {
+        reverse_proxy h2c://127.0.0.1:8081 {
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
+      @netbirdServer {
+        path /api /api/* /oauth2 /oauth2/* /relay /relay* /ws-proxy /ws-proxy/* /.well-known /.well-known/*
+      }
+      handle @netbirdServer {
+        reverse_proxy 127.0.0.1:8081 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {host}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+
+      handle {
+        reverse_proxy 127.0.0.1:8080 {
+          transport http {
+            keepalive 2m
+            versions 1.1 2
+          }
+          header_up Host {upstream_hostport}
+          header_up X-Real-IP {remote_host}
+          header_up X-Forwarded-For {remote_host}
+          header_up X-Forwarded-Proto {scheme}
+          header_up X-Forwarded-Host {host}
+          health_timeout 5s
+        }
+      }
+    '';
+  };
+
   # Spacebar reverse proxy: multi-backend routing (API, CDN, Gateway)
   # configured directly via services.caddy.virtualHosts since it needs
   # path/protocol-based routing across multiple backend ports
