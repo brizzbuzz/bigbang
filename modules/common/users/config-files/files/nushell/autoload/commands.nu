@@ -94,28 +94,105 @@ def "port using" [port: int  # Port number to inspect
     }
 }
 
-# Full Ithaca development port set used on odyssey@ganymede.
-def ithaca-dev-ports [] {
-    [3000 3001 3002 3003 3334 5433 6006 7700 8025 8080 9000 4567 4983 1026]
+def forward-targets [] {
+    {
+        odyssey: {
+            ithaca: {
+                ports: [3000 3001 3002 3003 3334 5433 6006 7700 8025 8080 9000 4567 4983 1026]
+                description: "Ithaca work application"
+            }
+        }
+        ryan: {
+            horizon: {
+                ports: [5173 3000]
+                description: "Horizon frontend and backend"
+            }
+            whats-my-hourly: {
+                ports: [5173 3000 5432]
+                description: "What's My Hourly frontend, backend, and Postgres"
+            }
+            hyperstackdog: {
+                ports: [5173 8082 8081 8123 9000 5432]
+                description: "Hyperstackdog frontend, API, ingest, ClickHouse, and Postgres"
+            }
+            ordinal: {
+                ports: [5174 3000]
+                description: "Ordinal frontend and local SpacetimeDB"
+            }
+            portfolio: {
+                ports: [5173]
+                description: "Portfolio frontend"
+            }
+        }
+    }
 }
 
-# Forward all Ithaca development ports to odyssey@ganymede.
-def "ithaca forward" [
-    --target: string = "odyssey@ganymede"  # SSH target to forward to
-    --print(-p)                             # Print the ssh command instead of running it
+def forward-users [] {
+    forward-targets
+    | transpose user apps
+    | each {|target| { value: $target.user, description: $"Forward to ($target.user)@ganymede" } }
+}
+
+def forward-apps-for-user [user: string] {
+    let user_targets = (forward-targets | get --optional $user)
+
+    if $user_targets == null {
+        return []
+    }
+
+    $user_targets
+    | transpose app config
+    | each {|target| { value: $target.app, description: $target.config.description } }
+}
+
+def forward-apps [context: string] {
+    let user = ($context | split words | get --optional 1)
+    forward-apps-for-user ($user | default "")
+}
+
+def run-forward [
+    user: string@forward-users
+    app: string@forward-apps
+    host: string
+    print_only: bool
 ] {
-    let ports = (ithaca-dev-ports)
+    let user_targets = (forward-targets | get --optional $user)
+
+    if $user_targets == null {
+        let users = (forward-users | get value | str join ", ")
+        error make { msg: $"Unknown forward user '($user)'. Available users: ($users)" }
+    }
+
+    let forward_target = ($user_targets | get --optional $app)
+
+    if $forward_target == null {
+        let apps = (forward-apps-for-user $user | get value | str join ", ")
+        error make { msg: $"Unknown forward app '($app)' for user '($user)'. Available apps: ($apps)" }
+    }
+
+    let ports = $forward_target.ports
     let forwards = ($ports | each {|port| ["-L" $"($port):127.0.0.1:($port)"] } | flatten)
+    let target = $"($user)@($host)"
     let ssh_args = (["-N" "-T" "-o" "ExitOnForwardFailure=yes"] ++ $forwards ++ [$target])
 
-    if $print {
+    if $print_only {
         print (["ssh"] ++ $ssh_args | str join " ")
         return
     }
 
-    print $"Forwarding Ithaca dev ports to ($target)"
+    print $"Forwarding ($app) dev ports to ($target)"
     print $"Ports: ($ports | each {|port| $port | into string } | str join ', ')"
     ^ssh ...$ssh_args
+}
+
+# Forward a user-owned development project to ganymede.
+def forward [
+    user: string@forward-users       # Remote user that owns the app
+    app: string@forward-apps         # App port set to forward
+    --host: string = "ganymede"      # SSH host to forward to
+    --print(-p)                      # Print the ssh command instead of running it
+] {
+    run-forward $user $app $host $print
 }
 
 # Upload an audiobook to the media library on ganymede.
