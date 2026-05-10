@@ -12,6 +12,13 @@ Use this skill to make a codebase easier to reason about, test, and evolve.
 - Find seams where bugs hide in coordination logic rather than pure helper functions.
 - Propose deeper, simpler boundaries.
 
+## Semantic density contract
+
+- Name the architectural force behind each recommendation: coupling, cohesion, ownership, data flow, lifecycle, trust boundary, deployment boundary, or test seam.
+- Use concrete evidence: files, call paths, duplicated concepts, brittle invariants, hidden ordering requirements, or repeated agent navigation cost.
+- Avoid vague architecture claims such as "cleaner" or "more maintainable" unless paired with the specific future change, test, or failure mode that becomes easier.
+- Preserve tradeoffs. A strong recommendation should still name what it sacrifices.
+
 ## Workflow
 
 1. Explore the codebase naturally and note where comprehension feels expensive.

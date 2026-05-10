@@ -59,6 +59,13 @@ Use it for work such as:
 - Avoid duplicated controls across multiple shell surfaces unless duplication is clearly intentional.
 - Prefer changes that improve the day-to-day interaction loop, not just isolated visual flourishes.
 
+## Semantic density for desktop work
+
+- Describe visual changes with specific desktop vocabulary: hierarchy, rhythm, affordance, density, contrast, interruption cost, muscle memory, and live rendered state.
+- Preserve exact surface names such as Hyprland, Quickshell, launcher, notification, sidebar, bar, popup, script, and Nix deployment wiring.
+- When judging screenshots, name what changed in the rendered experience and what still feels wrong instead of saying it looks cleaner.
+- Handoffs should include validation state: rebuilt or not, screenshot path if captured, tracked/staged file caveat if relevant, and runtime logs checked if there was a failure.
+
 ## Anti-patterns
 
 - Do not treat the desktop as Quickshell-only when the issue may involve Hyprland, scripts, or deployment wiring.

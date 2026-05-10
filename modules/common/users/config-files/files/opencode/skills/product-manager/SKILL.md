@@ -16,6 +16,13 @@ If the current repository provides a repo-local companion skill such as `product
 5. Keep backlog pressure low. Do not preserve every idea forever; important work will resurface.
 6. Prefer automation over ticket babysitting. Use Linear's structure, templates, and status flow instead of manual bookkeeping.
 
+## Semantic density contract
+
+- Preserve the user's sharp language, constraints, and stakes when turning ideas into Linear artifacts. Clarify jagged intent; do not sand it into generic PM phrasing.
+- Every durable artifact should carry the decision spine: why now, what outcome matters, who owns it, what is in scope, what is out of scope, and how success becomes observable.
+- Prefer mechanism-level language over category labels. Name the workflow, host, module, customer path, policy, data contract, or operational threshold that makes the work real.
+- Delete process filler. If a sentence does not help someone decide, build, review, verify, or recover, it probably does not belong.
+
 ## Preferred tools
 
 - `linear_list_teams`, `linear_get_team`

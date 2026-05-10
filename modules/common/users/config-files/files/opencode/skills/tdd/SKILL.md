@@ -9,6 +9,13 @@ Use test-driven development to improve implementation quality and keep the agent
 
 Tests should verify behavior through public interfaces, not implementation details. A refactor should not break a good test unless the observable behavior changed.
 
+## Semantic density contract
+
+- Describe each test in behavior vocabulary: observable contract, public seam, regression surface, fixture realism, and failure signal.
+- Keep test names and assertions specific enough that a future agent can infer the broken promise without rereading the whole implementation.
+- Do not call a test "coverage" unless it protects a named behavior or failure mode.
+- When refactoring at green, preserve the behavior narrative so implementation cleanup does not erase why the test exists.
+
 ## Workflow
 
 ### 1. Plan before coding

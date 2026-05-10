@@ -40,6 +40,13 @@
 - Prefer a base-skill plus repo-companion pattern with distinct names such as `product-manager` plus `product-manager-bigbang`.
 - Companion skills should add repo goals, constraints, relevant docs, and anti-patterns; keep durable best practices in the global skill.
 
+## Agent Output Quality
+
+- Preserve repo vocabulary, host names, module names, commands, failure modes, and operational constraints instead of smoothing them into generic summaries.
+- Write for both the human operator and the next agent: keep decisions, evidence, risks, open questions, and validation state explicit.
+- Prefer dense, concrete wording over polished filler. Avoid vague claims like "improve reliability" unless the mechanism and observable outcome are named.
+- For planning or handoff artifacts, include the decision spine when useful: what matters, what was decided, why, evidence, uncertainty, and next action.
+
 ## Commit & Pull Requests
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) as seen in history; include scope when useful.
 - PRs should describe the intent, list affected hosts/modules, and note any deployment steps (`nr`, `nrr <host>`). Include output snippets for `nix flake check` when changes are wide-reaching.

@@ -53,6 +53,13 @@ Use this skill when the user wants a high-signal PR review delivered in a soft, 
 - Divergence from established repo conventions
 - Overly large or tangled changes that should be split or explained more clearly
 
+## Semantic density contract
+
+- Review findings must name the trigger, consequence, evidence, and fix direction. Soft tone must not dilute the defect.
+- Preserve exact symbols, files, states, permissions, migrations, commands, and API shapes when they are part of the risk.
+- Avoid vague review language such as "could be cleaner" or "might be more robust" unless it is tied to a concrete failure mode or maintenance cost.
+- When no finding is provable, state the residual risk or testing gap instead of manufacturing a generic concern.
+
 ## Tone and feedback style
 
 - Use a soft, calm, constructive tone.

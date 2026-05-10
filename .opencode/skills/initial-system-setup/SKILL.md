@@ -18,6 +18,13 @@ Use this when a machine is bricked, bare, or otherwise needs a clean bootstrap b
 
 If the hardware profile is already represented in the flake, prefer direct flake install over a temporary handwritten bootstrap.
 
+## Semantic density for recovery work
+
+- Preserve exact host names, disk names, network interfaces, boot mode, installer ISO, flake target, and deployment command when known.
+- Separate preconditions, irreversible actions, validation signals, and recovery steps. Disk writes and partitioning must never be summarized as generic setup.
+- Name the current phase and the next trust boundary: installer shell, mounted target, first boot, SSH handoff, secrets bootstrap, or remote deployment.
+- If blocked, report the missing fact that changes the action, such as target disk identity, network reachability, hardware profile, or secret availability.
+
 ## Checklist
 
 - Networking works from the installer environment

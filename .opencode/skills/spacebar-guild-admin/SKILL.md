@@ -24,6 +24,13 @@ Use this skill when a user needs guild admin access and the normal Spacebar mana
 - The target member is associated with the role
 - The user can access guild admin functions after refreshing or re-authenticating
 
+## Semantic density for admin recovery
+
+- Preserve exact IDs and distinguish them: guild ID, target user ID, role ID, member row, permission bit, API endpoint, and database table.
+- Report the chosen escalation path and why higher-level paths failed before using a lower-level one.
+- For direct database work, state the intended mutation, identity checks, idempotency condition, and verification query before changing data.
+- Do not collapse access recovery into "grant admin" without naming the role permission, member association, and post-change UI/API verification.
+
 ## Safety
 
 - Prefer idempotent operations

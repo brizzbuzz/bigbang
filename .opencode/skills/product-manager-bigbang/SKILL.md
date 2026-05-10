@@ -26,6 +26,13 @@ Use this skill alongside the global `product-manager` skill when planning or str
 - Treat secrets, bootstrap steps, and machine recovery work as operationally sensitive and document them carefully.
 - Favor thin vertical slices that end in a verified host behavior, not abstract refactors with no deployable outcome.
 
+## Semantic density for this repo
+
+- Preserve host names, module paths, profile names, commands, secrets boundaries, and deploy targets in planning artifacts.
+- Name the operator-visible behavior that changes, not just the Nix file that will be edited.
+- Record validation state explicitly: not run, proposed, passed, failed with output, blocked by permission, or requires `nr`/`nrr <host>`.
+- For recovery or bootstrap work, include rollback or next-safe-action notes instead of generic risk language.
+
 ## Artifact guidance
 
 - Use a Linear document when a change needs operational context, rollout notes, or recovery guidance.
