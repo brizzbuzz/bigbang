@@ -5,6 +5,13 @@ description: Interview the user relentlessly about a plan or design until you re
 
 Interview the user relentlessly about every aspect of the plan until you reach shared understanding.
 
+## Semantic density contract
+
+- Ask questions that collapse uncertainty, not questions that perform diligence.
+- Preserve the user's vocabulary and pressure-test it directly when it hides ambiguity.
+- Each question should target one branch of the decision tree: outcome, scope, interface, data, rollout, failure mode, or validation.
+- When summarizing, retain the decision spine: decided, deferred, rejected, evidence, risk, and next action.
+
 ## Workflow
 
 1. Restate the proposed goal in one or two sentences.

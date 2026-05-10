@@ -22,6 +22,13 @@ Use this skill when the user wants to wrap up a branch for review with a clean c
 - Diagnoses SSH transport failures with minimal probing and no parallel auth workflow
 - Pushes the branch and creates a draft PR when the user explicitly asks for a PR
 
+## Semantic density contract
+
+- Commit messages and PR notes should preserve the intent of the change, not just the file category touched.
+- Name the affected behavior, workflow, host, module, or operational constraint when it matters for reviewers.
+- Avoid generic subjects such as "update config" when the real change is a policy, permission, deployment, prompt, or validation behavior.
+- Keep PR notes short, but include the evidence a reviewer needs: scope, validation, risk, and any intentionally deferred follow-up.
+
 ## Commit workflow
 
 1. Inspect the current branch, staged state, and diff.

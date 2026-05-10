@@ -15,6 +15,13 @@ Use this when the user wants to define a feature clearly before implementation.
 6. Write the PRD using the template below.
 7. In this setup, prefer saving the PRD as a Linear document. If a linked issue is more useful, create one and link it to the document.
 
+## Semantic density contract
+
+- Preserve the user's original terms for pain, ambition, constraints, and non-goals. Define them if needed; do not replace them with generic product language.
+- The PRD must carry the decision spine: what matters, what was decided, why, evidence, uncertainty, and the next action.
+- User stories should cover normal paths, edge cases, operational realities, and failure behavior without turning into implementation chores.
+- Avoid aspirational filler. Every claim should connect to a user behavior, system boundary, business constraint, verification signal, or explicit tradeoff.
+
 ## PRD template
 
 ```md

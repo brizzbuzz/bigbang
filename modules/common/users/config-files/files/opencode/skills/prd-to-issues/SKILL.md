@@ -22,6 +22,13 @@ Break a PRD into thin, end-to-end slices that can be implemented and verified in
 - Mark slices as AFK when an agent can complete them independently.
 - Mark slices as HITL when they require design review, policy decisions, or human sign-off.
 
+## Semantic density contract
+
+- Preserve information from the PRD into the issues: constraints, edge cases, non-goals, dependencies, rollout notes, and validation signals should not disappear during slicing.
+- Each issue should make one new behavior demonstrably true, not just move code between layers.
+- Titles should name the capability or observable change, not an internal activity like "update backend" unless that is the actual user-visible slice.
+- Dependency notes should explain why the dependency exists when it is not obvious from the issue title.
+
 ## Review format
 
 Present each slice with:

@@ -21,6 +21,15 @@
 - If both a base skill and a companion skill exist, use them together.
 - If a companion skill references repo docs, read those docs before making a plan.
 
+## Semantic Density
+
+- Preserve rare signal. Do not polish away domain terms, user vocabulary, sharp tradeoffs, constraints, or unusual but meaningful structure.
+- Optimize every response for two readers: the human who needs fast comprehension and trustworthy judgment, and the next agent who needs exact context, decisions, constraints, evidence, and open threads.
+- Prefer semantic compression over generic concision. Short is good only when it preserves the load-bearing details.
+- Avoid low-signal language such as robust, seamless, streamline, leverage, optimize, improve, enhance, comprehensive, best practices, user-friendly, clean, or simple unless paired with a concrete mechanism or observable result.
+- When producing an artifact, include the decision spine when useful: what matters, what was decided, why it matters, what evidence supports it, what remains uncertain, and what should happen next.
+- Preserve metaphor, friction, and field-specific vocabulary when they carry meaning. Clarify them instead of replacing them with safer generic phrasing.
+
 ## Pull Requests
 
 - Any request to create or open a pull request must load and follow the `git-commit-and-draft-pr` skill.

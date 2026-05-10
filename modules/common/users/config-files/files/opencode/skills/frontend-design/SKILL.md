@@ -29,6 +29,13 @@ Before coding, establish the design intent:
 
 Then commit to one strong aesthetic direction and carry it through the whole implementation. Possible directions include editorial, brutalist, utilitarian, luxury, retro-futurist, organic, playful, industrial, lo-fi, maximalist, or tightly restrained minimalist work. The goal is not to copy a style label. The goal is coherent, specific taste.
 
+## Semantic density contract
+
+- Name the design thesis in concrete terms: audience, mood, hierarchy, interaction rhythm, and the anti-pattern it refuses.
+- Preserve taste vocabulary instead of flattening it into "modern" or "clean". If a visual choice matters, say what it does: compresses attention, creates editorial tension, lowers interruption cost, sharpens affordance, or reinforces brand memory.
+- When critiquing or handing off UI work, call out the load-bearing details: typography, spacing cadence, contrast, density, motion intent, responsive behavior, and accessibility constraints.
+- Do not replace distinctive work with safer SaaS defaults unless the existing product language requires restraint.
+
 ## Design standards
 
 ### Typography

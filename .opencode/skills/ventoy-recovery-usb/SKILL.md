@@ -27,6 +27,13 @@ Use this skill when a rescue USB is the fastest path to recover or bootstrap a m
 - After installation, copy ISOs to the large Ventoy data partition, not the small EFI partition.
 - If a newly written USB does not appear immediately, re-read the partition table.
 
+## Semantic density for USB recovery
+
+- Preserve exact device names, ISO filenames, service host, bind address, port, and target machine when known.
+- Treat USB installation as destructive: name the target block device and verification step before any erase/write operation.
+- Separate service setup, browser reachability, USB detection, ISO copy, and target boot validation so handoffs do not hide the failing stage.
+- If a step cannot be verified, state the unverified assumption and the next safest check.
+
 ## Verification
 
 - Service is running
