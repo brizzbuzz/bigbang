@@ -3,12 +3,7 @@
   lib,
   ...
 }: let
-  hostMonitorFile = let
-    candidate = ../../../../hosts/${config.host.name}/hypr/monitors.conf;
-  in
-    if builtins.pathExists candidate
-    then candidate
-    else ../files/hypr/monitors.conf;
+  hostMonitorFile = config.host.configFiles.hyprland.monitorFile;
 
   desktopConfig = {
     hyprConfigFiles = [

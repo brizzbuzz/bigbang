@@ -196,6 +196,14 @@ in {
         description = "Deploy direnv configuration";
       };
     };
+
+    hyprland = {
+      monitorFile = lib.mkOption {
+        type = lib.types.path;
+        default = ./files/hypr/monitors.conf;
+        description = "Hyprland monitor configuration file to deploy";
+      };
+    };
   };
 
   config = lib.mkIf configFiles.enable {
