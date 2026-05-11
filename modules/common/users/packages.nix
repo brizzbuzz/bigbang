@@ -88,7 +88,6 @@
     [
     ]
     ++ lib.optionals isLinux [
-      discord
       spotify
       mpv
     ];
@@ -104,7 +103,6 @@
   # Entertainment packages
   entertainmentPackages = with pkgs;
     lib.optionals isLinux [
-      discord
       spotify
       steam
     ];
