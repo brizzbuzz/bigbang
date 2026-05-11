@@ -15,6 +15,7 @@
   host = {
     name = "frame";
     roles.desktop = true;
+    configFiles.hyprland.monitorFile = ./hypr/monitors.conf;
     userManagement.enable = true;
     users = {
       ryan = {
