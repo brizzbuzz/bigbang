@@ -15,7 +15,11 @@
   }: let
     isCompanyProfile = user.profile == "company";
     isRyan = user.name == "ryan";
-    pencilEnabled = isDarwin && isRyan && !isCompanyProfile;
+    pencilEnabled = isRyan && !isCompanyProfile && (isDarwin || config.host.name == "frame");
+    pencilCommand =
+      if isDarwin
+      then "/Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64"
+      else "/opt/Pencil/resources/app.asar.unpacked/out/mcp-server-linux-x64";
   in {
     "$schema" = "https://opencode.ai/config.json";
     model = "openai/gpt-5.5";
@@ -47,7 +51,7 @@
       pencil = {
         type = "local";
         command = [
-          "/Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64"
+          pencilCommand
           "--app"
           "desktop"
         ];
