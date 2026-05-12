@@ -29,6 +29,7 @@
     cacheHome = "${runtimeRoot}/cache";
     stateHome = "${runtimeRoot}/state";
     opencodeConfigDir = "${configHome}/opencode";
+    userOpencodeConfigDir = "${stateRoot}/.config/opencode";
     opencodeDataDir = "${dataHome}/opencode";
     opencodeCacheDir = "${cacheHome}/opencode";
     opencodeSecretsDir = "${opencodeConfigDir}/secrets";
@@ -177,9 +178,11 @@
       chown_bin=${pkgs.coreutils}/bin/chown
 
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg stateRoot}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${stateRoot}/.config"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg runtimeRoot}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg configHome}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeConfigDir}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg userOpencodeConfigDir}
       "$install_bin" -d -m 0700 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeSecretsDir}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg dataHome}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg opencodeDataDir}
@@ -196,16 +199,26 @@
       "$cp_bin" ${lib.escapeShellArg opencodeConfigFile} ${lib.escapeShellArg "${opencodeConfigDir}/opencode.json"}
       "$cp_bin" ${lib.escapeShellArg opencodeTuiConfigFile} ${lib.escapeShellArg "${opencodeConfigDir}/tui.json"}
       "$cp_bin" ${lib.escapeShellArg opencodeAgentsPath} ${lib.escapeShellArg "${opencodeConfigDir}/AGENTS.md"}
+      "$cp_bin" ${lib.escapeShellArg opencodeConfigFile} ${lib.escapeShellArg "${userOpencodeConfigDir}/opencode.json"}
+      "$cp_bin" ${lib.escapeShellArg opencodeTuiConfigFile} ${lib.escapeShellArg "${userOpencodeConfigDir}/tui.json"}
+      "$cp_bin" ${lib.escapeShellArg opencodeAgentsPath} ${lib.escapeShellArg "${userOpencodeConfigDir}/AGENTS.md"}
       "$cp_bin" ${lib.escapeShellArg gitConfigFile} ${lib.escapeShellArg "${stateRoot}/.gitconfig"}
       "$cp_bin" ${lib.escapeShellArg sshConfig} ${lib.escapeShellArg sshConfigFile}
 
       "$rm_bin" -rf ${lib.escapeShellArg "${opencodeConfigDir}/commands"} ${lib.escapeShellArg "${opencodeConfigDir}/skills"} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
+      "$rm_bin" -rf ${lib.escapeShellArg "${userOpencodeConfigDir}/commands"} ${lib.escapeShellArg "${userOpencodeConfigDir}/skills"} ${lib.escapeShellArg "${userOpencodeConfigDir}/themes"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/commands"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/skills"}
       "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${userOpencodeConfigDir}/commands"}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${userOpencodeConfigDir}/skills"}
+      "$install_bin" -d -m 0750 -o ${instance.user} -g ${instance.group} ${lib.escapeShellArg "${userOpencodeConfigDir}/themes"}
       "$cp_bin" -R ${lib.escapeShellArg "${opencodeCommandsPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/commands"}
       "$cp_bin" -R ${lib.escapeShellArg "${opencodeSkillsPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/skills"}
       "$cp_bin" -R ${lib.escapeShellArg "${opencodeThemesPath}/."} ${lib.escapeShellArg "${opencodeConfigDir}/themes"}
+      "$cp_bin" -R ${lib.escapeShellArg "${opencodeCommandsPath}/."} ${lib.escapeShellArg "${userOpencodeConfigDir}/commands"}
+      "$cp_bin" -R ${lib.escapeShellArg "${opencodeSkillsPath}/."} ${lib.escapeShellArg "${userOpencodeConfigDir}/skills"}
+      "$cp_bin" -R ${lib.escapeShellArg "${opencodeThemesPath}/."} ${lib.escapeShellArg "${userOpencodeConfigDir}/themes"}
 
       ${lib.optionalString instance.enableServerAuth ''
         if [ -f ${lib.escapeShellArg serverPasswordPath} ]; then
@@ -262,6 +275,7 @@
 
       "$chown_bin" -R ${instance.user}:${instance.group} \
         ${lib.escapeShellArg configHome} \
+        ${lib.escapeShellArg userOpencodeConfigDir} \
         ${lib.escapeShellArg runtimeRoot} \
         ${lib.escapeShellArg dataHome} \
         ${lib.escapeShellArg stateHome} \
@@ -272,6 +286,9 @@
       "$chmod_bin" 0644 ${lib.escapeShellArg "${opencodeConfigDir}/opencode.json"}
       "$chmod_bin" 0644 ${lib.escapeShellArg "${opencodeConfigDir}/tui.json"}
       "$chmod_bin" 0644 ${lib.escapeShellArg "${opencodeConfigDir}/AGENTS.md"}
+      "$chmod_bin" 0644 ${lib.escapeShellArg "${userOpencodeConfigDir}/opencode.json"}
+      "$chmod_bin" 0644 ${lib.escapeShellArg "${userOpencodeConfigDir}/tui.json"}
+      "$chmod_bin" 0644 ${lib.escapeShellArg "${userOpencodeConfigDir}/AGENTS.md"}
       "$chmod_bin" 0644 ${lib.escapeShellArg "${stateRoot}/.gitconfig"}
       ${lib.optionalString (!instance.gitSignCommits) ''
         "$rm_bin" -f ${lib.escapeShellArg signingPrivateKeyFile} ${lib.escapeShellArg signingPublicKeyFile} ${lib.escapeShellArg allowedSignersFile}
@@ -373,9 +390,11 @@
     tmpfilesRules =
       [
         "d ${stateRoot} 0750 ${instance.user} ${instance.group} -"
+        "d ${stateRoot}/.config 0750 ${instance.user} ${instance.group} -"
         "d ${runtimeRoot} 0750 ${instance.user} ${instance.group} -"
         "d ${configHome} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeConfigDir} 0750 ${instance.user} ${instance.group} -"
+        "d ${userOpencodeConfigDir} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeSecretsDir} 0700 ${instance.user} ${instance.group} -"
         "d ${dataHome} 0750 ${instance.user} ${instance.group} -"
         "d ${opencodeDataDir} 0750 ${instance.user} ${instance.group} -"

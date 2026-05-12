@@ -46,26 +46,38 @@ The user-facing OpenCode config currently enables a mix of local and remote MCP 
 
 Examples include:
 
-- `chrome_devtools`
 - `nixos`
 - `nushell`
 - `linear`
 - `kagi`
-- `datadog` for company profiles
-- `notion` for company profiles
+- `pencil` on local personal workstations that run Pencil Desktop
+- `datadog` for the hosted `odyssey` instance
+- `notion` for the hosted `odyssey` instance
+
+Expected MCP availability:
+
+| Setup | datadog | kagi | linear | nixos | notion | nushell | pencil |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Darwin local `ryan` (`pip`/`dot`) | No | Yes | Yes | Yes | No | Yes | Yes |
+| `frame` local `ryan` | No | Yes | Yes | Yes | No | Yes | Yes |
+| `ganymede` hosted/user `ryan` | No | Yes | Yes | Yes | No | Yes | No |
+| `ganymede` hosted/user `odyssey` | Yes | Yes | Yes | Yes | Yes | Yes | No |
 
 ## Current Notes
 
 - OpenCode is both a hosted service capability and a user environment capability.
 - Repo-level agent, command, and skill files are copied directly into user config directories during activation.
+- On `ganymede`, enabled `services.opencode.instances` own both their isolated hosted runtime config and the normal `~/.config/opencode` tree for interactive TUI commands such as `opencode mcp auth notion`.
 
 ## Runtime Paths
 
-The hosted OpenCode services on `ganymede` do not read the user-level `~/.config/opencode` trees.
+The hosted OpenCode services on `ganymede` read isolated runtime paths, but the same generated config is also copied to each service user's normal config tree for interactive TUI use.
 
 - Hosted `ryan` runtime: `/home/ryan/.local/share/opencode-service-ryan/config/opencode`
 - Hosted `odyssey` runtime: `/home/odyssey/.local/share/opencode-service-odyssey/config/opencode`
-- User-level config trees still exist at `~/.config/opencode` for interactive local use
+- Interactive `ryan` config on `ganymede`: `/home/ryan/.config/opencode`
+- Interactive `odyssey` config on `ganymede`: `/home/odyssey/.config/opencode`
+- Local workstation config trees still exist at `~/.config/opencode` for interactive local use
 
 ## Expected Global Commands And Skills
 

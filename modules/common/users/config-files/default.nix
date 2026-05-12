@@ -24,6 +24,7 @@
   # Generate activation script for a single user
   mkUserConfigScript = userName: let
     user = cfg.users.${userName};
+    hasServiceOpencodeInstance = lib.attrByPath ["services" "opencode" "instances" userName "enable"] false config;
     homeDir =
       if isDarwin
       then "/Users/${userName}"
@@ -78,7 +79,7 @@
 
     ${opencodeModule.mkOpencodeScript {
       inherit user homeDir;
-      enabled = configFiles.opencode.enable;
+      enabled = configFiles.opencode.enable && !hasServiceOpencodeInstance;
     }}
 
     ${ghosttyModule.mkGhosttyScript {
