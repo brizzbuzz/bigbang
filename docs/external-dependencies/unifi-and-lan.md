@@ -4,14 +4,14 @@ The repo assumes a specific LAN environment.
 
 ## What It Is Used For
 
-- stable private addressing for the Colmena targets
+- stable private addressing for deploy-rs targets
 - a local DNS resolver expectation in shared networking config
 - workstation and server connectivity inside the homelab
 - the base network underneath the NetBird overlay
 
 ## Where It Appears In Code
 
-- `flake/nixos.nix` for deployment target IPs
+- `flake.nix` for deploy-rs target IPs
 - `modules/nixos/networking.nix` for the default nameserver `192.168.11.1`
 - host configs with concrete private addresses such as `callisto` and `ganymede`
 
@@ -26,7 +26,7 @@ The repo assumes a specific LAN environment.
 
 If the LAN addressing or upstream resolver changes, the repo will need updates in:
 
-- Colmena target definitions
+- deploy-rs node definitions
 - reverse-proxy target definitions
 - internal DNS mappings
 - base networking defaults

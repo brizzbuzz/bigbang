@@ -35,7 +35,7 @@ Use it for work such as:
 2. Make the smallest coherent change that improves the desktop experience.
 3. Ensure any new or modified relevant files are staged in git before rebuilding when the workflow depends on Nix seeing tracked files.
 4. Only run a rebuild if the user has explicitly granted permission in the current conversation.
-5. Rebuild locally with `nix develop -c colmena apply-local --impure --sudo`.
+5. Rebuild locally with `nix develop -c nh os switch . --impure`.
 6. After the rebuild completes, capture a fresh screenshot with `grim /tmp/quickshell-current.png` or another clearly named file.
 7. Judge the live rendered result from the screenshot rather than reasoning only from source.
 8. Iterate: adjust code, ensure files are staged if needed, rebuild again with permission, capture a new screenshot, and refine until the result is clearly better.

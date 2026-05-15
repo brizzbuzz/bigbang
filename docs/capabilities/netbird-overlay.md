@@ -11,7 +11,7 @@ The NetBird overlay provides:
 - a path for operator devices to reach the homelab without depending only on LAN presence
 - optional NetBird SSH and SFTP support for selected server peers
 
-The LAN and ingress stack still matter. NetBird adds an overlay network; it does not replace the UniFi LAN, Blocky DNS, Caddy ingress, or Colmena target addressing.
+The LAN and ingress stack still matter. NetBird adds an overlay network; it does not replace the UniFi LAN, Blocky DNS, Caddy ingress, or deploy-rs target addressing.
 
 ## Current Rollout State
 

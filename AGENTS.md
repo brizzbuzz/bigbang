@@ -8,8 +8,9 @@
 ## Build, Test, and Development
 - `nix develop` — enter the dev shell with formatting, linting, and deployment tools preloaded.
 - Prefer `nix develop -c <command>` for one-off project commands provided by the flake instead of assuming host-global installs.
-- `nr` — rebuild the local system (darwin-rebuild switch or colmena apply-local).
-- `nrr <host>` — deploy to a remote host via Colmena.
+- `nh os switch . --impure` — rebuild the local NixOS system.
+- `nh darwin switch . --impure --hostname <host>` — rebuild a nix-darwin system.
+- `deploy .#<host> -- --impure` — deploy to a remote NixOS host via deploy-rs.
 - `nix flake check --show-trace` — validate the flake, options, and evaluations.
 - `nix develop -c alejandra .` — format all Nix files.
 - `nix develop -c deadnix .` — detect unused Nix definitions.
@@ -23,7 +24,7 @@
 
 ## Testing & Validation
 - Primary checks: `nix flake check`, `nix develop -c alejandra --check .`, and `nix develop -c deadnix --fail .` (mirrors CI). Run these before pushing.
-- For deployment rehearsal, run `nr` locally; use `nrr <host>` for targeted remote verification.
+- For deployment rehearsal, run `nh os test . --impure` locally; use `deploy .#<host> --dry-activate -- --impure` for targeted remote verification via deploy-rs.
 - Keep profiles and host inputs minimal to avoid impurity surprises; prefer deterministic options and pinned inputs.
 
 ## Version Control
@@ -49,6 +50,6 @@
 
 ## Commit & Pull Requests
 - Follow conventional commits (`feat: ...`, `chore: ...`, `fix: ...`) as seen in history; include scope when useful.
-- PRs should describe the intent, list affected hosts/modules, and note any deployment steps (`nr`, `nrr <host>`). Include output snippets for `nix flake check` when changes are wide-reaching.
+- PRs should describe the intent, list affected hosts/modules, and note any deployment steps (`nh os switch`, `nh darwin switch`, `deploy .#<host>`). Include output snippets for `nix flake check` when changes are wide-reaching.
 - Update `CHANGELOG.md` via `git-cliff` when making user-visible changes. Link issues or tickets when available.
 - **NEVER push to remote or create pull requests without explicit user approval**

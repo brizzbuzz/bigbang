@@ -34,7 +34,7 @@ This keeps the old scripted-stage1 FIDO2 path disabled and lets `systemd-cryptse
 
 After changing the host config on `frame`, rebuild with:
 
-`nr`
+`nh os switch . --impure`
 
 If the rebuild succeeds, the host side is ready for enrollment.
 
@@ -127,7 +127,7 @@ For the current `frame` setup, this should show the YubiKey as a usable FIDO2 to
 
 ## Re-Enrollment Flow After a Reset or New Install
 
-1. Rebuild `frame` with `nr`.
+1. Rebuild `frame` with `nh os switch . --impure`.
 2. Confirm `systemd-cryptenroll --fido2-device=list` sees the key.
 3. If needed, reset the YubiKey FIDO app.
 4. Enroll the token with `systemd-cryptenroll`.

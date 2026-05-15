@@ -4,14 +4,12 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
-      "https://colmena.cachix.org"
       "https://hyprland.cachix.org"
       "https://cuda-maintainers.cachix.org"
       "https://nixos-rocm.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPiCgBvmJ7pYGD+8DWvGYA2VhHfZUZhYk="
       "nixos-rocm.cachix.org-1:uuM0K2U1XGQYcv4VdGpHyxqjgJl9DzLlqsj/Y3iQNXc="
@@ -57,6 +55,11 @@
 
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -108,7 +111,11 @@
     };
   };
 
-  outputs = {nixpkgs, ...} @ inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
@@ -123,9 +130,22 @@
         inherit system;
         inherit (nixpkgsConfig) config;
       });
+
+    mkDeployNode = {
+      hostname,
+      sshUser,
+      config,
+      remoteBuild ? true,
+    }: {
+      inherit hostname sshUser;
+      profiles.system = {
+        inherit remoteBuild;
+        user = "root";
+        path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos config;
+      };
+    };
   in {
     darwinConfigurations = import ./flake/darwin.nix {inherit inputs;};
-    colmena = import ./flake/nixos.nix {inherit inputs;};
     devShells = import ./flake/shell.nix {inherit forAllSystems pkgs inputs;};
 
     # NixOS configurations for nixos-install
@@ -154,6 +174,26 @@
         modules = [
           ./hosts/ganymede/configuration.nix
         ];
+      };
+    };
+
+    deploy.nodes = {
+      frame = mkDeployNode {
+        hostname = "192.168.11.214";
+        sshUser = "ryan";
+        config = self.nixosConfigurations.frame;
+      };
+
+      callisto = mkDeployNode {
+        hostname = "192.168.11.200";
+        sshUser = "root";
+        config = self.nixosConfigurations.callisto;
+      };
+
+      ganymede = mkDeployNode {
+        hostname = "192.168.11.39";
+        sshUser = "ryan";
+        config = self.nixosConfigurations.ganymede;
       };
     };
   };

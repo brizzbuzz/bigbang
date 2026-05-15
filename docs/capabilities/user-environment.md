@@ -73,10 +73,19 @@ The default shell arrangement is:
 
 ## Operator Commands
 
-The `nr` and `nrr` helper commands are delivered through Nushell autoload scripts.
+Operator workflows use the raw `nh` and deploy-rs commands rather than Nushell wrapper functions. This keeps the command being tested identical to the command being documented.
 
-Those commands wrap:
+Common local commands:
 
-- `darwin-rebuild switch` on Darwin
-- `colmena apply-local` for local NixOS rebuilds
-- `colmena apply` for remote deployment
+- `nh os test . --impure`
+- `nh os switch . --impure`
+- `nh os boot . --impure`
+- `nh os info`
+- `nh darwin switch . --impure --hostname <host>`
+- `nh clean all --keep-since 14d --keep 5`
+
+Common remote commands:
+
+- `deploy .#ganymede -- --impure`
+- `deploy .#callisto -- --impure`
+- `deploy --targets .#ganymede .#callisto -- --impure`
