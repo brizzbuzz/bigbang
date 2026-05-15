@@ -33,7 +33,8 @@
       zellij
       erdtree
       nushell
-      colmena
+      deploy-rs
+      nh
       # Version control
       inputs.opnix.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]

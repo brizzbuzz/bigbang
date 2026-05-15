@@ -22,7 +22,7 @@ Use this skill alongside the global `product-manager` skill when planning or str
 
 - Prefer issues and plans that are scoped to one host, one shared module, or one deployable behavior change at a time.
 - Call out which hosts or user profiles are affected.
-- Include validation expectations such as `nix flake check --show-trace`, `alejandra .`, `deadnix .`, `nr`, or `nrr <host>` when they matter.
+- Include validation expectations such as `nix flake check --show-trace`, `alejandra .`, `deadnix .`, `nh os test . --impure`, or `deploy .#<host> --dry-activate -- --impure` when they matter.
 - Treat secrets, bootstrap steps, and machine recovery work as operationally sensitive and document them carefully.
 - Favor thin vertical slices that end in a verified host behavior, not abstract refactors with no deployable outcome.
 
@@ -30,7 +30,7 @@ Use this skill alongside the global `product-manager` skill when planning or str
 
 - Preserve host names, module paths, profile names, commands, secrets boundaries, and deploy targets in planning artifacts.
 - Name the operator-visible behavior that changes, not just the Nix file that will be edited.
-- Record validation state explicitly: not run, proposed, passed, failed with output, blocked by permission, or requires `nr`/`nrr <host>`.
+- Record validation state explicitly: not run, proposed, passed, failed with output, blocked by permission, or requires `nh`/`deploy-rs`.
 - For recovery or bootstrap work, include rollback or next-safe-action notes instead of generic risk language.
 
 ## Artifact guidance

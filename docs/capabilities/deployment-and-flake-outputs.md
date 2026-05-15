@@ -7,7 +7,6 @@ This capability defines how systems are built, evaluated, and deployed from the 
 ## Main Files
 
 - `flake.nix`
-- `flake/nixos.nix`
 - `flake/darwin.nix`
 - `flake/shell.nix`
 
@@ -16,7 +15,7 @@ This capability defines how systems are built, evaluated, and deployed from the 
 The repo exposes:
 
 - `darwinConfigurations`
-- `colmena`
+- `deploy`
 - `devShells`
 - `nixosConfigurations`
 
@@ -37,11 +36,11 @@ The current NixOS outputs are:
 - `callisto`
 - `ganymede`
 
-Those appear in both `nixosConfigurations` and `colmena`, but with different purposes.
+Those appear in both `nixosConfigurations` and `deploy.nodes`, but with different purposes.
 
-## Colmena Model
+## Deployment Model
 
-Colmena is the remote deployment interface for the Linux hosts.
+deploy-rs is the remote deployment interface for the Linux hosts. Local rebuilds use `nh`.
 
 Current targets are:
 
@@ -54,9 +53,10 @@ Current targets are:
 The dev shell provides pinned project tooling such as:
 
 - `alejandra`
-- `colmena`
 - `deadnix`
+- `deploy-rs`
 - `git-cliff`
+- `nh`
 - `nurl`
 - `tokei`
 - `opnix`
@@ -64,8 +64,11 @@ The dev shell provides pinned project tooling such as:
 ## Typical Commands
 
 - `nix develop`
-- `nr`
-- `nrr <host>`
+- `nh os test . --impure`
+- `nh os switch . --impure`
+- `nh darwin switch . --impure --hostname <host>`
+- `deploy .#<host> -- --impure`
+- `deploy --targets .#ganymede .#callisto -- --impure`
 - `nix flake check --show-trace`
 - `nix develop -c alejandra .`
 - `nix develop -c deadnix .`

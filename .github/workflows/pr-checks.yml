@@ -36,8 +36,8 @@ jobs:
 
       - name: Setup additional caches
         run: |
-          echo "extra-substituters = https://colmena.cachix.org https://hyprland.cachix.org https://cuda-maintainers.cachix.org https://nixos-rocm.cachix.org" >> ~/.config/nix/nix.conf
-          echo "extra-trusted-public-keys = colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg= hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= cuda-maintainers.cachix.org-1:0dq3bujKpuEPiCgBvmJ7pYGD+8DWvGYA2VhHfZUZhYk= nixos-rocm.cachix.org-1:uuM0K2U1XGQYcv4VdGpHyxqjgJl9DzLlqsj/Y3iQNXc=" >> ~/.config/nix/nix.conf
+          echo "extra-substituters = https://hyprland.cachix.org https://cuda-maintainers.cachix.org https://nixos-rocm.cachix.org" >> ~/.config/nix/nix.conf
+          echo "extra-trusted-public-keys = hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc= cuda-maintainers.cachix.org-1:0dq3bujKpuEPiCgBvmJ7pYGD+8DWvGYA2VhHfZUZhYk= nixos-rocm.cachix.org-1:uuM0K2U1XGQYcv4VdGpHyxqjgJl9DzLlqsj/Y3iQNXc=" >> ~/.config/nix/nix.conf
 
       - name: Check flake
         run: nix flake check --show-trace
