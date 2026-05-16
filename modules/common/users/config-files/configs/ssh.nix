@@ -38,6 +38,17 @@ in {
         Hostname ganymede.lan.rgbr.ink
         User ryan
 
+      # NetBird overlay fallback aliases
+      Host callisto-netbird
+        Hostname 100.95.172.240
+        User ryan
+        HostKeyAlias callisto.lan.rgbr.ink
+
+      Host ganymede-netbird
+        Hostname 100.95.8.37
+        User ryan
+        HostKeyAlias ganymede.lan.rgbr.ink
+
     '';
   in
     lib.optionalString enabled ''

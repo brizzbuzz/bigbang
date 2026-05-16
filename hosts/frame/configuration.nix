@@ -67,6 +67,8 @@
     sshJwtCacheTtl = 600;
   };
 
+  users.users.ryan.extraGroups = ["netbird-personal"];
+
   environment.systemPackages = with pkgs; [
     google-chrome
   ];
