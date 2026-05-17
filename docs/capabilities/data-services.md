@@ -27,23 +27,12 @@ The PostgreSQL module extends the base `services.postgresql` interface with:
 On `ganymede`, PostgreSQL currently backs:
 
 - Immich
-- Jellyfin
-- Spacebar
 
 ## ClickHouse
 
 ClickHouse is enabled on `ganymede` and uses OpNix-delivered admin credential material.
 
 It is exposed internally through `callisto` at `clickhouse.lan.rgbr.ink`.
-
-## Backup and Persistence
-
-The code currently defines a weekly Spacebar backup flow on `ganymede`.
-
-That backup includes:
-
-- a PostgreSQL dump
-- a compressed archive of the Spacebar CDN files
 
 ## Current Notes
 

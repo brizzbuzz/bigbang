@@ -42,7 +42,6 @@
 - OpenCode for `odyssey`
 - ClickHouse
 - PostgreSQL
-- Spacebar
 - NetBird personal client with setup-key enrollment
 
 ## Data Responsibilities
@@ -52,9 +51,8 @@
 Examples:
 
 - media under `/data/media`
-- Spacebar backups under `/data/backups/spacebar`
 - OpenCode backups under `/data/backups/opencode`
-- PostgreSQL service databases for `immich`, `jellyfin`, and `spacebarchat`
+- PostgreSQL service database for `immich`
 
 ## Relationship With Callisto
 

@@ -26,7 +26,7 @@ The most important architectural boundary is between `callisto` and `ganymede`:
 That split shows up throughout the repo:
 
 - Caddy and Blocky live on `callisto`
-- media services, databases, Spacebar, portfolio, and OpenCode live on `ganymede`
+- media services, databases, portfolio, and OpenCode live on `ganymede`
 - `callisto` proxies public and internal traffic to `ganymede`
 
 `frame` and the Darwin machines are operator and endpoint systems rather than shared service hosts.
