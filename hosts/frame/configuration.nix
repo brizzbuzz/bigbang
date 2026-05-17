@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }: {
@@ -67,6 +68,12 @@
     sshJwtCacheTtl = 600;
   };
 
+  services.resolved.enable = true;
+
+  systemd.services.netbird-personal.serviceConfig.AmbientCapabilities = lib.mkAfter [
+    "CAP_NET_BIND_SERVICE"
+  ];
+
   users.users.ryan.extraGroups = ["netbird-personal"];
 
   environment.systemPackages = with pkgs; [
@@ -81,6 +88,7 @@
   # NetworkManager will remember these networks and connect automatically
   networking.networkmanager = {
     enable = true;
+    dns = "systemd-resolved";
     ensureProfiles.profiles = {
       home-wifi = {
         connection = {
