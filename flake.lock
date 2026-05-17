@@ -267,6 +267,22 @@
         "type": "github"
       }
     },
+    "homebrew-tabularis": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778769423,
+        "narHash": "sha256-VZ2in8nJ8CAcwsGhU0hN3haGv/EhhglCIyrVKilGB9o=",
+        "owner": "TabularisDB",
+        "repo": "homebrew-tabularis",
+        "rev": "cc575b6f7f00bc92524b391184565d6f9f37887f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "TabularisDB",
+        "repo": "homebrew-tabularis",
+        "type": "github"
+      }
+    },
     "hyperbaric": {
       "inputs": {
         "flake-utils": [
@@ -519,6 +535,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-tabularis": "homebrew-tabularis",
         "hyperbaric": "hyperbaric",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",

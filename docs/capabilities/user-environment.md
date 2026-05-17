@@ -77,15 +77,15 @@ Operator workflows use the raw `nh` and deploy-rs commands rather than Nushell w
 
 Common local commands:
 
-- `nh os test . --impure`
-- `nh os switch . --impure`
-- `nh os boot . --impure`
+- `nh os test .`
+- `nh os switch .`
+- `nh os boot .`
 - `nh os info`
-- `nh darwin switch . --impure --hostname <host>`
+- `nh darwin switch . --hostname <host>`
 - `nh clean all --keep-since 14d --keep 5`
 
 Common remote commands:
 
-- `deploy .#ganymede -- --impure`
-- `deploy .#callisto -- --impure`
-- `deploy --targets .#ganymede .#callisto -- --impure`
+- `deploy .#ganymede`
+- `deploy .#callisto`
+- `deploy --targets .#ganymede .#callisto`

@@ -24,6 +24,7 @@
   developmentApps = {
     casks = [
       "proxyman"
+      "tabularis"
     ];
   };
 

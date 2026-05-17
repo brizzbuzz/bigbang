@@ -64,11 +64,11 @@ The dev shell provides pinned project tooling such as:
 ## Typical Commands
 
 - `nix develop`
-- `nh os test . --impure`
-- `nh os switch . --impure`
-- `nh darwin switch . --impure --hostname <host>`
-- `deploy .#<host> -- --impure`
-- `deploy --targets .#ganymede .#callisto -- --impure`
+- `nh os test .`
+- `nh os switch .`
+- `nh darwin switch . --hostname <host>`
+- `deploy .#<host>`
+- `deploy --targets .#ganymede .#callisto`
 - `nix flake check --show-trace`
 - `nix develop -c alejandra .`
 - `nix develop -c deadnix .`
