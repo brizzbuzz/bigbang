@@ -109,11 +109,6 @@
       url = "github:quickshell-mirror/quickshell/d4c92973b53d9fa34cc110d3b974eb6bde5b3027";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    spacebarchat = {
-      url = "github:spacebarchat/server";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {

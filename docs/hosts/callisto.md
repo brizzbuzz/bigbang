@@ -38,7 +38,6 @@ That includes:
 - qBittorrent
 - OpenCode instances
 - ClickHouse
-- Spacebar
 
 ## Domain Responsibilities
 
@@ -46,7 +45,6 @@ That includes:
 
 - `rgbr.ink`
 - `ryanbr.ink`
-- `chat.rgbr.ink`
 - `*.lan.rgbr.ink`
 - `netbird.rgbr.ink`
 
@@ -57,16 +55,6 @@ That includes:
 The control plane is exposed at `netbird.rgbr.ink` through a direct Caddy virtual host. That route handles dashboard traffic plus NetBird API, OAuth, relay, WebSocket, and gRPC paths.
 
 The local peer uses setup-key enrollment and has NetBird SSH/SFTP enabled.
-
-## Spacebar Routing
-
-`chat.rgbr.ink` is special.
-
-Instead of a simple one-port reverse proxy, `callisto` routes:
-
-- WebSocket traffic to the Spacebar gateway on `ganymede:13003`
-- API traffic to the Spacebar API on `ganymede:13001`
-- everything else to the Spacebar CDN on `ganymede:13002`
 
 ## How It Fits Into The System
 

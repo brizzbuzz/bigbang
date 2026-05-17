@@ -17,7 +17,6 @@ Examples:
 
 - `media.rgbr.ink` and `media.lan.rgbr.ink` terminate at `callisto`, then proxy to Jellyfin on `ganymede`
 - `photos.rgbr.ink` and `photos.lan.rgbr.ink` terminate at `callisto`, then proxy to Immich on `ganymede`
-- `chat.rgbr.ink` terminates at `callisto`, then routes by path and protocol to multiple Spacebar backends on `ganymede`
 
 ## Internal DNS
 
@@ -43,7 +42,6 @@ Important names include:
 - `opencode-ryan.lan.rgbr.ink`
 - `opencode-odyssey.lan.rgbr.ink`
 - `clickhouse.lan.rgbr.ink`
-- `chat.lan.rgbr.ink`
 - `dns.lan.rgbr.ink`
 - `ventoy.lan.rgbr.ink`
 
@@ -76,7 +74,6 @@ For details, see `docs/capabilities/netbird-overlay.md`.
 The current public domain surface is:
 
 - `rgbr.ink`
-- `chat.rgbr.ink`
 - `netbird.rgbr.ink`
 - `ryanbr.ink`
 
@@ -111,7 +108,6 @@ Application and data services on `ganymede`:
 - OpenCode
 - ClickHouse
 - PostgreSQL
-- Spacebar
 
 ## Operator Endpoints
 
