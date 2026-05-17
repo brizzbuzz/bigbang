@@ -21,6 +21,7 @@
                 "homebrew/homebrew-core" = inputs.homebrew-core;
                 "homebrew/homebrew-cask" = inputs.homebrew-cask;
                 "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                "TabularisDB/homebrew-tabularis" = inputs.homebrew-tabularis;
               };
 
               mutableTaps = false;

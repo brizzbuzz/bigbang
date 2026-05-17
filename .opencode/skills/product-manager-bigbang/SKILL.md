@@ -22,7 +22,7 @@ Use this skill alongside the global `product-manager` skill when planning or str
 
 - Prefer issues and plans that are scoped to one host, one shared module, or one deployable behavior change at a time.
 - Call out which hosts or user profiles are affected.
-- Include validation expectations such as `nix flake check --show-trace`, `alejandra .`, `deadnix .`, `nh os test . --impure`, or `deploy .#<host> --dry-activate -- --impure` when they matter.
+- Include validation expectations such as `nix flake check --show-trace`, `alejandra .`, `deadnix .`, `nh os test .`, or `deploy .#<host> --dry-activate` when they matter.
 - Treat secrets, bootstrap steps, and machine recovery work as operationally sensitive and document them carefully.
 - Favor thin vertical slices that end in a verified host behavior, not abstract refactors with no deployable outcome.
 

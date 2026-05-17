@@ -78,6 +78,7 @@
 
   environment.systemPackages = with pkgs; [
     google-chrome
+    tabularis
   ];
 
   nixpkgs.overlays = [

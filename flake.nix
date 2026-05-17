@@ -78,6 +78,11 @@
       flake = false;
     };
 
+    homebrew-tabularis = {
+      url = "github:TabularisDB/homebrew-tabularis";
+      flake = false;
+    };
+
     hyperbaric = {
       url = "git+ssh://git@github.com/brizzbuzz/hyperbaric";
       inputs.flake-utils.follows = "flake-utils";
