@@ -10,8 +10,8 @@ Start in `docs/`:
 Common commands:
 
 - `nix develop`
+- `nh darwin switch .`
 - `nh os test .`
 - `nh os switch .`
-- `nh darwin switch . --hostname <host>`
 - `deploy .#<host>`
 - `nix flake check --show-trace`

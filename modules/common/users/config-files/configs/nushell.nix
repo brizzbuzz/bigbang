@@ -31,6 +31,9 @@ in {
         [ -L "${nushellConfigDir}/config.nu" ] && rm "${nushellConfigDir}/config.nu"
         [ -L "${nushellConfigDir}/env.nu" ] && rm "${nushellConfigDir}/env.nu"
 
+        # Remove retired local rebuild wrappers in favor of raw nh/deploy commands.
+        [ -f "${nushellConfigDir}/autoload/nix.nu" ] && rm "${nushellConfigDir}/autoload/nix.nu"
+
         cat > "${nushellConfigDir}/config.nu" << 'EOFNUCONFIG'
       ${nushellConfig}
       EOFNUCONFIG
