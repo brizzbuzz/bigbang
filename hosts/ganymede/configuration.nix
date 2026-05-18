@@ -44,12 +44,21 @@ in {
         group = "root";
         mode = "0600";
       };
+      postgresRyanPassword = {
+        reference = "op://Homelab/Postgres Ryan Password/password";
+        path = "/var/lib/opnix/secrets/postgres-ryan-password";
+        owner = "postgres";
+        group = "postgres";
+        mode = "0400";
+        services = ["postgresql-service-passwords"];
+      };
     };
 
     systemdIntegration = {
       enable = true;
       services = [
         "portfolio"
+        "postgresql-service-passwords"
       ];
       restartOnChange = true;
     };
@@ -238,7 +247,6 @@ in {
   # Enable PostgreSQL for home lab services and development
   services.postgresql = {
     enable = true;
-    developmentMode = true;
     extensions = with config.services.postgresql.package.pkgs; [
       pgvector
     ];
@@ -249,6 +257,12 @@ in {
       {
         name = "immich";
         database = "immich";
+      }
+    ];
+    tcpAdminUsers = [
+      {
+        name = "ryan";
+        passwordFile = config.services.onepassword-secrets.secretPaths.postgresRyanPassword;
       }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''
