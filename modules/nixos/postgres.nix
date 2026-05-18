@@ -6,14 +6,41 @@
 }: let
   admin = config.host.admin.name;
   cfg = config.services.postgresql;
+  localServiceUsers = lib.unique cfg.serviceUsers;
+  remoteServiceUsers = lib.unique cfg.remoteServiceUsers;
+  tcpAdminUsers = lib.unique cfg.tcpAdminUsers;
+  remoteServiceDatabases = map (user: user.database) remoteServiceUsers;
+  passwordManagedUsers = remoteServiceUsers ++ tcpAdminUsers;
+  passwordManagedUserCommands =
+    lib.concatMapStringsSep "\n" (user: ''
+        passwordFile=${lib.escapeShellArg user.passwordFile}
+
+        if [ ! -f "$passwordFile" ]; then
+          printf '%s\n' 'Missing PostgreSQL password file for ${user.name}: ${user.passwordFile}' >&2
+          exit 1
+        fi
+
+        password="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$passwordFile")"
+        if [ -z "$password" ]; then
+          printf '%s\n' 'PostgreSQL password file for ${user.name} is empty: ${user.passwordFile}' >&2
+          exit 1
+        fi
+
+      ${cfg.package}/bin/psql -d postgres -v ON_ERROR_STOP=1 \
+        --set=role=${lib.escapeShellArg user.name} \
+        --set=password="$password" <<'SQL'
+      ALTER ROLE :"role" PASSWORD :'password';
+      SQL
+    '')
+    passwordManagedUsers;
 in {
   options.services.postgresql = {
-    developmentMode = lib.mkEnableOption "development-friendly PostgreSQL configuration";
+    developmentMode = lib.mkEnableOption "development-friendly PostgreSQL tooling";
 
     serviceDatabases = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
-      description = "List of databases to create for system services";
+      description = "List of databases to create for local system services";
     };
 
     serviceUsers = lib.mkOption {
@@ -21,46 +48,73 @@ in {
         options = {
           name = lib.mkOption {
             type = lib.types.str;
-            description = "Username for the service";
+            description = "Username for the local service";
           };
           database = lib.mkOption {
             type = lib.types.str;
-            description = "Database name the user should own";
+            description = "Database name the local service user should own";
           };
         };
       });
       default = [];
-      description = "List of service users to create with database ownership";
+      description = "List of local service users to create with database ownership";
+    };
+
+    remoteServiceUsers = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "Username for the remote service";
+          };
+          database = lib.mkOption {
+            type = lib.types.str;
+            description = "Database name the remote service user should own";
+          };
+          address = lib.mkOption {
+            type = lib.types.str;
+            example = "192.168.11.200/32";
+            description = "Exact CIDR allowed to connect as this remote service user";
+          };
+          passwordFile = lib.mkOption {
+            type = lib.types.str;
+            example = "/var/lib/opnix/secrets/authentik-postgres-password";
+            description = "Runtime file containing the database password for this remote user";
+          };
+        };
+      });
+      default = [];
+      description = "List of remote service users allowed to connect over TCP with SCRAM authentication";
+    };
+
+    tcpAdminUsers = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "Admin role allowed to connect over localhost TCP for SSH-tunneled clients";
+          };
+          passwordFile = lib.mkOption {
+            type = lib.types.str;
+            example = "/var/lib/opnix/secrets/postgres-ryan-password";
+            description = "Runtime file containing the SCRAM password for this tunneled admin user";
+          };
+        };
+      });
+      default = [];
+      description = "List of admin users allowed over localhost TCP for SSH-tunneled database clients";
     };
   };
 
   config = lib.mkIf cfg.enable {
     services.postgresql = {
       package = pkgs.postgresql_17;
-      enableTCPIP = true;
+      enableTCPIP = remoteServiceUsers != [];
 
-      # Ensure databases exist
-      ensureDatabases =
-        [
-          "superuser" # Create a database for the superuser
-        ]
-        ++ cfg.serviceDatabases;
+      ensureDatabases = lib.unique (cfg.serviceDatabases ++ remoteServiceDatabases);
 
-      # Ensure our superuser exists with proper permissions
       ensureUsers =
         [
-          {
-            name = "superuser";
-            ensureDBOwnership = true; # Give ownership of the superuser database
-            ensureClauses = {
-              superuser = true;
-              createrole = true;
-              createdb = true;
-              login = true;
-              replication = true;
-              bypassrls = true;
-            };
-          }
           {
             name = admin;
             ensureClauses = {
@@ -81,64 +135,58 @@ in {
               createdb = false;
             };
           })
-          cfg.serviceUsers);
+          (localServiceUsers ++ remoteServiceUsers));
 
-      authentication = pkgs.lib.mkOverride 10 (
-        ''
-          # TYPE  DATABASE        USER            ADDRESS         METHOD
-          # Allow postgres and superuser full access
-          local   all            postgres                         trust
-          local   all            superuser                       trust
-          local   all            ${admin}                        trust
+      authentication = lib.mkForce (let
+        localServiceRules = lib.concatMapStringsSep "\n" (user: "local   ${user.database}     ${user.name}                        peer") localServiceUsers;
+        remoteServiceRules = lib.concatMapStringsSep "\n" (user: "host    ${user.database}     ${user.name}        ${user.address}    scram-sha-256") remoteServiceUsers;
+        tcpAdminRules =
+          lib.concatMapStringsSep "\n" (user: ''
+            host    all            ${user.name}        127.0.0.1/32    scram-sha-256
+            host    all            ${user.name}        ::1/128         scram-sha-256
+          '')
+          tcpAdminUsers;
+      in ''
+        # TYPE  DATABASE        USER            ADDRESS         METHOD
+        local   all            postgres                         peer
+        local   all            ${admin}                        peer
 
-          # Allow TCP/IP connections with trust
-          host    all            postgres        127.0.0.1/32    trust
-          host    all            postgres        ::1/128         trust
-          host    all            superuser       127.0.0.1/32    trust
-          host    all            superuser       ::1/128         trust
-          host    all            ${admin}        127.0.0.1/32    trust
-          host    all            ${admin}        ::1/128         trust
+        # Local service users authenticate through matching Unix users.
+        ${localServiceRules}
 
-          # Service users local socket access
-          ${lib.concatMapStringsSep "\n" (user: "local   ${user.database}     ${user.name}                        trust") cfg.serviceUsers}
-        ''
-        + lib.optionalString cfg.developmentMode ''
+        # Admin TCP access is localhost-only for SSH-tunneled clients.
+        ${tcpAdminRules}
 
-          # Development mode: Allow TCP/IP connections for all users from local networks with password
-          host    all            all             192.168.0.0/16  md5
-          host    all            all             10.0.0.0/8      md5
-          host    all            all             172.16.0.0/12   md5
+        # Remote service users require explicit CIDRs and SCRAM passwords.
+        ${remoteServiceRules}
+      '');
+    };
 
-          # Service users specific access
-          ${lib.concatMapStringsSep "\n" (user: "host    ${user.database}     ${user.name}        127.0.0.1/32    trust") cfg.serviceUsers}
-          ${lib.concatMapStringsSep "\n" (user: "host    ${user.database}     ${user.name}        ::1/128         trust") cfg.serviceUsers}
-        ''
-      );
+    networking.firewall.allowedTCPPorts = lib.mkIf (remoteServiceUsers != []) [5432];
 
-      # Add identity mapping for admin user to PostgreSQL role
-      identMap = pkgs.lib.mkOverride 10 ''
-        # superuser_map allows root and postgres system users to login as postgres DB user
-        superuser_map      root      postgres
-        superuser_map      postgres  postgres
-        superuser_map      ${admin}  superuser
-        # Let other names login as themselves (except admin which is handled above)
-        superuser_map      /^(?!${admin}$)(.*)$   \1
+    systemd.services.postgresql-service-passwords = lib.mkIf (passwordManagedUsers != []) {
+      description = "Apply PostgreSQL service user passwords";
+      after = ["postgresql.service"];
+      requires = ["postgresql.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "postgres";
+        Group = "postgres";
+      };
+      script = ''
+        set -euo pipefail
+
+        ${passwordManagedUserCommands}
       '';
     };
 
-    # Open PostgreSQL port for development connections when in development mode
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.developmentMode [5432];
-
-    # Install database management tools when in development mode
+    # Install database management tools when in development mode.
     environment.systemPackages = lib.mkIf cfg.developmentMode (with pkgs; [
       postgresql_17
       pgcli
     ]);
 
-    # Add postgres group to system groups
     users.groups.postgres = {};
-
-    # Ensure admin user is in postgres group
     users.users.${admin}.extraGroups = ["postgres"];
   };
 }
