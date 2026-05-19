@@ -97,12 +97,20 @@ def "port using" [port: int  # Port number to inspect
 def forward-targets [] {
     {
         odyssey: {
+            mcp: {
+                ports: [19876]
+                description: "OpenCode MCP OAuth callback"
+            }
             ithaca: {
                 ports: [3000 3001 3002 3003 3334 5433 6006 7700 8025 8080 9000 4567 4983 1026]
                 description: "Ithaca work application"
             }
         }
         ryan: {
+            mcp: {
+                ports: [19876]
+                description: "OpenCode MCP OAuth callback"
+            }
             horizon: {
                 ports: [5173 3000]
                 description: "Horizon frontend and backend"
