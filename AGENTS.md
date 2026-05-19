@@ -9,7 +9,7 @@
 - `nix develop` — enter the dev shell with formatting, linting, and deployment tools preloaded.
 - Prefer `nix develop -c <command>` for one-off project commands provided by the flake instead of assuming host-global installs.
 - `nh os switch .` — rebuild the local NixOS system.
-- `nh darwin switch . --hostname <host>` — rebuild a nix-darwin system.
+- `nh darwin switch .` — rebuild the local nix-darwin system.
 - `deploy .#<host>` — deploy to a remote NixOS host via deploy-rs.
 - `nix flake check --show-trace` — validate the flake, options, and evaluations.
 - `nix develop -c alejandra .` — format all Nix files.

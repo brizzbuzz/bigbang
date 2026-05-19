@@ -64,9 +64,9 @@ The dev shell provides pinned project tooling such as:
 ## Typical Commands
 
 - `nix develop`
+- `nh darwin switch .`
 - `nh os test .`
 - `nh os switch .`
-- `nh darwin switch . --hostname <host>`
 - `deploy .#<host>`
 - `deploy --targets .#ganymede .#callisto`
 - `nix flake check --show-trace`

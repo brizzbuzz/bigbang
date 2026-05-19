@@ -77,11 +77,11 @@ Operator workflows use the raw `nh` and deploy-rs commands rather than Nushell w
 
 Common local commands:
 
+- `nh darwin switch .`
 - `nh os test .`
 - `nh os switch .`
 - `nh os boot .`
 - `nh os info`
-- `nh darwin switch . --hostname <host>`
 - `nh clean all --keep-since 14d --keep 5`
 
 Common remote commands:
