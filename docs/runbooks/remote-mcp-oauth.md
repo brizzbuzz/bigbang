@@ -14,7 +14,15 @@ When the browser is on a different machine, the provider redirects to the browse
 
 1. Start an SSH tunnel from the browser machine to the remote OpenCode host:
 
-   `ssh -L 19876:127.0.0.1:19876 <host>`
+   `forward <user> mcp`
+
+   For example:
+
+   `forward odyssey mcp`
+
+   Equivalent raw SSH command:
+
+   `ssh -N -T -o ExitOnForwardFailure=yes -L 19876:127.0.0.1:19876 <user>@<host>`
 
 2. On the remote host, run:
 
