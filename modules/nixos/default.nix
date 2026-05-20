@@ -8,6 +8,7 @@
   imports = [
     ../common
 
+    ./authentik.nix
     ./audio.nix
     ./audiobookshelf.nix
     ./arr.nix

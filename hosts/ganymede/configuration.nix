@@ -52,6 +52,14 @@ in {
         mode = "0400";
         services = ["postgresql-service-passwords"];
       };
+      authentikPostgresPassword = {
+        reference = "op://Homelab/Authentik Postgres Password/password";
+        path = "/var/lib/opnix/secrets/authentik-postgres-password";
+        owner = "postgres";
+        group = "postgres";
+        mode = "0400";
+        services = ["postgresql-service-passwords"];
+      };
     };
 
     systemdIntegration = {
@@ -263,6 +271,14 @@ in {
       {
         name = "ryan";
         passwordFile = config.services.onepassword-secrets.secretPaths.postgresRyanPassword;
+      }
+    ];
+    remoteServiceUsers = [
+      {
+        name = "authentik";
+        database = "authentik";
+        address = "192.168.11.200/32";
+        passwordFile = config.services.onepassword-secrets.secretPaths.authentikPostgresPassword;
       }
     ];
     initialScript = pkgs.writeText "postgresql-init.sql" ''

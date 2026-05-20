@@ -166,8 +166,10 @@ in {
 
     systemd.services.postgresql-service-passwords = lib.mkIf (passwordManagedUsers != []) {
       description = "Apply PostgreSQL service user passwords";
-      after = ["postgresql.service"];
+      after = ["opnix-secrets.service" "postgresql.service"];
       requires = ["postgresql.service"];
+      wants = ["opnix-secrets.service"];
+      wantedBy = ["multi-user.target"];
       serviceConfig = {
         Type = "oneshot";
         User = "postgres";

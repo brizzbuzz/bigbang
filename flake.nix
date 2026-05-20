@@ -100,7 +100,7 @@
     };
 
     opnix = {
-      url = "github:brizzbuzz/opnix/v0.10.0";
+      url = "github:brizzbuzz/opnix/v0.10.1";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
