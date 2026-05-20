@@ -8,6 +8,7 @@
 - [Ganymede](hosts/ganymede.md)
 - [Macme](hosts/macme.md)
 - [Ingress and DNS](capabilities/ingress-and-dns.md)
+- [Identity](capabilities/identity.md)
 - [NetBird Overlay](capabilities/netbird-overlay.md)
 - [Media and Downloads](capabilities/media-and-downloads.md)
 - [Data Services](capabilities/data-services.md)

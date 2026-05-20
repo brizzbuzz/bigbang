@@ -14,6 +14,7 @@ The OpenCode capability provides:
 ## Hosts Involved
 
 - `ganymede` hosts the long-running OpenCode service instances
+- `callisto` exposes the hosted OpenCode instances through Caddy and Authentik forward auth
 - `frame`, `pip`, and `dot` receive user-level OpenCode configuration through the shared config-file system
 
 ## Main Modules
@@ -30,6 +31,8 @@ The OpenCode capability provides:
 - `odyssey` on port `4097`
 
 Those are exposed internally through `callisto`.
+
+The browser-facing OpenCode routes are Authentik-protected at the ingress layer. The OpenCode services themselves still run on `ganymede`; `callisto` handles TLS, routing, and the authorization check before proxying traffic onward.
 
 ## Secret and Identity Model
 
