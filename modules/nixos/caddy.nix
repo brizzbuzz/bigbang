@@ -78,9 +78,22 @@
       }
     }
 
+  '';
+
+  mkProxyErrorHandler = ''
     handle_errors {
       @upstreamUnavailable expression `{http.error.status_code} == 502 || {http.error.status_code} == 503 || {http.error.status_code} == 504`
       respond @upstreamUnavailable "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Service waking up</title><style>body{margin:0;font-family:ui-sans-serif,system-ui,sans-serif;background:#0b1220;color:#e5edf7;display:grid;place-items:center;min-height:100vh}main{max-width:38rem;padding:2rem}.box{background:#121b2d;border:1px solid #27324a;border-radius:16px;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.35)}h1{margin:0 0 .75rem;font-size:2rem}p{margin:.5rem 0;line-height:1.5;color:#b7c4d6}code{background:#0f1726;padding:.15rem .4rem;border-radius:6px;color:#fff}</style></head><body><main class=\"box\"><h1>That service is not reachable right now.</h1><p>The app behind <code>{host}</code> did not answer in time.</p><p>This usually means the service is restarting, sleeping, or temporarily unhealthy. Wait a few seconds and reload.</p></main></body></html>" 503
+    }
+  '';
+
+  mkAuthentikForwardAuth = cfg: ''
+    reverse_proxy /outpost.goauthentik.io/* ${cfg.upstream}
+
+    forward_auth ${cfg.upstream} {
+      uri /outpost.goauthentik.io/auth/caddy
+      copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+      ${lib.optionalString (cfg.trustedProxies != []) "trusted_proxies ${lib.concatStringsSep " " cfg.trustedProxies}"}
     }
   '';
 
@@ -96,14 +109,19 @@
   '';
 
   # Full proxy configuration with websocket support using supplied TLS configuration
-  mkProxyConfig = name: target: level: tlsConfig: ''
+  mkProxyConfig = name: site: tlsConfig: ''
     ${tlsConfig}
 
-    ${mkLogBlock name level}
+    ${mkLogBlock name site.logLevel}
 
-    ${mkWebsocketMatcher}
-    ${mkWebsocketProxy target}
-    ${mkReverseProxy target}
+    route {
+      ${lib.optionalString site.authentik.enable (mkAuthentikForwardAuth site.authentik)}
+      ${mkWebsocketMatcher}
+      ${mkWebsocketProxy site.target}
+      ${mkReverseProxy site.target}
+    }
+
+    ${mkProxyErrorHandler}
   '';
 
   # Simple helper for static responses using specified TLS certificates
@@ -138,7 +156,7 @@
             then domain
             else "${site.subdomain}.${domain}"
           ) {
-            extraConfig = mkProxyConfig name site.target site.logLevel defaultStaticTlsConfig;
+            extraConfig = mkProxyConfig name site defaultStaticTlsConfig;
           }
       ) (lib.filterAttrs (_name: site: site.enable)
         cfg.sites.proxies);
@@ -149,7 +167,7 @@
         name: site:
           lib.nameValuePair site.domain {
             extraConfig =
-              mkProxyConfig name site.target site.logLevel
+              mkProxyConfig name site
               (mkStaticTlsConfig
                 config.services.onepassword-secrets.secretPaths.${site.tlsCertSecret}
                 config.services.onepassword-secrets.secretPaths.${site.tlsKeySecret});
@@ -164,7 +182,7 @@
           then cfg.internal.domain
           else "${site.subdomain}.${cfg.internal.domain}"
         ) {
-          extraConfig = mkProxyConfig name site.target site.logLevel (
+          extraConfig = mkProxyConfig name site (
             mkAcmeDnsTlsConfig
             cfg.internal.acme.dnsProvider
             cfg.internal.acme.dnsApiTokenEnvVar
@@ -194,7 +212,7 @@ in {
       };
 
       proxies = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule {
+        type = lib.types.attrsOf (lib.types.submodule ({...}: {
           options = {
             enable = lib.mkEnableOption "Enable this proxy site";
             subdomain = lib.mkOption {
@@ -210,14 +228,27 @@ in {
               default = "INFO";
               description = "Log level for Caddy (DEBUG, INFO, WARN, ERROR)";
             };
+            authentik = {
+              enable = lib.mkEnableOption "Enable Authentik forward authentication for this proxy site";
+              upstream = lib.mkOption {
+                type = lib.types.str;
+                default = "http://127.0.0.1:9100";
+                description = "Authentik outpost upstream used for Caddy forward_auth.";
+              };
+              trustedProxies = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = ["private_ranges"];
+                description = "Trusted proxy ranges passed to Caddy forward_auth.";
+              };
+            };
           };
-        });
+        }));
         default = {};
         description = "Proxy sites configuration (subdomains of primary domain)";
       };
 
       standalone = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule {
+        type = lib.types.attrsOf (lib.types.submodule ({...}: {
           options = {
             enable = lib.mkEnableOption "Enable this standalone site";
             domain = lib.mkOption {
@@ -241,8 +272,21 @@ in {
               default = "INFO";
               description = "Log level for Caddy (DEBUG, INFO, WARN, ERROR)";
             };
+            authentik = {
+              enable = lib.mkEnableOption "Enable Authentik forward authentication for this standalone site";
+              upstream = lib.mkOption {
+                type = lib.types.str;
+                default = "http://127.0.0.1:9100";
+                description = "Authentik outpost upstream used for Caddy forward_auth.";
+              };
+              trustedProxies = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = ["private_ranges"];
+                description = "Trusted proxy ranges passed to Caddy forward_auth.";
+              };
+            };
           };
-        });
+        }));
         default = {};
         description = "Standalone sites with custom domains and TLS certificates";
       };
@@ -281,7 +325,7 @@ in {
       };
 
       sites = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule {
+        type = lib.types.attrsOf (lib.types.submodule ({...}: {
           options = {
             enable = lib.mkEnableOption "Enable this internal site";
             subdomain = lib.mkOption {
@@ -297,8 +341,21 @@ in {
               default = "INFO";
               description = "Log level for Caddy (DEBUG, INFO, WARN, ERROR)";
             };
+            authentik = {
+              enable = lib.mkEnableOption "Enable Authentik forward authentication for this internal site";
+              upstream = lib.mkOption {
+                type = lib.types.str;
+                default = "http://127.0.0.1:9100";
+                description = "Authentik outpost upstream used for Caddy forward_auth.";
+              };
+              trustedProxies = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = ["private_ranges"];
+                description = "Trusted proxy ranges passed to Caddy forward_auth.";
+              };
+            };
           };
-        });
+        }));
         default = {};
         description = "Internal LAN proxy sites using ACME DNS-01 certificates";
       };

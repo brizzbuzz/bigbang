@@ -88,12 +88,14 @@
       subdomain = "opencode-ryan";
       target = "${backendIp}:4096";
       logLevel = "INFO";
+      authentik.enable = true;
     };
     opencodeOdyssey = {
       enable = true;
       subdomain = "opencode-odyssey";
       target = "${backendIp}:4097";
       logLevel = "INFO";
+      authentik.enable = true;
     };
     dns = {
       enable = true;
@@ -247,12 +249,6 @@ in {
         #   target = "${backendHost}:18080";
         #   logLevel = "INFO";
         # };
-        blocky = {
-          enable = true;
-          subdomain = "dns";
-          target = "localhost:4000";
-          logLevel = "INFO";
-        };
         photos = {
           enable = true;
           subdomain = "photos";
