@@ -397,16 +397,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1779111571,
-        "narHash": "sha256-dNZS9qIRiS478eKpGhRPUB8MOWkh1oGt742hd6xBR44=",
+        "lastModified": 1779201624,
+        "narHash": "sha256-UwDxtB3D42/OW1kIp/OHoVPlJnoWrRK5E/KbX4yrbPA=",
         "owner": "brizzbuzz",
         "repo": "opnix",
-        "rev": "0c4b8f5d31a8be29acb69af0c7608b614e11453b",
+        "rev": "35344e1cfd060d4af249c8075a4aa58b7650ab95",
         "type": "github"
       },
       "original": {
         "owner": "brizzbuzz",
-        "ref": "v0.10.0",
+        "ref": "v0.10.1",
         "repo": "opnix",
         "type": "github"
       }

@@ -11,6 +11,12 @@
   backendHost = "ganymede.${lanDomain}";
 
   internalSites = {
+    auth = {
+      enable = true;
+      subdomain = "auth";
+      target = "127.0.0.1:9100";
+      logLevel = "INFO";
+    };
     portfolio = {
       enable = true;
       subdomain = "portfolio";
@@ -222,6 +228,12 @@ in {
         content = "Hello from callisto!";
       };
       proxies = {
+        auth = {
+          enable = true;
+          subdomain = "auth";
+          target = "127.0.0.1:9100";
+          logLevel = "INFO";
+        };
         media = {
           enable = true;
           subdomain = "media";
@@ -272,6 +284,12 @@ in {
       domain = lanDomain;
       sites = internalSites;
     };
+  };
+
+  services.authentik-homelab = {
+    enable = true;
+    domain = "auth.rgbr.ink";
+    postgresHost = backendIp;
   };
 
   services.netbird-combined = {
