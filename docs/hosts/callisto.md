@@ -19,6 +19,7 @@
 
 - Caddy via `services.web.caddy`
 - Blocky via `services.dns.blocky`
+- Authentik via `services.authentik-homelab`
 - Ventoy Web via `services.tools."ventoy-web"`
 - NetBird combined server and dashboard via `services.netbird-combined`
 - NetBird personal client with setup-key enrollment
@@ -62,11 +63,14 @@ The local peer uses setup-key enrollment and has NetBird SSH/SFTP enabled.
 
 It is intentionally not the main application box. That split keeps edge responsibilities separate from workload and data responsibilities.
 
+Authentik also runs on `callisto` because it participates in that edge boundary. Applications can still run elsewhere, but Caddy and Authentik decide whether browser traffic is allowed through.
+
 ## Main Code Paths
 
 - `hosts/callisto/configuration.nix`
 - `modules/nixos/caddy.nix`
 - `modules/nixos/blocky.nix`
+- `modules/nixos/authentik.nix`
 - `modules/nixos/ventoy-web.nix`
 - `modules/nixos/netbird-combined.nix`
 - `modules/nixos/netbird-personal-client.nix`

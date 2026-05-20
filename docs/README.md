@@ -18,6 +18,7 @@ Start here:
 - `hosts/ganymede.md`
 - `hosts/frame.md`
 - `hosts/macme.md`
+- `capabilities/identity.md`
 - `capabilities/netbird-overlay.md`
 
 For the full navigation tree, see `SUMMARY.md`.

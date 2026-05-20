@@ -56,6 +56,7 @@ Examples:
 The live capability areas in the repo are:
 
 - ingress and DNS
+- identity
 - media and downloads
 - data services
 - desktop environment

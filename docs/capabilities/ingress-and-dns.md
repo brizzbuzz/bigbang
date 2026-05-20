@@ -10,6 +10,7 @@ Ingress and DNS provide:
 - internal LAN naming
 - TLS termination
 - reverse proxying to backend services
+- optional Authentik forward-auth gates for selected proxied services
 - ad, malware, and tracking filtering for LAN DNS clients
 
 ## Hosts Involved
@@ -21,6 +22,7 @@ Ingress and DNS provide:
 
 - `modules/nixos/caddy.nix`
 - `modules/nixos/blocky.nix`
+- `modules/nixos/authentik.nix`
 - `modules/nixos/networking.nix`
 - `hosts/callisto/configuration.nix`
 
@@ -45,6 +47,8 @@ The Caddy module defines a higher-level abstraction under `services.web.caddy` f
 
 `callisto` uses all of those modes.
 
+Selected proxy definitions can enable Authentik forward auth. In that mode, Caddy still owns TLS and upstream proxying, while Authentik's embedded outpost answers whether the request is allowed.
+
 ## DNS Model
 
 The Blocky module defines a higher-level abstraction under `services.dns.blocky` for:
@@ -66,3 +70,4 @@ In practice, `callisto` uses it to publish the internal service names that point
 
 - `netbird.rgbr.ink` is also handled by a direct Caddy virtual host because NetBird needs gRPC, API, OAuth, relay, WebSocket, well-known, and dashboard routing.
 - Internal DNS names are currently declared directly in the host config rather than generated from a separate inventory file.
+- Blocky's HTTP surface is internal-only at `dns.lan.rgbr.ink`; it is not intended as a public domain.
